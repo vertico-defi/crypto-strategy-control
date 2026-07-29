@@ -83,7 +83,10 @@
       "risk_budget": "0.00% equity; research only",
       "next_gate": "Acquire a public versioned USD-M instrument master with listing, delisting, contract-change, and shortability history",
       "latest_report": "EXECUTABLE_BINANCE_FEASIBILITY_AUDIT.md",
-      "artifact_files": ["EXECUTABLE_BINANCE_FEASIBILITY_AUDIT.md"],
+      "artifact_files": [
+        "EXECUTABLE_BINANCE_FEASIBILITY_AUDIT.md",
+        "reports/binance_metadata_audit.json"
+      ],
       "service_unit": null,
       "timer_unit": null
     },
