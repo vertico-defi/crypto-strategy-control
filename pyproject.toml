@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crypto-strategy-control"
+version = "0.1.0"
+description = "Read-only control center for isolated crypto-strategy research labs"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.9", "mypy>=1.15"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["strategy_control"]

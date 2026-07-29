@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily read-only crypto strategy control refresh
+
+[Timer]
+OnCalendar=*-*-* 06:15:00
+Persistent=true
+Unit=crypto-strategy-control-refresh.service
+
+[Install]
+WantedBy=timers.target
