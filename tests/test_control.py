@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from strategy_control.adapters import inspect
+from strategy_control.adapters import _perp_carry_audit_state, inspect
 from strategy_control.model import StrategyConfig
 from strategy_control.render import write_artifacts
 
@@ -66,3 +66,26 @@ def test_artifact_rendering_writes_json_markdown_and_html(tmp_path: Path) -> Non
     assert json.loads(paths["json"].read_text())["strategies"][0]["strategy_id"] == "x<y"
     assert "x&lt;y" in paths["html"].read_text()
     assert "# Crypto strategy control report" in paths["markdown"].read_text()
+
+
+def test_perp_audit_adapter_reads_active_start_without_writing(tmp_path: Path) -> None:
+    audit_root = tmp_path / "audit-live"
+    start = audit_root / "operations" / "audits" / "audit-live" / "audit-start.json"
+    start.parent.mkdir(parents=True)
+    start.write_text(
+        json.dumps(
+            {
+                "status": "active",
+                "audit_id": "audit-live",
+                "recorded_at_utc": "2026-07-30T00:00:00Z",
+                "audit_start_utc": "2026-07-30T00:01:00Z",
+                "earliest_valid_completion_utc": "2026-07-31T00:01:00Z",
+            }
+        )
+    )
+
+    result = _perp_carry_audit_state(tmp_path)
+
+    assert result is not None
+    assert result["audit_id"] == "audit-live"
+    assert start.exists()
