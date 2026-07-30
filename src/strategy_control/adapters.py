@@ -96,7 +96,10 @@ def _ctrend_liquidity_state(repository: Path) -> dict[str, Any] | None:
     summary = _load_json(repository / "reports" / "ctrend_liquidity_net_evaluation_summary.json")
     manifest = _load_json(repository / "reports" / "ctrend_liquidity_net_evaluation_manifest.json")
     gaps = _load_json(repository / "reports" / "ctrend_liquidity_funding_gap_report.json")
-    if summary is None or manifest is None or gaps is None:
+    gross = _load_json(
+        repository / "reports" / "binance_usdm_liquidity_gross_performance_summary.json"
+    )
+    if summary is None or manifest is None or gaps is None or gross is None:
         return None
     primary = summary.get("cost_scenarios", {}).get("execution_25bp", {})
     funding = summary.get("funding", {})
@@ -107,6 +110,7 @@ def _ctrend_liquidity_state(repository: Path) -> dict[str, Any] | None:
         "semantic_hash": manifest.get("semantic_hash"),
         "bootstrap": summary.get("bootstrap", {}).get("primary_net_mean", {}),
         "overlays": summary.get("risk_overlays", {}),
+        "primary_gross": gross.get("primary_liquidity_1g", {}),
     }
 
 
@@ -207,10 +211,12 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
             ctrend["instrument_master_sha256"] if ctrend is not None else None
         ),
         "prediction_or_trade_count": None,
-        "gross_return": None,
+        "gross_return": (
+            liquidity["primary_gross"].get("cumulative_compounded_return") if liquidity else None
+        ),
         "net_return": liquidity["primary"].get("cumulative_return") if liquidity else None,
         "fees": liquidity["primary"].get("total_fees") if liquidity else None,
-        "funding": liquidity["funding"].get("net") if liquidity else None,
+        "funding": liquidity["primary"].get("total_funding") if liquidity else None,
         "spread_and_slippage": None,
         "maximum_drawdown": None,
         "volatility": None,

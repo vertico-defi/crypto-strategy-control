@@ -137,9 +137,13 @@ def test_ctrend_liquidity_adapter_reads_net_evidence_without_writing(tmp_path: P
     (reports / "ctrend_liquidity_funding_gap_report.json").write_text(
         json.dumps({"coverage_counts": {"PARTIAL": 1}})
     )
+    (reports / "binance_usdm_liquidity_gross_performance_summary.json").write_text(
+        json.dumps({"primary_liquidity_1g": {"cumulative_compounded_return": 0.09}})
+    )
 
     result = _ctrend_liquidity_state(tmp_path)
 
     assert result is not None
     assert result["primary"]["cumulative_return"] == -0.5
     assert result["coverage_counts"] == {"PARTIAL": 1}
+    assert result["primary_gross"]["cumulative_compounded_return"] == 0.09
