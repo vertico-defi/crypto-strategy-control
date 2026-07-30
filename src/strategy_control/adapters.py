@@ -77,6 +77,20 @@ def _perp_carry_audit_state(audit_root: Path | None = None) -> dict[str, Any] | 
     }
 
 
+def _ctrend_executable_state(repository: Path) -> dict[str, Any] | None:
+    """Read the CTREND evidence ledger without changing its source repository."""
+    evidence = _load_json(repository / "reports" / "binance_usdm_instrument_evidence.json")
+    if evidence is None:
+        return None
+    return {
+        "retrieval_status": evidence.get("retrieval_status"),
+        "catalog_pages_cached": evidence.get("catalog_pages_cached"),
+        "candidate_articles": evidence.get("candidate_articles"),
+        "instrument_master_sha256": evidence.get("instrument_master_sha256"),
+        "generated_at_utc": evidence.get("generated_at_utc"),
+    }
+
+
 def inspect(config: StrategyConfig) -> dict[str, Any]:
     """Return a snapshot assembled exclusively from reads and subprocess queries."""
     repo = Path(config.repository)
@@ -96,6 +110,7 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         else:
             warnings.append(f"configured artifact absent: {relative}")
     audit = _perp_carry_audit_state() if config.strategy_id == "perp-carry-v1" else None
+    ctrend = _ctrend_executable_state(repo) if config.strategy_id == "ctrend-executable" else None
     if config.strategy_id == "perp-carry-v1" and audit is None:
         warnings.append("clean bounded post-lifecycle-repair 24-hour audit has not been evidenced")
     if audit is not None:
@@ -104,6 +119,13 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         )
     if config.strategy_id.startswith("ctrend-"):
         warnings.append("capital is zero; this strategy is research-only")
+    if config.strategy_id == "ctrend-executable" and ctrend is None:
+        warnings.append("CTREND executable evidence ledger is absent or unreadable")
+    if ctrend is not None:
+        warnings.append(
+            "CTREND executable universe is not reconstructed: official catalog retrieval stopped "
+            "on HTTP 429 and point-in-time market-cap automation is unauthorized"
+        )
     return {
         "strategy_id": config.strategy_id,
         "strategy_class": config.strategy_class,
@@ -139,6 +161,19 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         "last_error": None,
         "observation_count": (
             audit["health"].get("successful_collections") if audit is not None else None
+        ),
+        "instrument_master_status": ctrend["retrieval_status"] if ctrend is not None else None,
+        "instrument_master_catalog_pages_cached": (
+            ctrend["catalog_pages_cached"] if ctrend is not None else None
+        ),
+        "weekly_coverage_status": "NOT_COMPUTED_NO_VERIFIED_EPISODES"
+        if ctrend is not None
+        else None,
+        "market_cap_access_status": "BLOCKED_NO_AUTHORIZED_AUTOMATION"
+        if ctrend is not None
+        else None,
+        "instrument_master_evidence_sha256": (
+            ctrend["instrument_master_sha256"] if ctrend is not None else None
         ),
         "prediction_or_trade_count": None,
         "gross_return": None,

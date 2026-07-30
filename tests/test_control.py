@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from strategy_control.adapters import _perp_carry_audit_state, inspect
+from strategy_control.adapters import _ctrend_executable_state, _perp_carry_audit_state, inspect
 from strategy_control.model import StrategyConfig
 from strategy_control.render import write_artifacts
 
@@ -89,3 +89,25 @@ def test_perp_audit_adapter_reads_active_start_without_writing(tmp_path: Path) -
     assert result is not None
     assert result["audit_id"] == "audit-live"
     assert start.exists()
+
+
+def test_ctrend_adapter_reads_evidence_without_writing(tmp_path: Path) -> None:
+    evidence = tmp_path / "reports" / "binance_usdm_instrument_evidence.json"
+    evidence.parent.mkdir()
+    evidence.write_text(
+        json.dumps(
+            {
+                "retrieval_status": "BLOCKED_RATE_LIMIT",
+                "catalog_pages_cached": 118,
+                "candidate_articles": [],
+                "instrument_master_sha256": "abc",
+                "generated_at_utc": "2026-07-30T00:00:00Z",
+            }
+        )
+    )
+
+    result = _ctrend_executable_state(tmp_path)
+
+    assert result is not None
+    assert result["retrieval_status"] == "BLOCKED_RATE_LIMIT"
+    assert evidence.exists()
