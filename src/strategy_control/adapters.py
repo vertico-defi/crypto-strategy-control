@@ -91,6 +91,25 @@ def _ctrend_executable_state(repository: Path) -> dict[str, Any] | None:
     }
 
 
+def _ctrend_liquidity_state(repository: Path) -> dict[str, Any] | None:
+    """Read CTREND liquidity net evidence without changing its repository."""
+    summary = _load_json(repository / "reports" / "ctrend_liquidity_net_evaluation_summary.json")
+    manifest = _load_json(repository / "reports" / "ctrend_liquidity_net_evaluation_manifest.json")
+    gaps = _load_json(repository / "reports" / "ctrend_liquidity_funding_gap_report.json")
+    if summary is None or manifest is None or gaps is None:
+        return None
+    primary = summary.get("cost_scenarios", {}).get("execution_25bp", {})
+    funding = summary.get("funding", {})
+    return {
+        "primary": primary,
+        "funding": funding,
+        "coverage_counts": gaps.get("coverage_counts", {}),
+        "semantic_hash": manifest.get("semantic_hash"),
+        "bootstrap": summary.get("bootstrap", {}).get("primary_net_mean", {}),
+        "overlays": summary.get("risk_overlays", {}),
+    }
+
+
 def inspect(config: StrategyConfig) -> dict[str, Any]:
     """Return a snapshot assembled exclusively from reads and subprocess queries."""
     repo = Path(config.repository)
@@ -111,6 +130,11 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
             warnings.append(f"configured artifact absent: {relative}")
     audit = _perp_carry_audit_state() if config.strategy_id == "perp-carry-v1" else None
     ctrend = _ctrend_executable_state(repo) if config.strategy_id == "ctrend-executable" else None
+    liquidity = (
+        _ctrend_liquidity_state(repo)
+        if config.strategy_id == "ctrend-binance-usdm-liquidity-v1"
+        else None
+    )
     if config.strategy_id == "perp-carry-v1" and audit is None:
         warnings.append("clean bounded post-lifecycle-repair 24-hour audit has not been evidenced")
     if audit is not None:
@@ -125,6 +149,13 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         warnings.append(
             "CTREND executable universe is not reconstructed: official catalog retrieval stopped "
             "on HTTP 429 and point-in-time market-cap automation is unauthorized"
+        )
+    if config.strategy_id == "ctrend-binance-usdm-liquidity-v1" and liquidity is None:
+        warnings.append("CTREND liquidity net-evaluation evidence is absent or unreadable")
+    if liquidity is not None:
+        warnings.append(
+            "funding-inclusive all-history result is incomplete; 22 weekly records have partial "
+            "funding coverage"
         )
     return {
         "strategy_id": config.strategy_id,
@@ -177,9 +208,9 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         ),
         "prediction_or_trade_count": None,
         "gross_return": None,
-        "net_return": None,
-        "fees": None,
-        "funding": None,
+        "net_return": liquidity["primary"].get("cumulative_return") if liquidity else None,
+        "fees": liquidity["primary"].get("total_fees") if liquidity else None,
+        "funding": liquidity["funding"].get("net") if liquidity else None,
         "spread_and_slippage": None,
         "maximum_drawdown": None,
         "volatility": None,
@@ -194,4 +225,5 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         "latest_report": config.latest_report,
         "integrity_warnings": warnings,
         "snapshot_observed_at": datetime.now(UTC).isoformat(),
+        "ctrend_liquidity": liquidity,
     }

@@ -31,7 +31,7 @@ def main() -> None:
     args = parser.parse_args()
     current = snapshot(args.registry)
     if args.command == "verify":
-        assert len(current["strategies"]) == 5
+        assert len(current["strategies"]) == 6
         assert all(item["current_exposure"].startswith("0.0") for item in current["strategies"])
         print("control-center verification: PASS")
         return

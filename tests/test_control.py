@@ -3,7 +3,12 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from strategy_control.adapters import _ctrend_executable_state, _perp_carry_audit_state, inspect
+from strategy_control.adapters import (
+    _ctrend_executable_state,
+    _ctrend_liquidity_state,
+    _perp_carry_audit_state,
+    inspect,
+)
 from strategy_control.model import StrategyConfig
 from strategy_control.render import write_artifacts
 
@@ -111,3 +116,30 @@ def test_ctrend_adapter_reads_evidence_without_writing(tmp_path: Path) -> None:
     assert result is not None
     assert result["retrieval_status"] == "BLOCKED_RATE_LIMIT"
     assert evidence.exists()
+
+
+def test_ctrend_liquidity_adapter_reads_net_evidence_without_writing(tmp_path: Path) -> None:
+    reports = tmp_path / "reports"
+    reports.mkdir()
+    (reports / "ctrend_liquidity_net_evaluation_summary.json").write_text(
+        json.dumps(
+            {
+                "cost_scenarios": {"execution_25bp": {"cumulative_return": -0.5}},
+                "funding": {"net": -0.01},
+                "bootstrap": {"primary_net_mean": {"excludes_zero": False}},
+                "risk_overlays": {},
+            }
+        )
+    )
+    (reports / "ctrend_liquidity_net_evaluation_manifest.json").write_text(
+        json.dumps({"semantic_hash": "semantic"})
+    )
+    (reports / "ctrend_liquidity_funding_gap_report.json").write_text(
+        json.dumps({"coverage_counts": {"PARTIAL": 1}})
+    )
+
+    result = _ctrend_liquidity_state(tmp_path)
+
+    assert result is not None
+    assert result["primary"]["cumulative_return"] == -0.5
+    assert result["coverage_counts"] == {"PARTIAL": 1}

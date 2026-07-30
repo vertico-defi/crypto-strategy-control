@@ -94,6 +94,32 @@
       "timer_unit": null
     },
     {
+      "strategy_id": "ctrend-binance-usdm-liquidity-v1",
+      "strategy_class": "Binance USD-M liquidity-weighted CTREND research",
+      "repository": "/home/vertico/ctrend-lab",
+      "dataset_id": "binance-vision-funding-archive-20260731",
+      "experiment_or_run_id": "ctrend-binance-usdm-liquidity-v1",
+      "stage": "INTEGRITY_FAILURE",
+      "latest_verdict": "Funding-inclusive all-history evidence is incomplete (22 of 212 weeks have partial official funding coverage); the 190-week complete-coverage diagnostic is net negative. No capital permitted.",
+      "historical_start": "2022-06-06T00:00:00Z",
+      "historical_end": "2026-06-29T00:00:00Z",
+      "shadow_start": null,
+      "shadow_end": null,
+      "risk_budget": "0.00% equity; no capital permitted",
+      "next_gate": "Obtain checksum-validated official funding for every partial held interval, then rerun the frozen downstream evaluator; do not retrain or open the neural challenger.",
+      "latest_report": "reports/ctrend_liquidity_net_evaluation.md",
+      "artifact_files": [
+        "CTREND_BINANCE_USDM_LIQUIDITY_V1_PROTOCOL.md",
+        "CTREND_LIQUIDITY_NET_EVALUATION_SPEC.md",
+        "reports/ctrend_liquidity_net_evaluation.md",
+        "reports/ctrend_liquidity_net_evaluation_summary.json",
+        "reports/ctrend_liquidity_net_evaluation_manifest.json",
+        "reports/ctrend_liquidity_net_reconciliation.json"
+      ],
+      "service_unit": null,
+      "timer_unit": null
+    },
+    {
       "strategy_id": "ctrend-neural",
       "strategy_class": "preregistered neural CTREND challenger",
       "repository": "/home/vertico/ctrend-lab",
