@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+import tomllib
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -149,6 +150,35 @@ def _ctrend_liquidity_state(repository: Path) -> dict[str, Any] | None:
     }
 
 
+def _perp_carry_v2b_availability_state(repository: Path) -> dict[str, Any] | None:
+    """Read frozen collection progress without operating the collector."""
+    config_path = repository / "config" / "perp-carry-v2b-availability.toml"
+    root = repository / "data" / "v2b" / "prospective_funding_availability"
+    try:
+        with config_path.open("rb") as stream:
+            config = tomllib.load(stream)["collection"]
+    except (OSError, KeyError, tomllib.TOMLDecodeError):
+        return None
+    start, end = str(config["start_utc"]), str(config["end_exclusive_utc"])
+    canonical = 0
+    for path in (root / "raw").rglob("*.json"):
+        row = _load_json(path)
+        if row is not None and start <= str(row.get("scheduled_minute_utc", "")) < end:
+            canonical += 1
+    state = _load_json(root / "state.json") or {}
+    return {
+        "start_utc": start,
+        "day7_utc": config.get("day7_utc"),
+        "end_exclusive_utc": end,
+        "canonical_records": canonical,
+        "expected_records": 432_000,
+        "health": state.get("health", "not_started"),
+        "timer_state": _unit_state("perp-carry-v2b-funding-availability.timer"),
+        "profitability": "NOT_TESTED",
+        "capital_permitted": 0,
+    }
+
+
 def inspect(config: StrategyConfig) -> dict[str, Any]:
     """Return a snapshot assembled exclusively from reads and subprocess queries."""
     repo = Path(config.repository)
@@ -180,6 +210,11 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
     liquidity = (
         _ctrend_liquidity_state(repo)
         if config.strategy_id == "ctrend-binance-usdm-liquidity-v1"
+        else None
+    )
+    availability = (
+        _perp_carry_v2b_availability_state(repo)
+        if config.strategy_id == "perp-carry-v2b-funding-availability"
         else None
     )
     if config.strategy_id == "perp-carry-v1" and audit is None and completed_audit is None:
@@ -309,6 +344,7 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         "integrity_warnings": warnings,
         "snapshot_observed_at": datetime.now(UTC).isoformat(),
         "ctrend_liquidity": liquidity,
+        "availability_collector": availability,
         "perp_carry_audit": (
             {
                 "state": "ACTIVE",
