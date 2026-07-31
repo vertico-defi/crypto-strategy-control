@@ -77,6 +77,55 @@
       "timer_unit": null
     },
     {
+      "strategy_id": "perp-carry-v2b-lagged-settlement",
+      "strategy_class": "causal lagged-settlement perpetual carry research",
+      "repository": "/home/vertico/perp-carry-lab-v2",
+      "dataset_id": "perp-carry-v2b-public-settled-funding-20240101-20260701",
+      "experiment_or_run_id": "perp-carry-v2b-lagged-settlement-20260731",
+      "stage": "HISTORICAL_NO_GO",
+      "latest_verdict": "PERP_CARRY_V2B_NO_GO: the development-selected AR(1) never crossed the frozen 20-bp all-in cost floor in the untouched holdout. Capital permitted is zero.",
+      "historical_start": "2024-01-01T00:00:00Z",
+      "historical_end": "2026-06-30T23:59:59Z",
+      "shadow_start": null,
+      "shadow_end": null,
+      "risk_budget": "0.00% equity; no capital permitted",
+      "next_gate": "Do not retune V2b. A separately preregistered successor with a new economic premise is required.",
+      "latest_report": "PERP_CARRY_V2B_HISTORICAL_REPORT.md",
+      "artifact_files": [
+        "PERP_CARRY_V2B_LAGGED_SETTLEMENT_PROTOCOL.md",
+        "PERP_CARRY_V2B_HISTORICAL_DATA_CONTRACT.md",
+        "PERP_CARRY_V2B_HISTORICAL_REPORT.md",
+        "reports/perp_carry_v2b_historical_evaluation.json",
+        "reports/perp_carry_v2b_funding_coverage.json",
+        "reports/perp_carry_v2b_price_coverage.json"
+      ],
+      "service_unit": null,
+      "timer_unit": null
+    },
+    {
+      "strategy_id": "perp-carry-v2b-funding-availability",
+      "strategy_class": "public funding-availability data collection only",
+      "repository": "/home/vertico/perp-carry-lab-v2",
+      "dataset_id": "perp-carry-v2b-prospective-public-availability",
+      "experiment_or_run_id": "perp-carry-v2b-funding-availability-20260731",
+      "stage": "DATA_AUDIT",
+      "latest_verdict": "DATA_COLLECTION: public minute snapshots only; this collector is not profitability evidence and capital permitted is zero.",
+      "historical_start": null,
+      "historical_end": null,
+      "shadow_start": null,
+      "shadow_end": null,
+      "risk_budget": "0.00% equity; no capital permitted",
+      "next_gate": "Accumulate separately verified displayed-rate availability observations; do not create a strategy shadow.",
+      "latest_report": "PERP_CARRY_V2B_LAGGED_SETTLEMENT_PROTOCOL.md",
+      "artifact_files": [
+        "PERP_CARRY_V2B_LAGGED_SETTLEMENT_PROTOCOL.md",
+        "systemd/perp-carry-v2b-funding-availability.service",
+        "systemd/perp-carry-v2b-funding-availability.timer"
+      ],
+      "service_unit": "perp-carry-v2b-funding-availability.service",
+      "timer_unit": "perp-carry-v2b-funding-availability.timer"
+    },
+    {
       "strategy_id": "ctrend-academic",
       "strategy_class": "academic cryptocurrency trend-factor replication",
       "repository": "/home/vertico/ctrend-lab",
