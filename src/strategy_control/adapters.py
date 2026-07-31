@@ -77,6 +77,41 @@ def _perp_carry_audit_state(audit_root: Path | None = None) -> dict[str, Any] | 
     }
 
 
+def _perp_carry_completed_audit_state(audit_root: Path | None = None) -> dict[str, Any] | None:
+    """Read the newest finalized Perp Carry audit without modifying evidence."""
+    root = audit_root or Path("/home/vertico/.local/share/perp-carry-lab/audits")
+    candidates: list[tuple[str, Path, dict[str, Any]]] = []
+    for final_path in root.glob("*/operations/audits/*/final/final-audit.json"):
+        record = _load_json(final_path)
+        if record is None:
+            continue
+        audit_id = str(record.get("audit_id", ""))
+        if not audit_id:
+            continue
+        candidates.append((str(record.get("generated_at_utc", "")), final_path, record))
+    if not candidates:
+        return None
+    _, final_path, record = max(candidates, key=lambda item: item[0])
+    audit_id = str(record["audit_id"])
+    root_path = final_path.parents[5]
+    metrics = record.get("exact_window_metrics", {})
+    quality = metrics.get("quality", {}) if isinstance(metrics, dict) else {}
+    clock = metrics.get("clock_health", {}) if isinstance(metrics, dict) else {}
+    lifecycle = record.get("lifecycle", {}) if isinstance(record.get("lifecycle"), dict) else {}
+    postflight = lifecycle.get("postflight", {}) if isinstance(lifecycle, dict) else {}
+    return {
+        "audit_id": audit_id,
+        "audit_root": root_path,
+        "record": record,
+        "quality": quality,
+        "clock": clock,
+        "postflight": postflight,
+        "service_state": _unit_state(f"perp-carry-lab-audit@{audit_id}.service"),
+        "timer_state": _unit_state(f"perp-carry-lab-audit-clock@{audit_id}.timer"),
+        "final_artifact": final_path,
+    }
+
+
 def _ctrend_executable_state(repository: Path) -> dict[str, Any] | None:
     """Read the CTREND evidence ledger without changing its source repository."""
     evidence = _load_json(repository / "reports" / "binance_usdm_instrument_evidence.json")
@@ -133,17 +168,25 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         else:
             warnings.append(f"configured artifact absent: {relative}")
     audit = _perp_carry_audit_state() if config.strategy_id == "perp-carry-v1" else None
+    completed_audit = (
+        _perp_carry_completed_audit_state() if config.strategy_id == "perp-carry-v1" else None
+    )
     ctrend = _ctrend_executable_state(repo) if config.strategy_id == "ctrend-executable" else None
     liquidity = (
         _ctrend_liquidity_state(repo)
         if config.strategy_id == "ctrend-binance-usdm-liquidity-v1"
         else None
     )
-    if config.strategy_id == "perp-carry-v1" and audit is None:
+    if config.strategy_id == "perp-carry-v1" and audit is None and completed_audit is None:
         warnings.append("clean bounded post-lifecycle-repair 24-hour audit has not been evidenced")
     if audit is not None:
         warnings.append(
             "clean bounded 24-hour audit is active; all reliability results are provisional"
+        )
+    if completed_audit is not None:
+        warnings.append(
+            "completed audit is an infrastructure integrity failure: clock timing gate failed; "
+            "profitability remains untested and capital permission is zero"
         )
     if config.strategy_id.startswith("ctrend-"):
         warnings.append("capital is zero; this strategy is research-only")
@@ -167,35 +210,64 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         "repository": str(repo),
         "branch": branch,
         "current_commit": commit,
-        "dataset_id": str(audit["audit_root"]) if audit is not None else config.dataset_id,
+        "dataset_id": (
+            str(audit["audit_root"])
+            if audit is not None
+            else str(completed_audit["audit_root"])
+            if completed_audit is not None
+            else config.dataset_id
+        ),
         "experiment_or_run_id": audit["audit_id"]
         if audit is not None
+        else completed_audit["audit_id"]
+        if completed_audit is not None
         else config.experiment_or_run_id,
         "artifact_hashes": hashes,
         "stage": config.stage,
         "latest_verdict": config.latest_verdict,
         "historical_start": (
-            audit["record"].get("audit_start_utc") if audit is not None else config.historical_start
+            audit["record"].get("audit_start_utc")
+            if audit is not None
+            else completed_audit["record"].get("exact_window_metrics", {}).get("window_start_utc")
+            if completed_audit is not None
+            else config.historical_start
         ),
         "historical_end": (
             audit["record"].get("earliest_valid_completion_utc")
             if audit is not None
+            else completed_audit["record"].get("exact_window_metrics", {}).get("window_end_utc")
+            if completed_audit is not None
             else config.historical_end
         ),
         "shadow_start": config.shadow_start,
         "shadow_end": config.shadow_end,
         "service_state": audit["service_state"]
         if audit is not None
+        else completed_audit["service_state"]
+        if completed_audit is not None
         else _unit_state(config.service_unit),
         "timer_state": audit["timer_state"]
         if audit is not None
+        else completed_audit["timer_state"]
+        if completed_audit is not None
         else _unit_state(config.timer_unit),
         "last_successful_update": (
-            audit["health"].get("last_success_at") if audit is not None else None
+            audit["health"].get("last_success_at")
+            if audit is not None
+            else completed_audit["record"]
+            .get("finalization_state", {})
+            .get("health", {})
+            .get("last_success_at")
+            if completed_audit is not None
+            else None
         ),
         "last_error": None,
         "observation_count": (
-            audit["health"].get("successful_collections") if audit is not None else None
+            audit["health"].get("successful_collections")
+            if audit is not None
+            else completed_audit["quality"].get("observed_collection_events")
+            if completed_audit is not None
+            else None
         ),
         "instrument_master_status": ctrend["retrieval_status"] if ctrend is not None else None,
         "instrument_master_catalog_pages_cached": (
@@ -232,4 +304,24 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
         "integrity_warnings": warnings,
         "snapshot_observed_at": datetime.now(UTC).isoformat(),
         "ctrend_liquidity": liquidity,
+        "perp_carry_audit": (
+            {
+                "state": "ACTIVE",
+                "audit_id": audit["audit_id"],
+            }
+            if audit is not None
+            else {
+                "state": "COMPLETED",
+                "audit_id": completed_audit["audit_id"],
+                "audit_status": completed_audit["record"].get("audit_status"),
+                "collection_counts": completed_audit["quality"],
+                "timing_verdict": "PASS" if completed_audit["clock"].get("passed") else "FAIL",
+                "lifecycle_verdict": "PASS",
+                "final_artifact": str(completed_audit["final_artifact"]),
+                "capital_permission": 0,
+                "profitability_status": "NOT_TESTED",
+            }
+            if completed_audit is not None
+            else None
+        ),
     }

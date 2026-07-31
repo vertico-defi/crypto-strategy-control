@@ -7,6 +7,7 @@ from strategy_control.adapters import (
     _ctrend_executable_state,
     _ctrend_liquidity_state,
     _perp_carry_audit_state,
+    _perp_carry_completed_audit_state,
     inspect,
 )
 from strategy_control.model import StrategyConfig
@@ -94,6 +95,39 @@ def test_perp_audit_adapter_reads_active_start_without_writing(tmp_path: Path) -
     assert result is not None
     assert result["audit_id"] == "audit-live"
     assert start.exists()
+
+
+def test_perp_audit_adapter_reads_completed_final_without_writing(tmp_path: Path) -> None:
+    final = (
+        tmp_path
+        / "audit-final"
+        / "operations"
+        / "audits"
+        / "audit-final"
+        / "final"
+        / "final-audit.json"
+    )
+    final.parent.mkdir(parents=True)
+    final.write_text(
+        json.dumps(
+            {
+                "audit_id": "audit-final",
+                "generated_at_utc": "2026-07-31T00:00:00Z",
+                "audit_status": "completed_noncompliant",
+                "exact_window_metrics": {
+                    "quality": {"observed_collection_events": 4},
+                    "clock_health": {"passed": False},
+                },
+            }
+        )
+    )
+
+    result = _perp_carry_completed_audit_state(tmp_path)
+
+    assert result is not None
+    assert result["audit_id"] == "audit-final"
+    assert result["clock"]["passed"] is False
+    assert final.exists()
 
 
 def test_ctrend_adapter_reads_evidence_without_writing(tmp_path: Path) -> None:

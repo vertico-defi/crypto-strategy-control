@@ -27,20 +27,20 @@
       "strategy_class": "cross-venue perpetual carry research",
       "repository": "/home/vertico/perp-carry-lab",
       "dataset_id": null,
-      "experiment_or_run_id": "audit-20260718T091800Z",
-      "stage": "INFRASTRUCTURE_AUDIT",
-      "latest_verdict": "Original 24-hour data passed, but lifecycle audit evidence failed; no capital permitted.",
+      "experiment_or_run_id": "audit-20260730T082700Z",
+      "stage": "INTEGRITY_FAILURE",
+      "latest_verdict": "Completed 24-hour collector audit had 100% data completeness but failed the frozen clock timing gate; no capital permitted and profitability is not tested.",
       "historical_start": null,
       "historical_end": null,
       "shadow_start": null,
       "shadow_end": null,
       "risk_budget": "0.00% equity; no capital permitted",
-      "next_gate": "Run and independently close a clean bounded post-lifecycle-repair 24-hour audit",
-      "latest_report": "LIFECYCLE_FIX_REPORT.md",
+      "next_gate": "Design and preregister Perp Carry V2 historical profitability experiment only after a fresh compliant infrastructure audit; do not execute that gate.",
+      "latest_report": "PERP_CARRY_AUDIT_FINAL_REPORT_audit-20260730T082700Z.md",
       "artifact_files": [
-        "AUDIT_CLOSURE_REPORT_audit-20260718T091800Z.md",
-        "LIFECYCLE_FIX_REPORT.md",
-        "REHEARSAL_AUDIT_REPORT_rehearsal-final-20260722T125300Z.md"
+        "PERP_CARRY_AUDIT_FINAL_REPORT_audit-20260730T082700Z.md",
+        "perp_carry_audit_final_summary_audit-20260730T082700Z.json",
+        "perp_carry_audit_final_manifest_audit-20260730T082700Z.json"
       ],
       "service_unit": null,
       "timer_unit": null
