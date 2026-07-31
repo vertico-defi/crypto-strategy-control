@@ -171,6 +171,11 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
     completed_audit = (
         _perp_carry_completed_audit_state() if config.strategy_id == "perp-carry-v1" else None
     )
+    if audit is not None and completed_audit is not None:
+        active_recorded_at = str(audit["record"].get("recorded_at_utc", ""))
+        completed_at = str(completed_audit["record"].get("generated_at_utc", ""))
+        if active_recorded_at <= completed_at:
+            audit = None
     ctrend = _ctrend_executable_state(repo) if config.strategy_id == "ctrend-executable" else None
     liquidity = (
         _ctrend_liquidity_state(repo)
