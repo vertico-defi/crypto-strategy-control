@@ -107,14 +107,18 @@
       "shadow_end": null,
       "risk_budget": "0.00% equity; no capital permitted",
       "next_gate": "Obtain checksum-validated official funding for every partial held interval, then rerun the frozen downstream evaluator; do not retrain or open the neural challenger.",
-      "latest_report": "reports/ctrend_liquidity_net_evaluation.md",
+      "latest_report": "reports/ctrend_liquidity_funding_gap_closure.md",
       "artifact_files": [
         "CTREND_BINANCE_USDM_LIQUIDITY_V1_PROTOCOL.md",
         "CTREND_LIQUIDITY_NET_EVALUATION_SPEC.md",
         "reports/ctrend_liquidity_net_evaluation.md",
         "reports/ctrend_liquidity_net_evaluation_summary.json",
         "reports/ctrend_liquidity_net_evaluation_manifest.json",
-        "reports/ctrend_liquidity_net_reconciliation.json"
+        "reports/ctrend_liquidity_net_reconciliation.json",
+        "reports/ctrend_liquidity_funding_gap_closure.md",
+        "reports/ctrend_liquidity_funding_gap_audit.parquet",
+        "reports/ctrend_liquidity_funding_gap_audit_summary.json",
+        "reports/ctrend_liquidity_break_even_formula_audit.json"
       ],
       "service_unit": null,
       "timer_unit": null
