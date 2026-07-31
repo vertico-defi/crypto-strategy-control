@@ -108,7 +108,7 @@
       "repository": "/home/vertico/perp-carry-lab-v2",
       "dataset_id": "perp-carry-v2b-prospective-public-availability",
       "experiment_or_run_id": "perp-carry-v2b-availability-30d-20260731T140000Z",
-      "stage": "DATA_AUDIT",
+      "stage": "DATA_COLLECTION",
       "latest_verdict": "DATA_COLLECTION: frozen public availability capture is scheduled for 2026-07-31T14:00:00Z through 2026-08-30T14:00:00Z; profitability is NOT_TESTED and capital permitted is zero.",
       "historical_start": "2026-07-31T14:00:00Z",
       "historical_end": "2026-08-30T14:00:00Z",

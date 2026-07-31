@@ -8,6 +8,7 @@ from typing import Any
 REQUIRED_STAGES = {
     "DESIGN",
     "DATA_AUDIT",
+    "DATA_COLLECTION",
     "HISTORICAL_DEVELOPMENT",
     "HISTORICAL_ACCEPTED",
     "HISTORICAL_NO_GO",
