@@ -321,7 +321,13 @@ def inspect(config: StrategyConfig) -> dict[str, Any]:
                 "audit_status": completed_audit["record"].get("audit_status"),
                 "collection_counts": completed_audit["quality"],
                 "timing_verdict": "PASS" if completed_audit["clock"].get("passed") else "FAIL",
-                "lifecycle_verdict": "PASS",
+                "lifecycle_verdict": (
+                    "FAIL"
+                    if completed_audit["record"]
+                    .get("finalization_state", {})
+                    .get("includes_post_window_collection")
+                    else "PASS"
+                ),
                 "final_artifact": str(completed_audit["final_artifact"]),
                 "capital_permission": 0,
                 "profitability_status": "NOT_TESTED",
