@@ -43,7 +43,8 @@
         "perp_carry_audit_final_manifest_audit-20260730T082700Z.json",
         "PERP_CARRY_THREE_AUDIT_POSTMORTEM.md",
         "perp_carry_three_audit_postmortem.json",
-        "docs/AUDIT_CERTIFICATION_REPAIR_PROTOCOL.md"
+        "docs/AUDIT_CERTIFICATION_REPAIR_PROTOCOL.md",
+        "AUDIT_CERTIFICATION_READINESS.md"
       ],
       "service_unit": null,
       "timer_unit": null
