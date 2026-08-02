@@ -13,3 +13,5 @@ The continuation design now uses a kernel advisory lock with owner metadata rath
 After a credential-pattern, environment-file, large-file, raw-data, and absolute-path publication scan passed, public source repository `vertico-defi/crypto-strategy-control` was created without rewriting history and commit `8df45df236ebcd1d2917da1c11a7b88bbc0e057f` was pushed to `main`.
 
 Official Binance documentation confirms that `data.binance.vision` publishes public spot klines in monthly archives with companion SHA-256 checksum files, and the official bucket returned a paginated `ListBucketResult` for `data/spot/monthly/klines/`. The next preregistration therefore freezes S3 marker pagination, `1d` UTC bars, a 2017-08 through 2026-06 complete-month sample, no current `exchangeInfo`, and an archive-observed—not formally complete—universe claim.
+
+`cs-ranking-binance-spot-archive-ptu-audit-v1` was frozen at `2026-08-02T16:19:06.582353Z` against source commit `84cb68629e69e5235833d73124e2033f85d28fc7` with preregistration SHA-256 `07487eff935acfad81af1405598d22b3c96ff7d8702190a4fde52d1a37da42d3`. No strategy holdout or return series was opened.
