@@ -369,11 +369,23 @@ def evaluate_development(
         and primary["maximum_drawdown"] < equal_weight["maximum_drawdown"]
     )
 
-    alternative_returns = [_returns(intervals_by_variant[name]) for name in variants]
-    if len({len(values) for values in alternative_returns}) != 1:
-        raise TrendError("multiplicity alternatives are not aligned")
+    returns_by_variant_and_interval = {
+        name: {(item.start, item.end): item.net_return for item in intervals}
+        for name, intervals in intervals_by_variant.items()
+    }
+    common_intervals = set.intersection(
+        *(set(values) for values in returns_by_variant_and_interval.values())
+    )
+    ordered_common_intervals = sorted(common_intervals)
+    if len(ordered_common_intervals) < 8:
+        raise TrendError("insufficient aligned multiplicity intervals")
+    alternative_returns = [
+        [returns_by_variant_and_interval[name][interval] for interval in ordered_common_intervals]
+        for name in variants
+    ]
     bootstrap = stationary_bootstrap(_returns(primary_intervals), rng=bootstrap_rng)
-    dsr = deflated_sharpe_probability(_returns(primary_intervals), alternative_returns)
+    aligned_primary_returns = alternative_returns[0]
+    dsr = deflated_sharpe_probability(aligned_primary_returns, alternative_returns)
     pbo = cscv_pbo(alternative_returns)
     exceptional = exceptional_trade_concentration(primary_intervals)
 
@@ -449,6 +461,7 @@ def evaluate_development(
         "bootstrap": bootstrap,
         "deflated_sharpe_probability": dsr,
         "probability_of_backtest_overfitting": pbo,
+        "multiplicity_aligned_interval_count": len(ordered_common_intervals),
         "regimes": regime_report,
         "exceptional_trade_concentration": exceptional,
         "source_partition_count": market.source_partition_count,
