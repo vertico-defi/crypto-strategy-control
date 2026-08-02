@@ -22,6 +22,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
 
+from strategy_control.archive_audit import ArchiveAuditError, run_archive_observed_audit
+
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "CURRENT_STATE.json"
 LEDGER = ROOT / "EXPERIMENT_LEDGER.jsonl"
@@ -728,6 +730,116 @@ def run_cycle(*, invocation_mode: InvocationMode, dry_run: bool) -> dict[str, An
     }
 
 
+def run_archive_data_audit() -> dict[str, Any]:
+    """Execute only the frozen archive data contract; never open strategy data."""
+
+    state = load_json(STATE)
+    validate_state(state)
+    if state.get("program_state") != "ACTIVE_RESEARCH":
+        raise StateError("archive audit requires ACTIVE_RESEARCH")
+    if state.get("current_experiment_id") != ARCHIVE_EXPERIMENT_ID:
+        raise StateError("archive audit experiment identity mismatch")
+    if state.get("next_task") != "implement_archive_enumerator":
+        raise StateError(f"archive audit is not at implementation gate: {state.get('next_task')}")
+    git = git_state()
+    if not git["clean"]:
+        raise StateError("controller working tree must be clean before archive retrieval")
+    prereg_path = preregistration_path()
+    prereg = load_json(prereg_path)
+    expected_hash = prereg.get("preregistration_sha256")
+    hash_input = dict(prereg)
+    hash_input.pop("preregistration_sha256", None)
+    if prereg.get("experiment_id") != ARCHIVE_EXPERIMENT_ID or expected_hash != _sha(hash_input):
+        raise StateError("frozen archive preregistration identity or hash mismatch")
+    frozen_at = datetime.fromisoformat(str(prereg["preregistered_at_utc"]).replace("Z", "+00:00"))
+    retrieval_delay_hours = (datetime.now(UTC) - frozen_at).total_seconds() / 3600
+    max_delay = float(prereg["enumeration_contract"]["max_retrieval_delay_after_freeze_hours"])
+    if retrieval_delay_hours < 0 or retrieval_delay_hours > max_delay:
+        raise StateError("frozen archive retrieval window expired")
+    started_at = _now()
+    monotonic_start = time.monotonic()
+    try:
+        manifest, report = run_archive_observed_audit(
+            first_month="2017-08",
+            last_month=str(prereg["sample_contract"]["last_archive_month"]),
+            minimum_symbols=int(
+                prereg["data_sufficiency"]["minimum_archive_observed_USDT_symbols"]
+            ),
+            max_workers=16,
+        )
+    except ArchiveAuditError as exc:
+        ended_at = _now()
+        duration = round(time.monotonic() - monotonic_start, 6)
+        append_jsonl(
+            MODEL_LEDGER,
+            {
+                "record_type": "LOCAL_PIPELINE_INVOCATION",
+                "started_at_utc": started_at,
+                "ended_at_utc": ended_at,
+                "duration_seconds": duration,
+                "role": "archive_data_pipeline",
+                "invocation_mode": "deterministic_local",
+                "requested_model": None,
+                "actual_model": None,
+                "reasoning_level": None,
+                "model_result_received": False,
+                "model_generated_research_claim": False,
+                "outcome": "INFRASTRUCTURE_OR_DATA_RETRIEVAL_FAILURE",
+                "exact_error": str(exc),
+                "fallback": None,
+                "experiment_id": ARCHIVE_EXPERIMENT_ID,
+            },
+        )
+        raise StateError(f"archive retrieval failed closed: {exc}") from exc
+    duration = round(time.monotonic() - monotonic_start, 6)
+    if duration > int(state["budgets"]["max_wall_seconds"]):
+        raise StateError("archive audit exceeded frozen wall-clock budget")
+    experiment_root = ROOT / "experiments" / ARCHIVE_EXPERIMENT_ID
+    manifest_path = experiment_root / "SYMBOL_MANIFEST.json"
+    report_path = experiment_root / "DATA_INTEGRITY_REPORT.json"
+    atomic_json(manifest_path, manifest)
+    atomic_json(report_path, report)
+    append_jsonl(
+        MODEL_LEDGER,
+        {
+            "record_type": "LOCAL_PIPELINE_INVOCATION",
+            "started_at_utc": started_at,
+            "ended_at_utc": str(report["ended_at_utc"]),
+            "duration_seconds": duration,
+            "role": "archive_data_pipeline",
+            "invocation_mode": "deterministic_local",
+            "requested_model": None,
+            "actual_model": None,
+            "reasoning_level": None,
+            "model_result_received": False,
+            "model_generated_research_claim": False,
+            "outcome": "TECHNICAL_ROUTE_VALIDATED_PENDING_INDEPENDENT_AUDIT",
+            "exact_error": None,
+            "fallback": None,
+            "experiment_id": ARCHIVE_EXPERIMENT_ID,
+            "result_sha256": str(report["manifest_sha256"]),
+        },
+    )
+    state.update(
+        {
+            "next_task": "run_deterministic_tests_and_independent_audit",
+            "updated_at_utc": _now(),
+        }
+    )
+    atomic_json(STATE, state)
+    return {
+        "status": report["data_contract_result"],
+        "experiment_id": ARCHIVE_EXPERIMENT_ID,
+        "invocation_mode": "deterministic_local",
+        "manifest_sha256": report["manifest_sha256"],
+        "archive_observed_symbol_directories": report["archive_observed_symbol_directories"],
+        "boundary_valid_in_sample_symbols": report["boundary_valid_in_sample_symbols"],
+        "holdout_opened": False,
+        "returns_calculated": False,
+        "capital_permitted": 0,
+    }
+
+
 def status() -> dict[str, Any]:
     state = load_json(STATE)
     validate_state(state)
@@ -811,6 +923,7 @@ def main() -> None:
             "prospective",
             "snapshot",
             "smoke",
+            "archive-audit",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -843,6 +956,8 @@ def main() -> None:
             result = run_cycle(invocation_mode=invocation_mode, dry_run=False)
         elif args.command == "smoke":
             result = smoke_review(invocation_mode=invocation_mode)
+        elif args.command == "archive-audit":
+            result = run_archive_data_audit()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":
