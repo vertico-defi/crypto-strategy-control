@@ -1,3 +1,3 @@
 # Next Task
 
-Preserve the first 300-second audit timeout, then spend the final frozen call on the same Sol/xhigh independent audit through the native project-subagent interface. The auditor must make no writes, preserve `cs-ranking-ptu-data-audit-v1=DATA_NO_GO`, avoid all raw data and 2026 holdout files, and may only confirm the historical no-go or reject the methodology.
+Commit and publish the terminal `btc-eth-long-only-mean-reversion-v1=AUDIT_REJECTED` evidence while preserving its deterministic `HISTORICAL_NO_GO` and closed holdout. Then allocate a fresh bounded zero-GPU/zero-capital budget and draft `btc-eth-relative-value-rotation-v1` for Sol/xhigh direction review before any implementation or return evaluation.
