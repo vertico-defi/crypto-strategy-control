@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 from strategy_control.archive_audit import ArchiveAuditError, run_archive_observed_audit
+from strategy_control.trend_data import TrendDataError, verify_trend_data
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "CURRENT_STATE.json"
@@ -802,6 +803,76 @@ def run_cycle(*, invocation_mode: InvocationMode, dry_run: bool) -> dict[str, An
     }
 
 
+def run_trend_data_audit() -> dict[str, Any]:
+    """Verify the frozen BTC/ETH source without parsing any holdout values."""
+
+    state = load_json(STATE)
+    if state.get("current_experiment_id") != TREND_EXPERIMENT_ID:
+        raise StateError("trend data audit is not the active experiment")
+    started = _now()
+    monotonic_start = time.monotonic()
+    source_repository = ROOT.parent / "crypto-direction-lab"
+    report_path = ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json"
+    try:
+        report = verify_trend_data(source_repository)
+        report["invocation_mode"] = "deterministic_local"
+        report["source_repository_head"] = subprocess.run(
+            ["git", "-C", str(source_repository), "rev-parse", "HEAD"],
+            text=True,
+            capture_output=True,
+            check=True,
+        ).stdout.strip()
+        atomic_json(report_path, report)
+        outcome = "DATA_CONTRACT_PASS"
+        exact_error = None
+        result_hash = _sha(report)
+    except (OSError, subprocess.SubprocessError, TrendDataError) as exc:
+        outcome = "DATA_CONTRACT_FAILURE"
+        exact_error = _bounded_error(f"{type(exc).__name__}: {exc}")
+        result_hash = None
+        report = {
+            "status": "FAIL",
+            "experiment_id": TREND_EXPERIMENT_ID,
+            "invocation_mode": "deterministic_local",
+            "holdout_opened": False,
+            "returns_calculated": False,
+            "performance_claim_made": False,
+            "capital_permitted": 0,
+            "exact_error": exact_error,
+        }
+        atomic_json(report_path, report)
+    ended = _now()
+    append_jsonl(
+        MODEL_LEDGER,
+        {
+            "record_type": "LOCAL_PIPELINE_INVOCATION",
+            "experiment_id": TREND_EXPERIMENT_ID,
+            "role": "trend_data_contract",
+            "requested_model": None,
+            "actual_model": None,
+            "reasoning_level": None,
+            "invocation_mode": "deterministic_local",
+            "started_at_utc": started,
+            "ended_at_utc": ended,
+            "duration_seconds": round(time.monotonic() - monotonic_start, 6),
+            "outcome": outcome,
+            "model_result_received": False,
+            "model_generated_research_claim": False,
+            "result_sha256": result_hash,
+            "exact_error": exact_error,
+            "fallback": None,
+        },
+    )
+    return {
+        "status": outcome,
+        "report": str(report_path.relative_to(ROOT)),
+        "result_sha256": result_hash,
+        "holdout_opened": False,
+        "returns_calculated": False,
+        "capital_permitted": 0,
+    }
+
+
 def run_archive_data_audit() -> dict[str, Any]:
     """Execute only the frozen archive data contract; never open strategy data."""
 
@@ -1224,6 +1295,7 @@ def main() -> None:
             "archive-audit",
             "archive-independent-audit",
             "trend-direction-review",
+            "trend-data-audit",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -1262,6 +1334,8 @@ def main() -> None:
             result = run_independent_archive_audit()
         elif args.command == "trend-direction-review":
             result = run_trend_direction_review(invocation_mode=invocation_mode)
+        elif args.command == "trend-data-audit":
+            result = run_trend_data_audit()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":
