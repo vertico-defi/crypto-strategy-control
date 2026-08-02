@@ -1,1 +1,1 @@
-{"schema_version":"1.0","source_remote_status":"SOURCE_REMOTE_ABSENT","portfolio_status":"NOT_ATTEMPTED","last_source_push":null,"last_portfolio_push":null}
+{"schema_version":"1.0","source_remote_status":"SOURCE_REMOTE_ABSENT","portfolio_status":"PUSHED","last_source_push":null,"last_portfolio_push":{"repository":"crypto-research-portfolio","branch":"main","commit":"406ef23833257ff7afd739bbedc2e97ed341f46c","at_utc":"2026-08-02T11:24:00Z"}}
