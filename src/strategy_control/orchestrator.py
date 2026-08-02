@@ -873,6 +873,86 @@ def run_trend_data_audit() -> dict[str, Any]:
     }
 
 
+def freeze_trend_preregistration() -> dict[str, Any]:
+    """Freeze the reviewed trend contract before any development return is calculated."""
+
+    state = load_json(STATE)
+    if (
+        state.get("current_experiment_id") != TREND_EXPERIMENT_ID
+        or state.get("data_contract_status") != "PASS"
+        or state.get("next_task") != "freeze_trend_preregistration"
+    ):
+        raise StateError("trend preregistration is not at its freeze gate")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before trend freeze")
+    experiment_root = ROOT / "experiments" / TREND_EXPERIMENT_ID
+    draft = load_json(experiment_root / "PREREGISTRATION_DRAFT.json")
+    review = load_json(experiment_root / "DIRECTION_REVIEW.json")
+    data_contract = load_json(experiment_root / "DATA_CONTRACT.json")
+    if draft.get("status") != "DRAFT_NOT_FROZEN":
+        raise StateError("trend draft status mismatch")
+    if review.get("verdict") != "REVISION_REQUIRED" or review.get("holdout_opened") is not False:
+        raise StateError("trend direction review evidence mismatch")
+    if (
+        data_contract.get("status") != "PASS"
+        or data_contract.get("holdout_opened") is not False
+        or data_contract.get("returns_calculated") is not False
+    ):
+        raise StateError("trend data contract is not holdout-safe PASS")
+    frozen = dict(draft)
+    frozen.update(
+        {
+            "schema_version": "1.0",
+            "status": "FROZEN",
+            "preregistered_at_utc": _now(),
+            "source_commit": git["head"],
+            "reviewed_draft_sha256": review.get("draft_sha256"),
+            "revised_draft_sha256": _sha(draft),
+            "direction_review_result_sha256": review.get("result_sha256"),
+            "data_contract_result_sha256": _sha(data_contract),
+            "holdout_opened_at_freeze": False,
+            "returns_calculated_at_freeze": False,
+        }
+    )
+    frozen["preregistration_sha256"] = _sha(frozen)
+    path = experiment_root / "PREREGISTRATION.json"
+    if path.exists():
+        raise StateError("trend preregistration is already frozen")
+    atomic_json(path, frozen)
+    state.update(
+        {
+            "next_task": "implement_trend_development_pipeline",
+            "updated_at_utc": frozen["preregistered_at_utc"],
+        }
+    )
+    atomic_json(STATE, state)
+    append_jsonl(
+        LEDGER,
+        {
+            "record_type": "PREREGISTRATION_FROZEN",
+            "experiment_id": TREND_EXPERIMENT_ID,
+            "at_utc": frozen["preregistered_at_utc"],
+            "source_commit": git["head"],
+            "preregistration_sha256": frozen["preregistration_sha256"],
+            "data_contract_result_sha256": frozen["data_contract_result_sha256"],
+            "holdout_opened": False,
+            "returns_calculated": False,
+            "capital_permitted": 0,
+        },
+    )
+    return {
+        "status": "FROZEN",
+        "experiment_id": TREND_EXPERIMENT_ID,
+        "path": str(path.relative_to(ROOT)),
+        "source_commit": git["head"],
+        "preregistration_sha256": frozen["preregistration_sha256"],
+        "holdout_opened": False,
+        "returns_calculated": False,
+        "capital_permitted": 0,
+    }
+
+
 def run_archive_data_audit() -> dict[str, Any]:
     """Execute only the frozen archive data contract; never open strategy data."""
 
@@ -1296,6 +1376,7 @@ def main() -> None:
             "archive-independent-audit",
             "trend-direction-review",
             "trend-data-audit",
+            "trend-freeze",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -1336,6 +1417,8 @@ def main() -> None:
             result = run_trend_direction_review(invocation_mode=invocation_mode)
         elif args.command == "trend-data-audit":
             result = run_trend_data_audit()
+        elif args.command == "trend-freeze":
+            result = freeze_trend_preregistration()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":
