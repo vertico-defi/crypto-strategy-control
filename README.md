@@ -33,6 +33,8 @@ Run from the repository checkout (the wrapper also works before installation):
 .venv/bin/python orchestrator.py freeze
 # commit the frozen preregistration, then:
 .venv/bin/python orchestrator.py cycle --mock-agents
+.venv/bin/python orchestrator.py publication-dry-run
+.venv/bin/python orchestrator.py snapshot
 .venv/bin/ruff check .
 .venv/bin/mypy src
 .venv/bin/pytest

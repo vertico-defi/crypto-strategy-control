@@ -74,3 +74,47 @@ def test_preregistration_hash_detects_mutation() -> None:
     changed["target"] = "post-hoc target"
     digest = changed.pop("preregistration_sha256")
     assert digest != orchestrator._sha(changed)
+
+
+def test_public_snapshot_allowlist_is_static_and_zero_capital(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "CURRENT_STATE.json"
+    ledger = tmp_path / "EXPERIMENT_LEDGER.jsonl"
+    manifest = tmp_path / "PUBLICATION_MANIFEST.json"
+    state.write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0",
+                "program_state": "DATA_BLOCKED",
+                "capital_permitted": 0,
+                "next_task": "data",
+                "budgets": {},
+            }
+        )
+    )
+    ledger.write_text(json.dumps({"experiment_id": "x", "classification": "DATA_NO_GO"}) + "\n")
+    manifest.write_text(
+        json.dumps(
+            {
+                "public_fields": [
+                    "program_state",
+                    "capital_permitted",
+                    "experiment_id",
+                    "classification",
+                    "source_commit",
+                    "preregistration_sha256",
+                    "limitation",
+                ],
+                "prohibited_fields": ["credentials", "tokens", "absolute_paths"],
+            }
+        )
+    )
+    monkeypatch.setattr(orchestrator, "ROOT", tmp_path)
+    monkeypatch.setattr(orchestrator, "STATE", state)
+    monkeypatch.setattr(orchestrator, "LEDGER", ledger)
+    monkeypatch.setattr(orchestrator, "PUBLICATION_LOG", tmp_path / "publication.jsonl")
+    result = orchestrator.public_snapshot(dry_run=False)
+    snapshot = json.loads((tmp_path / result["path"]).read_text())
+    assert snapshot["capital_permitted"] == 0
+    assert snapshot["classification"] == "DATA_NO_GO"

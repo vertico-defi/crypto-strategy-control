@@ -353,6 +353,48 @@ def status() -> dict[str, Any]:
     }
 
 
+def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
+    """Produce an allowlisted, static snapshot for the portfolio consumer."""
+
+    manifest = load_json(ROOT / "PUBLICATION_MANIFEST.json")
+    public_fields = set(manifest["public_fields"])
+    terminal = _lines(LEDGER)[-1] if _lines(LEDGER) else {}
+    state = load_json(STATE)
+    snapshot = {
+        "schema_version": "1.0",
+        "generated_at_utc": _now(),
+        "program_state": state["program_state"],
+        "capital_permitted": state["capital_permitted"],
+        "experiment_id": terminal.get("experiment_id"),
+        "classification": terminal.get("classification"),
+        "source_commit": terminal.get("source_commit"),
+        "preregistration_sha256": terminal.get("preregistration_sha256"),
+        "limitation": (
+            "Data-contract result only: no holdout was opened, no returns were "
+            "calculated, and no profitability conclusion is permitted."
+        ),
+    }
+    if set(snapshot) - {"schema_version", "generated_at_utc", *public_fields}:
+        raise StateError("publication allowlist violation")
+    serialized = _canonical(snapshot).lower()
+    if any(term in serialized for term in manifest["prohibited_fields"]):
+        raise StateError("publication prohibited-field violation")
+    path = ROOT / "publication" / "research-program-snapshot.json"
+    if dry_run:
+        return {"dry_run": True, "path": str(path.relative_to(ROOT)), "snapshot": snapshot}
+    atomic_json(path, snapshot)
+    append_jsonl(
+        PUBLICATION_LOG,
+        {
+            "at_utc": _now(),
+            "artifact": str(path.relative_to(ROOT)),
+            "status": "SANITIZED_SNAPSHOT_BUILT",
+            "sha256": _sha(snapshot),
+        },
+    )
+    return {"status": "SANITIZED_SNAPSHOT_BUILT", "path": str(path.relative_to(ROOT))}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Bounded zero-capital crypto research controller")
     parser.add_argument(
@@ -368,6 +410,7 @@ def main() -> None:
             "publish",
             "publication-dry-run",
             "prospective",
+            "snapshot",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -378,7 +421,9 @@ def main() -> None:
             result = status()
         elif args.command == "freeze":
             result = freeze_preregistration(dry_run=False)
-        elif args.command in {"dry-run", "publication-dry-run"}:
+        elif args.command == "publication-dry-run":
+            result = public_snapshot(dry_run=True)
+        elif args.command == "dry-run":
             result = run_cycle(mock_agents=False, dry_run=True)
         elif args.command == "mock-validate":
             result = run_cycle(mock_agents=True, dry_run=True)
@@ -388,6 +433,8 @@ def main() -> None:
             result = run_cycle(mock_agents=args.mock_agents, dry_run=False)
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
+        elif args.command == "snapshot":
+            result = public_snapshot(dry_run=False)
         else:
             result = {
                 "status": "PUBLICATION_PENDING",
