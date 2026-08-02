@@ -1,3 +1,3 @@
 # Next Task
 
-Locate and verify the existing BTCUSDT and ETHUSDT data, then freeze `btc-eth-vol-targeted-trend-v1` with buy-and-hold/cash benchmarks, Donchian and multi-horizon time-series momentum, no leverage, next-bar execution, chronological walk-forward splits, realistic costs, doubled-cost and delay stress, nearby-parameter stability, regime/asset sensitivity, bootstrap uncertainty, DSR/PBO where applicable, and an untouched final holdout.
+Verify all 48 frozen BTCUSDT/ETHUSDT partition hashes and the causal daily-bar schema without reading 2026 holdout values, then freeze the revised `btc-eth-vol-targeted-trend-v1` preregistration. Implement and test development-only evaluation before any holdout-opening decision.

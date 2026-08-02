@@ -17,6 +17,7 @@
     "source_resolution": "1m",
     "expected_monthly_partitions": 48,
     "required_partition_hash_match": true,
+    "data_contract_gate": "all_48_partition_hashes_schema_timestamp_completeness_and_known_gap_quarantine_must_pass_before_any_development_result",
     "required_columns": ["event_timestamp", "available_timestamp", "open", "high", "low", "close", "volume", "source_provenance"],
     "development_value_window_utc": ["2024-07-01T00:01:00Z", "2026-01-01T00:00:00Z"],
     "final_holdout_value_window_utc": ["2026-01-01T00:01:00Z", "2026-07-01T00:00:00Z"],
@@ -39,12 +40,14 @@
     "donchian_lookbacks_completed_sessions": [20, 60, 120],
     "donchian_rule": "per_lookback_long_after_close_strictly_above_prior_lookback_high_exit_after_close_strictly_below_prior_lookback_low_otherwise_carry_state",
     "time_series_momentum_lookbacks_completed_sessions": [20, 60, 120],
-    "time_series_momentum_rule": "per_lookback_long_iff_close_t_div_close_t_minus_lookback_minus_one_is_positive_else_cash",
+    "time_series_momentum_rule": "per_lookback_simple_return_is_close_t_div_close_t_minus_lookback_minus_one_using_completed_sessions_only_long_iff_strictly_positive_else_cash",
     "primary_raw_signal": "equal_weight_of_donchian_ensemble_and_time_series_momentum_ensemble",
     "realized_volatility_lookback_completed_sessions": 20,
+    "realized_volatility_formula": "sample_standard_deviation_ddof_1_of_exactly_20_simple_close_to_close_returns_ending_at_session_t_times_sqrt_365",
     "realized_volatility_annualization": 365,
     "volatility_target_annual": 0.15,
     "volatility_scalar": "minimum_of_one_and_target_div_lagged_realized_volatility",
+    "zero_nonfinite_or_insufficient_volatility_rule": "cash",
     "per_asset_exposure_range": [0.0, 1.0],
     "asset_weights": {"BTCUSDT": 0.5, "ETHUSDT": 0.5},
     "portfolio_gross_exposure_maximum": 1.0,
@@ -53,14 +56,22 @@
     "funding_or_borrow_cost": "not_applicable_long_only_spot"
   },
   "execution_contract": {
-    "base_execution": "desired_exposure_from_session_t_executes_at_first_valid_one_minute_open_after_session_t_close",
-    "return_interval": "execution_open_to_next_execution_open",
+    "information_cutoff": "maximum_of_session_last_event_timestamp_and_all_session_available_timestamps",
+    "base_execution": "desired_exposure_from_session_t_executes_at_the_first_valid_minute_bar_open_strictly_after_the_information_cutoff_where_implied_open_timestamp_equals_event_timestamp_minus_one_minute",
+    "typical_first_fill_after_midnight_session_close": "00:01:00Z_open_carried_by_the_00:02:00Z_bar_end_record",
+    "return_interval": "causal_execution_open_to_next_causal_rebalance_execution_open",
     "missing_execution_bar": "no_fill_and_quarantine_until_state_recovery",
     "turnover": "sum_absolute_portfolio_weight_change",
     "one_way_cost_bps": {"fee": 10.0, "half_spread": 1.0, "slippage": 3.0, "total": 14.0},
     "doubled_cost_total_one_way_bps": 28.0,
     "additional_delay_stress": "execute_one_additional_completed_daily_session_later",
-    "cost_application": "one_way_total_cost_times_absolute_weight_change_at_each_fill"
+    "cost_application": "one_way_total_cost_times_absolute_target_minus_drifted_pretrade_portfolio_weight_at_each_fill",
+    "self_financing_accounting": "at_each_fill_mark_existing_holdings_to_fill_prices_compute_drifted_risky_and_cash_weights_deduct_cost_from_pretrade_equity_then_allocate_exact_target_risky_weights_of_postcost_equity_and_cash_remainder_compound_to_next_fill",
+    "initial_trade": "charged_from_cash_at_first_eligible_fill",
+    "terminal_trade": "full_liquidation_cost_charged_at_each_standalone_fold_or_aggregate_evaluation_end",
+    "fold_accounting": "each_fold_is_evaluated_from_cash_with_warmup_signals_and_its_own_initial_and_terminal_costs_aggregate_period_is_separately_evaluated_once_from_cash",
+    "benchmark_accounting": "same_causal_prices_self_financing_cost_rate_initial_trade_and_terminal_liquidation_buy_and_hold_drifts_without_rebalancing",
+    "quarantine_accounting": "returns_touching_an_incomplete_session_or_missing_fill_are_absent_not_zero_equity_restarts_from_cash_only_after_150_complete_recovery_sessions"
   },
   "fixed_comparators_and_variants": {
     "benchmarks": ["cash_zero_return", "BTCUSDT_buy_and_hold", "ETHUSDT_buy_and_hold", "equal_weight_BTC_ETH_buy_and_hold"],
@@ -72,6 +83,8 @@
       {"name": "higher_volatility_target", "lookbacks": [20, 60, 120], "volatility_target_annual": 0.20}
     ],
     "multiplicity_trial_count": 7,
+    "multiplicity_trial_universe": ["primary_combined", "donchian_only", "time_series_momentum_only", "shorter_horizons", "longer_horizons", "lower_volatility_target", "higher_volatility_target"],
+    "prior_controller_performance_trials": 0,
     "selection_rule": "primary_candidate_is_fixed_in_advance_and_is_not_selected_from_variants"
   },
   "walk_forward_contract": {
@@ -85,6 +98,8 @@
       ["2026-01-01T00:00:00Z", "2026-04-01T00:00:00Z"],
       ["2026-04-01T00:00:00Z", "2026-07-01T00:00:00Z"]
     ],
+    "fold_boundary_rule": "half_open_start_inclusive_end_exclusive_and_return_interval_endpoint_must_be_strictly_before_fold_end",
+    "development_endpoint_rule": "no_development_return_may_require_any_2026_holdout_price",
     "minimum_eligible_return_intervals_per_fold": 60,
     "random_split": false,
     "training_or_fitted_parameters": "none",
@@ -93,17 +108,22 @@
   "statistical_contract": {
     "annualization_sessions": 365,
     "sharpe_risk_free_rate": 0.0,
-    "bootstrap": {"method": "stationary_block_bootstrap", "resamples": 2000, "expected_block_length_sessions": 20, "confidence": 0.95, "seed": "first_64_bits_of_sha256_experiment_id"},
-    "deflated_sharpe_ratio": {"trial_count": 7, "minimum_probability": 0.95, "uses_observed_skew_and_kurtosis": true},
-    "probability_of_backtest_overfitting": {"method": "CSCV", "chronological_blocks": 8, "train_blocks_per_split": 4, "alternatives": 7, "maximum": 0.20, "diagnostic_only_no_candidate_selection": true},
+    "return_observation_rule": "valid_invested_and_cash_intervals_are_observations_including_zero_cash_returns_quarantined_or_boundary_crossing_intervals_are_absent",
+    "bootstrap": {"method": "Politis_Romano_stationary_circular_block_bootstrap", "resamples": 2000, "expected_block_length_sessions": 20, "restart_probability": 0.05, "sample_length": "observed_aggregate_return_count", "statistic": "mean_daily_net_return", "confidence_interval": "two_sided_percentile_with_lower_quantile_0.025_and_numpy_linear_interpolation", "rng": "numpy_Generator_PCG64", "seed": "unsigned_first_64_bits_of_sha256_utf8_experiment_id"},
+    "deflated_sharpe_ratio": {"trial_count": 7, "effective_trial_count": 7, "dependence_adjustment": "none_assume_independence_as_conservative_maximum_penalty", "prior_controller_performance_trials": 0, "daily_sharpe": "mean_daily_net_return_div_sample_standard_deviation_ddof_1", "benchmark_sharpe_SR0": "sample_standard_deviation_ddof_1_of_seven_alternative_daily_Sharpes_times_open_parenthesis_one_minus_Euler_gamma_close_parenthesis_times_Phi_inverse_one_minus_one_over_seven_plus_Euler_gamma_times_Phi_inverse_one_minus_one_over_open_parenthesis_seven_times_e_close_parenthesis", "probability": "Phi_of_open_parenthesis_observed_daily_Sharpe_minus_SR0_close_parenthesis_times_sqrt_T_minus_one_div_sqrt_open_parenthesis_one_minus_sample_skew_times_observed_daily_Sharpe_plus_open_parenthesis_sample_nonexcess_kurtosis_minus_one_close_parenthesis_div_four_times_observed_daily_Sharpe_squared_close_parenthesis", "sample_skew_and_nonexcess_kurtosis": "scipy_bias_false", "minimum_probability": 0.95},
+    "probability_of_backtest_overfitting": {"method": "CSCV", "mandatory_family_robustness_gate": true, "chronological_blocks": 8, "block_construction": "numpy_array_split_of_ordered_development_return_timestamps", "train_blocks_per_split": 4, "split_count": 70, "alternatives_in_predeclared_order": 7, "selection_metric": "daily_net_Sharpe", "selection_tie_rule": "first_in_predeclared_order", "out_of_sample_rank": "average_rank_from_worst_one_to_best_seven", "rank_tie_rule": "average", "relative_rank": "rank_div_eight", "logit": "natural_log_relative_rank_div_one_minus_relative_rank", "overfit_event": "logit_lte_zero", "estimator": "overfit_event_count_div_70", "zero_volatility_sharpe": "negative_infinity_unless_mean_positive_then_positive_infinity", "maximum": 0.20},
     "exceptional_trade_limits": {"largest_positive_day_fraction_of_positive_total_pnl_maximum": 0.5, "top_five_positive_days_fraction_of_positive_total_pnl_maximum": 0.75}
   },
   "regime_contract": {
     "definitions_use_lagged_information_only": true,
-    "volatility_axis": "BTC_lagged_60_session_realized_volatility_above_or_below_lagged_expanding_median",
-    "trend_axis": "BTC_lagged_120_session_return_positive_or_nonpositive",
+    "assignment_time": "causal_execution_interval_start_using_only_the_preceding_completed_signal_session",
+    "volatility_axis": "BTC_60_session_sample_standard_deviation_of_simple_returns_ending_at_signal_session_strictly_above_the_expanding_median_of_prior_eligible_60_session_volatility_estimates_is_high_otherwise_low",
+    "expanding_median_minimum_prior_estimates": 120,
+    "expanding_median_tie_rule": "equal_is_low",
+    "trend_axis": "BTC_simple_return_close_signal_session_div_close_120_sessions_prior_minus_one_strictly_positive_is_up_otherwise_down",
     "minimum_intervals_per_regime": 45,
-    "development_gate": "at_least_three_of_four_eligible_regimes_positive_and_none_below_minus_five_percent_net_return"
+    "eligibility_consequence": "at_least_three_regimes_must_each_have_45_intervals_or_gate_fails",
+    "development_gate": "every_eligible_regime_positive_at_least_three_regimes_eligible_and_no_eligible_regime_below_minus_five_percent_net_return"
   },
   "development_gates_all_required": {
     "aggregate_net_return_gt": 0.0,
@@ -124,7 +144,9 @@
     "exceptional_trade_gate": "pass",
     "no_material_leakage": true
   },
-  "holdout_open_rule": "development_gates_all_pass_and_independent_Sol_xhigh_pre_holdout_audit_returns_HOLDOUT_OPEN_APPROVED",
+  "standalone_asset_rule": "run_the_identical_signal_volatility_cost_execution_and_accounting_contract_with_the_named_asset_allowed_zero_to_one_weight_and_all_residual_in_cash",
+  "parameter_neighbor_accounting": "each_neighbor_is_run_over_the_same_intervals_with_identical_self_financing_cost_and_stress_accounting_and_is_never_used_to_replace_the_primary",
+  "holdout_open_rule": "data_contract_is_PASS_development_gates_all_pass_and_independent_Sol_xhigh_pre_holdout_audit_returns_HOLDOUT_OPEN_APPROVED",
   "final_holdout_gates_all_required": {
     "aggregate_net_return_gt": 0.0,
     "positive_folds_minimum": 2,
@@ -146,11 +168,14 @@
     "historical_candidate_freeze": "only_after_every_final_holdout_gate_and_independent_terminal_audit_pass",
     "prospective_data_must_arrive_after_candidate_freeze_timestamp": true,
     "prospective_minimum_duration_days": 30,
+    "prospective_independent_asset_decision": "one_frozen_desired_exposure_computation_for_one_asset_after_each_eligible_completed_UTC_session_whether_or_not_weight_changes_at_most_two_counted_per_session",
     "prospective_minimum_independent_asset_decisions": 100,
+    "prospective_implied_minimum_eligible_sessions": 50,
     "prospective_positive_net_return_required": true,
+    "frozen_code_costs_signal_execution_and_accounting_must_remain_unchanged": true,
     "capital_permitted": 0
   },
-  "compute_budget": {"max_wall_seconds": 1800, "max_agent_calls": 4, "max_repair_attempts": 1, "max_gpu_seconds": 0, "bounded_cycles": 1},
+  "compute_budget": {"max_wall_seconds": 1800, "max_agent_calls": 4, "agent_calls_already_used_by_direction_review": 1, "max_repair_attempts": 1, "max_gpu_seconds": 0, "bounded_cycles": 1},
   "model_routing": {"research_direction": ["gpt-5.6-sol", "xhigh"], "implementation": ["gpt-5.6-terra", "medium"], "deterministic_validation": [null, null, "deterministic_local"], "independent_audit": ["gpt-5.6-sol", "xhigh"]},
   "prohibitions": ["holdout_access_before_gate", "post_hoc_gate_changes", "random_seed_selection", "live_or_paper_orders", "credentials", "capital", "leverage", "paid_data", "paid_compute", "GPU_or_mining_change"]
 }
