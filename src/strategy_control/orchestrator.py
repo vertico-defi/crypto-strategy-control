@@ -215,13 +215,45 @@ def select_task(state: dict[str, Any] | None = None) -> dict[str, Any]:
 
 
 def preregistration(task: dict[str, Any], source_commit: str) -> dict[str, Any]:
+    preregistered_at = _now()
     return {
         "schema_version": "2.0",
         "experiment_id": ARCHIVE_EXPERIMENT_ID,
-        "preregistered_at_utc": _now(),
+        "preregistered_at_utc": preregistered_at,
         "strategy_family": task["family"],
         "economic_hypothesis": task["hypothesis"],
         "audit_scope": "official Binance public historical spot archive metadata and bars only",
+        "official_sources": {
+            "documentation": "https://github.com/binance/binance-public-data/blob/master/README.md",
+            "download_origin": "https://data.binance.vision",
+            "bucket_list_endpoint": (
+                "https://s3-ap-northeast-1.amazonaws.com/data.binance.vision"
+            ),
+            "spot_monthly_kline_prefix": "data/spot/monthly/klines/",
+            "license": "MIT",
+            "authentication_required": False,
+        },
+        "enumeration_contract": {
+            "protocol": "S3_ListBucket_v1_XML",
+            "delimiter": "/",
+            "initial_marker": "",
+            "pagination": "use_exact_NextMarker_until_IsTruncated_false",
+            "max_keys": 1000,
+            "symbol_rule": "archive_directory_basename_endswith_USDT",
+            "current_exchange_info_requests": 0,
+            "raw_page_storage": "hash_and_retain_sanitized_XML_metadata_only",
+            "max_retrieval_delay_after_freeze_hours": 24,
+        },
+        "sample_contract": {
+            "interval": "1d",
+            "timezone": "UTC",
+            "first_permitted_open_time_utc": "2017-08-01T00:00:00Z",
+            "last_permitted_open_time_utc": "2026-06-30T00:00:00Z",
+            "last_archive_month": "2026-06",
+            "exclude_partial_months": True,
+            "timestamp_unit_before_2025_01_01": "milliseconds",
+            "timestamp_unit_from_2025_01_01": "microseconds",
+        },
         "universe_claim": (
             "Archive-observed historical USDT spot-pair universe; formal exchange-wide "
             "archive completeness is not claimed."
@@ -250,9 +282,21 @@ def preregistration(task: dict[str, Any], source_commit: str) -> dict[str, Any]:
             "listing_buffer_completed_bars": 30,
             "liquidity_lookback_completed_bars": 30,
             "gap_recovery_completed_bars": 30,
+            "delisting_entry_buffer_completed_bars": 1,
             "missing_or_uncertain_periods": "quarantine",
             "rename_or_migration": "separate_episodes_unless_causally_proven",
             "absent_next_bar": "no_fill_and_quarantine_terminal_exposure",
+            "duplicate_archive_key": "identical_hash_deduplicate_conflict_quarantine",
+            "official_notice_use": "only_if_causally_timestamped_and_archived",
+        },
+        "data_sufficiency": {
+            "all_symbol_directory_pages_retrieved": True,
+            "all_USDT_symbol_1d_object_pages_retrieved": True,
+            "minimum_archive_observed_USDT_symbols": 25,
+            "first_and_last_candidate_zip_checksum_required": True,
+            "first_and_last_candidate_zip_parse_required": True,
+            "unexplained_missing_archive_months": "quarantine_not_impute",
+            "internal_bar_validation_before_strategy_eligibility": "required",
         },
         "required_deterministic_tests": [
             "future_informed_universe_membership",
