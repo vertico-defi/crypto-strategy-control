@@ -3,7 +3,7 @@
     {
       "strategy_id": "direction-v3",
       "strategy_class": "cross-sectional direction research",
-      "repository": "/home/vertico/crypto-direction-lab",
+      "repository": "../crypto-direction-lab",
       "dataset_id": "historical-v3-20260725T084833Z",
       "experiment_or_run_id": "historical-v3-forward-20260726T110000Z",
       "stage": "SHADOW",
@@ -25,7 +25,7 @@
     {
       "strategy_id": "perp-carry-v1",
       "strategy_class": "cross-venue perpetual carry research",
-      "repository": "/home/vertico/perp-carry-lab",
+      "repository": "../perp-carry-lab",
       "dataset_id": null,
       "experiment_or_run_id": "audit-20260730T082700Z",
       "stage": "INTEGRITY_FAILURE",
@@ -52,7 +52,7 @@
     {
       "strategy_id": "perp-carry-v2",
       "strategy_class": "isolated historical perpetual carry research",
-      "repository": "/home/vertico/perp-carry-lab-v2",
+      "repository": "../perp-carry-lab-v2",
       "dataset_id": "perp-carry-v2-public-history-20240101-20260701",
       "experiment_or_run_id": "v2-data-coverage-20260731",
       "stage": "DATA_AUDIT",
@@ -79,7 +79,7 @@
     {
       "strategy_id": "perp-carry-v2b-lagged-settlement",
       "strategy_class": "causal lagged-settlement perpetual carry research",
-      "repository": "/home/vertico/perp-carry-lab-v2",
+      "repository": "../perp-carry-lab-v2",
       "dataset_id": "perp-carry-v2b-public-settled-funding-20240101-20260701",
       "experiment_or_run_id": "perp-carry-v2b-lagged-settlement-20260731",
       "stage": "HISTORICAL_NO_GO",
@@ -105,7 +105,7 @@
     {
       "strategy_id": "perp-carry-v2b-funding-availability",
       "strategy_class": "public funding-availability data collection only",
-      "repository": "/home/vertico/perp-carry-lab-v2",
+      "repository": "../perp-carry-lab-v2",
       "dataset_id": "perp-carry-v2b-prospective-public-availability",
       "experiment_or_run_id": "perp-carry-v2b-availability-30d-20260731T140000Z",
       "stage": "DATA_COLLECTION",
@@ -132,7 +132,7 @@
     {
       "strategy_id": "ctrend-academic",
       "strategy_class": "academic cryptocurrency trend-factor replication",
-      "repository": "/home/vertico/ctrend-lab",
+      "repository": "../ctrend-lab",
       "dataset_id": "author-package-10.7910-DVN-NTIVT8-v1.1",
       "experiment_or_run_id": "author-output-audit-20260729",
       "stage": "HISTORICAL_NO_GO",
@@ -155,7 +155,7 @@
     {
       "strategy_id": "ctrend-executable",
       "strategy_class": "Binance USD-M perpetual CTREND adaptation",
-      "repository": "/home/vertico/ctrend-lab",
+      "repository": "../ctrend-lab",
       "dataset_id": "binance-usdm-announcement-access-audit-20260730",
       "experiment_or_run_id": "ctrend-binance-usdm-conservative-v1",
       "stage": "HISTORICAL_NO_GO",
@@ -180,7 +180,7 @@
     {
       "strategy_id": "ctrend-binance-usdm-liquidity-v1",
       "strategy_class": "Binance USD-M liquidity-weighted CTREND research",
-      "repository": "/home/vertico/ctrend-lab",
+      "repository": "../ctrend-lab",
       "dataset_id": "binance-vision-funding-archive-20260731",
       "experiment_or_run_id": "ctrend-binance-usdm-liquidity-v1",
       "stage": "INTEGRITY_FAILURE",
@@ -210,7 +210,7 @@
     {
       "strategy_id": "ctrend-neural",
       "strategy_class": "preregistered neural CTREND challenger",
-      "repository": "/home/vertico/ctrend-lab",
+      "repository": "../ctrend-lab",
       "dataset_id": null,
       "experiment_or_run_id": "neural-preregistration-20260729",
       "stage": "HISTORICAL_NO_GO",

@@ -1,3 +1,3 @@
 # Next Task
 
-Run the preregistered point-in-time universe data audit once through `python orchestrator.py cycle --mock-agents`. If it records a data no-go, obtain a lawful, reproducible point-in-time universe rather than tuning a model.
+Freeze and commit `cs-ranking-binance-spot-archive-ptu-audit-v1`, then implement and deterministically test the official Binance public spot archive enumeration and causal universe contract. Do not open a strategy holdout or calculate strategy returns during this data audit.

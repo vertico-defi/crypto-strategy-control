@@ -1,0 +1,18 @@
+[Unit]
+Description=Bounded zero-capital crypto research continuation
+ConditionPathExists=%h/crypto-strategy-control/CURRENT_STATE.json
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/crypto-strategy-control
+Environment=PYTHONPATH=%h/crypto-strategy-control/src
+Environment=STORE_LIVE=false
+ExecStart=%h/crypto-strategy-control/.venv/bin/python orchestrator.py resume --cycles 1 --invocation-mode live --owner-type scheduled_continuation
+TimeoutStartSec=900
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/crypto-strategy-control %h/.codex
+RestrictSUIDSGID=yes
+LockPersonality=yes

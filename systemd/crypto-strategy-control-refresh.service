@@ -3,10 +3,10 @@ Description=Read-only crypto strategy control refresh
 
 [Service]
 Type=oneshot
-WorkingDirectory=/home/vertico/crypto-strategy-control
-Environment=PYTHONPATH=/home/vertico/crypto-strategy-control/src
+WorkingDirectory=%h/crypto-strategy-control
+Environment=PYTHONPATH=%h/crypto-strategy-control/src
 ExecStart=/usr/bin/python3 -m strategy_control refresh
 NoNewPrivileges=yes
 PrivateTmp=yes
 ProtectSystem=strict
-ReadWritePaths=/home/vertico/crypto-strategy-control/reports
+ReadWritePaths=%h/crypto-strategy-control/reports

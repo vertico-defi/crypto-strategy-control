@@ -6,3 +6,12 @@ __pycache__/
 *.egg-info/
 reports/
 .research-orchestrator.lock
+.env
+.env.*
+!.env.example
+.local/
+data/raw/
+artifacts/raw/
+*.zip
+*.parquet
+*.raw.jsonl

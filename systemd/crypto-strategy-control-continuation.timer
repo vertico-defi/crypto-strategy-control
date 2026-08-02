@@ -1,0 +1,11 @@
+[Unit]
+Description=Resume one bounded zero-capital research cycle after explicit handoff
+
+[Timer]
+OnUnitInactiveSec=30min
+AccuracySec=1min
+Persistent=false
+Unit=crypto-strategy-control-continuation.service
+
+[Install]
+WantedBy=timers.target

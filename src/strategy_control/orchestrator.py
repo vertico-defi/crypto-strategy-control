@@ -1,22 +1,26 @@
 """Bounded, zero-capital research-program state machine.
 
-The controller deliberately has no exchange, wallet, order, or model-provider
-integration.  Model calls are represented only by audited invocation records;
-the mock mode is for deterministic orchestration validation.
+The controller has no exchange, wallet, order, or capital interface.  Production
+model work is delegated only to an explicit, read-only Codex CLI invocation;
+mock and deterministic-local modes exist for validation and can never be
+reported as model-generated research.
 """
 
 from __future__ import annotations
 
 import argparse
+import fcntl
 import hashlib
 import json
 import os
+import subprocess
 import time
 from collections.abc import Iterator
 from contextlib import contextmanager
+from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "CURRENT_STATE.json"
@@ -27,7 +31,10 @@ PUBLICATION_LOG = ROOT / "PUBLICATION_LOG.jsonl"
 SYNC = ROOT / "GITHUB_SYNC_STATE.json"
 INVENTORY = ROOT / "DATA_INVENTORY.json"
 LOCK = ROOT / ".research-orchestrator.lock"
-EXPERIMENT_ID = "cs-ranking-ptu-data-audit-v1"
+COMPLETED_EXPERIMENT_ID = "cs-ranking-ptu-data-audit-v1"
+ARCHIVE_EXPERIMENT_ID = "cs-ranking-binance-spot-archive-ptu-audit-v1"
+INVOCATION_MODES = ("live", "mock", "deterministic_local")
+InvocationMode = Literal["live", "mock", "deterministic_local"]
 
 
 class StateError(RuntimeError):
@@ -74,24 +81,52 @@ def append_jsonl(path: Path, value: dict[str, Any]) -> None:
 
 
 @contextmanager
-def exclusive_lock(path: Path = LOCK, *, stale_seconds: int = 900) -> Iterator[None]:
-    """Use create-exclusive lockfiles and recover only demonstrably stale locks."""
+def exclusive_lock(
+    path: Path = LOCK,
+    *,
+    owner_type: str = "manual",
+    run_id: str | None = None,
+    stale_seconds: int | None = None,
+) -> Iterator[None]:
+    """Hold a kernel advisory lock for the full mutation, with owner metadata.
 
+    ``stale_seconds`` remains as a compatibility-only argument.  Lock ownership
+    is never stolen based on age; the kernel releases it when the owning process
+    exits.
+    """
+
+    del stale_seconds
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor = os.open(path, os.O_CREAT | os.O_RDWR, 0o600)
     try:
-        descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-    except FileExistsError:
-        age = time.time() - path.stat().st_mtime
-        if age <= stale_seconds:
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
             raise StateError("concurrent research mutation refused") from None
-        stale = path.with_suffix(path.suffix + f".stale-{int(time.time())}")
-        os.replace(path, stale)
-        descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-    try:
-        os.write(descriptor, _canonical({"pid": os.getpid(), "started_at": _now()}).encode())
+        metadata = {
+            "pid": os.getpid(),
+            "process_start_identity": _process_start_identity(),
+            "owner_type": owner_type,
+            "run_id": run_id,
+            "started_at_utc": _now(),
+        }
+        os.ftruncate(descriptor, 0)
+        os.write(descriptor, (_canonical(metadata) + "\n").encode())
+        os.fsync(descriptor)
         yield
     finally:
+        fcntl.flock(descriptor, fcntl.LOCK_UN)
         os.close(descriptor)
-        path.unlink(missing_ok=True)
+
+
+def _process_start_identity() -> str | None:
+    """Return Linux process start ticks without treating their absence as safe staleness."""
+
+    try:
+        fields = Path(f"/proc/{os.getpid()}/stat").read_text(encoding="utf-8").split()
+    except OSError:
+        return None
+    return fields[21] if len(fields) > 21 else None
 
 
 def validate_state(state: dict[str, Any]) -> None:
@@ -142,48 +177,115 @@ def _lines(path: Path) -> list[dict[str, Any]]:
     return values
 
 
-def select_task() -> dict[str, Any]:
+def terminal_experiments() -> list[dict[str, Any]]:
+    """Return terminal experiment rows, excluding program-level ledger events."""
+
+    return [
+        item
+        for item in _lines(LEDGER)
+        if item.get("record_type") != "PROGRAM_STATE_CORRECTION"
+        and item.get("experiment_id")
+        and item.get("classification")
+    ]
+
+
+def select_task(state: dict[str, Any] | None = None) -> dict[str, Any]:
     """Return one distinct, high-information task without inspecting a holdout."""
 
-    prior = _lines(LEDGER)
-    if any(item.get("experiment_id") == EXPERIMENT_ID for item in prior):
-        return {"task": "NO_VALID_NEXT_TASK", "reason": "initial data audit already terminal"}
+    current = state or load_json(STATE)
+    terminal_ids = {str(item["experiment_id"]) for item in terminal_experiments()}
+    if COMPLETED_EXPERIMENT_ID not in terminal_ids:
+        raise StateError("frozen initial DATA_NO_GO record is missing")
+    if ARCHIVE_EXPERIMENT_ID in terminal_ids:
+        return {"task": "SELECT_NEXT_APPROVED_FAMILY", "reason": "archive audit is terminal"}
+    if current.get("program_state") != "ACTIVE_RESEARCH":
+        return {"task": "PROGRAM_NOT_ACTIVE", "reason": str(current.get("program_state"))}
     return {
-        "task": EXPERIMENT_ID,
+        "task": ARCHIVE_EXPERIMENT_ID,
         "family": "COST_AWARE_CROSS_SECTIONAL_RANKING",
         "hypothesis": (
-            "A point-in-time liquid perpetual universe may support next-bar "
-            "cross-sectional momentum after costs."
+            "Official Binance public historical spot archives may support a causal, "
+            "archive-observed point-in-time USDT universe without current-listing or "
+            "end-of-sample-survival contamination."
         ),
         "information_value": (
-            "Resolve whether an eligible point-in-time universe exists before modelling."
+            "Resolve a distinct lawful data route before any strategy holdout is opened."
         ),
     }
 
 
 def preregistration(task: dict[str, Any], source_commit: str) -> dict[str, Any]:
     return {
-        "schema_version": "1.0",
-        "experiment_id": EXPERIMENT_ID,
+        "schema_version": "2.0",
+        "experiment_id": ARCHIVE_EXPERIMENT_ID,
         "preregistered_at_utc": _now(),
         "strategy_family": task["family"],
         "economic_hypothesis": task["hypothesis"],
-        "universe_rule": (
-            "Point-in-time liquid, tradable perpetual universe including delisted "
-            "episodes where lawful data permits."
+        "audit_scope": "official Binance public historical spot archive metadata and bars only",
+        "universe_claim": (
+            "Archive-observed historical USDT spot-pair universe; formal exchange-wide "
+            "archive completeness is not claimed."
         ),
-        "target": "next-bar cross-sectional rank return net of modeled execution costs",
-        "baseline": "cross-sectional momentum and volatility-adjusted momentum",
-        "challengers": ["linear ranker", "LightGBM_or_XGBoost_only_after_baseline"],
-        "holdout_policy": (
-            "No final holdout access until a lawful point-in-time universe passes "
-            "the data contract."
-        ),
-        "costs": {
-            "fee_bps_round_trip": 10,
-            "spread_bps_round_trip": 10,
-            "slippage_bps_round_trip": 10,
+        "causality": {
+            "membership_information_cutoff": "prior_completed_bar",
+            "liquidity_ranking": "lagged_only",
+            "execution": "signal_t_execute_next_real_bar",
+            "current_exchange_info_permitted": False,
+            "market_capitalization_permitted": False,
+            "end_of_sample_survival_filter_permitted": False,
         },
+        "required_manifest_fields": [
+            "symbol",
+            "episode_id",
+            "first_valid_bar_open_time",
+            "last_valid_bar_open_time",
+            "observed_months",
+            "missing_months",
+            "unexplained_gaps",
+            "uncertainty_status",
+            "source_urls",
+            "source_hashes",
+        ],
+        "conservative_rules": {
+            "listing_buffer_completed_bars": 30,
+            "liquidity_lookback_completed_bars": 30,
+            "gap_recovery_completed_bars": 30,
+            "missing_or_uncertain_periods": "quarantine",
+            "rename_or_migration": "separate_episodes_unless_causally_proven",
+            "absent_next_bar": "no_fill_and_quarantine_terminal_exposure",
+        },
+        "required_deterministic_tests": [
+            "future_informed_universe_membership",
+            "current_exchange_info_contamination",
+            "survivorship_leakage",
+            "first_bar_eligibility",
+            "last_bar_treatment",
+            "missing_month_treatment",
+            "duplicate_symbols",
+            "renamed_or_migrated_symbols",
+            "causal_liquidity_ranking",
+            "execution_alignment",
+        ],
+        "holdout_policy": (
+            "No strategy holdout access, returns, tuning, or performance claim during this audit."
+        ),
+        "pass_rule": {
+            "critical_tests": "all_pass",
+            "manifest": "versioned_canonical_and_hashed",
+            "uncertainty": "quarantined_under_frozen_rules",
+            "independent_audit": "required",
+            "limitations_disclosed": True,
+        },
+        "fail_closed_on": [
+            "unverified_official_public_provenance",
+            "nonreproducible_enumeration",
+            "current_metadata_affects_membership",
+            "prefix_or_survivorship_or_execution_test_failure",
+            "silent_gap_or_symbol_collision_resolution",
+            "source_hash_conflict",
+            "post_hoc_quarantine_rule",
+            "formal_completeness_claim_required",
+        ],
         "gates_file": "ACCEPTANCE_GATES.yaml",
         "compute_budget": {
             "wall_seconds": 900,
@@ -198,15 +300,16 @@ def preregistration(task: dict[str, Any], source_commit: str) -> dict[str, Any]:
 
 
 def preregistration_path() -> Path:
-    return ROOT / "experiments" / EXPERIMENT_ID / "PREREGISTRATION.json"
+    return ROOT / "experiments" / ARCHIVE_EXPERIMENT_ID / "PREREGISTRATION.json"
 
 
 def freeze_preregistration(*, dry_run: bool) -> dict[str, Any]:
     """Freeze the hypothesis before any data-contract result is recorded."""
 
-    task = select_task()
-    if task["task"] == "NO_VALID_NEXT_TASK":
-        raise StateError("initial experiment already has a terminal record")
+    state = load_json(STATE)
+    task = select_task(state)
+    if task["task"] != ARCHIVE_EXPERIMENT_ID:
+        raise StateError(f"archive experiment is not selectable: {task['task']}")
     path = preregistration_path()
     if path.exists():
         raise StateError("preregistration already exists; commit or evaluate it")
@@ -218,12 +321,11 @@ def freeze_preregistration(*, dry_run: bool) -> dict[str, Any]:
     if dry_run:
         return {"dry_run": True, "would_write": str(path.relative_to(ROOT)), "task": task}
     atomic_json(path, prereg)
-    state = load_json(STATE)
     validate_state(state)
     state.update(
         {
             "program_state": "ACTIVE_RESEARCH",
-            "current_experiment_id": EXPERIMENT_ID,
+            "current_experiment_id": ARCHIVE_EXPERIMENT_ID,
             "next_task": "commit_preregistration_then_run_data_contract",
             "updated_at_utc": _now(),
         }
@@ -233,33 +335,304 @@ def freeze_preregistration(*, dry_run: bool) -> dict[str, Any]:
 
 
 def model_route(outcome: str) -> dict[str, str | None]:
-    """Implement conservative model routing without silent quality downgrades."""
+    """Route only on confirmed usage or temporary model-availability failures."""
 
     routes: dict[str, dict[str, str | None]] = {
-        "success": {"model": "gpt-5.6-sol", "reasoning": "high", "status": "USED"},
-        "quota": {"model": None, "reasoning": None, "status": "PAUSED_FOR_USAGE"},
-        "unavailable": {"model": "gpt-5.6-terra", "reasoning": "high", "status": "FALLBACK"},
-        "terra_unavailable": {"model": "gpt-5.6-luna", "reasoning": "high", "status": "FALLBACK"},
+        "success": {"model": "gpt-5.6-sol", "reasoning": "xhigh", "status": "USED"},
+        "confirmed_quota_exhausted": {
+            "model": None,
+            "reasoning": None,
+            "status": "PAUSED_FOR_USAGE",
+        },
+        "confirmed_rate_limit": {
+            "model": "gpt-5.6-terra",
+            "reasoning": "medium",
+            "status": "FALLBACK_ELIGIBLE",
+        },
+        "confirmed_temporary_model_unavailable": {
+            "model": "gpt-5.6-terra",
+            "reasoning": "medium",
+            "status": "FALLBACK_ELIGIBLE",
+        },
         "substantive_failure": {"model": None, "reasoning": None, "status": "FAILED"},
-        "interface_missing": {"model": None, "reasoning": None, "status": "INTERFACE_UNAVAILABLE"},
+        "coding_failure": {"model": None, "reasoning": None, "status": "FAILED"},
+        "test_failure": {"model": None, "reasoning": None, "status": "FAILED"},
+        "audit_rejection": {"model": None, "reasoning": None, "status": "FAILED"},
+        "infrastructure_failure": {
+            "model": None,
+            "reasoning": None,
+            "status": "INFRASTRUCTURE_BLOCKED",
+        },
+        "authentication_failure": {
+            "model": None,
+            "reasoning": None,
+            "status": "AUTHENTICATION_BLOCKED",
+        },
     }
     if outcome not in routes:
         raise StateError(f"unknown model outcome: {outcome}")
     return routes[outcome]
 
 
-def run_cycle(*, mock_agents: bool, dry_run: bool) -> dict[str, Any]:
+@dataclass
+class InvocationResult:
+    """Auditable invocation metadata; model text is intentionally transient."""
+
+    started_at_utc: str
+    ended_at_utc: str
+    duration_seconds: float
+    role: str
+    requested_model: str | None
+    actual_model: str | None
+    reasoning_level: str | None
+    invocation_mode: InvocationMode
+    outcome: str
+    model_result_received: bool
+    response_identifier: str | None
+    result_sha256: str | None
+    exit_code: int | None
+    exact_error: str | None
+    fallback: str | None
+    final_message: str | None
+
+    def ledger_record(self, **extra: object) -> dict[str, Any]:
+        record = asdict(self)
+        record.pop("final_message")
+        record.update(extra)
+        return record
+
+
+def codex_command(*, model: str, reasoning: str, prompt: str) -> list[str]:
+    """Build an explicit, ephemeral, read-only live Codex invocation."""
+
+    return [
+        "codex",
+        "--ask-for-approval",
+        "never",
+        "exec",
+        "--ephemeral",
+        "--json",
+        "--model",
+        model,
+        "-c",
+        f'model_reasoning_effort="{reasoning}"',
+        "--sandbox",
+        "read-only",
+        "--cd",
+        str(ROOT),
+        prompt,
+    ]
+
+
+def _bounded_error(value: str | None) -> str | None:
+    if not value:
+        return None
+    normalized = value.strip()
+    return normalized[-4000:] if normalized else None
+
+
+def _failure_outcome(error: str | None) -> str:
+    lowered = (error or "").lower()
+    if any(term in lowered for term in ("not logged in", "authentication", "unauthorized")):
+        return "AUTHENTICATION_FAILURE"
+    if any(term in lowered for term in ("quota", "usage limit", "credits exhausted")):
+        return "CONFIRMED_QUOTA_EXHAUSTED"
+    if "rate limit" in lowered or "429" in lowered:
+        return "CONFIRMED_RATE_LIMIT"
+    if "temporarily unavailable" in lowered or "model unavailable" in lowered:
+        return "CONFIRMED_TEMPORARY_MODEL_UNAVAILABLE"
+    return "INFRASTRUCTURE_FAILURE"
+
+
+def invoke_codex(
+    *,
+    invocation_mode: InvocationMode,
+    role: str,
+    model: str,
+    reasoning: str,
+    prompt: str,
+    timeout_seconds: int = 180,
+) -> InvocationResult:
+    """Invoke Codex or a clearly labelled non-live validation mode."""
+
+    if invocation_mode not in INVOCATION_MODES:
+        raise StateError(f"unsupported invocation mode: {invocation_mode}")
+    started = _now()
+    monotonic_start = time.monotonic()
+    if invocation_mode != "live":
+        ended = _now()
+        return InvocationResult(
+            started_at_utc=started,
+            ended_at_utc=ended,
+            duration_seconds=round(time.monotonic() - monotonic_start, 6),
+            role=role,
+            requested_model=model if invocation_mode == "mock" else None,
+            actual_model=None,
+            reasoning_level=reasoning if invocation_mode == "mock" else None,
+            invocation_mode=invocation_mode,
+            outcome="MOCK_VALIDATION" if invocation_mode == "mock" else "DETERMINISTIC_LOCAL",
+            model_result_received=False,
+            response_identifier=None,
+            result_sha256=None,
+            exit_code=0,
+            exact_error=None,
+            fallback=None,
+            final_message=None,
+        )
+
+    command = codex_command(model=model, reasoning=reasoning, prompt=prompt)
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=ROOT,
+            text=True,
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            check=False,
+            timeout=timeout_seconds,
+        )
+        exit_code: int | None = completed.returncode
+        stderr = _bounded_error(completed.stderr)
+        response_identifier: str | None = None
+        messages: list[str] = []
+        for line in completed.stdout.splitlines():
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if event.get("type") == "thread.started":
+                response_identifier = str(event.get("thread_id"))
+            item = event.get("item")
+            if (
+                event.get("type") == "item.completed"
+                and isinstance(item, dict)
+                and item.get("type") == "agent_message"
+                and isinstance(item.get("text"), str)
+            ):
+                messages.append(str(item["text"]))
+        final_message = messages[-1] if completed.returncode == 0 and messages else None
+        model_result_received = final_message is not None
+        outcome = "SUCCESS" if model_result_received else _failure_outcome(stderr)
+        if completed.returncode == 0 and not model_result_received and stderr is None:
+            stderr = "Codex exited successfully without a final agent message"
+            outcome = "INFRASTRUCTURE_FAILURE"
+    except FileNotFoundError as exc:
+        exit_code = None
+        stderr = str(exc)
+        response_identifier = None
+        final_message = None
+        model_result_received = False
+        outcome = "INFRASTRUCTURE_FAILURE"
+    except subprocess.TimeoutExpired as exc:
+        exit_code = None
+        stderr = f"Codex invocation timed out after {timeout_seconds} seconds: {exc}"
+        response_identifier = None
+        final_message = None
+        model_result_received = False
+        outcome = "INFRASTRUCTURE_FAILURE"
+    return InvocationResult(
+        started_at_utc=started,
+        ended_at_utc=_now(),
+        duration_seconds=round(time.monotonic() - monotonic_start, 6),
+        role=role,
+        requested_model=model,
+        actual_model=model if model_result_received else None,
+        reasoning_level=reasoning,
+        invocation_mode=invocation_mode,
+        outcome=outcome,
+        model_result_received=model_result_received,
+        response_identifier=response_identifier,
+        result_sha256=_sha({"message": final_message}) if final_message is not None else None,
+        exit_code=exit_code,
+        exact_error=_bounded_error(stderr) if not model_result_received else None,
+        fallback=None,
+        final_message=final_message,
+    )
+
+
+def model_generated_claim_permitted(invocation: InvocationResult) -> bool:
+    """Mechanically prohibit model-generated claims from non-live or failed calls."""
+
+    return invocation.invocation_mode == "live" and invocation.model_result_received
+
+
+def _contains_preserved_no_go(value: object) -> bool:
+    """Accept compact or structured JSON while requiring the immutable verdict."""
+
+    if isinstance(value, str):
+        return value in {"DATA_NO_GO", "DATA_NO_GO_CONFIRMED"}
+    if isinstance(value, dict):
+        return any(_contains_preserved_no_go(item) for item in value.values())
+    if isinstance(value, list):
+        return any(_contains_preserved_no_go(item) for item in value)
+    return False
+
+
+def smoke_review(*, invocation_mode: InvocationMode) -> dict[str, Any]:
+    """Run a harmless governance-state review with no holdout or performance scope."""
+
+    prompt = (
+        "Harmless live smoke test only. Read AGENTS.md, RESEARCH_PROTOCOL.md, "
+        "CURRENT_STATE.json, EXPERIMENT_LEDGER.jsonl, MODEL_USAGE_LEDGER.jsonl, and "
+        "experiments/cs-ranking-ptu-data-audit-v1/AUDIT.json. Do not edit anything, do not "
+        "inspect any strategy holdout or raw market data, do not calculate returns, and do "
+        "not make any strategy-performance claim. Return one compact JSON object with keys "
+        "review_scope, preserved_terminal_result, overall_state_observation, "
+        "capital_permitted, holdout_opened, performance_claim_made."
+    )
+    invocation = invoke_codex(
+        invocation_mode=invocation_mode,
+        role="research_state_smoke_reviewer",
+        model="gpt-5.6-sol",
+        reasoning="xhigh",
+        prompt=prompt,
+    )
+    contract_passed = False
+    if model_generated_claim_permitted(invocation) and invocation.final_message is not None:
+        try:
+            payload = json.loads(invocation.final_message)
+            contract_passed = bool(
+                isinstance(payload, dict)
+                and _contains_preserved_no_go(payload.get("preserved_terminal_result"))
+                and payload.get("capital_permitted") == 0
+                and payload.get("holdout_opened") is False
+                and payload.get("performance_claim_made") is False
+            )
+        except (json.JSONDecodeError, TypeError, ValueError) as exc:
+            payload = None
+            invocation.exact_error = f"smoke response validation failed: {exc}"
+        if not contract_passed:
+            invocation.outcome = "CONTRACT_VIOLATION"
+    append_jsonl(
+        MODEL_LEDGER,
+        invocation.ledger_record(
+            record_type="MODEL_INVOCATION",
+            purpose="repository_state_smoke_test",
+            smoke_test_passed=contract_passed,
+            model_generated_research_claim=False,
+        ),
+    )
+    return {
+        "status": "LIVE_SMOKE_PASS" if contract_passed else invocation.outcome,
+        "invocation_mode": invocation.invocation_mode,
+        "requested_model": invocation.requested_model,
+        "actual_model": invocation.actual_model,
+        "reasoning_level": invocation.reasoning_level,
+        "model_result_received": invocation.model_result_received,
+        "response_identifier": invocation.response_identifier,
+        "smoke_test_passed": contract_passed,
+        "capital_permitted": 0,
+    }
+
+
+def run_cycle(*, invocation_mode: InvocationMode, dry_run: bool) -> dict[str, Any]:
     state = load_json(STATE)
     validate_state(state)
-    task = select_task()
+    task = select_task(state)
     if dry_run:
         return {"dry_run": True, "task": task, "state": state["program_state"], "codex_calls": 0}
-    if task["task"] == "NO_VALID_NEXT_TASK":
-        state.update(
-            {"program_state": "DATA_BLOCKED", "next_task": "obtain_lawful_point_in_time_universe"}
-        )
-        atomic_json(STATE, state)
-        return {"status": "DATA_BLOCKED", "task": task}
+    if task["task"] != ARCHIVE_EXPERIMENT_ID:
+        raise StateError(f"no runnable archive task: {task['task']}")
     git = git_state()
     if not git["clean"]:
         raise StateError("controller working tree must be clean before a cycle")
@@ -267,78 +640,48 @@ def run_cycle(*, mock_agents: bool, dry_run: bool) -> dict[str, Any]:
     if not prereg_path.exists():
         raise StateError("freeze and commit preregistration before evaluating any data")
     prereg = load_json(prereg_path)
-    if prereg.get("experiment_id") != EXPERIMENT_ID:
+    if prereg.get("experiment_id") != ARCHIVE_EXPERIMENT_ID:
         raise StateError("preregistration identity mismatch")
     expected_hash = prereg.get("preregistration_sha256")
     hash_input = dict(prereg)
     hash_input.pop("preregistration_sha256", None)
     if expected_hash != _sha(hash_input):
         raise StateError("preregistration hash mismatch")
-    invocation = {
-        "started_at_utc": _now(),
-        "role": "research_director",
-        "preferred_model": "gpt-5.6-sol",
-        "reasoning": "high",
-        "mode": "mock" if mock_agents else "unavailable_interface",
-        "fallback": None,
-        "error_category": None if mock_agents else "MODEL_INTERFACE_UNAVAILABLE",
-        "response_identifier": None,
-    }
-    append_jsonl(MODEL_LEDGER, invocation)
-    inventory = load_json(INVENTORY)
-    blocker = "POINT_IN_TIME_UNIVERSE_UNAVAILABLE"
-    evidence = {
-        "data_integrity": "FAIL_CLOSED",
-        "blocker": blocker,
-        "reason": (
-            "No lawful, complete point-in-time liquid universe with delisting history "
-            "is registered in DATA_INVENTORY."
-        ),
-        "inventory_sha256": _sha(inventory),
-        "holdout_opened": False,
-        "returns_calculated": False,
-    }
-    report_path = ROOT / "experiments" / EXPERIMENT_ID / "DATA_INTEGRITY_REPORT.json"
-    atomic_json(report_path, evidence)
-    audit = {
-        "auditor": "deterministic_independent_audit",
-        "verdict": "DATA_NO_GO_CONFIRMED",
-        "checked": ["no_holdout", "no_returns", "point_in_time_universe"],
-        "at_utc": _now(),
-    }
-    atomic_json(ROOT / "experiments" / EXPERIMENT_ID / "AUDIT.json", audit)
-    record = {
-        "experiment_id": EXPERIMENT_ID,
-        "terminal_at_utc": _now(),
-        "classification": "DATA_NO_GO",
-        "source_commit": git["head"],
-        "preregistration_sha256": str(expected_hash),
-        "report": str(report_path.relative_to(ROOT)),
-        "audit_verdict": audit["verdict"],
-        "capital_permitted": 0,
-    }
-    append_jsonl(LEDGER, record)
+    prompt = (
+        "Review the frozen preregistration for the archive-observed universe audit. "
+        "Do not edit files, inspect a strategy holdout, calculate returns, or make a "
+        "performance claim. Return a concise methodological checklist only."
+    )
+    invocation = invoke_codex(
+        invocation_mode=invocation_mode,
+        role="research_director",
+        model="gpt-5.6-sol",
+        reasoning="xhigh",
+        prompt=prompt,
+    )
     append_jsonl(
-        REJECTED,
-        {
-            "strategy_id": EXPERIMENT_ID,
-            "classification": "DATA_NO_GO",
-            "reason": blocker,
-            "frozen_configuration": prereg["preregistration_sha256"],
-            "at_utc": record["terminal_at_utc"],
-        },
+        MODEL_LEDGER,
+        invocation.ledger_record(
+            record_type="MODEL_INVOCATION",
+            purpose="archive_universe_preregistration_review",
+            experiment_id=ARCHIVE_EXPERIMENT_ID,
+            model_generated_research_claim=model_generated_claim_permitted(invocation),
+        ),
     )
-    state.update(
-        {
-            "program_state": "DATA_BLOCKED",
-            "current_experiment_id": EXPERIMENT_ID,
-            "next_task": "obtain_lawful_point_in_time_universe",
-            "last_terminal_verdict": "DATA_NO_GO",
-            "updated_at_utc": _now(),
+    if not model_generated_claim_permitted(invocation):
+        return {
+            "status": invocation.outcome,
+            "invocation_mode": invocation.invocation_mode,
+            "model_generated_research": False,
         }
-    )
+    state.update({"next_task": "implement_archive_enumerator", "updated_at_utc": _now()})
     atomic_json(STATE, state)
-    return {"status": "DATA_NO_GO", "experiment": record, "mock_agents": mock_agents}
+    return {
+        "status": "LIVE_DIRECTION_REVIEW_COMPLETE",
+        "invocation_mode": invocation.invocation_mode,
+        "model_generated_research": True,
+        "response_identifier": invocation.response_identifier,
+    }
 
 
 def status() -> dict[str, Any]:
@@ -347,10 +690,21 @@ def status() -> dict[str, Any]:
     return {
         "state": state,
         "git": git_state(),
-        "experiments": len(_lines(LEDGER)),
+        "experiments": len(terminal_experiments()),
+        "program_events": len(_lines(LEDGER)) - len(terminal_experiments()),
         "rejected": len(_lines(REJECTED)),
         "model_invocations": len(_lines(MODEL_LEDGER)),
     }
+
+
+def require_scheduled_continuation_authority(state: dict[str, Any]) -> None:
+    """Refuse scheduled work while interactive ownership or disablement is recorded."""
+
+    continuation = state.get("continuation")
+    if not isinstance(continuation, dict) or continuation.get("scheduled_enabled") is not True:
+        raise StateError("scheduled continuation is disabled")
+    if continuation.get("active_owner_type") == "interactive_goal":
+        raise StateError("scheduled continuation refused during active Goal ownership")
 
 
 def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
@@ -358,7 +712,8 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
 
     manifest = load_json(ROOT / "PUBLICATION_MANIFEST.json")
     public_fields = set(manifest["public_fields"])
-    terminal = _lines(LEDGER)[-1] if _lines(LEDGER) else {}
+    terminal_rows = terminal_experiments()
+    terminal = terminal_rows[-1] if terminal_rows else {}
     state = load_json(STATE)
     snapshot = {
         "schema_version": "1.0",
@@ -411,12 +766,23 @@ def main() -> None:
             "publication-dry-run",
             "prospective",
             "snapshot",
+            "smoke",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
-    parser.add_argument("--mock-agents", action="store_true")
+    parser.add_argument("--invocation-mode", choices=INVOCATION_MODES, default="live")
+    parser.add_argument(
+        "--owner-type",
+        choices=("manual", "interactive_goal", "scheduled_continuation"),
+        default="manual",
+    )
     args = parser.parse_args()
-    with exclusive_lock():
+    invocation_mode = args.invocation_mode
+    if invocation_mode == "mock" and os.environ.get("CRYPTO_STRATEGY_CONTROL_TESTING") != "1":
+        raise StateError("mock invocation mode is restricted to unit tests")
+    with exclusive_lock(owner_type=args.owner_type):
+        if args.owner_type == "scheduled_continuation":
+            require_scheduled_continuation_authority(load_json(STATE))
         if args.command == "status":
             result = status()
         elif args.command == "freeze":
@@ -424,13 +790,15 @@ def main() -> None:
         elif args.command == "publication-dry-run":
             result = public_snapshot(dry_run=True)
         elif args.command == "dry-run":
-            result = run_cycle(mock_agents=False, dry_run=True)
+            result = run_cycle(invocation_mode="deterministic_local", dry_run=True)
         elif args.command == "mock-validate":
-            result = run_cycle(mock_agents=True, dry_run=True)
+            result = run_cycle(invocation_mode="mock", dry_run=True)
         elif args.command in {"cycle", "run", "resume"}:
             if args.cycles < 1 or args.cycles > 3:
                 raise StateError("cycles must be 1..3")
-            result = run_cycle(mock_agents=args.mock_agents, dry_run=False)
+            result = run_cycle(invocation_mode=invocation_mode, dry_run=False)
+        elif args.command == "smoke":
+            result = smoke_review(invocation_mode=invocation_mode)
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":

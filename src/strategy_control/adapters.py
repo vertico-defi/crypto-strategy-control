@@ -12,6 +12,8 @@ from typing import Any
 
 from strategy_control.model import StrategyConfig
 
+CONTROL_ROOT = Path(__file__).resolve().parents[2]
+
 
 def _run(*args: str) -> str | None:
     try:
@@ -46,7 +48,7 @@ def _load_json(path: Path) -> dict[str, Any] | None:
 
 def _perp_carry_audit_state(audit_root: Path | None = None) -> dict[str, Any] | None:
     """Read the newest nonterminal Perp Carry audit without touching its namespace."""
-    root = audit_root or Path("/home/vertico/.local/share/perp-carry-lab/audits")
+    root = audit_root or Path.home() / ".local/share/perp-carry-lab/audits"
     candidates = sorted(root.glob("*/operations/audits/*/audit-start.json"))
     active: list[tuple[str, Path, dict[str, Any]]] = []
     for start_path in candidates:
@@ -80,7 +82,7 @@ def _perp_carry_audit_state(audit_root: Path | None = None) -> dict[str, Any] | 
 
 def _perp_carry_completed_audit_state(audit_root: Path | None = None) -> dict[str, Any] | None:
     """Read the newest finalized Perp Carry audit without modifying evidence."""
-    root = audit_root or Path("/home/vertico/.local/share/perp-carry-lab/audits")
+    root = audit_root or Path.home() / ".local/share/perp-carry-lab/audits"
     candidates: list[tuple[str, Path, dict[str, Any]]] = []
     for final_path in root.glob("*/operations/audits/*/final/final-audit.json"):
         record = _load_json(final_path)
@@ -181,7 +183,9 @@ def _perp_carry_v2b_availability_state(repository: Path) -> dict[str, Any] | Non
 
 def inspect(config: StrategyConfig) -> dict[str, Any]:
     """Return a snapshot assembled exclusively from reads and subprocess queries."""
-    repo = Path(config.repository)
+    configured_repo = Path(config.repository).expanduser()
+    repo = configured_repo if configured_repo.is_absolute() else (CONTROL_ROOT / configured_repo)
+    repo = repo.resolve()
     warnings: list[str] = []
     if not repo.is_dir():
         warnings.append("registered repository is absent")
