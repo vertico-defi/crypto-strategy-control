@@ -840,6 +840,232 @@ def run_archive_data_audit() -> dict[str, Any]:
     }
 
 
+def sanitize_archive_audit_payload(payload: object) -> dict[str, Any]:
+    """Allowlist the independent audit result and enforce zero-holdout semantics."""
+
+    if not isinstance(payload, dict):
+        raise StateError("independent audit response must be a JSON object")
+    verdict = payload.get("verdict")
+    if verdict not in {"DATA_CONTRACT_GO", "DATA_NO_GO"}:
+        raise StateError("independent audit returned an unsupported verdict")
+    if payload.get("preserved_prior_result") not in {
+        "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+        "DATA_NO_GO",
+    }:
+        raise StateError("independent audit did not preserve the prior DATA_NO_GO")
+    if (
+        payload.get("holdout_opened") is not False
+        or payload.get("returns_calculated") is not False
+        or payload.get("performance_claim_made") is not False
+        or payload.get("capital_permitted") != 0
+    ):
+        raise StateError("independent audit violated the zero-capital/no-holdout contract")
+    if payload.get("archive_completeness_claim") != "NOT_FORMALLY_COMPLETE":
+        raise StateError("independent audit overstated archive completeness")
+
+    def string_list(key: str) -> list[str]:
+        value = payload.get(key)
+        if (
+            not isinstance(value, list)
+            or not value
+            or not all(isinstance(item, str) for item in value)
+        ):
+            raise StateError(f"independent audit field {key} must be a nonempty string list")
+        return [str(item)[:1000] for item in value[:30]]
+
+    return {
+        "verdict": verdict,
+        "preserved_prior_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+        "holdout_opened": False,
+        "returns_calculated": False,
+        "performance_claim_made": False,
+        "capital_permitted": 0,
+        "archive_completeness_claim": "NOT_FORMALLY_COMPLETE",
+        "internal_bars_status": str(payload.get("internal_bars_status"))[:500],
+        "critical_tests_reviewed": string_list("critical_tests_reviewed"),
+        "limitations": string_list("limitations"),
+        "rationale": string_list("rationale"),
+    }
+
+
+def run_independent_archive_audit() -> dict[str, Any]:
+    """Run the final independent methodology audit and terminally record the data contract."""
+
+    state = load_json(STATE)
+    validate_state(state)
+    if state.get("current_experiment_id") != ARCHIVE_EXPERIMENT_ID:
+        raise StateError("independent audit experiment identity mismatch")
+    if state.get("next_task") != "run_deterministic_tests_and_independent_audit":
+        raise StateError("independent archive audit is not the current task")
+    if int(state["budgets"].get("agent_calls_remaining", 0)) != 1:
+        raise StateError("independent archive audit requires exactly one remaining agent call")
+    git = git_state()
+    if not git["clean"]:
+        raise StateError("controller working tree must be clean before independent audit")
+    experiment_root = ROOT / "experiments" / ARCHIVE_EXPERIMENT_ID
+    manifest = load_json(experiment_root / "SYMBOL_MANIFEST.json")
+    manifest_hash = manifest.pop("manifest_sha256", None)
+    if manifest_hash != _sha(manifest):
+        raise StateError("archive manifest hash mismatch before independent audit")
+    report = load_json(experiment_root / "DATA_INTEGRITY_REPORT.json")
+    validation = load_json(experiment_root / "DETERMINISTIC_VALIDATION.json")
+    if report.get("manifest_sha256") != manifest_hash:
+        raise StateError("data report and manifest hash disagree")
+    if validation.get("verdict") != "DETERMINISTIC_VALIDATION_PASS":
+        raise StateError("deterministic validation did not pass")
+    prompt = (
+        "Act as the independent final methodological auditor for the bounded experiment "
+        "cs-ranking-binance-spot-archive-ptu-audit-v1. Read AGENTS.md, RESEARCH_PROTOCOL.md, "
+        "the frozen PREREGISTRATION.json, DATA_INTEGRITY_REPORT.json, "
+        "DETERMINISTIC_VALIDATION.json, SYMBOL_MANIFEST.json, src/strategy_control/"
+        "archive_audit.py, src/strategy_control/archive_universe.py, and the archive tests. "
+        "Do not edit files, inspect any strategy holdout, calculate returns, or make a "
+        "strategy-performance claim. Preserve cs-ranking-ptu-data-audit-v1=DATA_NO_GO. "
+        "Audit whether the archive-observed universe CONTRACT passes exactly as frozen; "
+        "all internal bars must remain ineligible/quarantined until later full checksum and "
+        "row validation, and formal archive completeness must not be claimed. Return strict "
+        "compact JSON only with: verdict (DATA_CONTRACT_GO or DATA_NO_GO), "
+        "preserved_prior_result (cs-ranking-ptu-data-audit-v1=DATA_NO_GO), holdout_opened "
+        "(false), returns_calculated (false), performance_claim_made (false), "
+        "capital_permitted (0), archive_completeness_claim (NOT_FORMALLY_COMPLETE), "
+        "internal_bars_status, critical_tests_reviewed (nonempty string list), limitations "
+        "(nonempty string list), and rationale (nonempty string list)."
+    )
+    invocation = invoke_codex(
+        invocation_mode="live",
+        role="independent_methodology_auditor",
+        model="gpt-5.6-sol",
+        reasoning="xhigh",
+        prompt=prompt,
+    )
+    append_jsonl(
+        MODEL_LEDGER,
+        invocation.ledger_record(
+            record_type="MODEL_INVOCATION",
+            purpose="archive_universe_independent_terminal_audit",
+            experiment_id=ARCHIVE_EXPERIMENT_ID,
+            model_generated_research_claim=model_generated_claim_permitted(invocation),
+        ),
+    )
+    if not model_generated_claim_permitted(invocation) or invocation.final_message is None:
+        return {
+            "status": invocation.outcome,
+            "invocation_mode": invocation.invocation_mode,
+            "model_generated_research": False,
+        }
+    try:
+        raw_payload = json.loads(invocation.final_message)
+        audit = sanitize_archive_audit_payload(raw_payload)
+    except (json.JSONDecodeError, StateError) as exc:
+        append_jsonl(
+            MODEL_LEDGER,
+            {
+                "record_type": "MODEL_INVOCATION_VALIDATION_FAILURE",
+                "at_utc": _now(),
+                "response_identifier": invocation.response_identifier,
+                "invocation_mode": "live",
+                "exact_error": str(exc),
+                "model_generated_research_claim": False,
+            },
+        )
+        raise StateError(f"independent audit response failed validation: {exc}") from exc
+    audit.update(
+        {
+            "schema_version": "1.0",
+            "experiment_id": ARCHIVE_EXPERIMENT_ID,
+            "audited_at_utc": invocation.ended_at_utc,
+            "auditor_model": invocation.actual_model,
+            "reasoning_level": invocation.reasoning_level,
+            "invocation_mode": invocation.invocation_mode,
+            "response_identifier": invocation.response_identifier,
+            "model_result_sha256": invocation.result_sha256,
+            "manifest_sha256": manifest_hash,
+            "source_commit": git["head"],
+        }
+    )
+    audit_path = experiment_root / "AUDIT.json"
+    atomic_json(audit_path, audit)
+    verdict = str(audit["verdict"])
+    record = {
+        "record_type": "TERMINAL_EXPERIMENT",
+        "experiment_id": ARCHIVE_EXPERIMENT_ID,
+        "terminal_at_utc": invocation.ended_at_utc,
+        "classification": verdict,
+        "source_commit": git["head"],
+        "preregistration_sha256": load_json(preregistration_path())["preregistration_sha256"],
+        "manifest_sha256": manifest_hash,
+        "report": str((experiment_root / "DATA_INTEGRITY_REPORT.json").relative_to(ROOT)),
+        "audit": str(audit_path.relative_to(ROOT)),
+        "audit_verdict": verdict,
+        "holdout_opened": False,
+        "returns_calculated": False,
+        "capital_permitted": 0,
+    }
+    append_jsonl(LEDGER, record)
+    inventory = load_json(INVENTORY)
+    for dataset in inventory.get("datasets", []):
+        if (
+            isinstance(dataset, dict)
+            and dataset.get("id") == "binance-spot-archive-observed-usdt-v1"
+        ):
+            dataset["audit_status"] = verdict
+            dataset["point_in_time_universe"] = (
+                "archive_observed_contract_passed"
+                if verdict == "DATA_CONTRACT_GO"
+                else "archive_observed_contract_rejected"
+            )
+            dataset["reason"] = (
+                "Universe contract passed independently; internal bars remain ineligible until "
+                "full checksum and row-level validation."
+                if verdict == "DATA_CONTRACT_GO"
+                else "Independent audit rejected the archive-observed universe contract."
+            )
+    inventory["generated_at_utc"] = invocation.ended_at_utc
+    atomic_json(INVENTORY, inventory)
+    if verdict == "DATA_NO_GO":
+        append_jsonl(
+            REJECTED,
+            {
+                "strategy_id": ARCHIVE_EXPERIMENT_ID,
+                "classification": "DATA_NO_GO",
+                "reason": "INDEPENDENT_ARCHIVE_UNIVERSE_CONTRACT_REJECTION",
+                "frozen_configuration": record["preregistration_sha256"],
+                "at_utc": invocation.ended_at_utc,
+            },
+        )
+        next_experiment = "btc-eth-vol-targeted-trend-v1"
+        next_task = "preregister_btc_eth_vol_targeted_trend"
+    else:
+        next_experiment = "cs-ranking-archive-momentum-baseline-v1"
+        next_task = "acquire_full_validated_bars_and_preregister_cs_momentum_baseline"
+    budgets = dict(state["budgets"])
+    budgets.update({"agent_calls_used": 3, "agent_calls_remaining": 0, "cycles_remaining": 0})
+    state.update(
+        {
+            "budgets": budgets,
+            "program_state": "ACTIVE_RESEARCH",
+            "current_experiment_id": next_experiment,
+            "last_terminal_experiment_id": ARCHIVE_EXPERIMENT_ID,
+            "last_terminal_verdict": verdict,
+            "next_task": next_task,
+            "updated_at_utc": invocation.ended_at_utc,
+        }
+    )
+    atomic_json(STATE, state)
+    return {
+        "status": verdict,
+        "experiment_id": ARCHIVE_EXPERIMENT_ID,
+        "next_experiment_id": next_experiment,
+        "invocation_mode": "live",
+        "actual_model": invocation.actual_model,
+        "reasoning_level": invocation.reasoning_level,
+        "response_identifier": invocation.response_identifier,
+        "holdout_opened": False,
+        "returns_calculated": False,
+        "capital_permitted": 0,
+    }
+
+
 def status() -> dict[str, Any]:
     state = load_json(STATE)
     validate_state(state)
@@ -924,6 +1150,7 @@ def main() -> None:
             "snapshot",
             "smoke",
             "archive-audit",
+            "archive-independent-audit",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -958,6 +1185,8 @@ def main() -> None:
             result = smoke_review(invocation_mode=invocation_mode)
         elif args.command == "archive-audit":
             result = run_archive_data_audit()
+        elif args.command == "archive-independent-audit":
+            result = run_independent_archive_audit()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":

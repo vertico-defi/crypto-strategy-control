@@ -222,6 +222,28 @@ def test_scheduled_continuation_accepts_explicit_noninteractive_handoff() -> Non
     )
 
 
+def test_independent_archive_audit_payload_is_fail_closed_and_allowlisted() -> None:
+    payload = {
+        "verdict": "DATA_CONTRACT_GO",
+        "preserved_prior_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+        "holdout_opened": False,
+        "returns_calculated": False,
+        "performance_claim_made": False,
+        "capital_permitted": 0,
+        "archive_completeness_claim": "NOT_FORMALLY_COMPLETE",
+        "internal_bars_status": "QUARANTINED_PENDING_FULL_VALIDATION",
+        "critical_tests_reviewed": ["prefix invariance"],
+        "limitations": ["not formally complete"],
+        "rationale": ["frozen contract passes"],
+        "unexpected_transcript": "must not persist",
+    }
+    sanitized = orchestrator.sanitize_archive_audit_payload(payload)
+    assert sanitized["verdict"] == "DATA_CONTRACT_GO"
+    assert "unexpected_transcript" not in sanitized
+    with pytest.raises(orchestrator.StateError, match="zero-capital"):
+        orchestrator.sanitize_archive_audit_payload({**payload, "holdout_opened": True})
+
+
 def test_preregistration_hash_detects_mutation() -> None:
     prereg = orchestrator.preregistration({"family": "x", "hypothesis": "y"}, "abc")
     prereg["preregistration_sha256"] = orchestrator._sha(prereg)

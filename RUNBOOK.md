@@ -6,6 +6,7 @@
 .venv/bin/python orchestrator.py smoke --invocation-mode live --owner-type interactive_goal
 .venv/bin/python orchestrator.py cycle --invocation-mode live --owner-type interactive_goal
 .venv/bin/python orchestrator.py archive-audit --owner-type interactive_goal
+.venv/bin/python orchestrator.py archive-independent-audit --owner-type interactive_goal
 .venv/bin/python orchestrator.py run --cycles 1 --invocation-mode live --owner-type interactive_goal
 .venv/bin/python orchestrator.py resume --cycles 1 --invocation-mode live --owner-type interactive_goal
 .venv/bin/python orchestrator.py publication-dry-run
