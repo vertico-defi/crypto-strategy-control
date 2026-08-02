@@ -47,6 +47,7 @@ COMPLETED_EXPERIMENT_ID = "cs-ranking-ptu-data-audit-v1"
 ARCHIVE_EXPERIMENT_ID = "cs-ranking-binance-spot-archive-ptu-audit-v1"
 TREND_EXPERIMENT_ID = "btc-eth-vol-targeted-trend-v1"
 MEAN_REVERSION_EXPERIMENT_ID = "btc-eth-long-only-mean-reversion-v1"
+RELATIVE_VALUE_EXPERIMENT_ID = "btc-eth-relative-value-rotation-v1"
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
 InvocationMode = Literal["live", "mock", "deterministic_local"]
 
@@ -1466,6 +1467,14 @@ def sanitize_trend_audit_payload(payload: object, *, result_sha256: str) -> dict
     }
 
 
+def sanitize_mean_reversion_audit_payload(
+    payload: object, *, result_sha256: str
+) -> dict[str, Any]:
+    """Apply the rejection-only trend audit contract to mean-reversion evidence."""
+
+    return sanitize_trend_audit_payload(payload, result_sha256=result_sha256)
+
+
 def run_independent_trend_audit() -> dict[str, Any]:
     """Independently audit a development no-go without opening the final holdout."""
 
@@ -1662,6 +1671,271 @@ def run_independent_trend_audit() -> dict[str, Any]:
         "candidate_promoted": False,
         "capital_permitted": 0,
     }
+
+
+def _finalize_mean_reversion_terminal(
+    *,
+    state: dict[str, Any],
+    git: dict[str, Any],
+    prereg_hash: str,
+    result_hash: str,
+    audit: dict[str, Any],
+    terminal_classification: str,
+    terminal_at: str,
+) -> dict[str, Any]:
+    """Persist one terminal mean-reversion result and advance to a distinct family."""
+
+    experiment_root = ROOT / "experiments" / MEAN_REVERSION_EXPERIMENT_ID
+    audit_path = experiment_root / "AUDIT.json"
+    atomic_json(audit_path, audit)
+    append_jsonl(
+        LEDGER,
+        {
+            "record_type": "TERMINAL_EXPERIMENT",
+            "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+            "terminal_at_utc": terminal_at,
+            "classification": terminal_classification,
+            "development_classification": "HISTORICAL_NO_GO",
+            "audit_verdict": audit["verdict"],
+            "source_commit": git["head"],
+            "preregistration_sha256": prereg_hash,
+            "development_result_sha256": result_hash,
+            "report": str((experiment_root / "DEVELOPMENT_RESULT.json").relative_to(ROOT)),
+            "audit": str(audit_path.relative_to(ROOT)),
+            "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+            "holdout_opened": False,
+            "holdout_values_read": False,
+            "candidate_promoted": False,
+            "capital_permitted": 0,
+        },
+    )
+    append_jsonl(
+        REJECTED,
+        {
+            "strategy_id": MEAN_REVERSION_EXPERIMENT_ID,
+            "classification": terminal_classification,
+            "development_classification": "HISTORICAL_NO_GO",
+            "reason": (
+                "DEVELOPMENT_GATES_FAILED_INDEPENDENTLY_CONFIRMED"
+                if terminal_classification == "HISTORICAL_NO_GO"
+                else (
+                    "INDEPENDENT_METHODOLOGY_AUDIT_REJECTED"
+                    if terminal_classification == "AUDIT_REJECTED"
+                    else "INDEPENDENT_AUDIT_NOT_OBTAINED_WITHIN_FROZEN_CALL_BUDGET"
+                )
+            ),
+            "frozen_configuration": prereg_hash,
+            "development_result_sha256": result_hash,
+            "at_utc": terminal_at,
+        },
+    )
+    state.pop("data_contract_status", None)
+    state.pop("development_status", None)
+    state.pop("preregistration_status", None)
+    state.update(
+        {
+            "program_state": "ACTIVE_RESEARCH",
+            "current_experiment_id": RELATIVE_VALUE_EXPERIMENT_ID,
+            "last_terminal_experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+            "last_terminal_verdict": terminal_classification,
+            "next_task": "allocate_and_preregister_btc_eth_relative_value_rotation",
+            "updated_at_utc": terminal_at,
+        }
+    )
+    atomic_json(STATE, state)
+    return {
+        "status": terminal_classification,
+        "audit_verdict": audit["verdict"],
+        "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+        "next_experiment_id": RELATIVE_VALUE_EXPERIMENT_ID,
+        "invocation_mode": audit["invocation_mode"],
+        "actual_model": audit.get("auditor_model"),
+        "reasoning_level": audit.get("reasoning_level"),
+        "response_identifier": audit.get("response_identifier"),
+        "holdout_opened": False,
+        "candidate_promoted": False,
+        "capital_permitted": 0,
+    }
+
+
+def run_independent_mean_reversion_audit() -> dict[str, Any]:
+    """Audit the frozen development rejection without touching the final holdout."""
+
+    state = load_json(STATE)
+    validate_state(state)
+    if (
+        state.get("program_state") != "ACTIVE_RESEARCH"
+        or state.get("current_experiment_id") != MEAN_REVERSION_EXPERIMENT_ID
+        or state.get("development_status") != "HISTORICAL_NO_GO"
+        or state.get("next_task") != "run_mean_reversion_terminal_independent_audit"
+    ):
+        raise StateError("mean-reversion terminal audit is not the current task")
+    remaining_calls = int(state["budgets"].get("agent_calls_remaining", 0))
+    if remaining_calls < 1:
+        raise StateError("mean-reversion terminal audit has no remaining agent call")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before mean-reversion audit")
+
+    experiment_root = ROOT / "experiments" / MEAN_REVERSION_EXPERIMENT_ID
+    prereg = load_json(experiment_root / "PREREGISTRATION.json")
+    prereg_hash = str(prereg.get("preregistration_sha256"))
+    prereg_hash_input = dict(prereg)
+    prereg_hash_input.pop("preregistration_sha256", None)
+    report = load_json(experiment_root / "DEVELOPMENT_RESULT.json")
+    result_hash = _sha(report)
+    validation = load_json(experiment_root / "DEVELOPMENT_VALIDATION.json")
+    if prereg_hash != _sha(prereg_hash_input):
+        raise StateError("mean-reversion preregistration hash mismatch before audit")
+    if (
+        report.get("classification") != "HISTORICAL_NO_GO"
+        or report.get("all_development_gates_pass") is not False
+        or report.get("holdout_opened") is not False
+        or report.get("holdout_values_read") is not False
+        or report.get("performance_claim_scope") != "DEVELOPMENT_ONLY_NOT_A_CANDIDATE"
+        or validation.get("development_result_sha256") != result_hash
+        or validation.get("pytest") != "PASS_73_TESTS"
+        or validation.get("ruff") != "PASS"
+        or validation.get("mypy") != "PASS_14_SOURCE_FILES"
+        or validation.get("diff_check") != "PASS"
+    ):
+        raise StateError("mean-reversion development evidence is not audit-ready")
+
+    prompt = (
+        "Independently audit the terminal development rejection for "
+        "btc-eth-long-only-mean-reversion-v1. Read only AGENTS.md, RESEARCH_PROTOCOL.md, "
+        "ACCEPTANCE_GATES.yaml, its PREREGISTRATION.json, DEVELOPMENT_ATTEMPT_1_FAILURE.json, "
+        "DEVELOPMENT_RESULT.json, DEVELOPMENT_VALIDATION.json, "
+        "src/strategy_control/mean_reversion.py, mean_reversion_pipeline.py, trend.py, "
+        "trend_pipeline.py, and their tests. Do not edit, inspect raw data or any 2026 "
+        "file/value/footer, tune, open the holdout, or promote. Audit timing, quarantine, "
+        "holding clock, costs, folds, variants, statistics, regimes, assets, baselines, "
+        f"concentration, and gates. Preserve result hash {result_hash} and "
+        "cs-ranking-ptu-data-audit-v1=DATA_NO_GO. Return compact strict JSON only: verdict "
+        "HISTORICAL_NO_GO_CONFIRMED or AUDIT_REJECTED; preserved_prior_result; "
+        "development_classification HISTORICAL_NO_GO; development_result_sha256; "
+        "performance_scope DEVELOPMENT_ONLY_NOT_A_CANDIDATE; holdout_opened false; "
+        "holdout_values_read false; candidate_promoted false; capital_permitted 0; "
+        "methodology_integrity string; gate_failures_confirmed nonempty string list; "
+        "critical_issues string list; limitations nonempty string list; rationale nonempty "
+        "string list."
+    )
+    invocation = invoke_codex(
+        invocation_mode="live",
+        role="independent_methodology_auditor",
+        model="gpt-5.6-sol",
+        reasoning="xhigh",
+        prompt=prompt,
+        timeout_seconds=300,
+    )
+    append_jsonl(
+        MODEL_LEDGER,
+        invocation.ledger_record(
+            record_type="MODEL_INVOCATION",
+            purpose="mean_reversion_development_independent_terminal_audit",
+            experiment_id=MEAN_REVERSION_EXPERIMENT_ID,
+            development_result_sha256=result_hash,
+            model_generated_research_claim=model_generated_claim_permitted(invocation),
+        ),
+    )
+    budgets = dict(state["budgets"])
+    budgets["agent_calls_used"] = int(budgets.get("agent_calls_used", 0)) + 1
+    budgets["agent_calls_remaining"] = remaining_calls - 1
+    state["budgets"] = budgets
+    state["updated_at_utc"] = invocation.ended_at_utc
+    atomic_json(STATE, state)
+
+    audit_payload: dict[str, Any] | None = None
+    validation_error: str | None = None
+    if model_generated_claim_permitted(invocation) and invocation.final_message is not None:
+        try:
+            audit_payload = sanitize_mean_reversion_audit_payload(
+                json.loads(invocation.final_message), result_sha256=result_hash
+            )
+        except (json.JSONDecodeError, StateError) as exc:
+            validation_error = _bounded_error(str(exc))
+            append_jsonl(
+                MODEL_LEDGER,
+                {
+                    "record_type": "MODEL_INVOCATION_VALIDATION_FAILURE",
+                    "at_utc": _now(),
+                    "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+                    "response_identifier": invocation.response_identifier,
+                    "invocation_mode": "live",
+                    "exact_error": validation_error,
+                    "model_generated_research_claim": False,
+                },
+            )
+    if audit_payload is None:
+        if budgets["agent_calls_remaining"] > 0:
+            return {
+                "status": "CONTRACT_VIOLATION" if validation_error else invocation.outcome,
+                "invocation_mode": "live",
+                "model_generated_research": False,
+                "agent_calls_remaining": budgets["agent_calls_remaining"],
+                "holdout_opened": False,
+                "capital_permitted": 0,
+            }
+        failure_reason = validation_error or invocation.exact_error or invocation.outcome
+        audit_payload = {
+            "schema_version": "1.0",
+            "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+            "audited_at_utc": invocation.ended_at_utc,
+            "auditor_model": None,
+            "reasoning_level": "xhigh",
+            "invocation_mode": "live",
+            "response_identifier": invocation.response_identifier,
+            "model_result_sha256": invocation.result_sha256,
+            "preregistration_sha256": prereg_hash,
+            "development_result_sha256": result_hash,
+            "development_classification": "HISTORICAL_NO_GO",
+            "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+            "verdict": f"NOT_OBTAINED_{invocation.outcome}",
+            "exact_error": failure_reason,
+            "holdout_opened": False,
+            "holdout_values_read": False,
+            "candidate_promoted": False,
+            "capital_permitted": 0,
+            "source_commit": git["head"],
+        }
+        return _finalize_mean_reversion_terminal(
+            state=state,
+            git=git,
+            prereg_hash=prereg_hash,
+            result_hash=result_hash,
+            audit=audit_payload,
+            terminal_classification="AUDIT_INCONCLUSIVE",
+            terminal_at=invocation.ended_at_utc,
+        )
+
+    audit_payload.update(
+        {
+            "schema_version": "1.0",
+            "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+            "audited_at_utc": invocation.ended_at_utc,
+            "auditor_model": invocation.actual_model,
+            "reasoning_level": invocation.reasoning_level,
+            "invocation_mode": invocation.invocation_mode,
+            "response_identifier": invocation.response_identifier,
+            "model_result_sha256": invocation.result_sha256,
+            "preregistration_sha256": prereg_hash,
+            "source_commit": git["head"],
+        }
+    )
+    terminal_classification = (
+        "HISTORICAL_NO_GO"
+        if audit_payload["verdict"] == "HISTORICAL_NO_GO_CONFIRMED"
+        else "AUDIT_REJECTED"
+    )
+    return _finalize_mean_reversion_terminal(
+        state=state,
+        git=git,
+        prereg_hash=prereg_hash,
+        result_hash=result_hash,
+        audit=audit_payload,
+        terminal_classification=terminal_classification,
+        terminal_at=invocation.ended_at_utc,
+    )
 
 
 def run_archive_data_audit() -> dict[str, Any]:
@@ -2103,6 +2377,7 @@ def main() -> None:
             "trend-independent-audit",
             "mean-reversion-direction-review",
             "mean-reversion-development",
+            "mean-reversion-independent-audit",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -2153,6 +2428,8 @@ def main() -> None:
             result = run_mean_reversion_direction_review(invocation_mode=invocation_mode)
         elif args.command == "mean-reversion-development":
             result = run_mean_reversion_development()
+        elif args.command == "mean-reversion-independent-audit":
+            result = run_independent_mean_reversion_audit()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":

@@ -328,6 +328,36 @@ def test_mean_reversion_direction_payload_is_no_data_and_allowlisted() -> None:
         )
 
 
+def test_mean_reversion_audit_payload_is_rejection_only_and_allowlisted() -> None:
+    result_hash = "c" * 64
+    payload = {
+        "verdict": "HISTORICAL_NO_GO_CONFIRMED",
+        "preserved_prior_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+        "development_classification": "HISTORICAL_NO_GO",
+        "development_result_sha256": result_hash,
+        "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+        "holdout_opened": False,
+        "holdout_values_read": False,
+        "candidate_promoted": False,
+        "capital_permitted": 0,
+        "methodology_integrity": "sufficient for rejection",
+        "gate_failures_confirmed": ["asset standalone", "bootstrap"],
+        "critical_issues": [],
+        "limitations": ["development only"],
+        "rationale": ["six frozen gates failed"],
+        "unexpected_transcript": "must not persist",
+    }
+    sanitized = orchestrator.sanitize_mean_reversion_audit_payload(
+        payload, result_sha256=result_hash
+    )
+    assert sanitized["verdict"] == "HISTORICAL_NO_GO_CONFIRMED"
+    assert "unexpected_transcript" not in sanitized
+    with pytest.raises(orchestrator.StateError, match="closed-holdout"):
+        orchestrator.sanitize_mean_reversion_audit_payload(
+            {**payload, "holdout_opened": True}, result_sha256=result_hash
+        )
+
+
 def test_preregistration_hash_detects_mutation() -> None:
     prereg = orchestrator.preregistration({"family": "x", "hypothesis": "y"}, "abc")
     prereg["preregistration_sha256"] = orchestrator._sha(prereg)
