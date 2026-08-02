@@ -441,6 +441,32 @@ def build_symbol_record(
     }
 
 
+def quarantined_boundary_record(
+    symbol: str, snapshot: ListingSnapshot, exact_error: str
+) -> dict[str, Any]:
+    """Preserve a boundary anomaly without weakening validation for that symbol."""
+
+    return {
+        "symbol": symbol,
+        "episode_id": f"{symbol}#archive-1",
+        "first_valid_bar_open_time": None,
+        "last_valid_bar_open_time": None,
+        "observed_months": [],
+        "missing_months": [],
+        "unexplained_gaps": [
+            {
+                "type": "BOUNDARY_VALIDATION_FAILURE",
+                "treatment": "QUARANTINE",
+                "exact_error": exact_error,
+            }
+        ],
+        "uncertainty_status": "QUARANTINED_BOUNDARY_VALIDATION_FAILURE",
+        "source_urls": [],
+        "source_hashes": [],
+        "listing_pages": _page_evidence(snapshot),
+    }
+
+
 def run_archive_observed_audit(
     *,
     client: ArchiveClient | None = None,
@@ -498,10 +524,9 @@ def run_archive_observed_audit(
                 records.append(boundary_future.result())
             except Exception as exc:  # fail-closed evidence capture
                 boundary_errors[symbol] = f"{type(exc).__name__}: {exc}"
-    if boundary_errors:
-        raise ArchiveAuditError(
-            f"boundary validation failures: {json.dumps(boundary_errors, sort_keys=True)}"
-        )
+                records.append(
+                    quarantined_boundary_record(symbol, listings[symbol], boundary_errors[symbol])
+                )
     records.sort(key=lambda item: str(item["symbol"]))
     in_sample = [item for item in records if item["first_valid_bar_open_time"] is not None]
     if len(in_sample) < minimum_symbols:
@@ -531,6 +556,8 @@ def run_archive_observed_audit(
         "data_contract_result": "TECHNICAL_ROUTE_VALIDATED_PENDING_INDEPENDENT_AUDIT",
         "archive_observed_symbol_directories": len(symbols),
         "boundary_valid_in_sample_symbols": len(in_sample),
+        "quarantined_boundary_validation_count": len(boundary_errors),
+        "quarantined_boundary_validation_symbols": sorted(boundary_errors),
         "root_listing_page_count": len(root_snapshot.pages),
         "manifest_sha256": manifest["manifest_sha256"],
         "current_exchange_info_requests": 0,
@@ -548,6 +575,10 @@ def run_archive_observed_audit(
             (
                 "Symbol names do not prove asset identity across renames or migrations; "
                 "episodes remain separate unless causal evidence is added."
+            ),
+            (
+                "Per-symbol boundary validation anomalies remain in the manifest as "
+                "ineligible quarantined episodes and are never silently normalized."
             ),
         ],
     }

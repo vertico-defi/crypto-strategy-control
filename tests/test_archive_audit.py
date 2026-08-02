@@ -16,6 +16,7 @@ from strategy_control.archive_audit import (
     normalize_open_time,
     parse_boundary_zip,
     parse_listing_page,
+    quarantined_boundary_record,
     select_monthly_archives,
     verify_checksum,
 )
@@ -133,3 +134,15 @@ def test_boundary_zip_rejects_same_bar_duplicates() -> None:
     row = "1577836800000,1,2,0.5,1.5,10,1577923199999,15,2,4,6,0\n"
     with pytest.raises(ArchiveAuditError, match="duplicate"):
         parse_boundary_zip(make_zip(filename, row + row), expected_filename=filename)
+
+
+def test_boundary_validation_failure_is_explicitly_quarantined() -> None:
+    from strategy_control.archive_audit import ListingSnapshot
+
+    snapshot = ListingSnapshot((), (), ())
+    record = quarantined_boundary_record(
+        "KLAYUSDT", snapshot, "post-cutover archive timestamp must be microseconds"
+    )
+    assert record["first_valid_bar_open_time"] is None
+    assert record["uncertainty_status"] == "QUARANTINED_BOUNDARY_VALIDATION_FAILURE"
+    assert record["unexplained_gaps"][0]["exact_error"].startswith("post-cutover")
