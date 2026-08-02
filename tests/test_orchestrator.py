@@ -263,6 +263,38 @@ def test_independent_archive_audit_payload_is_fail_closed_and_allowlisted() -> N
         orchestrator.sanitize_archive_audit_payload({**payload, "holdout_opened": True})
 
 
+def test_independent_trend_audit_payload_is_fail_closed_and_allowlisted() -> None:
+    result_hash = "a" * 64
+    payload = {
+        "verdict": "HISTORICAL_NO_GO_CONFIRMED",
+        "preserved_prior_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+        "development_classification": "HISTORICAL_NO_GO",
+        "development_result_sha256": result_hash,
+        "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+        "holdout_opened": False,
+        "holdout_values_read": False,
+        "candidate_promoted": False,
+        "capital_permitted": 0,
+        "methodology_integrity": "sufficient for rejection",
+        "gate_failures_confirmed": ["Sharpe"],
+        "critical_issues": [],
+        "limitations": ["development only"],
+        "rationale": ["multiple gates failed"],
+        "unexpected_transcript": "must not persist",
+    }
+    sanitized = orchestrator.sanitize_trend_audit_payload(
+        payload, result_sha256=result_hash
+    )
+    assert sanitized["verdict"] == "HISTORICAL_NO_GO_CONFIRMED"
+    assert "unexpected_transcript" not in sanitized
+    with pytest.raises(orchestrator.StateError, match="closed-holdout"):
+        orchestrator.sanitize_trend_audit_payload(
+            {**payload, "holdout_values_read": True}, result_sha256=result_hash
+        )
+    with pytest.raises(orchestrator.StateError, match="wrong development result hash"):
+        orchestrator.sanitize_trend_audit_payload(payload, result_sha256="b" * 64)
+
+
 def test_preregistration_hash_detects_mutation() -> None:
     prereg = orchestrator.preregistration({"family": "x", "hypothesis": "y"}, "abc")
     prereg["preregistration_sha256"] = orchestrator._sha(prereg)
@@ -314,3 +346,56 @@ def test_public_snapshot_allowlist_is_static_and_zero_capital(
     snapshot = json.loads((tmp_path / result["path"]).read_text())
     assert snapshot["capital_permitted"] == 0
     assert snapshot["classification"] == "DATA_NO_GO"
+
+
+def test_public_snapshot_labels_development_rejection_without_candidate_claim(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "CURRENT_STATE.json"
+    ledger = tmp_path / "EXPERIMENT_LEDGER.jsonl"
+    manifest = tmp_path / "PUBLICATION_MANIFEST.json"
+    state.write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0",
+                "program_state": "ACTIVE_RESEARCH",
+                "capital_permitted": 0,
+                "next_task": "next",
+                "budgets": {},
+            }
+        )
+    )
+    ledger.write_text(
+        json.dumps(
+            {
+                "experiment_id": "trend",
+                "classification": "HISTORICAL_NO_GO",
+                "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+            }
+        )
+        + "\n"
+    )
+    manifest.write_text(
+        json.dumps(
+            {
+                "public_fields": [
+                    "program_state",
+                    "capital_permitted",
+                    "experiment_id",
+                    "classification",
+                    "source_commit",
+                    "preregistration_sha256",
+                    "limitation",
+                ],
+                "prohibited_fields": ["credentials", "tokens", "absolute_paths"],
+            }
+        )
+    )
+    monkeypatch.setattr(orchestrator, "ROOT", tmp_path)
+    monkeypatch.setattr(orchestrator, "STATE", state)
+    monkeypatch.setattr(orchestrator, "LEDGER", ledger)
+    monkeypatch.setattr(orchestrator, "PUBLICATION_LOG", tmp_path / "publication.jsonl")
+    result = orchestrator.public_snapshot(dry_run=False)
+    snapshot = json.loads((tmp_path / result["path"]).read_text())
+    assert "final holdout remained closed" in snapshot["limitation"]
+    assert "no candidate was promoted" in snapshot["limitation"]

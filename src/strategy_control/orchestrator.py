@@ -1079,6 +1079,256 @@ def run_trend_development() -> dict[str, Any]:
     }
 
 
+def sanitize_trend_audit_payload(payload: object, *, result_sha256: str) -> dict[str, Any]:
+    """Allowlist a terminal trend audit and preserve the closed-holdout boundary."""
+
+    if not isinstance(payload, dict):
+        raise StateError("trend audit response must be a JSON object")
+    verdict = payload.get("verdict")
+    if verdict not in {"HISTORICAL_NO_GO_CONFIRMED", "AUDIT_REJECTED"}:
+        raise StateError("trend audit returned an unsupported verdict")
+    if payload.get("preserved_prior_result") not in {
+        "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+        "DATA_NO_GO",
+    }:
+        raise StateError("trend audit did not preserve the original DATA_NO_GO")
+    if payload.get("development_classification") != "HISTORICAL_NO_GO":
+        raise StateError("trend audit changed the frozen development classification")
+    if payload.get("development_result_sha256") != result_sha256:
+        raise StateError("trend audit cited the wrong development result hash")
+    if (
+        payload.get("performance_scope") != "DEVELOPMENT_ONLY_NOT_A_CANDIDATE"
+        or payload.get("holdout_opened") is not False
+        or payload.get("holdout_values_read") is not False
+        or payload.get("candidate_promoted") is not False
+        or payload.get("capital_permitted") != 0
+    ):
+        raise StateError("trend audit violated the rejection-only/closed-holdout contract")
+
+    def string_list(key: str, *, nonempty: bool) -> list[str]:
+        value = payload.get(key)
+        if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+            raise StateError(f"trend audit field {key} must be a string list")
+        if nonempty and not value:
+            raise StateError(f"trend audit field {key} must be nonempty")
+        return [str(item)[:1000] for item in value[:40]]
+
+    return {
+        "verdict": verdict,
+        "preserved_prior_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+        "development_classification": "HISTORICAL_NO_GO",
+        "development_result_sha256": result_sha256,
+        "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+        "holdout_opened": False,
+        "holdout_values_read": False,
+        "candidate_promoted": False,
+        "capital_permitted": 0,
+        "methodology_integrity": str(payload.get("methodology_integrity"))[:500],
+        "gate_failures_confirmed": string_list("gate_failures_confirmed", nonempty=True),
+        "critical_issues": string_list("critical_issues", nonempty=False),
+        "limitations": string_list("limitations", nonempty=True),
+        "rationale": string_list("rationale", nonempty=True),
+    }
+
+
+def run_independent_trend_audit() -> dict[str, Any]:
+    """Independently audit a development no-go without opening the final holdout."""
+
+    state = load_json(STATE)
+    validate_state(state)
+    if (
+        state.get("program_state") != "ACTIVE_RESEARCH"
+        or state.get("current_experiment_id") != TREND_EXPERIMENT_ID
+        or state.get("development_status") != "HISTORICAL_NO_GO"
+        or state.get("next_task") != "run_trend_terminal_independent_audit"
+    ):
+        raise StateError("trend terminal audit is not the current task")
+    remaining_calls = int(state["budgets"].get("agent_calls_remaining", 0))
+    if remaining_calls < 1:
+        raise StateError("trend terminal audit has no remaining agent call")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before trend audit")
+
+    experiment_root = ROOT / "experiments" / TREND_EXPERIMENT_ID
+    prereg = load_json(experiment_root / "PREREGISTRATION.json")
+    prereg_hash = prereg.get("preregistration_sha256")
+    prereg_hash_input = dict(prereg)
+    prereg_hash_input.pop("preregistration_sha256", None)
+    if prereg_hash != _sha(prereg_hash_input):
+        raise StateError("trend preregistration hash mismatch before audit")
+    report = load_json(experiment_root / "DEVELOPMENT_RESULT.json")
+    result_hash = _sha(report)
+    validation = load_json(experiment_root / "DEVELOPMENT_VALIDATION.json")
+    if (
+        report.get("classification") != "HISTORICAL_NO_GO"
+        or report.get("all_development_gates_pass") is not False
+        or report.get("holdout_opened") is not False
+        or report.get("holdout_values_read") is not False
+        or report.get("performance_claim_scope") != "DEVELOPMENT_ONLY_NOT_A_CANDIDATE"
+        or validation.get("development_result_sha256") != result_hash
+        or validation.get("pytest") != "PASS_74_TESTS"
+        or validation.get("ruff") != "PASS"
+        or validation.get("mypy") != "PASS_12_SOURCE_FILES"
+    ):
+        raise StateError("trend development evidence is not audit-ready")
+
+    prompt = (
+        "Act as the independent final methodological auditor for the bounded zero-capital "
+        "experiment btc-eth-vol-targeted-trend-v1. Read AGENTS.md, RESEARCH_PROTOCOL.md, "
+        "ACCEPTANCE_GATES.yaml, the experiment PREREGISTRATION.json, DATA_CONTRACT.json, "
+        "DEVELOPMENT_ATTEMPT_1_FAILURE.json, DEVELOPMENT_RESULT.json, "
+        "DEVELOPMENT_VALIDATION.json, src/strategy_control/trend.py, "
+        "src/strategy_control/trend_pipeline.py, and the trend tests. Do not edit files, "
+        "inspect raw market data or any 2026 holdout file/value/footer, tune parameters, "
+        "open the holdout, or promote a candidate. Audit causal timing, gap quarantine, "
+        "self-financing costs, folds, variants, bootstrap, DSR, PBO, regime, asset, "
+        "benchmark, concentration, and gate evaluation. Preserve "
+        "cs-ranking-ptu-data-audit-v1=DATA_NO_GO and the exact development result hash "
+        f"{result_hash}. Return strict compact JSON only with: verdict "
+        "(HISTORICAL_NO_GO_CONFIRMED or AUDIT_REJECTED), preserved_prior_result "
+        "(cs-ranking-ptu-data-audit-v1=DATA_NO_GO), development_classification "
+        "(HISTORICAL_NO_GO), development_result_sha256, performance_scope "
+        "(DEVELOPMENT_ONLY_NOT_A_CANDIDATE), holdout_opened (false), "
+        "holdout_values_read (false), candidate_promoted (false), capital_permitted (0), "
+        "methodology_integrity, gate_failures_confirmed (nonempty string list), "
+        "critical_issues (string list, empty allowed), limitations (nonempty string list), "
+        "and rationale (nonempty string list)."
+    )
+    invocation = invoke_codex(
+        invocation_mode="live",
+        role="independent_methodology_auditor",
+        model="gpt-5.6-sol",
+        reasoning="xhigh",
+        prompt=prompt,
+        timeout_seconds=300,
+    )
+    append_jsonl(
+        MODEL_LEDGER,
+        invocation.ledger_record(
+            record_type="MODEL_INVOCATION",
+            purpose="trend_development_independent_terminal_audit",
+            experiment_id=TREND_EXPERIMENT_ID,
+            development_result_sha256=result_hash,
+            model_generated_research_claim=model_generated_claim_permitted(invocation),
+        ),
+    )
+    budgets = dict(state["budgets"])
+    budgets["agent_calls_used"] = int(budgets.get("agent_calls_used", 0)) + 1
+    budgets["agent_calls_remaining"] = remaining_calls - 1
+    state["budgets"] = budgets
+    state["updated_at_utc"] = invocation.ended_at_utc
+    atomic_json(STATE, state)
+    if not model_generated_claim_permitted(invocation) or invocation.final_message is None:
+        return {
+            "status": invocation.outcome,
+            "invocation_mode": invocation.invocation_mode,
+            "model_generated_research": False,
+            "agent_calls_remaining": budgets["agent_calls_remaining"],
+            "holdout_opened": False,
+            "capital_permitted": 0,
+        }
+    try:
+        audit = sanitize_trend_audit_payload(
+            json.loads(invocation.final_message), result_sha256=result_hash
+        )
+    except (json.JSONDecodeError, StateError) as exc:
+        append_jsonl(
+            MODEL_LEDGER,
+            {
+                "record_type": "MODEL_INVOCATION_VALIDATION_FAILURE",
+                "at_utc": _now(),
+                "experiment_id": TREND_EXPERIMENT_ID,
+                "response_identifier": invocation.response_identifier,
+                "invocation_mode": "live",
+                "exact_error": str(exc),
+                "model_generated_research_claim": False,
+            },
+        )
+        raise StateError(f"independent trend audit response failed validation: {exc}") from exc
+
+    audit.update(
+        {
+            "schema_version": "1.0",
+            "experiment_id": TREND_EXPERIMENT_ID,
+            "audited_at_utc": invocation.ended_at_utc,
+            "auditor_model": invocation.actual_model,
+            "reasoning_level": invocation.reasoning_level,
+            "invocation_mode": invocation.invocation_mode,
+            "response_identifier": invocation.response_identifier,
+            "model_result_sha256": invocation.result_sha256,
+            "preregistration_sha256": prereg_hash,
+            "source_commit": git["head"],
+        }
+    )
+    audit_path = experiment_root / "AUDIT.json"
+    atomic_json(audit_path, audit)
+    terminal_classification = (
+        "HISTORICAL_NO_GO"
+        if audit["verdict"] == "HISTORICAL_NO_GO_CONFIRMED"
+        else "AUDIT_REJECTED"
+    )
+    record = {
+        "record_type": "TERMINAL_EXPERIMENT",
+        "experiment_id": TREND_EXPERIMENT_ID,
+        "terminal_at_utc": invocation.ended_at_utc,
+        "classification": terminal_classification,
+        "audit_verdict": audit["verdict"],
+        "source_commit": git["head"],
+        "preregistration_sha256": prereg_hash,
+        "development_result_sha256": result_hash,
+        "report": str((experiment_root / "DEVELOPMENT_RESULT.json").relative_to(ROOT)),
+        "audit": str(audit_path.relative_to(ROOT)),
+        "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+        "holdout_opened": False,
+        "holdout_values_read": False,
+        "candidate_promoted": False,
+        "capital_permitted": 0,
+    }
+    append_jsonl(LEDGER, record)
+    append_jsonl(
+        REJECTED,
+        {
+            "strategy_id": TREND_EXPERIMENT_ID,
+            "classification": terminal_classification,
+            "reason": (
+                "DEVELOPMENT_GATES_FAILED_INDEPENDENTLY_CONFIRMED"
+                if terminal_classification == "HISTORICAL_NO_GO"
+                else "INDEPENDENT_METHODOLOGY_AUDIT_REJECTED"
+            ),
+            "frozen_configuration": prereg_hash,
+            "development_result_sha256": result_hash,
+            "at_utc": invocation.ended_at_utc,
+        },
+    )
+    state.pop("data_contract_status", None)
+    state.pop("development_status", None)
+    state.update(
+        {
+            "program_state": "ACTIVE_RESEARCH",
+            "current_experiment_id": "btc-eth-long-only-mean-reversion-v1",
+            "last_terminal_experiment_id": TREND_EXPERIMENT_ID,
+            "last_terminal_verdict": terminal_classification,
+            "next_task": "allocate_and_preregister_btc_eth_long_only_mean_reversion",
+            "updated_at_utc": invocation.ended_at_utc,
+        }
+    )
+    atomic_json(STATE, state)
+    return {
+        "status": terminal_classification,
+        "audit_verdict": audit["verdict"],
+        "experiment_id": TREND_EXPERIMENT_ID,
+        "next_experiment_id": state["current_experiment_id"],
+        "invocation_mode": "live",
+        "actual_model": invocation.actual_model,
+        "reasoning_level": invocation.reasoning_level,
+        "response_identifier": invocation.response_identifier,
+        "holdout_opened": False,
+        "candidate_promoted": False,
+        "capital_permitted": 0,
+    }
+
+
 def run_archive_data_audit() -> dict[str, Any]:
     """Execute only the frozen archive data contract; never open strategy data."""
 
@@ -1446,6 +1696,14 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
     terminal_rows = terminal_experiments()
     terminal = terminal_rows[-1] if terminal_rows else {}
     state = load_json(STATE)
+    limitation = (
+        "Development-only historical rejection: the final holdout remained closed, no "
+        "candidate was promoted, and no prospective or deployable performance conclusion "
+        "is permitted."
+        if terminal.get("performance_scope") == "DEVELOPMENT_ONLY_NOT_A_CANDIDATE"
+        else "Data-contract result only: no holdout was opened, no returns were calculated, "
+        "and no profitability conclusion is permitted."
+    )
     snapshot = {
         "schema_version": "1.0",
         "generated_at_utc": _now(),
@@ -1455,10 +1713,7 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
         "classification": terminal.get("classification"),
         "source_commit": terminal.get("source_commit"),
         "preregistration_sha256": terminal.get("preregistration_sha256"),
-        "limitation": (
-            "Data-contract result only: no holdout was opened, no returns were "
-            "calculated, and no profitability conclusion is permitted."
-        ),
+        "limitation": limitation,
     }
     if set(snapshot) - {"schema_version", "generated_at_utc", *public_fields}:
         raise StateError("publication allowlist violation")
@@ -1504,6 +1759,7 @@ def main() -> None:
             "trend-data-audit",
             "trend-freeze",
             "trend-development",
+            "trend-independent-audit",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -1548,6 +1804,8 @@ def main() -> None:
             result = freeze_trend_preregistration()
         elif args.command == "trend-development":
             result = run_trend_development()
+        elif args.command == "trend-independent-audit":
+            result = run_independent_trend_audit()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":
