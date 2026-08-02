@@ -38,6 +38,7 @@ LOCK = ROOT / ".research-orchestrator.lock"
 COMPLETED_EXPERIMENT_ID = "cs-ranking-ptu-data-audit-v1"
 ARCHIVE_EXPERIMENT_ID = "cs-ranking-binance-spot-archive-ptu-audit-v1"
 TREND_EXPERIMENT_ID = "btc-eth-vol-targeted-trend-v1"
+MEAN_REVERSION_EXPERIMENT_ID = "btc-eth-long-only-mean-reversion-v1"
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
 InvocationMode = Literal["live", "mock", "deterministic_local"]
 
@@ -741,6 +742,194 @@ def run_trend_direction_review(*, invocation_mode: InvocationMode) -> dict[str, 
         "reasoning_level": invocation.reasoning_level,
         "response_identifier": invocation.response_identifier,
         "review": payload if contract_passed else None,
+        "capital_permitted": 0,
+    }
+
+
+def sanitize_mean_reversion_direction_payload(payload: object) -> dict[str, Any]:
+    """Allowlist the distinct-family direction review and enforce no-data scope."""
+
+    if not isinstance(payload, dict):
+        raise StateError("mean-reversion direction response must be a JSON object")
+    verdict = payload.get("verdict")
+    if verdict not in {"PRE_FREEZE_READY", "REVISION_REQUIRED"}:
+        raise StateError("mean-reversion direction response has an unsupported verdict")
+    if payload.get("family_distinct_from_rejected_trend") is not True:
+        raise StateError("direction review did not confirm a distinct family")
+    if payload.get("preserved_trend_terminal") != (
+        "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/"
+        "AUDIT_INCONCLUSIVE"
+    ):
+        raise StateError("direction review changed the terminal trend evidence")
+    if (
+        payload.get("holdout_opened") is not False
+        or payload.get("holdout_values_read") is not False
+        or payload.get("raw_market_data_inspected") is not False
+        or payload.get("performance_claim_made") is not False
+        or payload.get("capital_permitted") != 0
+    ):
+        raise StateError("direction review violated its no-data/no-performance scope")
+
+    def string_list(key: str, *, nonempty: bool) -> list[str]:
+        value = payload.get(key)
+        if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+            raise StateError(f"direction review field {key} must be a string list")
+        if nonempty and not value:
+            raise StateError(f"direction review field {key} must be nonempty")
+        return [str(item)[:1000] for item in value[:40]]
+
+    return {
+        "verdict": verdict,
+        "family_distinct_from_rejected_trend": True,
+        "preserved_trend_terminal": (
+            "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/"
+            "AUDIT_INCONCLUSIVE"
+        ),
+        "holdout_opened": False,
+        "holdout_values_read": False,
+        "raw_market_data_inspected": False,
+        "performance_claim_made": False,
+        "capital_permitted": 0,
+        "strengths": string_list("strengths", nonempty=True),
+        "required_revisions": string_list("required_revisions", nonempty=False),
+        "causal_timing_concerns": string_list("causal_timing_concerns", nonempty=False),
+        "statistical_concerns": string_list("statistical_concerns", nonempty=False),
+        "rationale": string_list("rationale", nonempty=True),
+    }
+
+
+def run_mean_reversion_direction_review(*, invocation_mode: InvocationMode) -> dict[str, Any]:
+    """Obtain live research direction before freezing the distinct mean-reversion family."""
+
+    state = load_json(STATE)
+    validate_state(state)
+    if (
+        state.get("program_state") != "ACTIVE_RESEARCH"
+        or state.get("current_experiment_id") != MEAN_REVERSION_EXPERIMENT_ID
+        or state.get("next_task") != "run_mean_reversion_direction_review"
+    ):
+        raise StateError("mean-reversion direction review is not the current task")
+    remaining_calls = int(state["budgets"].get("agent_calls_remaining", 0))
+    if remaining_calls < 1:
+        raise StateError("mean-reversion direction review has no remaining agent call")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before direction review")
+    experiment_root = ROOT / "experiments" / MEAN_REVERSION_EXPERIMENT_ID
+    draft = load_json(experiment_root / "PREREGISTRATION_DRAFT.json")
+    if (
+        draft.get("experiment_id") != MEAN_REVERSION_EXPERIMENT_ID
+        or draft.get("status") != "DRAFT_NOT_FROZEN"
+        or draft.get("holdout_opened") is not False
+        or draft.get("returns_calculated") is not False
+    ):
+        raise StateError("mean-reversion draft is not reviewable")
+    draft_hash = _sha(draft)
+    prompt = (
+        "Act as the Sol/xhigh research director for the bounded zero-capital experiment "
+        "btc-eth-long-only-mean-reversion-v1. Read AGENTS.md, RESEARCH_PROTOCOL.md, "
+        "ACCEPTANCE_GATES.yaml, CURRENT_STATE.json, REJECTED_STRATEGIES.jsonl, and only "
+        "the new experiment PREREGISTRATION_DRAFT.json. Do not edit files, inspect raw "
+        "market data, inspect any 2026 holdout file/value/footer, calculate returns, tune "
+        "from prior returns, or make a performance claim. Review whether this is genuinely "
+        "distinct from the rejected trend family and audit economic rationale, stateful "
+        "entry/exit timing, holding-period definition, fold initialization, next-bar "
+        "execution, self-financing costs, sparse-trade sufficiency, raw-drawdown baseline, "
+        "variants, DSR, PBO, bootstrap, asset/regime/concentration gates, holdout rule, and "
+        "prospective rule. Preserve btc-eth-vol-targeted-trend-v1="
+        "HISTORICAL_NO_GO_DEVELOPMENT/AUDIT_INCONCLUSIVE. Return strict compact JSON only "
+        "with verdict (PRE_FREEZE_READY or REVISION_REQUIRED), "
+        "family_distinct_from_rejected_trend (true), preserved_trend_terminal (the exact "
+        "string above), holdout_opened (false), holdout_values_read (false), "
+        "raw_market_data_inspected (false), performance_claim_made (false), "
+        "capital_permitted (0), strengths (nonempty string list), required_revisions "
+        "(string list), causal_timing_concerns (string list), statistical_concerns "
+        "(string list), and rationale (nonempty string list)."
+    )
+    invocation = invoke_codex(
+        invocation_mode=invocation_mode,
+        role="research_director",
+        model="gpt-5.6-sol",
+        reasoning="xhigh",
+        prompt=prompt,
+        timeout_seconds=300,
+    )
+    append_jsonl(
+        MODEL_LEDGER,
+        invocation.ledger_record(
+            record_type="MODEL_INVOCATION",
+            purpose="mean_reversion_preregistration_direction_review",
+            experiment_id=MEAN_REVERSION_EXPERIMENT_ID,
+            draft_sha256=draft_hash,
+            model_generated_research_claim=model_generated_claim_permitted(invocation),
+        ),
+    )
+    budgets = dict(state["budgets"])
+    budgets["agent_calls_used"] = int(budgets.get("agent_calls_used", 0)) + 1
+    budgets["agent_calls_remaining"] = remaining_calls - 1
+    state["budgets"] = budgets
+    state["updated_at_utc"] = invocation.ended_at_utc
+    atomic_json(STATE, state)
+    if not model_generated_claim_permitted(invocation) or invocation.final_message is None:
+        return {
+            "status": invocation.outcome,
+            "invocation_mode": invocation.invocation_mode,
+            "model_generated_research": False,
+            "agent_calls_remaining": budgets["agent_calls_remaining"],
+            "holdout_opened": False,
+            "capital_permitted": 0,
+        }
+    try:
+        review = sanitize_mean_reversion_direction_payload(json.loads(invocation.final_message))
+    except (json.JSONDecodeError, StateError) as exc:
+        append_jsonl(
+            MODEL_LEDGER,
+            {
+                "record_type": "MODEL_INVOCATION_VALIDATION_FAILURE",
+                "at_utc": _now(),
+                "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+                "response_identifier": invocation.response_identifier,
+                "invocation_mode": "live",
+                "exact_error": str(exc),
+                "model_generated_research_claim": False,
+            },
+        )
+        raise StateError(f"mean-reversion direction response failed validation: {exc}") from exc
+    review.update(
+        {
+            "schema_version": "1.0",
+            "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+            "reviewed_at_utc": invocation.ended_at_utc,
+            "reviewer_model": invocation.actual_model,
+            "reasoning_level": invocation.reasoning_level,
+            "invocation_mode": invocation.invocation_mode,
+            "response_identifier": invocation.response_identifier,
+            "model_result_sha256": invocation.result_sha256,
+            "draft_sha256": draft_hash,
+            "source_commit": git["head"],
+        }
+    )
+    atomic_json(experiment_root / "DIRECTION_REVIEW.json", review)
+    state.update(
+        {
+            "next_task": (
+                "freeze_mean_reversion_preregistration"
+                if review["verdict"] == "PRE_FREEZE_READY"
+                else "revise_and_freeze_mean_reversion_preregistration"
+            ),
+            "updated_at_utc": invocation.ended_at_utc,
+        }
+    )
+    atomic_json(STATE, state)
+    return {
+        "status": "LIVE_DIRECTION_REVIEW_COMPLETE",
+        "verdict": review["verdict"],
+        "invocation_mode": invocation.invocation_mode,
+        "actual_model": invocation.actual_model,
+        "reasoning_level": invocation.reasoning_level,
+        "response_identifier": invocation.response_identifier,
+        "agent_calls_remaining": budgets["agent_calls_remaining"],
+        "holdout_opened": False,
         "capital_permitted": 0,
     }
 
@@ -1766,6 +1955,7 @@ def main() -> None:
             "trend-freeze",
             "trend-development",
             "trend-independent-audit",
+            "mean-reversion-direction-review",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -1812,6 +2002,8 @@ def main() -> None:
             result = run_trend_development()
         elif args.command == "trend-independent-audit":
             result = run_independent_trend_audit()
+        elif args.command == "mean-reversion-direction-review":
+            result = run_mean_reversion_direction_review(invocation_mode=invocation_mode)
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":

@@ -295,6 +295,39 @@ def test_independent_trend_audit_payload_is_fail_closed_and_allowlisted() -> Non
         orchestrator.sanitize_trend_audit_payload(payload, result_sha256="b" * 64)
 
 
+def test_mean_reversion_direction_payload_is_no_data_and_allowlisted() -> None:
+    payload = {
+        "verdict": "REVISION_REQUIRED",
+        "family_distinct_from_rejected_trend": True,
+        "preserved_trend_terminal": (
+            "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/"
+            "AUDIT_INCONCLUSIVE"
+        ),
+        "holdout_opened": False,
+        "holdout_values_read": False,
+        "raw_market_data_inspected": False,
+        "performance_claim_made": False,
+        "capital_permitted": 0,
+        "strengths": ["distinct family"],
+        "required_revisions": ["clarify holding clock"],
+        "causal_timing_concerns": [],
+        "statistical_concerns": ["sparse trades"],
+        "rationale": ["review before freeze"],
+        "unexpected_transcript": "must not persist",
+    }
+    sanitized = orchestrator.sanitize_mean_reversion_direction_payload(payload)
+    assert sanitized["verdict"] == "REVISION_REQUIRED"
+    assert "unexpected_transcript" not in sanitized
+    with pytest.raises(orchestrator.StateError, match="no-data"):
+        orchestrator.sanitize_mean_reversion_direction_payload(
+            {**payload, "raw_market_data_inspected": True}
+        )
+    with pytest.raises(orchestrator.StateError, match="distinct family"):
+        orchestrator.sanitize_mean_reversion_direction_payload(
+            {**payload, "family_distinct_from_rejected_trend": False}
+        )
+
+
 def test_preregistration_hash_detects_mutation() -> None:
     prereg = orchestrator.preregistration({"family": "x", "hypothesis": "y"}, "abc")
     prereg["preregistration_sha256"] = orchestrator._sha(prereg)
