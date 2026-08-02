@@ -24,6 +24,7 @@ from typing import Any, Literal
 
 from strategy_control.archive_audit import ArchiveAuditError, run_archive_observed_audit
 from strategy_control.trend_data import TrendDataError, verify_trend_data
+from strategy_control.trend_pipeline import evaluate_development, load_development_market
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "CURRENT_STATE.json"
@@ -953,6 +954,131 @@ def freeze_trend_preregistration() -> dict[str, Any]:
     }
 
 
+def run_trend_development() -> dict[str, Any]:
+    """Run the frozen development stage without reading any 2026 partition values."""
+
+    state = load_json(STATE)
+    if (
+        state.get("current_experiment_id") != TREND_EXPERIMENT_ID
+        or state.get("data_contract_status") != "PASS"
+        or state.get("next_task") != "run_trend_development_evaluation"
+    ):
+        raise StateError("trend experiment is not at the development evaluation gate")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before development evaluation")
+    experiment_root = ROOT / "experiments" / TREND_EXPERIMENT_ID
+    prereg = load_json(experiment_root / "PREREGISTRATION.json")
+    expected_hash = prereg.get("preregistration_sha256")
+    hash_input = dict(prereg)
+    hash_input.pop("preregistration_sha256", None)
+    if (
+        prereg.get("status") != "FROZEN"
+        or prereg.get("experiment_id") != TREND_EXPERIMENT_ID
+        or expected_hash != _sha(hash_input)
+    ):
+        raise StateError("frozen trend preregistration identity or hash mismatch")
+    data_contract = load_json(experiment_root / "DATA_CONTRACT.json")
+    if (
+        data_contract.get("status") != "PASS"
+        or data_contract.get("holdout_parquet_footers_or_values_read") is not False
+    ):
+        raise StateError("trend data contract is not holdout-safe PASS")
+    started = _now()
+    monotonic_start = time.monotonic()
+    report_path = experiment_root / "DEVELOPMENT_RESULT.json"
+    try:
+        market = load_development_market(ROOT.parent / "crypto-direction-lab", data_contract)
+        report = evaluate_development(market, prereg)
+        duration = round(time.monotonic() - monotonic_start, 6)
+        if duration > float(state["budgets"]["max_wall_seconds"]):
+            raise StateError("trend development evaluation exceeded frozen wall-clock budget")
+        report.update(
+            {
+                "started_at_utc": started,
+                "ended_at_utc": _now(),
+                "duration_seconds": duration,
+                "invocation_mode": "deterministic_local",
+                "source_commit": git["head"],
+                "preregistration_sha256": expected_hash,
+                "data_contract_result_sha256": _sha(data_contract),
+                "returns_calculated": True,
+                "performance_claim_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+            }
+        )
+        atomic_json(report_path, report)
+        outcome = str(report["classification"])
+        exact_error = None
+        result_hash = _sha(report)
+    except (ImportError, OSError, StateError, TrendDataError, ValueError) as exc:
+        duration = round(time.monotonic() - monotonic_start, 6)
+        outcome = "DEVELOPMENT_PIPELINE_FAILURE"
+        exact_error = _bounded_error(f"{type(exc).__name__}: {exc}")
+        result_hash = None
+        report = {
+            "schema_version": "1.0",
+            "experiment_id": TREND_EXPERIMENT_ID,
+            "stage": "DEVELOPMENT",
+            "classification": outcome,
+            "started_at_utc": started,
+            "ended_at_utc": _now(),
+            "duration_seconds": duration,
+            "invocation_mode": "deterministic_local",
+            "holdout_values_read": False,
+            "holdout_opened": False,
+            "returns_calculated": False,
+            "capital_permitted": 0,
+            "exact_error": exact_error,
+        }
+        atomic_json(report_path, report)
+    append_jsonl(
+        MODEL_LEDGER,
+        {
+            "record_type": "LOCAL_PIPELINE_INVOCATION",
+            "experiment_id": TREND_EXPERIMENT_ID,
+            "role": "trend_development_evaluator",
+            "requested_model": None,
+            "actual_model": None,
+            "reasoning_level": None,
+            "invocation_mode": "deterministic_local",
+            "started_at_utc": started,
+            "ended_at_utc": report["ended_at_utc"],
+            "duration_seconds": report["duration_seconds"],
+            "outcome": outcome,
+            "model_result_received": False,
+            "model_generated_research_claim": False,
+            "result_sha256": result_hash,
+            "exact_error": exact_error,
+            "fallback": None,
+            "holdout_opened": False,
+        },
+    )
+    if outcome in {"DEVELOPMENT_GO", "HISTORICAL_NO_GO"}:
+        state.update(
+            {
+                "development_status": outcome,
+                "next_task": (
+                    "run_trend_pre_holdout_independent_audit"
+                    if outcome == "DEVELOPMENT_GO"
+                    else "run_trend_terminal_independent_audit"
+                ),
+                "updated_at_utc": report["ended_at_utc"],
+            }
+        )
+        budgets = dict(state["budgets"])
+        budgets["cycles_remaining"] = 0
+        state["budgets"] = budgets
+        atomic_json(STATE, state)
+    return {
+        "status": outcome,
+        "report": str(report_path.relative_to(ROOT)),
+        "result_sha256": result_hash,
+        "holdout_opened": False,
+        "returns_calculated": report["returns_calculated"],
+        "capital_permitted": 0,
+    }
+
+
 def run_archive_data_audit() -> dict[str, Any]:
     """Execute only the frozen archive data contract; never open strategy data."""
 
@@ -1377,6 +1503,7 @@ def main() -> None:
             "trend-direction-review",
             "trend-data-audit",
             "trend-freeze",
+            "trend-development",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -1419,6 +1546,8 @@ def main() -> None:
             result = run_trend_data_audit()
         elif args.command == "trend-freeze":
             result = freeze_trend_preregistration()
+        elif args.command == "trend-development":
+            result = run_trend_development()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":
