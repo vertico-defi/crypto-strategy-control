@@ -1,0 +1,1 @@
+{"schema_version":"1.0","controller":"bounded_zero_capital","max_cycles_per_invocation":3,"max_agent_calls_per_cycle":3,"max_repair_attempts":1,"max_wall_seconds":900,"max_gpu_seconds":0,"publication_attempts_per_transition":1,"store_live":false}

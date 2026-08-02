@@ -1,0 +1,1 @@
+{"schema_version":"1.0","public_fields":["program_state","experiment_id","classification","source_commit","preregistration_sha256","capital_permitted","limitation"],"prohibited_fields":["raw_data","credentials","tokens","absolute_paths","private_logs","model_transcripts"],"store_live":false}
