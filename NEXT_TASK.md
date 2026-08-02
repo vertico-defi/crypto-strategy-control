@@ -1,3 +1,3 @@
 # Next Task
 
-Run the committed `cs-ranking-binance-spot-archive-ptu-audit-v1` enumerator once against official Binance public spot archives, verify the sanitized manifest and deterministic tests, then obtain an independent Sol/xhigh audit. Do not open a strategy holdout or calculate strategy returns during this data audit.
+Locate and verify the existing BTCUSDT and ETHUSDT data, then freeze `btc-eth-vol-targeted-trend-v1` with buy-and-hold/cash benchmarks, Donchian and multi-horizon time-series momentum, no leverage, next-bar execution, chronological walk-forward splits, realistic costs, doubled-cost and delay stress, nearby-parameter stability, regime/asset sensitivity, bootstrap uncertainty, DSR/PBO where applicable, and an untouched final holdout.
