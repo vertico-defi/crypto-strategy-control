@@ -164,6 +164,25 @@ def test_successful_live_result_records_response_without_transcript(
     assert result.result_sha256
 
 
+def test_timeout_error_does_not_embed_prompt_or_command(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def timed_out(*args: object, **kwargs: object) -> subprocess.CompletedProcess[str]:
+        raise subprocess.TimeoutExpired(cmd=["codex", "secret prompt"], timeout=3)
+
+    monkeypatch.setattr(orchestrator.subprocess, "run", timed_out)
+    result = orchestrator.invoke_codex(
+        invocation_mode="live",
+        role="test",
+        model="gpt-5.6-sol",
+        reasoning="xhigh",
+        prompt="secret prompt",
+        timeout_seconds=3,
+    )
+    assert result.exact_error == "Codex invocation timed out after 3 seconds"
+    assert "secret prompt" not in result.exact_error
+
+
 def test_smoke_verdict_accepts_compact_or_structured_json() -> None:
     assert orchestrator._contains_preserved_no_go("DATA_NO_GO_CONFIRMED")
     assert orchestrator._contains_preserved_no_go(

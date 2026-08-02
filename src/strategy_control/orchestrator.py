@@ -35,6 +35,7 @@ INVENTORY = ROOT / "DATA_INVENTORY.json"
 LOCK = ROOT / ".research-orchestrator.lock"
 COMPLETED_EXPERIMENT_ID = "cs-ranking-ptu-data-audit-v1"
 ARCHIVE_EXPERIMENT_ID = "cs-ranking-binance-spot-archive-ptu-audit-v1"
+TREND_EXPERIMENT_ID = "btc-eth-vol-targeted-trend-v1"
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
 InvocationMode = Literal["live", "mock", "deterministic_local"]
 
@@ -569,9 +570,9 @@ def invoke_codex(
         final_message = None
         model_result_received = False
         outcome = "INFRASTRUCTURE_FAILURE"
-    except subprocess.TimeoutExpired as exc:
+    except subprocess.TimeoutExpired:
         exit_code = None
-        stderr = f"Codex invocation timed out after {timeout_seconds} seconds: {exc}"
+        stderr = f"Codex invocation timed out after {timeout_seconds} seconds"
         response_identifier = None
         final_message = None
         model_result_received = False
@@ -667,6 +668,77 @@ def smoke_review(*, invocation_mode: InvocationMode) -> dict[str, Any]:
         "model_result_received": invocation.model_result_received,
         "response_identifier": invocation.response_identifier,
         "smoke_test_passed": contract_passed,
+        "capital_permitted": 0,
+    }
+
+
+def run_trend_direction_review(*, invocation_mode: InvocationMode) -> dict[str, Any]:
+    """Review the trend draft before it is frozen or any holdout values are read."""
+
+    draft_path = ROOT / "experiments" / TREND_EXPERIMENT_ID / "PREREGISTRATION_DRAFT.json"
+    draft = load_json(draft_path)
+    if draft.get("status") != "DRAFT_NOT_FROZEN":
+        raise StateError("trend direction review requires an unfrozen draft")
+    prompt = (
+        "Act as the research director for a zero-capital methodology review. Read "
+        "AGENTS.md, RESEARCH_PROTOCOL.md, ACCEPTANCE_GATES.yaml, CURRENT_STATE.json, and "
+        "experiments/btc-eth-vol-targeted-trend-v1/PREREGISTRATION_DRAFT.json. Do not edit "
+        "anything. Do not inspect raw market data, any 2026 holdout values, prior strategy "
+        "returns, or model transcripts. Assess causal timing, daily aggregation, next-bar "
+        "execution, cost accounting, fixed variants, walk-forward folds, bootstrap, DSR, "
+        "PBO, regime and asset sensitivity, holdout gating, prospective gating, and budget. "
+        "Return exactly one compact JSON object with keys verdict, strengths, "
+        "required_revisions, statistical_concerns, holdout_opened, performance_claim_made, "
+        "capital_permitted. verdict must be PRE_FREEZE_READY or REVISION_REQUIRED."
+    )
+    invocation = invoke_codex(
+        invocation_mode=invocation_mode,
+        role="research_director",
+        model="gpt-5.6-sol",
+        reasoning="xhigh",
+        prompt=prompt,
+        timeout_seconds=300,
+    )
+    payload: dict[str, Any] | None = None
+    contract_passed = False
+    if model_generated_claim_permitted(invocation) and invocation.final_message is not None:
+        try:
+            parsed = json.loads(invocation.final_message)
+            if isinstance(parsed, dict):
+                payload = parsed
+            contract_passed = bool(
+                payload is not None
+                and payload.get("verdict") in {"PRE_FREEZE_READY", "REVISION_REQUIRED"}
+                and isinstance(payload.get("strengths"), list)
+                and isinstance(payload.get("required_revisions"), list)
+                and isinstance(payload.get("statistical_concerns"), list)
+                and payload.get("holdout_opened") is False
+                and payload.get("performance_claim_made") is False
+                and payload.get("capital_permitted") == 0
+            )
+        except (json.JSONDecodeError, TypeError, ValueError) as exc:
+            invocation.exact_error = f"trend direction response validation failed: {exc}"
+        if not contract_passed:
+            invocation.outcome = "CONTRACT_VIOLATION"
+    append_jsonl(
+        MODEL_LEDGER,
+        invocation.ledger_record(
+            record_type="MODEL_INVOCATION",
+            purpose="trend_preregistration_direction_review",
+            experiment_id=TREND_EXPERIMENT_ID,
+            draft_sha256=_sha(draft),
+            review_contract_passed=contract_passed,
+            review_verdict=payload.get("verdict") if payload is not None else None,
+            model_generated_research_claim=contract_passed,
+        ),
+    )
+    return {
+        "status": "LIVE_DIRECTION_REVIEW_COMPLETE" if contract_passed else invocation.outcome,
+        "invocation_mode": invocation.invocation_mode,
+        "actual_model": invocation.actual_model,
+        "reasoning_level": invocation.reasoning_level,
+        "response_identifier": invocation.response_identifier,
+        "review": payload if contract_passed else None,
         "capital_permitted": 0,
     }
 
@@ -1151,6 +1223,7 @@ def main() -> None:
             "smoke",
             "archive-audit",
             "archive-independent-audit",
+            "trend-direction-review",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -1187,6 +1260,8 @@ def main() -> None:
             result = run_archive_data_audit()
         elif args.command == "archive-independent-audit":
             result = run_independent_archive_audit()
+        elif args.command == "trend-direction-review":
+            result = run_trend_direction_review(invocation_mode=invocation_mode)
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":

@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0-draft",
+  "experiment_id": "btc-eth-vol-targeted-trend-v1",
+  "status": "DRAFT_NOT_FROZEN",
+  "strategy_family": "LONG_ONLY_VOLATILITY_TARGETED_TIME_SERIES_TREND",
+  "economic_hypothesis": "A diversified long-or-cash BTCUSDT and ETHUSDT trend ensemble may reduce large drawdowns and retain positive net returns after conservative spot execution costs without leverage.",
+  "capital_permitted": 0,
+  "data_contract": {
+    "dataset_id": "historical-v2-pathc-20260723T175155Z",
+    "source_repository": "crypto-direction-lab",
+    "source_repository_commit_in_freeze_manifest": "d1d6066a6042b0c2e1c6af75047f5ebf935c739f",
+    "observed_source_repository_head": "a4b0770e73951b4a148284d2d42097bfdbec312c",
+    "dataset_freeze_manifest_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+    "chronological_split_manifest_sha256": "2d06417526ecc6e0eca7938440669a78d83eb7f8df833c66d17a75e590e43753",
+    "symbols": ["BTCUSDT", "ETHUSDT"],
+    "venue": "binance_spot",
+    "source_resolution": "1m",
+    "expected_monthly_partitions": 48,
+    "required_partition_hash_match": true,
+    "required_columns": ["event_timestamp", "available_timestamp", "open", "high", "low", "close", "volume", "source_provenance"],
+    "development_value_window_utc": ["2024-07-01T00:01:00Z", "2026-01-01T00:00:00Z"],
+    "final_holdout_value_window_utc": ["2026-01-01T00:01:00Z", "2026-07-01T00:00:00Z"],
+    "final_holdout_access_before_development_gate": "PROHIBITED",
+    "known_missing_event_timestamps_utc": ["2024-08-12T10:03:00Z", "2024-08-12T10:04:00Z"],
+    "raw_data_publication": "PROHIBITED"
+  },
+  "daily_bar_contract": {
+    "timezone": "UTC",
+    "session_assignment": "date_of_event_timestamp_minus_one_nanosecond",
+    "complete_session_requirement": "exactly_1440_unique_consecutive_minute_bar_ends_from_00:01_through_next_00:00",
+    "aggregation": {"open": "first_open", "high": "maximum_high", "low": "minimum_low", "close": "last_close", "available_timestamp": "maximum_available_timestamp"},
+    "incomplete_session_rule": "quarantine_entire_session_and_reset_all_signal_and_volatility_state",
+    "recovery_completed_sessions": 150,
+    "duplicate_or_non_monotonic_timestamp_rule": "fail_closed",
+    "non_finite_or_invalid_ohlc_rule": "fail_closed"
+  },
+  "signal_contract": {
+    "decision_time": "after_completed_UTC_daily_session",
+    "donchian_lookbacks_completed_sessions": [20, 60, 120],
+    "donchian_rule": "per_lookback_long_after_close_strictly_above_prior_lookback_high_exit_after_close_strictly_below_prior_lookback_low_otherwise_carry_state",
+    "time_series_momentum_lookbacks_completed_sessions": [20, 60, 120],
+    "time_series_momentum_rule": "per_lookback_long_iff_close_t_div_close_t_minus_lookback_minus_one_is_positive_else_cash",
+    "primary_raw_signal": "equal_weight_of_donchian_ensemble_and_time_series_momentum_ensemble",
+    "realized_volatility_lookback_completed_sessions": 20,
+    "realized_volatility_annualization": 365,
+    "volatility_target_annual": 0.15,
+    "volatility_scalar": "minimum_of_one_and_target_div_lagged_realized_volatility",
+    "per_asset_exposure_range": [0.0, 1.0],
+    "asset_weights": {"BTCUSDT": 0.5, "ETHUSDT": 0.5},
+    "portfolio_gross_exposure_maximum": 1.0,
+    "shorting": false,
+    "leverage": false,
+    "funding_or_borrow_cost": "not_applicable_long_only_spot"
+  },
+  "execution_contract": {
+    "base_execution": "desired_exposure_from_session_t_executes_at_first_valid_one_minute_open_after_session_t_close",
+    "return_interval": "execution_open_to_next_execution_open",
+    "missing_execution_bar": "no_fill_and_quarantine_until_state_recovery",
+    "turnover": "sum_absolute_portfolio_weight_change",
+    "one_way_cost_bps": {"fee": 10.0, "half_spread": 1.0, "slippage": 3.0, "total": 14.0},
+    "doubled_cost_total_one_way_bps": 28.0,
+    "additional_delay_stress": "execute_one_additional_completed_daily_session_later",
+    "cost_application": "one_way_total_cost_times_absolute_weight_change_at_each_fill"
+  },
+  "fixed_comparators_and_variants": {
+    "benchmarks": ["cash_zero_return", "BTCUSDT_buy_and_hold", "ETHUSDT_buy_and_hold", "equal_weight_BTC_ETH_buy_and_hold"],
+    "simple_trend_baselines": ["donchian_only_20_60_120", "time_series_momentum_only_20_60_120"],
+    "parameter_neighborhood": [
+      {"name": "shorter_horizons", "lookbacks": [15, 45, 90], "volatility_target_annual": 0.15},
+      {"name": "longer_horizons", "lookbacks": [25, 75, 150], "volatility_target_annual": 0.15},
+      {"name": "lower_volatility_target", "lookbacks": [20, 60, 120], "volatility_target_annual": 0.10},
+      {"name": "higher_volatility_target", "lookbacks": [20, 60, 120], "volatility_target_annual": 0.20}
+    ],
+    "multiplicity_trial_count": 7,
+    "selection_rule": "primary_candidate_is_fixed_in_advance_and_is_not_selected_from_variants"
+  },
+  "walk_forward_contract": {
+    "development_folds": [
+      ["2025-01-01T00:00:00Z", "2025-04-01T00:00:00Z"],
+      ["2025-04-01T00:00:00Z", "2025-07-01T00:00:00Z"],
+      ["2025-07-01T00:00:00Z", "2025-10-01T00:00:00Z"],
+      ["2025-10-01T00:00:00Z", "2026-01-01T00:00:00Z"]
+    ],
+    "final_holdout_folds": [
+      ["2026-01-01T00:00:00Z", "2026-04-01T00:00:00Z"],
+      ["2026-04-01T00:00:00Z", "2026-07-01T00:00:00Z"]
+    ],
+    "minimum_eligible_return_intervals_per_fold": 60,
+    "random_split": false,
+    "training_or_fitted_parameters": "none",
+    "purge_and_embargo": "not_applicable_to_fixed_lagged_rules_but_fold_metrics_use_only_returns_whose_execution_interval_starts_inside_the_fold"
+  },
+  "statistical_contract": {
+    "annualization_sessions": 365,
+    "sharpe_risk_free_rate": 0.0,
+    "bootstrap": {"method": "stationary_block_bootstrap", "resamples": 2000, "expected_block_length_sessions": 20, "confidence": 0.95, "seed": "first_64_bits_of_sha256_experiment_id"},
+    "deflated_sharpe_ratio": {"trial_count": 7, "minimum_probability": 0.95, "uses_observed_skew_and_kurtosis": true},
+    "probability_of_backtest_overfitting": {"method": "CSCV", "chronological_blocks": 8, "train_blocks_per_split": 4, "alternatives": 7, "maximum": 0.20, "diagnostic_only_no_candidate_selection": true},
+    "exceptional_trade_limits": {"largest_positive_day_fraction_of_positive_total_pnl_maximum": 0.5, "top_five_positive_days_fraction_of_positive_total_pnl_maximum": 0.75}
+  },
+  "regime_contract": {
+    "definitions_use_lagged_information_only": true,
+    "volatility_axis": "BTC_lagged_60_session_realized_volatility_above_or_below_lagged_expanding_median",
+    "trend_axis": "BTC_lagged_120_session_return_positive_or_nonpositive",
+    "minimum_intervals_per_regime": 45,
+    "development_gate": "at_least_three_of_four_eligible_regimes_positive_and_none_below_minus_five_percent_net_return"
+  },
+  "development_gates_all_required": {
+    "aggregate_net_return_gt": 0.0,
+    "positive_folds_minimum": 3,
+    "fold_count": 4,
+    "annualized_sharpe_gte": 0.75,
+    "maximum_drawdown_lte": 0.2,
+    "doubled_cost_aggregate_net_return_gt": 0.0,
+    "additional_delay_aggregate_net_return_gt": 0.0,
+    "asset_standalone_net_return_each_gt": 0.0,
+    "positive_parameter_neighbors_minimum": 3,
+    "parameter_neighbor_count": 4,
+    "bootstrap_mean_daily_net_return_lower_95_ci_gt": 0.0,
+    "deflated_sharpe_probability_gte": 0.95,
+    "probability_of_backtest_overfitting_lte": 0.2,
+    "baseline_superiority": "primary_sharpe_strictly_above_equal_weight_buy_and_hold_sharpe_and_primary_maximum_drawdown_strictly_below_equal_weight_buy_and_hold_maximum_drawdown",
+    "regime_gate": "pass",
+    "exceptional_trade_gate": "pass",
+    "no_material_leakage": true
+  },
+  "holdout_open_rule": "development_gates_all_pass_and_independent_Sol_xhigh_pre_holdout_audit_returns_HOLDOUT_OPEN_APPROVED",
+  "final_holdout_gates_all_required": {
+    "aggregate_net_return_gt": 0.0,
+    "positive_folds_minimum": 2,
+    "fold_count": 2,
+    "annualized_sharpe_gte": 0.75,
+    "maximum_drawdown_lte": 0.2,
+    "doubled_cost_aggregate_net_return_gt": 0.0,
+    "additional_delay_aggregate_net_return_gt": 0.0,
+    "asset_standalone_net_return_each_gt": 0.0,
+    "positive_parameter_neighbors_minimum": 3,
+    "parameter_neighbor_count": 4,
+    "bootstrap_mean_daily_net_return_lower_95_ci_gt": 0.0,
+    "baseline_superiority": "same_as_development",
+    "exceptional_trade_gate": "pass",
+    "no_material_leakage": true,
+    "independent_terminal_audit": "required"
+  },
+  "promotion_contract": {
+    "historical_candidate_freeze": "only_after_every_final_holdout_gate_and_independent_terminal_audit_pass",
+    "prospective_data_must_arrive_after_candidate_freeze_timestamp": true,
+    "prospective_minimum_duration_days": 30,
+    "prospective_minimum_independent_asset_decisions": 100,
+    "prospective_positive_net_return_required": true,
+    "capital_permitted": 0
+  },
+  "compute_budget": {"max_wall_seconds": 1800, "max_agent_calls": 4, "max_repair_attempts": 1, "max_gpu_seconds": 0, "bounded_cycles": 1},
+  "model_routing": {"research_direction": ["gpt-5.6-sol", "xhigh"], "implementation": ["gpt-5.6-terra", "medium"], "deterministic_validation": [null, null, "deterministic_local"], "independent_audit": ["gpt-5.6-sol", "xhigh"]},
+  "prohibitions": ["holdout_access_before_gate", "post_hoc_gate_changes", "random_seed_selection", "live_or_paper_orders", "credentials", "capital", "leverage", "paid_data", "paid_compute", "GPU_or_mining_change"]
+}
