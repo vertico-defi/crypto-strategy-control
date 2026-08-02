@@ -1,3 +1,3 @@
 # Next Task
 
-Run the live Sol/xhigh independent terminal methodology audit of the committed `btc-eth-vol-targeted-trend-v1` development evidence. Keep every 2026 holdout value closed. If the audit confirms the preregistered `HISTORICAL_NO_GO`, record the terminal rejection without tuning, publish the sanitized evidence-state transition, and select the next genuinely distinct strategy family supported by existing verified data.
+Allocate a new bounded zero-GPU budget and use Sol/xhigh research direction to preregister `btc-eth-long-only-mean-reversion-v1` against the existing verified BTCUSDT/ETHUSDT source. Require a distinct long-or-cash economic hypothesis, next-bar execution, conservative costs and stresses, chronological development gates, and a completely unopened final holdout. Do not tune or reuse the rejected trend family.

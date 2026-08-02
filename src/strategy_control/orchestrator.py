@@ -1696,6 +1696,12 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
     terminal_rows = terminal_experiments()
     terminal = terminal_rows[-1] if terminal_rows else {}
     state = load_json(STATE)
+    git = git_state()
+    publication_source_commit = (
+        git["head"]
+        if git["clean"] and isinstance(git.get("head"), str)
+        else terminal.get("source_commit")
+    )
     limitation = (
         "Development-only historical rejection: the final holdout remained closed, no "
         "candidate was promoted, and no prospective or deployable performance conclusion "
@@ -1711,7 +1717,7 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
         "capital_permitted": state["capital_permitted"],
         "experiment_id": terminal.get("experiment_id"),
         "classification": terminal.get("classification"),
-        "source_commit": terminal.get("source_commit"),
+        "source_commit": publication_source_commit,
         "preregistration_sha256": terminal.get("preregistration_sha256"),
         "limitation": limitation,
     }
