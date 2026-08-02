@@ -23,8 +23,16 @@ from pathlib import Path
 from typing import Any, Literal
 
 from strategy_control.archive_audit import ArchiveAuditError, run_archive_observed_audit
+from strategy_control.mean_reversion_pipeline import (
+    evaluate_development as evaluate_mean_reversion_development,
+)
 from strategy_control.trend_data import TrendDataError, verify_trend_data
-from strategy_control.trend_pipeline import evaluate_development, load_development_market
+from strategy_control.trend_pipeline import (
+    evaluate_development as evaluate_trend_development,
+)
+from strategy_control.trend_pipeline import (
+    load_development_market,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "CURRENT_STATE.json"
@@ -1178,7 +1186,7 @@ def run_trend_development() -> dict[str, Any]:
     report_path = experiment_root / "DEVELOPMENT_RESULT.json"
     try:
         market = load_development_market(ROOT.parent / "crypto-direction-lab", data_contract)
-        report = evaluate_development(market, prereg)
+        report = evaluate_trend_development(market, prereg)
         duration = round(time.monotonic() - monotonic_start, 6)
         if duration > float(state["budgets"]["max_wall_seconds"]):
             raise StateError("trend development evaluation exceeded frozen wall-clock budget")
@@ -1264,6 +1272,144 @@ def run_trend_development() -> dict[str, Any]:
         "result_sha256": result_hash,
         "holdout_opened": False,
         "returns_calculated": report["returns_calculated"],
+        "capital_permitted": 0,
+    }
+
+
+def run_mean_reversion_development() -> dict[str, Any]:
+    """Run one frozen development evaluation without reading any 2026 value or footer."""
+
+    state = load_json(STATE)
+    if (
+        state.get("program_state") != "ACTIVE_RESEARCH"
+        or state.get("current_experiment_id") != MEAN_REVERSION_EXPERIMENT_ID
+        or state.get("data_contract_status") != "PASS_REUSED_HOLDOUT_CLOSED"
+        or state.get("preregistration_status") != "FROZEN"
+        or state.get("next_task") != "run_mean_reversion_development_evaluation"
+    ):
+        raise StateError("mean-reversion experiment is not at the development gate")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before development evaluation")
+    experiment_root = ROOT / "experiments" / MEAN_REVERSION_EXPERIMENT_ID
+    prereg = load_json(experiment_root / "PREREGISTRATION.json")
+    expected_hash = prereg.get("preregistration_sha256")
+    hash_input = dict(prereg)
+    hash_input.pop("preregistration_sha256", None)
+    if (
+        prereg.get("status") != "FROZEN"
+        or prereg.get("experiment_id") != MEAN_REVERSION_EXPERIMENT_ID
+        or expected_hash != _sha(hash_input)
+        or prereg.get("holdout_opened") is not False
+        or prereg.get("holdout_values_read") is not False
+        or prereg.get("returns_calculated") is not False
+    ):
+        raise StateError("frozen mean-reversion preregistration identity or hash mismatch")
+    data_contract = load_json(
+        ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json"
+    )
+    if (
+        _sha(data_contract)
+        != prereg.get("data_contract", {}).get("reused_verified_contract_sha256")
+        or data_contract.get("status") != "PASS"
+        or data_contract.get("holdout_parquet_footers_or_values_read") is not False
+    ):
+        raise StateError("reused data contract is not an exact holdout-safe PASS")
+    started = _now()
+    monotonic_start = time.monotonic()
+    report_path = experiment_root / "DEVELOPMENT_RESULT.json"
+    partial_calculations_discarded = False
+    try:
+        market = load_development_market(ROOT.parent / "crypto-direction-lab", data_contract)
+        partial_calculations_discarded = True
+        report = evaluate_mean_reversion_development(market, prereg)
+        duration = round(time.monotonic() - monotonic_start, 6)
+        if duration > float(state["budgets"]["max_wall_seconds"]):
+            raise StateError("mean-reversion development exceeded frozen wall-clock budget")
+        report.update(
+            {
+                "started_at_utc": started,
+                "ended_at_utc": _now(),
+                "duration_seconds": duration,
+                "invocation_mode": "deterministic_local",
+                "source_commit": git["head"],
+                "preregistration_sha256": expected_hash,
+                "data_contract_result_sha256": _sha(data_contract),
+                "returns_calculated": True,
+                "performance_claim_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+            }
+        )
+        atomic_json(report_path, report)
+        outcome = str(report["classification"])
+        exact_error = None
+        result_hash = _sha(report)
+    except (ImportError, OSError, StateError, TrendDataError, ValueError) as exc:
+        duration = round(time.monotonic() - monotonic_start, 6)
+        outcome = "DEVELOPMENT_PIPELINE_FAILURE"
+        exact_error = _bounded_error(f"{type(exc).__name__}: {exc}")
+        result_hash = None
+        report = {
+            "schema_version": "1.0",
+            "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+            "stage": "DEVELOPMENT",
+            "classification": outcome,
+            "started_at_utc": started,
+            "ended_at_utc": _now(),
+            "duration_seconds": duration,
+            "invocation_mode": "deterministic_local",
+            "holdout_values_read": False,
+            "holdout_opened": False,
+            "candidate_promoted": False,
+            "returns_calculation_completed": False,
+            "partial_calculations_discarded": partial_calculations_discarded,
+            "capital_permitted": 0,
+            "exact_error": exact_error,
+        }
+        atomic_json(report_path, report)
+    append_jsonl(
+        MODEL_LEDGER,
+        {
+            "record_type": "LOCAL_PIPELINE_INVOCATION",
+            "experiment_id": MEAN_REVERSION_EXPERIMENT_ID,
+            "role": "mean_reversion_development_evaluator",
+            "requested_model": None,
+            "actual_model": None,
+            "reasoning_level": None,
+            "invocation_mode": "deterministic_local",
+            "started_at_utc": started,
+            "ended_at_utc": report["ended_at_utc"],
+            "duration_seconds": report["duration_seconds"],
+            "outcome": outcome,
+            "model_result_received": False,
+            "model_generated_research_claim": False,
+            "result_sha256": result_hash,
+            "exact_error": exact_error,
+            "fallback": None,
+            "holdout_opened": False,
+        },
+    )
+    if outcome in {"DEVELOPMENT_GO", "HISTORICAL_NO_GO"}:
+        state.update(
+            {
+                "development_status": outcome,
+                "next_task": (
+                    "run_mean_reversion_pre_holdout_independent_audit"
+                    if outcome == "DEVELOPMENT_GO"
+                    else "run_mean_reversion_terminal_independent_audit"
+                ),
+                "updated_at_utc": report["ended_at_utc"],
+            }
+        )
+        budgets = dict(state["budgets"])
+        budgets["cycles_remaining"] = 0
+        state["budgets"] = budgets
+        atomic_json(STATE, state)
+    return {
+        "status": outcome,
+        "report": str(report_path.relative_to(ROOT)),
+        "result_sha256": result_hash,
+        "holdout_opened": False,
+        "returns_calculated": report.get("returns_calculated", False),
         "capital_permitted": 0,
     }
 
@@ -1956,6 +2102,7 @@ def main() -> None:
             "trend-development",
             "trend-independent-audit",
             "mean-reversion-direction-review",
+            "mean-reversion-development",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -2004,6 +2151,8 @@ def main() -> None:
             result = run_independent_trend_audit()
         elif args.command == "mean-reversion-direction-review":
             result = run_mean_reversion_direction_review(invocation_mode=invocation_mode)
+        elif args.command == "mean-reversion-development":
+            result = run_mean_reversion_development()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":

@@ -1,3 +1,3 @@
 # Next Task
 
-Use one live Terra/medium implementation call to build the pure frozen `btc-eth-long-only-mean-reversion-v1` state, accounting, variant, and statistics core without reading market data. Parent-review it against preregistration hash `1a722dfa9450f26e20a748e09d50a990cc35ccae35cf94ffd70303d9fedfcd3b`, then add a deterministic development-only loader that mechanically rejects every 2026 path before any evaluation.
+Commit the verified `btc-eth-long-only-mean-reversion-v1` implementation checkpoint, then run exactly one deterministic development evaluation under the interactive Goal lock. Recompute preregistration and reused data-contract hashes first, mechanically reject every 2026 partition, preserve any failure artifact, and keep the final holdout closed pending every gate and an independent Sol/xhigh audit.
