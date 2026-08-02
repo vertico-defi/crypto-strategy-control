@@ -1,3 +1,3 @@
 # Next Task
 
-Verify all 48 frozen BTCUSDT/ETHUSDT partition hashes and the causal daily-bar schema without reading 2026 holdout values, then freeze the revised `btc-eth-vol-targeted-trend-v1` preregistration. Implement and test development-only evaluation before any holdout-opening decision.
+Use Terra/medium to implement the frozen `btc-eth-vol-targeted-trend-v1` daily aggregation, causal execution, self-financing accounting, fixed variants, statistical diagnostics, and development-only gate evaluator. Add deterministic leakage, timing, cost, accounting, gap, fold, and holdout-boundary tests; do not read any 2026 values.
