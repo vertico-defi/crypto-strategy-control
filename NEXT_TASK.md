@@ -1,3 +1,3 @@
 # Next Task
 
-Use Terra/medium to implement the frozen `btc-eth-vol-targeted-trend-v1` daily aggregation, causal execution, self-financing accounting, fixed variants, statistical diagnostics, and development-only gate evaluator. Add deterministic leakage, timing, cost, accounting, gap, fold, and holdout-boundary tests; do not read any 2026 values.
+Run the committed deterministic-local `btc-eth-vol-targeted-trend-v1` evaluator on only the 36 allowlisted 2024–2025 BTCUSDT/ETHUSDT partitions. Verify the four 2025 folds, costs, delay, variants, bootstrap, DSR, PBO, regime, asset, benchmark, and concentration artifacts. Keep all 2026 values closed, then obtain a Sol/xhigh audit of the development verdict.
