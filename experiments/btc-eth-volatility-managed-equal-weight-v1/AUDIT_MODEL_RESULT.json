@@ -1,0 +1,30 @@
+{
+  "verdict": "AUDIT_REJECTED",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "audited_source_commit": "a68e590ae0ab4d00aa3e7c962c0fca001025d4cb",
+  "preserved_classification": "DEVELOPMENT_PIPELINE_FAILURE",
+  "preserved_exact_error": "ValueError: Expected a list or a dict for 'columns', got <class 'tuple'> instead.",
+  "preserved_result_byte_sha256": "f5e438872f0522073e50f2f121423033250518ed46652586d5a32cf4e72c1676",
+  "preserved_result_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78",
+  "economic_result_exists": false,
+  "rerun_permitted": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "material_findings": [
+    "The exact failure is reproducible from committed code: the loader passes a tuple-valued columns selector to PyArrow; the pre-data tests imported PyArrow but never exercised one valid verified-buffer parse, so production readiness was overstated.",
+    "The controller collapses integrity, numerical-degeneracy, parser, and implementation errors into DEVELOPMENT_PIPELINE_FAILURE, so the frozen DATA_INTEGRITY_FAILURE and NUMERICAL_DEGENERACY_FAILURE precedence is not executable.",
+    "Session construction evaluates each day independently while supplying DEVELOPMENT_END as the missing-row boundary and no later cross-session rows; wholly absent sessions and missing terminal rows can therefore be detected at the experiment boundary instead of the earliest later causal observation.",
+    "Target and recovery eligibility use ex-post session completeness before the recorded causal detection time, while a missing ordinary fill is triggered immediately at its expected timestamp; both can introduce future-informed quarantine behavior.",
+    "Simulation marks holdings before processing a simultaneous integrity trigger, does not prove every target was filled or cancelled, and its trace_reconciled predicate permits orphan target hashes, contrary to the frozen event-order and trace-completeness rules.",
+    "Baseline drawdown comparisons reuse each full-path maximum drawdown instead of recomputing drawdown on the exact common comparison panel and corresponding event slices.",
+    "The no_material_leakage, no_survivorship_contamination, and acceptance-gate-inheritance checks are hard-coded true rather than derived from validated evidence; the identified causal defects make the leakage assertion especially unsupported.",
+    "The audit preserves cs-ranking-ptu-data-audit-v1=DATA_NO_GO and btc-eth-causal-volatility-parity-rebalancing-v1=HISTORICAL_NO_GO_DEVELOPMENT/AUDIT_REJECTED unchanged."
+  ],
+  "methodology_assessment": "The pipeline failure and absence of an economic result are confirmed, but the committed evaluator materially diverges from the frozen causal-detection, failure-precedence, trace-reconciliation, and baseline-panel contracts. This experiment cannot support DEVELOPMENT_GO, HISTORICAL_NO_GO, holdout access, candidate promotion, or any performance claim.",
+  "next_program_action": "Terminalize this exact experiment as AUDIT_REJECTED while retaining its immutable DEVELOPMENT_PIPELINE_FAILURE evidence; do not repair, rerun, or open the holdout. Keep the overall program ACTIVE_RESEARCH and preregister the next genuinely distinct approved family supported by verified zero-cost data.",
+  "model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live"
+}
