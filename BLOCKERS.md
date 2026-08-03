@@ -1,7 +1,7 @@
 # Blockers
 
-- No current research blocker. The resumed managed approval succeeded and clean checkpoint `b0ad84c` is pushed.
-- `btc-eth-relative-value-rotation-v1` is terminal `AUDIT_REJECTED`, preserving deterministic `HISTORICAL_NO_GO` result `e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e`; the 2026 holdout remains unopened and unread. Its unused fourth call is closed with the experiment.
-- No current research blocker. After terminal source/publication checkpoints, the next bounded experiment is `cs-ranking-binance-spot-archive-ptu-audit-resolution-v2`, which must preserve v1 `AUDIT_INCONCLUSIVE` and reuse rather than rewrite its evidence.
-- `cs-ranking-ptu-data-audit-v1=DATA_NO_GO` remains immutable. Trend remains development `HISTORICAL_NO_GO`/terminal `AUDIT_INCONCLUSIVE`; mean reversion remains development `HISTORICAL_NO_GO`/terminal `AUDIT_REJECTED`.
+- No current research blocker.
+- `cs-ranking-binance-spot-archive-ptu-audit-resolution-v2` is terminal `DATA_NO_GO`; the archive-derived manifest is ineligible because its frozen provenance cannot independently bind claimed symbols and objects to retained official response evidence.
+- `cs-ranking-ptu-data-audit-v1=DATA_NO_GO` and archive audit v1 `AUDIT_INCONCLUSIVE` remain immutable. Trend, mean reversion, and relative value retain their prior terminal results; every 2026 strategy holdout remains unopened and unread.
+- The next bounded family is `btc-eth-intraday-calendar-seasonality-v1`, using only the already verified fixed BTCUSDT/ETHUSDT development contract after a fresh Sol/xhigh direction review.
 - Scheduled continuation remains disabled while the interactive Goal owns the repository; GPU and mining remain unchanged.

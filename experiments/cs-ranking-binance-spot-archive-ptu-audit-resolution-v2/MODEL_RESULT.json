@@ -1,0 +1,122 @@
+{
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-audit-resolution-v2",
+  "verdict": "DATA_NO_GO",
+  "evidence_commit": "d37c11d2895a90cbe9154750f2f3cca572471873",
+  "preregistration_sha256": "98340b7eb36f1754b13019ac307514b3107814a092940a18a8eed398f99aa3bb",
+  "evidence_hashes_verified": {
+    "published_checkpoint": {
+      "commit": "4348be12b01d671bce90330521ad19329a98d64b",
+      "clean_worktree": true
+    },
+    "frozen_paths_match_evidence_commit": true,
+    "v2_preregistration": {
+      "byte_sha256": "1dc6bcbff852aa061f9dc2726bb3c83b8ff79dfbd1e85a465f55bb747f1947e1",
+      "canonical_sha256_omitting_self_hash": "98340b7eb36f1754b13019ac307514b3107814a092940a18a8eed398f99aa3bb",
+      "verified": true
+    },
+    "v1_preregistration": {
+      "byte_sha256": "e85d335bf5814622e2bf1807d81c4aad645d0eb7738c7f1519af3ba3b4fa6255",
+      "canonical_object_sha256": "f4e1e555b5fcfe1da720fe39c5a69186bd943b3323de405eeceb1e0a57420b97",
+      "embedded_preregistration_sha256": "07487eff935acfad81af1405598d22b3c96ff7d8702190a4fde52d1a37da42d3",
+      "verified": true
+    },
+    "v1_data_integrity_report": {
+      "byte_sha256": "399ae5c4a4785ab605bc1d9b51ea73e1dafadde0ff0f32b5de75c9ce46f00f0d",
+      "canonical_object_sha256": "9d270e8655cffd91bc145db5d57261daa45e4babf63e907ba98a56946f8021e4",
+      "verified": true
+    },
+    "v1_deterministic_validation": {
+      "byte_sha256": "7023d5c7ec1ed9cd7c43b4542253342154ee2aa00787cfbf8e5870602c3724db",
+      "canonical_object_sha256": "53f62ea8f666c4f5a9de6c7eb425a8b254175eda813d2f6fcc98eba252b8181c",
+      "verified": true
+    },
+    "v1_audit": {
+      "byte_sha256": "989d3f0e07bf7596f3aa70ea007f2306eee0e510d7185dcc5444d841cd77abc6",
+      "canonical_object_sha256": "852a8113709f6e1afdf6faf2eb89383640db6d13184ace2b04ad517097f7db9c",
+      "verified": true
+    },
+    "v1_symbol_manifest": {
+      "byte_sha256": "3339a5db381dde50d71856c5ffe4cb9fc093fd082dc5b83ba8429f7b0a329fc0",
+      "canonical_object_sha256": "dccee1a7aa0c97010b759623156c604e9f45b03450fe9bac39c3a9063c5d3854",
+      "embedded_manifest_sha256": "d5fffe3151c1b3a4193caf2abac2c9155351c31ec0fc7932e3e698355a06ec85",
+      "verified": true
+    },
+    "archive_audit_source": {
+      "byte_sha256": "dd51a0891666a3e2b9c8fb25f46253fbfe3dd3c9d5c326e6d6dff42b7909d715",
+      "verified": true
+    },
+    "archive_universe_source": {
+      "byte_sha256": "576e148d9fec04118e656e83ca3c7fd1ddaac86e24885b7ba413772942f0870b",
+      "verified": true
+    },
+    "archive_audit_tests": {
+      "byte_sha256": "aba39fc0c294788f38356d7585617543acdcdb49840c6ef21f3a9e6717805792",
+      "verified": true
+    },
+    "archive_universe_tests": {
+      "byte_sha256": "41f9a7d6749cef92ca5bc994a13e44bb88f7098adc5436771aeb9f45dc5500ad",
+      "verified": true
+    },
+    "boundary_archive_objects": {
+      "recomputed_from_retained_bytes": false,
+      "reason": "The frozen evidence retains hashes and derived fields but not the XML, ZIP, or checksum response bytes."
+    }
+  },
+  "mandatory_question_findings": [
+    {
+      "question": "Do the evidence hashes, embedded hashes, code, tests, manifest counts, and report agree at the frozen commit?",
+      "finding": "PASS for frozen-artifact integrity and internal counts. All preregistered byte and canonical hashes match. SYMBOL_MANIFEST.json has 680 unique sorted symbols and episode IDs, 677 records with boundary_validation, one KLAYUSDT boundary failure, and two no-complete-archive records. DATA_INTEGRITY_REPORT.json and DETERMINISTIC_VALIDATION.json report the same 680, 677, four root pages, and KLAYUSDT quarantine."
+    },
+    {
+      "question": "Does the recorded S3 ListBucket-v1 pagination protocol and sanitized page provenance support reproducible archive-directory enumeration without current exchangeInfo?",
+      "finding": "FAIL. ArchiveClient.list_prefix implements exact NextMarker pagination and the four committed root page records form a valid marker chain ending with IsTruncated=false. However, _page_evidence in src/strategy_control/archive_audit.py retains only request URL, response hash, retrieval time, status, marker, NextMarker, and truncation. It omits the decoded CommonPrefixes and every ObjectRecord. Because the raw XML is also absent, the frozen evidence cannot independently connect the 680 claimed directory names to the four response hashes. The path is free of current exchangeInfo but the historical enumeration result is not reproducibly auditable from frozen evidence alone."
+    },
+    {
+      "question": "Are later-delisted symbols admitted by archive observation without an end-of-sample survival requirement?",
+      "finding": "PASS as a structural rule. enumerate_usdt_symbols admits every observed directory basename ending in USDT, SYMBOL_MANIFEST.json records end_of_sample_survival_filter=false and current_exchange_info_requests=0, and test_survivorship_leakage_does_not_filter_a_past_member verifies the pure causal core. No claim about any symbol's current status was used."
+    },
+    {
+      "question": "Are duplicate keys, missing months, unexplained gaps, symbol renames or migrations, listing buffers, last-bar behavior, and absent next bars handled fail-closed rather than silently normalized?",
+      "finding": "PASS only for the conditional and quarantined scope. deduplicate_objects rejects conflicting ObjectRecord duplicates and permits identical duplicates; build_symbol_record marks missing or incomplete archive months and INTERNAL_BARS_NOT_YET_SCANNED as quarantine; nine manifest records contain 107 explicit missing-month quarantines. archive_universe.build_manifest quarantines conflicting bars and caller-supplied migration identities, eligible_symbols enforces completed-bar listing and gap-recovery buffers, and next_real_bar returns null when no later observation exists. Rename or migration detection is not performed by the actual archive generator, but all directory episodes remain quarantined and the asset-identity limitation is explicit."
+    },
+    {
+      "question": "Are membership, lagged liquidity ranking, and next-real-bar execution causal in the tested core, and is any gap between that pure core and the actual manifest-generation path material to the narrow conditional verdict?",
+      "finding": "The functions eligible_symbols, causal_liquidity_ranking, and next_real_bar in src/strategy_control/archive_universe.py are causal under their synthetic tests: membership and ranking use bars strictly before signal time, and execution selects a later real observation without interpolation. The actual generator run_archive_observed_audit does not call build_manifest, eligible_symbols, causal_liquidity_ranking, or next_real_bar; it imports only normalize_open_time. That separation would be immaterial only while all rows remain ineligible, but tests/test_archive_audit.py does not exercise ArchiveClient.list_prefix pagination, build_symbol_record, or run_archive_observed_audit end to end, so the pure-core passes cannot establish the frozen enumeration provenance."
+    },
+    {
+      "question": "Do the manifest's first and last valid bar fields mean only validated boundary-archive observations, not a claim that all intervening rows were scanned?",
+      "finding": "PASS. For all 677 boundary-valid records, first_valid_bar_open_time and last_valid_bar_open_time exactly match the first_open and last_open values in the first and last boundary_validation blocks. Every such record includes INTERNAL_BARS_NOT_YET_SCANNED with QUARANTINE_UNTIL_STRATEGY_DATA_ACQUISITION, and the report explicitly states that internal bars remain quarantined."
+    },
+    {
+      "question": "Do retained response hashes, object metadata, checksum hashes, ZIP hashes, and source URLs provide enough evidence to accept the conditional enumeration contract despite raw XML and ZIP responses not being committed?",
+      "finding": "FAIL. The manifest contains no retained object key, ETag, size, or last_modified field despite parse_listing_page constructing those ObjectRecord fields. Boundary records internally agree with their official source URLs and list ZIP and checksum-response SHA-256 values, but the checksum text and ZIP bytes are absent, so an independent auditor cannot recompute those hashes or verify the checksum-to-ZIP relationship. Page response hashes bind unknown bytes but cannot authenticate the claimed CommonPrefixes, monthly object pairs, or observed_months without either retained responses or retained decoded page/object records."
+    },
+    {
+      "question": "Are the formal-completeness, archive-revision, asset-identity, internal-row, and boundary-anomaly limitations explicit and strong enough?",
+      "finding": "PASS for preventing downstream use, but they do not repair missing provenance. DATA_INTEGRITY_REPORT.json expressly disclaims formal exchange-wide completeness, binds the result to recorded hashes, quarantines internal rows, disclaims symbol-name asset identity, keeps renames or migrations separate unless causal evidence is added, and preserves boundary anomalies as ineligible. KLAYUSDT is explicitly quarantined with its exact timestamp-unit error."
+    },
+    {
+      "question": "Would either permitted verdict create a future-informed universe, current-metadata contamination, survivorship leakage, or permission to open a strategy holdout?",
+      "finding": "No. This DATA_NO_GO verdict permits no archive-derived universe or holdout. The inspected code has no current exchangeInfo dependency in the archive path, the pure core uses prior completed bars, and neither verdict authorizes strategy readiness, returns, performance claims, promotion, or capital."
+    }
+  ],
+  "material_failures": [
+    "SYMBOL_MANIFEST.json root_listing_pages and symbols[*].listing_pages do not retain decoded CommonPrefixes or object records, and _page_evidence omits ObjectRecord.key, etag, size, and last_modified. With raw XML absent, the frozen evidence cannot independently establish that the 680 symbols and their observed_months came from the hashed official responses.",
+    "The first/last boundary source URLs and hash fields are internally coherent, but the frozen evidence lacks the ZIP and checksum bytes or retained checksum assertions. Their hashes and the checksum-to-ZIP verification cannot be independently recomputed, so the claimed boundary observations depend on an unobservable prior execution.",
+    "The required pure-core causality tests do not exercise the actual enumeration and manifest-generation path. tests/test_archive_audit.py tests parsing helpers, while ArchiveClient.list_prefix pagination, build_symbol_record, and run_archive_observed_audit lack an end-to-end frozen-fixture test linking page contents to manifest output. Consequently the deterministic test pass does not close the provenance failures."
+  ],
+  "limitations": [
+    "This verdict does not claim formal exchange-wide archive completeness.",
+    "No internal bar was inspected for this audit, and every internal bar remains ineligible.",
+    "The first and last fields are boundary observations only and do not establish intervening schema, continuity, timestamps, duplicates, gaps, or causal availability.",
+    "Archive revisions cannot be evaluated from the inaccessible response bytes; the committed hashes only identify the claimed prior responses.",
+    "Directory names do not establish asset identity. Renames, migrations, and same-symbol identity changes remain unresolved and quarantined.",
+    "No current exchangeInfo, strategy holdout, return calculation, or performance evidence was used."
+  ],
+  "next_experiment": "Select and preregister the next distinct approved strategy family supported by existing verified data; do not reuse the v1 archive-derived manifest and do not open a strategy holdout.",
+  "holdout_opened": false,
+  "returns_calculated": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0
+}
