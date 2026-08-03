@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "validated_at_utc": "2026-08-03T10:21:30.102719754Z",
+  "status": "PASS_REPAIRED_PRODUCTION_PRE_DATA",
+  "implementation_evidence_commit": "cca143557455bbae6fb31612cedce9d3ceae25b5",
+  "frozen_preregistration_sha256": "96776c370c7ba2e97a1df57571e7fa8c424b94035b8a3c12e78fb66b0fa34772",
+  "effective_contract_sha256": "b20690b0ebd54968feaab050a1498cafe761c19f2a8f328405a9f3e49bb2e2e6",
+  "implementation_artifact_sha256": {
+    "src/strategy_control/orchestrator.py": "690eb5c4faaa7f4c1818d028ee32c8ffcc89c87be2d68ecd231f4e56dad82f28",
+    "src/strategy_control/volatility_parity.py": "4b2d8d721f2219fbd7771608b0acdd10e634a7e4a4334ec2660fc42d33de9dda",
+    "src/strategy_control/volatility_parity_evaluator.py": "ffb3568b74e18a0efbb441ac91785667c5999e4643b9be4643cc54999f91c0f6",
+    "tests/test_volatility_parity_evaluator.py": "8ef2baf403286bfe842ec2e887f4ab3dda539dffc1e5a1274605e3e2fe34c2a3"
+  },
+  "focused_volatility_parity_tests": "PASS_47_TESTS",
+  "full_repository_tests": "PASS_176_TESTS",
+  "ruff": "PASS_ALL_FILES",
+  "mypy": "PASS_22_SOURCE_FILES",
+  "data_lab_runtime_import": {
+    "status": "PASS_NO_DATA_OPEN",
+    "pandas": "2.2.3",
+    "pyarrow": "25.0.0"
+  },
+  "synthetic_integration_proofs": [
+    "all seven frozen trials share exact inherited clocks and are evaluated in frozen order",
+    "base and doubled-cost paths reuse exact materialized targets",
+    "delay stress retains target hashes and executes at the next completed joint session",
+    "fold targets are invariant to all mutations at or after the fold boundary",
+    "quarantine cancels older pending targets and permits only later recovery-proved targets",
+    "every supplied synchronized minute is marked into event-level drawdown and currency attribution",
+    "missing ex-ante terminal vectors fail without earlier substitution",
+    "buy-and-hold enters and re-enters only on the primary eligibility clock",
+    "35-attempt DSR, seven-trial PBO, three stationary bootstraps, regimes, exceptional-profit, contributions, and all 25 development gates are explicit",
+    "only the exact hash-verified 36-path pre-2026 allowlist can reach the production opener"
+  ],
+  "repair_attempts_used": 1,
+  "repair_attempts_remaining": 0,
+  "bounded_cycles_remaining": 1,
+  "market_values_read": false,
+  "returns_calculated": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "next_task": "Commit this exact hash-bound authorization checkpoint, then run the single bounded deterministic 2024-2025 development evaluation."
+}

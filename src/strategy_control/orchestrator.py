@@ -1787,8 +1787,28 @@ def run_volatility_parity_development() -> dict[str, Any]:
     git = git_state()
     if not git["clean"] or not isinstance(git.get("head"), str):
         raise StateError("controller working tree must be clean before development evaluation")
-    if state.get("implementation_source_commit") != git["head"]:
-        raise StateError("development evaluator is not bound to the clean implementation commit")
+    implementation_commit = state.get("implementation_evidence_commit")
+    artifact_hashes = state.get("implementation_artifact_sha256")
+    required_artifacts = {
+        "src/strategy_control/orchestrator.py",
+        "src/strategy_control/volatility_parity.py",
+        "src/strategy_control/volatility_parity_evaluator.py",
+        "tests/test_volatility_parity_evaluator.py",
+    }
+    if (
+        not isinstance(implementation_commit, str)
+        or not implementation_commit
+        or not isinstance(artifact_hashes, dict)
+        or set(artifact_hashes) != required_artifacts
+    ):
+        raise StateError("development evaluator evidence binding is missing")
+    for relative, expected_hash in artifact_hashes.items():
+        path = ROOT / relative
+        if (
+            not isinstance(expected_hash, str)
+            or hashlib.sha256(path.read_bytes()).hexdigest() != expected_hash
+        ):
+            raise StateError(f"development evaluator artifact hash mismatch: {relative}")
 
     experiment_root = ROOT / "experiments" / VOLATILITY_PARITY_EXPERIMENT_ID
     wrapper_path = experiment_root / "PREREGISTRATION.json"
