@@ -7,12 +7,20 @@ Type=oneshot
 WorkingDirectory=%h/crypto-strategy-control
 Environment=PYTHONPATH=%h/crypto-strategy-control/src
 Environment=STORE_LIVE=false
+Environment=PYTHONDONTWRITEBYTECODE=1
 ExecStart=%h/crypto-strategy-control/.venv/bin/python orchestrator.py resume --cycles 1 --invocation-mode live --owner-type scheduled_continuation
 TimeoutStartSec=900
+UMask=0077
 NoNewPrivileges=yes
 PrivateTmp=yes
+PrivateDevices=yes
 ProtectSystem=strict
 ProtectHome=read-only
 ReadWritePaths=%h/crypto-strategy-control %h/.codex
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
 RestrictSUIDSGID=yes
+RestrictRealtime=yes
 LockPersonality=yes
+SystemCallArchitectures=native

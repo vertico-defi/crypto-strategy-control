@@ -44,7 +44,11 @@ def test_unlocked_old_lockfile_is_reused_without_age_based_stealing(tmp_path: Pa
         metadata = json.loads(lock.read_text())
         assert metadata["pid"] == os.getpid()
         assert metadata["owner_type"] == "manual"
+        assert metadata["status"] == "active"
     assert lock.exists()
+    released = json.loads(lock.read_text())
+    assert released["status"] == "released"
+    assert released["released_at_utc"]
     assert not list(tmp_path.glob("cycle.lock.stale-*"))
 
 
@@ -224,12 +228,13 @@ def test_scheduled_continuation_refuses_active_goal_and_disabled_state() -> None
         orchestrator.require_scheduled_continuation_authority(
             {"continuation": {"scheduled_enabled": False}}
         )
-    with pytest.raises(orchestrator.StateError, match="active Goal"):
+    with pytest.raises(orchestrator.StateError, match="cleared active ownership"):
         orchestrator.require_scheduled_continuation_authority(
             {
                 "continuation": {
                     "scheduled_enabled": True,
                     "active_owner_type": "interactive_goal",
+                    "bounded_cycles_per_run": 1,
                 }
             }
         )
@@ -237,8 +242,90 @@ def test_scheduled_continuation_refuses_active_goal_and_disabled_state() -> None
 
 def test_scheduled_continuation_accepts_explicit_noninteractive_handoff() -> None:
     orchestrator.require_scheduled_continuation_authority(
-        {"continuation": {"scheduled_enabled": True, "active_owner_type": None}}
+        {
+            "continuation": {
+                "scheduled_enabled": True,
+                "active_owner_type": None,
+                "bounded_cycles_per_run": 1,
+            }
+        }
     )
+
+
+def test_scheduled_continuation_requires_exactly_one_cycle() -> None:
+    with pytest.raises(orchestrator.StateError, match="one bounded cycle"):
+        orchestrator.require_scheduled_continuation_authority(
+            {
+                "continuation": {
+                    "scheduled_enabled": True,
+                    "active_owner_type": None,
+                    "bounded_cycles_per_run": 2,
+                }
+            }
+        )
+
+
+def test_unregistered_resume_task_is_a_no_mutation_result(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "CURRENT_STATE.json"
+    payload = {
+        "schema_version": "1.0",
+        "program_state": "ACTIVE_RESEARCH",
+        "capital_permitted": 0,
+        "current_experiment_id": "new-experiment",
+        "next_task": "native_review_required",
+        "budgets": {},
+    }
+    state.write_text(json.dumps(payload))
+    monkeypatch.setattr(orchestrator, "STATE", state)
+    result = orchestrator.run_cycle(invocation_mode="live", dry_run=False)
+    assert result["status"] == "NO_AUTOMATED_STEP_REGISTERED"
+    assert result["model_invocations"] == 0
+    assert json.loads(state.read_text()) == payload
+
+
+def test_calendar_development_refuses_before_exact_committed_gate(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "CURRENT_STATE.json"
+    state.write_text(
+        json.dumps(
+            {
+                "program_state": "ACTIVE_RESEARCH",
+                "current_experiment_id": orchestrator.CALENDAR_EXPERIMENT_ID,
+                "data_contract_status": "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PASS",
+                "implementation_status": "PASS_PRE_DATA",
+                "next_task": "commit_still_required",
+            }
+        )
+    )
+    monkeypatch.setattr(orchestrator, "STATE", state)
+    with pytest.raises(orchestrator.StateError, match="not at the development gate"):
+        orchestrator.run_calendar_development()
+
+
+def test_bounded_cycles_honors_limit_and_stops_without_transition(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "CURRENT_STATE.json"
+    state.write_text(json.dumps({"counter": 0}))
+    monkeypatch.setattr(orchestrator, "STATE", state)
+
+    def changing_then_idle(*, invocation_mode: str, dry_run: bool) -> dict[str, object]:
+        del invocation_mode, dry_run
+        payload = json.loads(state.read_text())
+        if payload["counter"] < 2:
+            payload["counter"] += 1
+            state.write_text(json.dumps(payload))
+        return {"status": "STEP"}
+
+    monkeypatch.setattr(orchestrator, "run_cycle", changing_then_idle)
+    result = orchestrator.run_bounded_cycles(invocation_mode="live", cycles=3)
+    assert result["cycles_requested"] == 3
+    assert result["cycles_attempted"] == 3
+    assert result["cycles_with_state_change"] == 2
+    assert json.loads(state.read_text())["counter"] == 2
 
 
 def test_independent_archive_audit_payload_is_fail_closed_and_allowlisted() -> None:
@@ -282,9 +369,7 @@ def test_independent_trend_audit_payload_is_fail_closed_and_allowlisted() -> Non
         "rationale": ["multiple gates failed"],
         "unexpected_transcript": "must not persist",
     }
-    sanitized = orchestrator.sanitize_trend_audit_payload(
-        payload, result_sha256=result_hash
-    )
+    sanitized = orchestrator.sanitize_trend_audit_payload(payload, result_sha256=result_hash)
     assert sanitized["verdict"] == "HISTORICAL_NO_GO_CONFIRMED"
     assert "unexpected_transcript" not in sanitized
     with pytest.raises(orchestrator.StateError, match="closed-holdout"):
@@ -300,8 +385,7 @@ def test_mean_reversion_direction_payload_is_no_data_and_allowlisted() -> None:
         "verdict": "REVISION_REQUIRED",
         "family_distinct_from_rejected_trend": True,
         "preserved_trend_terminal": (
-            "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/"
-            "AUDIT_INCONCLUSIVE"
+            "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/AUDIT_INCONCLUSIVE"
         ),
         "holdout_opened": False,
         "holdout_values_read": False,

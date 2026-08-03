@@ -23,6 +23,17 @@ from pathlib import Path
 from typing import Any, Literal
 
 from strategy_control.archive_audit import ArchiveAuditError, run_archive_observed_audit
+from strategy_control.calendar_evaluator import (
+    CalendarEvaluationError,
+    evaluate_calendar_development,
+)
+from strategy_control.calendar_evaluator import (
+    load_development_market as load_calendar_development_market,
+)
+from strategy_control.calendar_pipeline import (
+    CalendarPipelineError,
+    verify_preregistration as verify_calendar_preregistration,
+)
 from strategy_control.mean_reversion_pipeline import (
     evaluate_development as evaluate_mean_reversion_development,
 )
@@ -51,6 +62,7 @@ ARCHIVE_EXPERIMENT_ID = "cs-ranking-binance-spot-archive-ptu-audit-v1"
 TREND_EXPERIMENT_ID = "btc-eth-vol-targeted-trend-v1"
 MEAN_REVERSION_EXPERIMENT_ID = "btc-eth-long-only-mean-reversion-v1"
 RELATIVE_VALUE_EXPERIMENT_ID = "btc-eth-relative-value-rotation-v1"
+CALENDAR_EXPERIMENT_ID = "btc-eth-intraday-calendar-seasonality-v1"
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
 InvocationMode = Literal["live", "mock", "deterministic_local"]
 
@@ -121,18 +133,25 @@ def exclusive_lock(
             fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             raise StateError("concurrent research mutation refused") from None
-        metadata = {
+        metadata: dict[str, object] = {
             "pid": os.getpid(),
             "process_start_identity": _process_start_identity(),
             "owner_type": owner_type,
             "run_id": run_id,
             "started_at_utc": _now(),
+            "status": "active",
         }
         os.ftruncate(descriptor, 0)
         os.write(descriptor, (_canonical(metadata) + "\n").encode())
         os.fsync(descriptor)
         yield
     finally:
+        if "metadata" in locals():
+            metadata.update({"released_at_utc": _now(), "status": "released"})
+            os.ftruncate(descriptor, 0)
+            os.lseek(descriptor, 0, os.SEEK_SET)
+            os.write(descriptor, (_canonical(metadata) + "\n").encode())
+            os.fsync(descriptor)
         fcntl.flock(descriptor, fcntl.LOCK_UN)
         os.close(descriptor)
 
@@ -244,9 +263,7 @@ def preregistration(task: dict[str, Any], source_commit: str) -> dict[str, Any]:
         "official_sources": {
             "documentation": "https://github.com/binance/binance-public-data/blob/master/README.md",
             "download_origin": "https://data.binance.vision",
-            "bucket_list_endpoint": (
-                "https://s3-ap-northeast-1.amazonaws.com/data.binance.vision"
-            ),
+            "bucket_list_endpoint": ("https://s3-ap-northeast-1.amazonaws.com/data.binance.vision"),
             "spot_monthly_kline_prefix": "data/spot/monthly/klines/",
             "license": "MIT",
             "authentication_required": False,
@@ -769,8 +786,7 @@ def sanitize_mean_reversion_direction_payload(payload: object) -> dict[str, Any]
     if payload.get("family_distinct_from_rejected_trend") is not True:
         raise StateError("direction review did not confirm a distinct family")
     if payload.get("preserved_trend_terminal") != (
-        "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/"
-        "AUDIT_INCONCLUSIVE"
+        "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/AUDIT_INCONCLUSIVE"
     ):
         raise StateError("direction review changed the terminal trend evidence")
     if (
@@ -794,8 +810,7 @@ def sanitize_mean_reversion_direction_payload(payload: object) -> dict[str, Any]
         "verdict": verdict,
         "family_distinct_from_rejected_trend": True,
         "preserved_trend_terminal": (
-            "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/"
-            "AUDIT_INCONCLUSIVE"
+            "btc-eth-vol-targeted-trend-v1=HISTORICAL_NO_GO_DEVELOPMENT/AUDIT_INCONCLUSIVE"
         ),
         "holdout_opened": False,
         "holdout_values_read": False,
@@ -949,11 +964,33 @@ def run_mean_reversion_direction_review(*, invocation_mode: InvocationMode) -> d
 def run_cycle(*, invocation_mode: InvocationMode, dry_run: bool) -> dict[str, Any]:
     state = load_json(STATE)
     validate_state(state)
-    task = select_task(state)
+    current_experiment = state.get("current_experiment_id")
+    next_task = state.get("next_task")
     if dry_run:
-        return {"dry_run": True, "task": task, "state": state["program_state"], "codex_calls": 0}
-    if task["task"] != ARCHIVE_EXPERIMENT_ID:
-        raise StateError(f"no runnable archive task: {task['task']}")
+        return {
+            "dry_run": True,
+            "experiment_id": current_experiment,
+            "next_task": next_task,
+            "state": state["program_state"],
+            "codex_calls": 0,
+        }
+    if state["program_state"] != "ACTIVE_RESEARCH":
+        return {
+            "status": "PROGRAM_NOT_ACTIVE",
+            "program_state": state["program_state"],
+            "state_changed": False,
+        }
+    if not (
+        current_experiment == ARCHIVE_EXPERIMENT_ID
+        and next_task == "review_frozen_archive_preregistration"
+    ):
+        return {
+            "status": "NO_AUTOMATED_STEP_REGISTERED",
+            "experiment_id": current_experiment,
+            "next_task": next_task,
+            "state_changed": False,
+            "model_invocations": 0,
+        }
     git = git_state()
     if not git["clean"]:
         raise StateError("controller working tree must be clean before a cycle")
@@ -1002,6 +1039,33 @@ def run_cycle(*, invocation_mode: InvocationMode, dry_run: bool) -> dict[str, An
         "invocation_mode": invocation.invocation_mode,
         "model_generated_research": True,
         "response_identifier": invocation.response_identifier,
+    }
+
+
+def run_bounded_cycles(*, invocation_mode: InvocationMode, cycles: int) -> dict[str, Any]:
+    """Run at most ``cycles`` resumable steps and stop when no state transition occurs."""
+
+    if cycles < 1 or cycles > 3:
+        raise StateError("cycles must be 1..3")
+    results: list[dict[str, Any]] = []
+    changed_cycles = 0
+    for _ in range(cycles):
+        before = _sha(load_json(STATE))
+        result = run_cycle(invocation_mode=invocation_mode, dry_run=False)
+        after = _sha(load_json(STATE))
+        changed = before != after
+        result = {**result, "state_changed": changed}
+        results.append(result)
+        if changed:
+            changed_cycles += 1
+        if not changed:
+            break
+    return {
+        "status": "BOUNDED_RESUME_COMPLETE",
+        "cycles_requested": cycles,
+        "cycles_attempted": len(results),
+        "cycles_with_state_change": changed_cycles,
+        "results": results,
     }
 
 
@@ -1309,9 +1373,7 @@ def run_mean_reversion_development() -> dict[str, Any]:
         or prereg.get("returns_calculated") is not False
     ):
         raise StateError("frozen mean-reversion preregistration identity or hash mismatch")
-    data_contract = load_json(
-        ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json"
-    )
+    data_contract = load_json(ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json")
     if (
         _sha(data_contract)
         != prereg.get("data_contract", {}).get("reused_verified_contract_sha256")
@@ -1449,9 +1511,7 @@ def run_relative_value_development() -> dict[str, Any]:
         or prereg_data.get("holdout_parquet_footers_or_values_read") is not False
     ):
         raise StateError("frozen relative-value preregistration identity or hash mismatch")
-    data_contract = load_json(
-        ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json"
-    )
+    data_contract = load_json(ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json")
     if (
         _sha(data_contract) != prereg_data.get("reused_verified_contract_sha256")
         or data_contract.get("status") != "PASS"
@@ -1557,6 +1617,145 @@ def run_relative_value_development() -> dict[str, Any]:
     }
 
 
+def run_calendar_development() -> dict[str, Any]:
+    """Run the single frozen 2025 calendar evaluation with 2026 still unopened."""
+
+    state = load_json(STATE)
+    if (
+        state.get("program_state") != "ACTIVE_RESEARCH"
+        or state.get("current_experiment_id") != CALENDAR_EXPERIMENT_ID
+        or state.get("data_contract_status") != "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PASS"
+        or state.get("implementation_status") != "PASS_PRE_DATA"
+        or state.get("next_task") != "run_one_shot_calendar_development_after_implementation_commit"
+    ):
+        raise StateError("calendar experiment is not at the development gate")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before calendar evaluation")
+    experiment_root = ROOT / "experiments" / CALENDAR_EXPERIMENT_ID
+    wrapper = load_json(experiment_root / "PREREGISTRATION.json")
+    effective_path = experiment_root / "PREREGISTRATION_REVISED_DRAFT.json"
+    effective_bytes = effective_path.read_bytes()
+    effective = load_json(effective_path)
+    try:
+        verify_calendar_preregistration(
+            wrapper,
+            effective,
+            effective_bytes=effective_bytes,
+        )
+    except CalendarPipelineError as exc:
+        raise StateError("frozen calendar preregistration hash mismatch") from exc
+    data_contract = load_json(ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json")
+    started = _now()
+    monotonic_start = time.monotonic()
+    report_path = experiment_root / "DEVELOPMENT_RESULT.json"
+    partial_calculations_discarded = False
+    try:
+        market = load_calendar_development_market(
+            ROOT.parent / "crypto-direction-lab",
+            data_contract,
+        )
+        partial_calculations_discarded = True
+        report = evaluate_calendar_development(market, effective, ROOT / "experiments")
+        duration = round(time.monotonic() - monotonic_start, 6)
+        if duration > float(state["budgets"]["max_wall_seconds"]):
+            raise StateError("calendar development exceeded frozen wall-clock budget")
+        report.update(
+            {
+                "started_at_utc": started,
+                "ended_at_utc": _now(),
+                "duration_seconds": duration,
+                "invocation_mode": "deterministic_local",
+                "source_commit": git["head"],
+                "preregistration_sha256": wrapper["preregistration_sha256"],
+                "effective_contract_sha256": wrapper["effective_contract"]["canonical_sha256"],
+                "data_contract_result_sha256": _sha(data_contract),
+                "returns_calculated": True,
+                "performance_claim_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+            }
+        )
+        atomic_json(report_path, report)
+        outcome = str(report["classification"])
+        exact_error = None
+        result_hash = _sha(report)
+    except (
+        CalendarEvaluationError,
+        CalendarPipelineError,
+        ImportError,
+        OSError,
+        StateError,
+        ValueError,
+    ) as exc:
+        duration = round(time.monotonic() - monotonic_start, 6)
+        outcome = "DEVELOPMENT_PIPELINE_FAILURE"
+        exact_error = _bounded_error(f"{type(exc).__name__}: {exc}")
+        result_hash = None
+        report = {
+            "schema_version": "1.0",
+            "experiment_id": CALENDAR_EXPERIMENT_ID,
+            "stage": "DEVELOPMENT",
+            "classification": outcome,
+            "started_at_utc": started,
+            "ended_at_utc": _now(),
+            "duration_seconds": duration,
+            "invocation_mode": "deterministic_local",
+            "holdout_values_read": False,
+            "holdout_opened": False,
+            "candidate_promoted": False,
+            "returns_calculation_completed": False,
+            "partial_calculations_discarded": partial_calculations_discarded,
+            "capital_permitted": 0,
+            "exact_error": exact_error,
+        }
+        atomic_json(report_path, report)
+    append_jsonl(
+        MODEL_LEDGER,
+        {
+            "record_type": "LOCAL_PIPELINE_INVOCATION",
+            "experiment_id": CALENDAR_EXPERIMENT_ID,
+            "role": "calendar_development_evaluator",
+            "requested_model": None,
+            "actual_model": None,
+            "reasoning_level": None,
+            "invocation_mode": "deterministic_local",
+            "started_at_utc": started,
+            "ended_at_utc": report["ended_at_utc"],
+            "duration_seconds": report["duration_seconds"],
+            "outcome": outcome,
+            "model_result_received": False,
+            "model_generated_research_claim": False,
+            "result_sha256": result_hash,
+            "exact_error": exact_error,
+            "fallback": None,
+            "holdout_opened": False,
+        },
+    )
+    if outcome in {"DEVELOPMENT_GO", "HISTORICAL_NO_GO"}:
+        state.update(
+            {
+                "development_status": outcome,
+                "next_task": (
+                    "run_calendar_pre_holdout_independent_audit"
+                    if outcome == "DEVELOPMENT_GO"
+                    else "run_calendar_terminal_independent_audit"
+                ),
+                "updated_at_utc": report["ended_at_utc"],
+            }
+        )
+        budgets = dict(state["budgets"])
+        budgets["cycles_remaining"] = 0
+        state["budgets"] = budgets
+        atomic_json(STATE, state)
+    return {
+        "status": outcome,
+        "report": str(report_path.relative_to(ROOT)),
+        "result_sha256": result_hash,
+        "holdout_opened": False,
+        "returns_calculated": report.get("returns_calculated", False),
+        "capital_permitted": 0,
+    }
+
+
 def sanitize_trend_audit_payload(payload: object, *, result_sha256: str) -> dict[str, Any]:
     """Allowlist a terminal trend audit and preserve the closed-holdout boundary."""
 
@@ -1609,9 +1808,7 @@ def sanitize_trend_audit_payload(payload: object, *, result_sha256: str) -> dict
     }
 
 
-def sanitize_mean_reversion_audit_payload(
-    payload: object, *, result_sha256: str
-) -> dict[str, Any]:
+def sanitize_mean_reversion_audit_payload(payload: object, *, result_sha256: str) -> dict[str, Any]:
     """Apply the rejection-only trend audit contract to mean-reversion evidence."""
 
     return sanitize_trend_audit_payload(payload, result_sha256=result_sha256)
@@ -1750,9 +1947,7 @@ def run_independent_trend_audit() -> dict[str, Any]:
     audit_path = experiment_root / "AUDIT.json"
     atomic_json(audit_path, audit)
     terminal_classification = (
-        "HISTORICAL_NO_GO"
-        if audit["verdict"] == "HISTORICAL_NO_GO_CONFIRMED"
-        else "AUDIT_REJECTED"
+        "HISTORICAL_NO_GO" if audit["verdict"] == "HISTORICAL_NO_GO_CONFIRMED" else "AUDIT_REJECTED"
     )
     record = {
         "record_type": "TERMINAL_EXPERIMENT",
@@ -2435,8 +2630,11 @@ def require_scheduled_continuation_authority(state: dict[str, Any]) -> None:
     continuation = state.get("continuation")
     if not isinstance(continuation, dict) or continuation.get("scheduled_enabled") is not True:
         raise StateError("scheduled continuation is disabled")
-    if continuation.get("active_owner_type") == "interactive_goal":
-        raise StateError("scheduled continuation refused during active Goal ownership")
+    active_owner = continuation.get("active_owner_type")
+    if active_owner is not None:
+        raise StateError("scheduled continuation requires cleared active ownership")
+    if continuation.get("bounded_cycles_per_run") != 1:
+        raise StateError("scheduled continuation requires one bounded cycle per run")
 
 
 def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
@@ -2522,6 +2720,7 @@ def main() -> None:
             "mean-reversion-development",
             "mean-reversion-independent-audit",
             "relative-value-development",
+            "calendar-development",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -2551,7 +2750,7 @@ def main() -> None:
         elif args.command in {"cycle", "run", "resume"}:
             if args.cycles < 1 or args.cycles > 3:
                 raise StateError("cycles must be 1..3")
-            result = run_cycle(invocation_mode=invocation_mode, dry_run=False)
+            result = run_bounded_cycles(invocation_mode=invocation_mode, cycles=args.cycles)
         elif args.command == "smoke":
             result = smoke_review(invocation_mode=invocation_mode)
         elif args.command == "archive-audit":
@@ -2576,6 +2775,8 @@ def main() -> None:
             result = run_independent_mean_reversion_audit()
         elif args.command == "relative-value-development":
             result = run_relative_value_development()
+        elif args.command == "calendar-development":
+            result = run_calendar_development()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":

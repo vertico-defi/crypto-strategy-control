@@ -1,10 +1,10 @@
 # Durable Progress Log
 
-- Current checkpoint: calendar contract `102a0de9...` is frozen by wrapper `1e67b67c...` against committed source `0b8ad3c`; exact review `7fbcfc51...`, call budget 1/4.
-- What changed: the committed no-data contract is now immutable; no rule changed at freeze.
-- What was verified: review used no market data, returns, or holdout; fixed-pair contract, zero capital, zero GPU, no mining change, and rejected-family boundaries remain intact.
-- What failed: no substantive family failure; implementation is procedurally blocked until the freeze wrapper is validated and committed.
-- Current best defensible result: no validated strategy candidate and no eligible archive-derived cross-sectional universe.
-- Next experiment: validate and commit the freeze, then use live Terra/medium for pure implementation and synthetic tests without data.
+- Current checkpoint: frozen calendar implementation is `PASS_PRE_DATA`; exact validation is `experiments/btc-eth-intraday-calendar-seasonality-v1/IMPLEMENTATION_VALIDATION.json`, call budget 3/4.
+- What changed: two live Terra/medium calls were integrated into a complete development-only evaluator; bounded continuation now stops on no state transition and remains disabled during interactive ownership.
+- What was verified: 128 tests, Ruff, strict typing across 19 source files, diff checks, frozen wrapper/effective/data/prior-result hashes, and read-only systemd unit verification pass. No market data, Parquet footer/value, return, 2026 holdout, credential, order, GPU, mining, or capital action occurred.
+- What failed: the agents initially left numerical statistics and record-to-schedule execution injectable; parent integration implemented those frozen components. The first sandboxed systemd verifier returned `SO_PASSCRED failed: Operation not permitted`; the approved read-only retry passed.
+- Current best defensible result: no validated strategy candidate and no eligible archive-derived cross-sectional universe; the calendar family has only a verified pre-data implementation.
+- Next experiment: commit the implementation checkpoint, then run the one-shot deterministic 2024–2025 calendar development evaluation. If it is a no-go, preserve it and use the final live Sol/xhigh call for independent terminal audit.
 - Current blocker: none. Scheduled continuation remains disabled and the interactive Goal owns execution.
-- Exact resume state: original draft `0d13f8d5...`, review `7fbcfc51...`, contract `102a0de9...`, freeze wrapper `1e67b67c...`, budget 1/4 calls and one repair unused, 1,800 wall seconds, zero GPU/capital; freeze wrapper is uncommitted.
+- Exact resume state: source freeze commit `6cdbe55...`, wrapper `1e67b67c...`, effective contract `102a0de9...`, direction result `7fbcfc51...`, implementation status `PASS_PRE_DATA`, budget 3/4 calls with one repair unused, 1,800-second evaluation bound, zero GPU/capital; implementation checkpoint is uncommitted and no data has been read.
