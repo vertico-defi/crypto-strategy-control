@@ -1,10 +1,10 @@
 # Durable Progress Log
 
-- Current checkpoint: frozen wrapper `96776c37...`, repaired pure commit `1310444...`, and production evaluator evidence commit `cca1435...` are public; the final controller/data-run authorization is hash-bound and pending one clean metadata commit.
-- What changed: production code now selects the exact 36-path allowlist before opening, builds per-session input hashes, materializes seven Sunday trials, marks every synchronized minute, runs independent base/double-cost/delay/fold/benchmark states, and evaluates every frozen statistic and gate.
-- What was verified: 47 focused and 176 total tests, Ruff, strict typing across 22 source files, fold prefix isolation, delay target identity, pending cancellation, minute-level drawdown, exact terminal failure, contribution reconciliation, and a no-data import under pandas 2.2.3/PyArrow 25.0.0 all pass.
-- What failed: only the already preserved pre-data month-13 collection failure; repair 1/1 remains consumed. No new evaluator failure occurred.
-- Current best defensible result: no validated candidate and still no current-experiment performance evidence. The complete production evaluator is ready but has not opened market values.
-- Next experiment: commit the hash-bound authorization and run the sole bounded 2024–2025 deterministic development evaluation, then verify and independently audit it.
-- Current blocker: none. Every 2026 footer/value remains closed; scheduled continuation is disabled under interactive Goal ownership.
-- Exact resume state: experiment `btc-eth-causal-volatility-parity-rebalancing-v1`; implementation evidence `cca1435...`; calls 2/4, repairs 1/1, cycles 0/1 used, wall budget 1,800 seconds, GPU/capital zero, development not started, production hashes recorded.
+- Current checkpoint: the single development cycle completed `HISTORICAL_NO_GO` against source `f8b0208...`; canonical result is `983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1` and is pending an evidence commit.
+- What changed: only the 36 allowlisted 2024–2025 partitions were evaluated once. The primary lost 7.78% net, had 0.090 annualized common-panel Sharpe and 44.34% event-level drawdown over 364 intervals and 525,653 event observations.
+- What was verified: result/preregistration/data hashes, 25-gate map, asset reconciliation to `2.91e-16`, finite trial outputs, 47 focused and 176 total tests, Ruff, strict typing across 22 source files, closed holdout, no candidate, and zero capital all pass.
+- What failed: 13 frozen gates, including net return, Sharpe, drawdown, doubled cost, delay, fold majority, neighbor stability, all bootstrap lower bounds, DSR, PBO, baseline superiority, BTC contribution, and regimes. Repair 1/1 and cycle 1/1 are consumed.
+- Current best defensible result: deterministic development `HISTORICAL_NO_GO`, not a candidate. It is not terminally trusted until the independent Sol audit.
+- Next experiment: commit result/validation and run call 3/4 as read-only Sol/xhigh terminal audit, then preserve the verdict and select a distinct family.
+- Current blocker: none. The 2026 holdout remains unopened/unread; scheduled continuation remains disabled under interactive Goal ownership.
+- Exact resume state: experiment `btc-eth-causal-volatility-parity-rebalancing-v1`; result `983ad070...`; calls 2/4, repairs 1/1, cycles 1/1 used, GPU/capital zero, next task terminal audit after clean evidence commit.
