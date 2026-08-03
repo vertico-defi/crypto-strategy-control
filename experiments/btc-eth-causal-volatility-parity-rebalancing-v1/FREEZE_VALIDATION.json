@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "status": "PASS_FROZEN_PRE_DATA",
+  "source_commit": "680a9ec4a1982bb7810c649d3c58b8adccfecdbf",
+  "preregistration_sha256": "96776c370c7ba2e97a1df57571e7fa8c424b94035b8a3c12e78fb66b0fa34772",
+  "preregistration_byte_sha256": "f90a0bdfc279a85bbf06b6d7e2017034d820823064cbf9117bee3afd4f91a3c1",
+  "effective_contract_canonical_sha256": "b20690b0ebd54968feaab050a1498cafe761c19f2a8f328405a9f3e49bb2e2e6",
+  "effective_contract_byte_sha256": "42b7fde83fa728143c4e4ba14f361ac87c6598006e177719e76b274208c774cb",
+  "original_draft_sha256": "0caf8e6984c9c7add463784b51bf0efbab4f050533f42373fabdafb5843e5c61",
+  "direction_model_result_sha256": "6978aec1ef3631446abc9a75d89f8726b1f2271f6f18ad5f4eb1d2f61ac6698c",
+  "revision_incorporation_byte_sha256": "4decddd6934bc0c44f3bb6282da51e240eba433992d4f2b201182e4c84ca6487",
+  "reused_data_contract_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+  "canonical_inventory_sha256": "1a5d5eaab533892b17b296750a2750514e51455d503456285b31b1845e63cc2f",
+  "source_freeze_manifest_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+  "prior_result_hashes_recomputed": [
+    "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703",
+    "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23",
+    "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e"
+  ],
+  "calendar_contract_sha256": "102a0de94ded6d4c7fa7667702c07e8e8328c57feda5be597ec75d8efb8c7b96",
+  "calendar_terminal_model_result_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0",
+  "checks": {
+    "wrapper_canonical_hash_recomputed": "PASS",
+    "effective_contract_canonical_and_byte_hashes_recomputed": "PASS",
+    "original_draft_and_direction_result_hashes_recomputed": "PASS",
+    "revision_incorporation_17_of_17": "PASS",
+    "prior_result_canonical_hashes_recomputed": "PASS",
+    "DSR_registry_21_plus_7_plus_7": "PASS",
+    "no_calendar_pseudo_return_or_sharpe": "PASS",
+    "reused_data_evidence_bound": "PASS",
+    "zero_capital_no_holdout_no_return": "PASS"
+  },
+  "tooling": {
+    "pytest": "PASS_129_TESTS",
+    "ruff": "PASS",
+    "mypy": "PASS_19_SOURCE_FILES",
+    "diff_check": "PASS"
+  },
+  "market_values_read": false,
+  "returns_calculated": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "validated_at_utc": "2026-08-03T09:43:10.879392Z"
+}

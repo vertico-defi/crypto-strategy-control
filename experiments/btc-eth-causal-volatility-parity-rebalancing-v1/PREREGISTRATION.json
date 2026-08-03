@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "status": "FROZEN",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "strategy_family": "FIXED_PAIR_LONG_ONLY_BOUNDED_INVERSE_VOLATILITY_REBALANCING",
+  "source_commit": "680a9ec4a1982bb7810c649d3c58b8adccfecdbf",
+  "preregistered_at_utc": "2026-08-03T09:40:56.831745Z",
+  "preregistration_sha256": "96776c370c7ba2e97a1df57571e7fa8c424b94035b8a3c12e78fb66b0fa34772",
+  "hash_rule": "Parse this wrapper JSON, remove only the top-level preregistration_sha256 field, serialize with sorted keys and compact separators as UTF-8, then SHA-256.",
+  "effective_contract": {
+    "path": "experiments/btc-eth-causal-volatility-parity-rebalancing-v1/PREREGISTRATION_REVISED_DRAFT.json",
+    "canonical_sha256": "b20690b0ebd54968feaab050a1498cafe761c19f2a8f328405a9f3e49bb2e2e6",
+    "byte_sha256": "42b7fde83fa728143c4e4ba14f361ac87c6598006e177719e76b274208c774cb",
+    "status_at_hash": "DRAFT_REVISED_NOT_FROZEN",
+    "interpretation": "This separate immutable wrapper freezes the complete referenced contract without changing its hash-frozen pre-wrapper status."
+  },
+  "review_chain": {
+    "original_draft_path": "experiments/btc-eth-causal-volatility-parity-rebalancing-v1/PREREGISTRATION_DRAFT.json",
+    "original_draft_sha256": "0caf8e6984c9c7add463784b51bf0efbab4f050533f42373fabdafb5843e5c61",
+    "direction_model_result_path": "experiments/btc-eth-causal-volatility-parity-rebalancing-v1/DIRECTION_REVIEW_MODEL_RESULT.json",
+    "direction_model_result_sha256": "6978aec1ef3631446abc9a75d89f8726b1f2271f6f18ad5f4eb1d2f61ac6698c",
+    "direction_verdict": "REVISION_REQUIRED",
+    "direction_model": "gpt-5.6-sol",
+    "direction_reasoning_level": "xhigh",
+    "direction_invocation_mode": "live",
+    "revision_incorporation_path": "experiments/btc-eth-causal-volatility-parity-rebalancing-v1/REVISION_INCORPORATION.json",
+    "revision_incorporation_byte_sha256": "4decddd6934bc0c44f3bb6282da51e240eba433992d4f2b201182e4c84ca6487",
+    "required_revisions": 17,
+    "incorporated_revisions": 17
+  },
+  "reused_data_evidence": {
+    "contract_path": "experiments/btc-eth-vol-targeted-trend-v1/DATA_CONTRACT.json",
+    "contract_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+    "canonical_inventory_sha256": "1a5d5eaab533892b17b296750a2750514e51455d503456285b31b1845e63cc2f",
+    "source_freeze_manifest_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "development_partitions": 36,
+    "holdout_partitions": 12,
+    "holdout_parquet_footers_or_values_read": false
+  },
+  "program_level_DSR_evidence": {
+    "ordered_attempt_count": 35,
+    "observed_sharpe_count_when_current_trials_exist": 28,
+    "prior_completed_trial_count": 21,
+    "prior_result_hashes": [
+      "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703",
+      "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23",
+      "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e"
+    ],
+    "calendar_no_return_trial_count": 7,
+    "calendar_contract_sha256": "102a0de94ded6d4c7fa7667702c07e8e8328c57feda5be597ec75d8efb8c7b96",
+    "calendar_terminal_model_result_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0",
+    "calendar_pseudo_returns_or_sharpes_permitted": false,
+    "current_trial_count": 7
+  },
+  "implementation_preconditions": [
+    "Recompute this wrapper hash and both effective-contract hashes exactly.",
+    "Recompute the original draft, direction result, revision-incorporation, reused-data, inventory, source-freeze, prior-result, and calendar evidence hashes exactly.",
+    "Treat every effective-contract rule as complete and immutable; do not infer, fill in, reinterpret, weaken, or repair a frozen rule during implementation.",
+    "Use live gpt-5.6-terra at medium for pure implementation and synthetic tests only before any current-experiment market-value access.",
+    "A clean committed implementation checkpoint is mandatory before the bounded deterministic development evaluation."
+  ],
+  "budget": {
+    "max_wall_seconds": 1800,
+    "max_agent_calls": 4,
+    "agent_calls_used": 1,
+    "agent_calls_remaining": 3,
+    "max_repair_attempts": 1,
+    "repair_attempts_used": 0,
+    "bounded_cycles": 1,
+    "max_gpu_seconds": 0
+  },
+  "market_values_read_at_freeze": false,
+  "returns_calculated_at_freeze": false,
+  "holdout_opened_at_freeze": false,
+  "holdout_values_read_at_freeze": false,
+  "performance_claim_made_at_freeze": false,
+  "candidate_promoted_at_freeze": false,
+  "capital_permitted": 0,
+  "scheduled_continuation_enabled": false
+}
