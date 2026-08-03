@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "role": "implementation",
+  "requested_model": "gpt-5.6-terra",
+  "actual_model": "gpt-5.6-terra",
+  "reasoning_level": "medium",
+  "invocation_mode": "live",
+  "invocation_interface": "native_subagent",
+  "parent_observed_started_at_utc": "2026-08-03T09:46:31.951744118Z",
+  "first_file_creation_observed_at_utc": "2026-08-03T09:49:08.347760365Z",
+  "parent_observed_completed_at_utc": "2026-08-03T09:51:01.586042711Z",
+  "parent_observed_duration_seconds": 269.634299,
+  "internal_timestamps_exposed": false,
+  "response_identifier": null,
+  "fallback": null,
+  "exact_model_error": null,
+  "model_result_received": true,
+  "model_generated_research_claim": false,
+  "agent_reported_validation": [
+    "python -m py_compile passed for all four assigned files",
+    "direct core smoke import/execution passed",
+    "pytest and ruff unavailable in the agent shell"
+  ],
+  "assigned_files_only": [
+    "src/strategy_control/volatility_parity.py",
+    "src/strategy_control/volatility_parity_pipeline.py",
+    "tests/test_volatility_parity.py",
+    "tests/test_volatility_parity_pipeline.py"
+  ],
+  "agent_reported_scope": "Pure in-memory deterministic primitives; no Git, network, archive, market-value, holdout, credential, order, GPU, mining, or capital access.",
+  "parent_initial_validation": "FAILED_BEFORE_TEST_COLLECTION_REPAIR_REQUIRED",
+  "parent_initial_exact_error": "ValueError: month must be in 1..12",
+  "outcome": "IMPLEMENTATION_RECEIVED_WITH_SINGLE_PARENT_REPAIR_REQUIRED"
+}

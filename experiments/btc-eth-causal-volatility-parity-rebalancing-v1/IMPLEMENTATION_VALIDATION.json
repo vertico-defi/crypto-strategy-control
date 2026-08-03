@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "validated_at_utc": "2026-08-03T10:03:52.129068297Z",
+  "status": "PASS_REPAIRED_PURE_PRE_DATA",
+  "frozen_preregistration_sha256": "96776c370c7ba2e97a1df57571e7fa8c424b94035b8a3c12e78fb66b0fa34772",
+  "effective_contract_sha256": "b20690b0ebd54968feaab050a1498cafe761c19f2a8f328405a9f3e49bb2e2e6",
+  "live_implementation_model": "gpt-5.6-terra",
+  "live_implementation_reasoning_level": "medium",
+  "live_implementation_invocation_mode": "live",
+  "initial_validation": "FAIL_IMPORT_TIME_MONTH_13",
+  "repair_attempts_used": 1,
+  "repair_attempts_remaining": 0,
+  "repair_scope": [
+    "replace the invalid fold generator with the four exact frozen half-open folds",
+    "format the generated source to repository standards",
+    "replace six coarse tests with exact coverage for all 35 frozen synthetic obligations",
+    "complete fail-closed covariance, clock, accounting, statistics, regime, latch, and guard primitives without changing any frozen parameter or gate"
+  ],
+  "required_synthetic_tests": 35,
+  "required_synthetic_tests_exactly_named_and_present": 35,
+  "focused_tests": "PASS_38_TESTS",
+  "full_repository_tests": "PASS_167_TESTS",
+  "ruff": "PASS_ALL_FILES",
+  "mypy": "PASS_21_SOURCE_FILES",
+  "artifact_sha256": {
+    "src/strategy_control/volatility_parity.py": "9295b90d60db7e99232e2fd1de775ef952cc19dcfed8e4d477e9fa6bc056960f",
+    "src/strategy_control/volatility_parity_pipeline.py": "f5c9e86e7ba868c2ff7e55b6457233c2bc215548257934f684218a63ef9c8f6c",
+    "tests/test_volatility_parity.py": "030a2ade0b8787383f7ec2ca21c30c5430258e7fe53895711b0c0768e5df60da",
+    "tests/test_volatility_parity_pipeline.py": "b39d7ddbf6ebce92d29f2ffa99e2acf11d18f12bf896dd93f6faa39f42aa1280"
+  },
+  "artifact_hash_note": "Exact final pre-commit byte hashes after endpoint hardening and formatting.",
+  "production_evaluator_complete": false,
+  "next_required_stage": "Implement and validate the bounded deterministic development evaluator against in-memory synthetic data, commit it cleanly, then and only then open the 36 allowlisted pre-2026 development partitions once.",
+  "market_values_read": false,
+  "returns_calculated": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0
+}
