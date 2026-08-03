@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "status": "AUTHORIZED_FOR_ONE_DETERMINISTIC_DEVELOPMENT_INVOCATION",
+  "authorized_at_utc": "2026-08-03T11:45:44.535776970Z",
+  "production_evidence_commit": "0adaa6b66ef55c89a2365254ff0eeff05c836a29",
+  "frozen_contract_sha256": "42f99d6724d4cb315635bbf12bc70bf2f17594871d16698c83997665fe7cac7c",
+  "effective_contract_sha256": "d47659466a2e55e72eef47051cba3b6c2cb551d036e41269bdbf0d7a9f19d8ad",
+  "data_contract_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+  "dataset_freeze_manifest_byte_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+  "source_commit_in_freeze_manifest": "d1d6066a6042b0c2e1c6af75047f5ebf935c739f",
+  "development_allowlist_count": 36,
+  "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd",
+  "production_validation_byte_sha256": "48c77087b0e020eed8cff0084c918f15c1cf316c8acc566f3e9731fc975db169",
+  "implementation_artifact_sha256": {
+    "src/strategy_control/orchestrator.py": "2b8d8250280f1b31cebf0034c58a1b07ee71c669e0c21e28c72ca8725370edeb",
+    "src/strategy_control/volatility_managed.py": "eb938264b406ac75bcf247ff8e5b2d75c62d0b6a64b9cceca322caa56b8c2fe4",
+    "src/strategy_control/volatility_managed_evaluator.py": "94edfaf974359df7b08313eca3ddc4365bfa76682851ac5289b82b0b0b4e1909",
+    "tests/test_volatility_managed.py": "10701e7815370fa8c808b449681f3356065c4f1367a807219587e25dd21c31b9",
+    "tests/test_volatility_managed_evaluator.py": "ed008cce92d89c3a2cf4b84a9df13bf8214adca3bec00bad87b3f6ab7df034de"
+  },
+  "invocation_mode": "deterministic_local",
+  "maximum_invocations": 1,
+  "invocations_used_before_authorization": 0,
+  "repair_attempts_remaining": 0,
+  "partial_result_selection_permitted": false,
+  "final_holdout_open_permitted": false,
+  "holdout_values_read": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "command": "PYTHONPATH=src /home/vertico/crypto-direction-lab/.venv/bin/python -m strategy_control.orchestrator volatility-managed-development --invocation-mode deterministic_local --owner-type interactive_goal"
+}
