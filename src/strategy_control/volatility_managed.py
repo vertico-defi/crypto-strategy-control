@@ -389,6 +389,7 @@ def make_target(record: Mapping[str, Any]) -> Target:
     if record.get("experiment_id") != EXPERIMENT_ID:
         raise VolatilityManagedError("target experiment mismatch")
     weights = record.get("weights_BTC_ETH_cash")
+    target_name = record.get("trial_or_benchmark")
     source_ids = record.get("ordered_source_record_ids")
     source_hashes = record.get("ordered_source_record_hashes")
     if (
@@ -397,7 +398,14 @@ def make_target(record: Mapping[str, Any]) -> Target:
         or len(weights) != 3
         or any(_finite(value, "target weight") < 0 for value in weights)
         or abs(sum(float(value) for value in weights) - 1) > 1e-12
-        or float(weights[0]) != float(weights[1])
+        or (
+            float(weights[0]) != float(weights[1])
+            and (
+                target_name not in {"BTCUSDT_buy_and_hold", "ETHUSDT_buy_and_hold"}
+                or tuple(float(value) for value in weights)
+                not in {(1.0, 0.0, 0.0), (0.0, 1.0, 0.0)}
+            )
+        )
         or not isinstance(source_ids, Sequence)
         or isinstance(source_ids, str | bytes)
         or not isinstance(source_hashes, Sequence)

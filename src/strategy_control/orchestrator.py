@@ -49,6 +49,16 @@ from strategy_control.trend_pipeline import (
 from strategy_control.trend_pipeline import (
     load_development_market,
 )
+from strategy_control.volatility_managed import VolatilityManagedError
+from strategy_control.volatility_managed_evaluator import (
+    evaluate_development as evaluate_volatility_managed_development,
+)
+from strategy_control.volatility_managed_evaluator import (
+    load_development_market as load_volatility_managed_development_market,
+)
+from strategy_control.volatility_managed_evaluator import (
+    verify_frozen_contract as verify_volatility_managed_frozen_contract,
+)
 from strategy_control.volatility_parity import VolatilityParityError
 from strategy_control.volatility_parity_evaluator import (
     evaluate_development as evaluate_volatility_parity_development,
@@ -76,6 +86,7 @@ MEAN_REVERSION_EXPERIMENT_ID = "btc-eth-long-only-mean-reversion-v1"
 RELATIVE_VALUE_EXPERIMENT_ID = "btc-eth-relative-value-rotation-v1"
 CALENDAR_EXPERIMENT_ID = "btc-eth-intraday-calendar-seasonality-v1"
 VOLATILITY_PARITY_EXPERIMENT_ID = "btc-eth-causal-volatility-parity-rebalancing-v1"
+VOLATILITY_MANAGED_EXPERIMENT_ID = "btc-eth-volatility-managed-equal-weight-v1"
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
 InvocationMode = Literal["live", "mock", "deterministic_local"]
 
@@ -1928,6 +1939,170 @@ def run_volatility_parity_development() -> dict[str, Any]:
     }
 
 
+def run_volatility_managed_development() -> dict[str, Any]:
+    """Run the sole frozen 2024--2025 equal-sleeve development evaluation."""
+
+    state = load_json(STATE)
+    if (
+        state.get("program_state") != "ACTIVE_RESEARCH"
+        or state.get("current_experiment_id") != VOLATILITY_MANAGED_EXPERIMENT_ID
+        or state.get("data_contract_status")
+        != "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PRODUCTION_VERIFIED"
+        or state.get("implementation_status") != "PASS_REPAIRED_PRODUCTION_PRE_DATA"
+        or state.get("next_task")
+        != "run_single_bounded_volatility_managed_development_evaluation"
+        or int(state["budgets"].get("cycles_remaining", 0)) != 1
+        or int(state["budgets"].get("repair_attempts_remaining", 0)) != 0
+    ):
+        raise StateError("volatility-managed experiment is not at the development gate")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before development evaluation")
+    artifact_hashes = state.get("implementation_artifact_sha256")
+    required_artifacts = {
+        "src/strategy_control/orchestrator.py",
+        "src/strategy_control/volatility_managed.py",
+        "src/strategy_control/volatility_managed_evaluator.py",
+        "tests/test_volatility_managed.py",
+        "tests/test_volatility_managed_evaluator.py",
+    }
+    if not isinstance(artifact_hashes, dict) or set(artifact_hashes) != required_artifacts:
+        raise StateError("volatility-managed evaluator evidence binding is missing")
+    for relative, expected_hash in artifact_hashes.items():
+        if (
+            not isinstance(expected_hash, str)
+            or hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() != expected_hash
+        ):
+            raise StateError(f"volatility-managed evaluator hash mismatch: {relative}")
+
+    experiment_root = ROOT / "experiments" / VOLATILITY_MANAGED_EXPERIMENT_ID
+    wrapper_path = experiment_root / "PREREGISTRATION.json"
+    effective_path = experiment_root / "PREREGISTRATION_REVISED_DRAFT.json"
+    wrapper = load_json(wrapper_path)
+    effective = load_json(effective_path)
+    try:
+        verify_volatility_managed_frozen_contract(
+            wrapper, effective, effective_path.read_bytes()
+        )
+    except VolatilityManagedError as exc:
+        raise StateError("frozen volatility-managed contract hash mismatch") from exc
+    data_contract = load_json(ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json")
+    source_repository = ROOT.parent / "crypto-direction-lab"
+    source_result = subprocess.run(
+        ["git", "-C", str(source_repository), "rev-parse", "HEAD"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    source_commit = source_result.stdout.strip()
+    if source_result.returncode != 0 or len(source_commit) != 40:
+        raise StateError("source repository HEAD is unavailable")
+
+    started = _now()
+    monotonic_start = time.monotonic()
+    report_path = experiment_root / "DEVELOPMENT_RESULT.json"
+    partial_calculations_discarded = False
+    try:
+        market = load_volatility_managed_development_market(
+            source_repository, effective, data_contract
+        )
+        partial_calculations_discarded = True
+        report = evaluate_volatility_managed_development(
+            market, effective, ROOT / "experiments"
+        )
+        duration = round(time.monotonic() - monotonic_start, 6)
+        if duration > float(state["budgets"]["max_wall_seconds"]):
+            raise StateError("volatility-managed development exceeded frozen wall budget")
+        report.update(
+            {
+                "started_at_utc": started,
+                "ended_at_utc": _now(),
+                "duration_seconds": duration,
+                "invocation_mode": "deterministic_local",
+                "controller_source_commit": git["head"],
+                "source_commit": market.source_commit,
+                "source_repository_head": source_commit,
+                "preregistration_sha256": wrapper["preregistration_sha256"],
+                "effective_contract_sha256": wrapper["effective_contract"][
+                    "canonical_sha256"
+                ],
+                "data_contract_result_sha256": _sha(data_contract),
+            }
+        )
+        atomic_json(report_path, report)
+        outcome = str(report["classification"])
+        exact_error = None
+        result_hash = _sha(report)
+    except (ImportError, OSError, StateError, ValueError, VolatilityManagedError) as exc:
+        duration = round(time.monotonic() - monotonic_start, 6)
+        outcome = "DEVELOPMENT_PIPELINE_FAILURE"
+        exact_error = _bounded_error(f"{type(exc).__name__}: {exc}")
+        result_hash = None
+        report = {
+            "schema_version": "1.0",
+            "experiment_id": VOLATILITY_MANAGED_EXPERIMENT_ID,
+            "stage": "DEVELOPMENT",
+            "classification": outcome,
+            "started_at_utc": started,
+            "ended_at_utc": _now(),
+            "duration_seconds": duration,
+            "invocation_mode": "deterministic_local",
+            "holdout_values_read": False,
+            "holdout_opened": False,
+            "candidate_promoted": False,
+            "returns_calculated": False,
+            "partial_calculations_discarded": partial_calculations_discarded,
+            "capital_permitted": 0,
+            "exact_error": exact_error,
+        }
+        atomic_json(report_path, report)
+    append_jsonl(
+        MODEL_LEDGER,
+        {
+            "record_type": "LOCAL_PIPELINE_INVOCATION",
+            "experiment_id": VOLATILITY_MANAGED_EXPERIMENT_ID,
+            "role": "volatility_managed_development_evaluator",
+            "requested_model": None,
+            "actual_model": None,
+            "reasoning_level": None,
+            "invocation_mode": "deterministic_local",
+            "started_at_utc": started,
+            "ended_at_utc": report["ended_at_utc"],
+            "duration_seconds": report["duration_seconds"],
+            "outcome": outcome,
+            "model_result_received": False,
+            "model_generated_research_claim": False,
+            "result_sha256": result_hash,
+            "exact_error": exact_error,
+            "fallback": None,
+            "holdout_opened": False,
+        },
+    )
+    state.update(
+        {
+            "development_status": outcome,
+            "next_task": (
+                "run_volatility_managed_pre_holdout_independent_audit"
+                if outcome == "DEVELOPMENT_GO"
+                else "run_volatility_managed_terminal_independent_audit"
+            ),
+            "updated_at_utc": report["ended_at_utc"],
+        }
+    )
+    budgets = dict(state["budgets"])
+    budgets["cycles_remaining"] = 0
+    state["budgets"] = budgets
+    atomic_json(STATE, state)
+    return {
+        "status": outcome,
+        "report": str(report_path.relative_to(ROOT)),
+        "result_sha256": result_hash,
+        "holdout_opened": False,
+        "returns_calculated": report.get("returns_calculated", False),
+        "capital_permitted": 0,
+    }
+
+
 def sanitize_trend_audit_payload(payload: object, *, result_sha256: str) -> dict[str, Any]:
     """Allowlist a terminal trend audit and preserve the closed-holdout boundary."""
 
@@ -2894,6 +3069,7 @@ def main() -> None:
             "relative-value-development",
             "calendar-development",
             "volatility-parity-development",
+            "volatility-managed-development",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -2952,6 +3128,8 @@ def main() -> None:
             result = run_calendar_development()
         elif args.command == "volatility-parity-development":
             result = run_volatility_parity_development()
+        elif args.command == "volatility-managed-development":
+            result = run_volatility_managed_development()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":
