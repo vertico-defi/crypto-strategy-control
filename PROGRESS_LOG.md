@@ -1,10 +1,10 @@
 # Durable Progress Log
 
-- Current checkpoint: `btc-eth-relative-value-rotation-v1` is terminal `AUDIT_REJECTED`; deterministic development remains `HISTORICAL_NO_GO` at `e03d5fc...` and audit payload is `42ee9d6b...`.
-- What changed: read-only live Sol/xhigh audit preserved all eight failed gates and found four contract deviations in cross-asset fill cutoff, terminal selection, pure-core pending timing, and the three-observation DSR edge case.
-- What was verified: preregistration/data/result/artifact hashes, 105 tests, exact gate names, closed/unread 2026 holdout, zero candidate, zero capital, and original `cs-ranking-ptu-data-audit-v1=DATA_NO_GO`.
-- What failed: eight numerical/sufficiency gates plus material causal-execution fidelity; the development headline results are not valid evidence for the frozen strategy.
-- Current best defensible result: no validated strategy candidate. The relative-value holdout is permanently ineligible.
-- Next experiment: allocate and preregister a fresh bounded native-audit resolution of the unresolved archive-observed point-in-time universe route without rewriting v1 evidence.
-- Current blocker: none. Scheduled continuation remains disabled; GPU and mining remain untouched.
-- Exact resume state: terminal audit payload `42ee9d6b...`, evidence `d53fcd7`, source snapshot `77f8b40`, portfolio `ec145f1`, validation/Pages runs `30791077159`/`30791077160` successful. Relative budget closed at 3/4 calls and 0 repairs; allocate a fresh v2 budget next.
+- Current checkpoint: `cs-ranking-binance-spot-archive-ptu-audit-resolution-v2` is preregistered and frozen at hash `98340b7e...` against published source `d37c11d`; archive v1 remains terminal `AUDIT_INCONCLUSIVE` and the original registered-inventory audit remains `DATA_NO_GO`.
+- What changed: a separate audit-only experiment now asks whether the immutable v1 evidence supports only a conditional archive-enumeration contract, never a strategy-ready universe.
+- What was verified: the nine frozen v1 artifact/source/test byte hashes agree; the new contract prohibits new data, network, current exchangeInfo, returns, holdout access, strategy claims, capital, GPU use, and mining changes.
+- What failed: no new failure. The unresolved issue is whether sanitized listings, boundary evidence, causal helpers, tests, and explicit quarantines are methodologically sufficient for the narrow conditional verdict.
+- Current best defensible result: no validated strategy candidate; no archive-derived strategy universe is currently eligible.
+- Next experiment: deterministic validation and a live read-only Sol/xhigh audit of the frozen v2 decision contract.
+- Current blocker: none. Scheduled continuation remains disabled and the interactive Goal owns execution.
+- Exact resume state: v2 budget 0/2 calls, zero repairs, 900 wall seconds, one cycle, zero GPU seconds, zero capital; commit the frozen preregistration before the live audit.

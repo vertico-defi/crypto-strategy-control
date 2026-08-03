@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0",
+  "status": "FROZEN",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-audit-resolution-v2",
+  "created_at_utc": "2026-08-03T06:47:36.133684Z",
+  "preregistered_at_utc": "2026-08-03T06:47:36.133684Z",
+  "source_commit": "d37c11d2895a90cbe9154750f2f3cca572471873",
+  "preregistration_sha256": "98340b7eb36f1754b13019ac307514b3107814a092940a18a8eed398f99aa3bb",
+  "capital_permitted": 0,
+  "holdout_opened": false,
+  "returns_calculated": false,
+  "performance_claim_permitted": false,
+  "research_question": "Do the immutable committed artifacts from cs-ranking-binance-spot-archive-ptu-audit-v1 support a defensible conditional contract for enumerating an archive-observed historical USDT spot-pair universe, while keeping every unscanned internal bar and uncertain episode ineligible pending a separate acquisition-and-row-validation experiment?",
+  "relationship_to_prior_experiments": {
+    "preserved_program_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+    "preserved_v1_result": "cs-ranking-binance-spot-archive-ptu-audit-v1=AUDIT_INCONCLUSIVE",
+    "v1_may_be_modified_or_relabelled": false,
+    "unused_prior_agent_budget_transferred": false,
+    "purpose": "Resolve only the methodological meaning of v1's frozen evidence through a new independent audit; this is not a retry that changes v1 and is not a strategy experiment."
+  },
+  "compute_budget": {
+    "agent_calls": 2,
+    "experiments": 1,
+    "gpu_seconds": 0,
+    "repair_attempts": 0,
+    "wall_seconds": 900,
+    "call_1": "one live native gpt-5.6-sol xhigh independent audit",
+    "call_2": "same model and reasoning only if call 1 has a confirmed infrastructure failure and returns no model result",
+    "model_fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error can activate the repository fallback order; coding, test, data, or methodological failure never permits downgrade."
+  },
+  "audit_permissions": {
+    "invocation_mode": "live",
+    "model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "repository_access": "read_only_requested",
+    "network_access": false,
+    "external_repository_access": false,
+    "raw_archive_or_market_data_access": false,
+    "current_exchange_info_access": false,
+    "holdout_access": false,
+    "strategy_return_calculation": false,
+    "file_modification": false,
+    "credentials_orders_wallets_capital_gpu_or_mining": false
+  },
+  "frozen_evidence": {
+    "evidence_commit": "d37c11d2895a90cbe9154750f2f3cca572471873",
+    "v1_preregistration": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/PREREGISTRATION.json",
+      "byte_sha256": "e85d335bf5814622e2bf1807d81c4aad645d0eb7738c7f1519af3ba3b4fa6255",
+      "canonical_object_sha256": "f4e1e555b5fcfe1da720fe39c5a69186bd943b3323de405eeceb1e0a57420b97",
+      "embedded_preregistration_sha256": "07487eff935acfad81af1405598d22b3c96ff7d8702190a4fde52d1a37da42d3"
+    },
+    "v1_data_integrity_report": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/DATA_INTEGRITY_REPORT.json",
+      "byte_sha256": "399ae5c4a4785ab605bc1d9b51ea73e1dafadde0ff0f32b5de75c9ce46f00f0d",
+      "canonical_object_sha256": "9d270e8655cffd91bc145db5d57261daa45e4babf63e907ba98a56946f8021e4"
+    },
+    "v1_deterministic_validation": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/DETERMINISTIC_VALIDATION.json",
+      "byte_sha256": "7023d5c7ec1ed9cd7c43b4542253342154ee2aa00787cfbf8e5870602c3724db",
+      "canonical_object_sha256": "53f62ea8f666c4f5a9de6c7eb425a8b254175eda813d2f6fcc98eba252b8181c"
+    },
+    "v1_audit": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/AUDIT.json",
+      "byte_sha256": "989d3f0e07bf7596f3aa70ea007f2306eee0e510d7185dcc5444d841cd77abc6",
+      "canonical_object_sha256": "852a8113709f6e1afdf6faf2eb89383640db6d13184ace2b04ad517097f7db9c"
+    },
+    "v1_symbol_manifest": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/SYMBOL_MANIFEST.json",
+      "byte_sha256": "3339a5db381dde50d71856c5ffe4cb9fc093fd082dc5b83ba8429f7b0a329fc0",
+      "canonical_object_sha256": "dccee1a7aa0c97010b759623156c604e9f45b03450fe9bac39c3a9063c5d3854",
+      "embedded_manifest_sha256": "d5fffe3151c1b3a4193caf2abac2c9155351c31ec0fc7932e3e698355a06ec85"
+    },
+    "archive_audit_source": {
+      "path": "src/strategy_control/archive_audit.py",
+      "byte_sha256": "dd51a0891666a3e2b9c8fb25f46253fbfe3dd3c9d5c326e6d6dff42b7909d715"
+    },
+    "archive_universe_source": {
+      "path": "src/strategy_control/archive_universe.py",
+      "byte_sha256": "576e148d9fec04118e656e83ca3c7fd1ddaac86e24885b7ba413772942f0870b"
+    },
+    "archive_audit_tests": {
+      "path": "tests/test_archive_audit.py",
+      "byte_sha256": "aba39fc0c294788f38356d7585617543acdcdb49840c6ef21f3a9e6717805792"
+    },
+    "archive_universe_tests": {
+      "path": "tests/test_archive_universe.py",
+      "byte_sha256": "41f9a7d6749cef92ca5bc994a13e44bb88f7098adc5436771aeb9f45dc5500ad"
+    }
+  },
+  "frozen_observations_to_verify_not_assume": {
+    "root_listing_pages_reported": 4,
+    "archive_observed_USDT_symbol_directories_reported": 680,
+    "boundary_valid_in_sample_symbols_reported": 677,
+    "boundary_validation_quarantine_reported": ["KLAYUSDT"],
+    "current_exchange_info_requests_reported": 0,
+    "end_of_sample_survival_filter_reported": false,
+    "market_capitalization_inputs_reported": 0,
+    "internal_bars_scanned": false,
+    "formal_exchange_wide_archive_completeness_claimed": false
+  },
+  "mandatory_audit_questions": [
+    "Do the evidence hashes, embedded hashes, code, tests, manifest counts, and report agree at the frozen commit?",
+    "Does the recorded S3 ListBucket-v1 pagination protocol and sanitized page provenance support reproducible archive-directory enumeration without current exchangeInfo?",
+    "Are later-delisted symbols admitted by archive observation without an end-of-sample survival requirement?",
+    "Are duplicate keys, missing months, unexplained gaps, symbol renames or migrations, listing buffers, last-bar behavior, and absent next bars handled fail-closed rather than silently normalized?",
+    "Are membership, lagged liquidity ranking, and next-real-bar execution causal in the tested core, and is any gap between that pure core and the actual manifest-generation path material to the narrow conditional verdict?",
+    "Do the manifest's first and last valid bar fields mean only validated boundary-archive observations, not a claim that all intervening rows were scanned?",
+    "Do retained response hashes, object metadata, checksum hashes, ZIP hashes, and source URLs provide enough evidence to accept the conditional enumeration contract despite raw XML and ZIP responses not being committed?",
+    "Are the formal-completeness, archive-revision, asset-identity, internal-row, and boundary-anomaly limitations explicit and strong enough?",
+    "Would either permitted verdict create a future-informed universe, current-metadata contamination, survivorship leakage, or permission to open a strategy holdout?"
+  ],
+  "deterministic_requirements": {
+    "artifact_hashes_recompute": true,
+    "embedded_hashes_recompute": true,
+    "json_files_parse": true,
+    "required_v1_tests": [
+      "future_informed_universe_membership",
+      "current_exchange_info_contamination",
+      "survivorship_leakage",
+      "first_bar_eligibility",
+      "last_bar_treatment",
+      "missing_month_treatment",
+      "duplicate_symbols",
+      "renamed_or_migrated_symbols",
+      "causal_liquidity_ranking",
+      "execution_alignment"
+    ],
+    "project_tests_lint_typing_and_diff": "all_pass_before_live_audit"
+  },
+  "permitted_model_verdicts": {
+    "ARCHIVE_ENUMERATION_CONTRACT_GO_PENDING_INTERNAL_ACQUISITION": {
+      "meaning": "The frozen evidence is sufficient for the narrow causal archive-directory enumeration and conditional manifest contract only.",
+      "mandatory_limits": [
+        "This is not DATA_CONTRACT_GO, not a strategy-ready universe, not formal archive completeness, and not a performance claim.",
+        "All internal bars remain ineligible and quarantined until a separate preregistered acquisition performs checksum, ZIP, schema, timestamp, duplicate, row continuity, gap, and causal-availability validation for every used object.",
+        "Renames and migrations remain separate quarantined episodes unless later causally proven.",
+        "No final strategy holdout may open under this verdict.",
+        "The next experiment must be a bounded full internal acquisition-and-validation stage before any cross-sectional baseline evaluation."
+      ]
+    },
+    "DATA_NO_GO": {
+      "meaning": "The immutable v1 evidence is insufficient to support even the narrow conditional archive-enumeration contract without a materially new data-acquisition experiment.",
+      "mandatory_limits": [
+        "The v1 AUDIT_INCONCLUSIVE result and the earlier registered-inventory DATA_NO_GO remain unchanged.",
+        "No archive-derived strategy universe or holdout is permitted from these artifacts.",
+        "The terminal result must identify the exact evidence or methodology failures and the route proceeds to the next distinct approved strategy family supported by verified data."
+      ]
+    }
+  },
+  "controller_only_infrastructure_outcome": "If both bounded same-model calls fail before producing a model result for a confirmed infrastructure reason, the controller records AUDIT_INCONCLUSIVE. A completed auditor response must choose exactly one permitted model verdict and may not use AUDIT_INCONCLUSIVE to avoid a methodological decision.",
+  "decision_rule": "Choose GO only if every mandatory question is resolved without relying on uncommitted raw responses, current exchange metadata, future survival, or unscanned internal bars. Otherwise choose DATA_NO_GO and enumerate every material failure. Never infer strategy readiness or performance from the directory manifest.",
+  "required_audit_output": {
+    "format": "strict JSON object",
+    "fields": [
+      "experiment_id",
+      "verdict",
+      "evidence_commit",
+      "preregistration_sha256",
+      "evidence_hashes_verified",
+      "mandatory_question_findings",
+      "material_failures",
+      "limitations",
+      "next_experiment",
+      "holdout_opened",
+      "returns_calculated",
+      "performance_claim_made",
+      "candidate_promoted",
+      "capital_permitted"
+    ],
+    "fixed_invariants": {
+      "holdout_opened": false,
+      "returns_calculated": false,
+      "performance_claim_made": false,
+      "candidate_promoted": false,
+      "capital_permitted": 0
+    }
+  },
+  "terminal_routing": {
+    "ARCHIVE_ENUMERATION_CONTRACT_GO_PENDING_INTERNAL_ACQUISITION": "Preregister a distinct internal archive acquisition-and-row-validation experiment; still do not open a strategy holdout.",
+    "DATA_NO_GO": "Preserve the verdict and immediately select the next approved strategy family supported by existing verified data.",
+    "AUDIT_INCONCLUSIVE": "Preserve the infrastructure failure and immediately select the next approved strategy family; do not silently reuse v1 evidence."
+  }
+}

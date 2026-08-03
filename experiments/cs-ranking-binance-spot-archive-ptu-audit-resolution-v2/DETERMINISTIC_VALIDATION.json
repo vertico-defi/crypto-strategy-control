@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-audit-resolution-v2",
+  "validated_at_utc": "2026-08-03T06:51:58.821896Z",
+  "invocation_mode": "deterministic_local",
+  "model_generated_research": false,
+  "source_commit": "d37c11d2895a90cbe9154750f2f3cca572471873",
+  "preregistration_sha256": "98340b7eb36f1754b13019ac307514b3107814a092940a18a8eed398f99aa3bb",
+  "preserved_program_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+  "preserved_v1_result": "cs-ranking-binance-spot-archive-ptu-audit-v1=AUDIT_INCONCLUSIVE",
+  "artifact_checks": {
+    "all_frozen_byte_hashes_recomputed": true,
+    "v2_preregistration_canonical_hash_recomputed": "98340b7eb36f1754b13019ac307514b3107814a092940a18a8eed398f99aa3bb",
+    "v1_manifest_embedded_hash_recomputed": "d5fffe3151c1b3a4193caf2abac2c9155351c31ec0fc7932e3e698355a06ec85",
+    "v1_artifacts_unmodified": true,
+    "root_listing_pages": 4,
+    "archive_observed_symbol_directories": 680,
+    "boundary_valid_in_sample_symbols": 677,
+    "current_exchange_info_requests": 0,
+    "end_of_sample_survival_filter": false,
+    "market_capitalization_inputs": 0,
+    "internal_bars_strategy_eligible": false
+  },
+  "required_v1_tests": {
+    "future_informed_universe_membership": "PASS",
+    "current_exchange_info_contamination": "PASS",
+    "survivorship_leakage": "PASS",
+    "first_bar_eligibility": "PASS",
+    "last_bar_treatment": "PASS",
+    "missing_month_treatment": "PASS",
+    "duplicate_symbols": "PASS",
+    "renamed_or_migrated_symbols": "PASS",
+    "causal_liquidity_ranking": "PASS",
+    "execution_alignment": "PASS"
+  },
+  "commands": [
+    {
+      "command": ".venv/bin/pytest -q",
+      "result": "PASS",
+      "tests_passed": 105
+    },
+    {
+      "command": ".venv/bin/ruff check .",
+      "result": "PASS"
+    },
+    {
+      "command": ".venv/bin/mypy src",
+      "result": "PASS",
+      "source_files_checked": 16
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "holdout_opened": false,
+  "returns_calculated": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "verdict": "DETERMINISTIC_VALIDATION_PASS_PENDING_LIVE_INDEPENDENT_AUDIT"
+}
