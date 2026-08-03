@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "classification": "AUDIT_REJECTED",
+  "development_classification": "HISTORICAL_NO_GO",
+  "audited_evidence_commit": "6953ba10b4801b34ad132ac4c3223d293af32042",
+  "preregistration_sha256": "96776c370c7ba2e97a1df57571e7fa8c424b94035b8a3c12e78fb66b0fa34772",
+  "effective_contract_sha256": "b20690b0ebd54968feaab050a1498cafe761c19f2a8f328405a9f3e49bb2e2e6",
+  "development_result_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1",
+  "audit_model_result_sha256": "1a54b8ffd960f46d5cdc9899efe2868824de8b8005a83da30f0b43958716130f",
+  "audit_model_result_byte_sha256": "2703978f1c120bb35365a5043287002690f9c546e34d2995797a3e4659273211",
+  "audit_sha256": "163bade958bd90e3341257c7552b7536f7215761b9e89d15befb09466c2c52e8",
+  "audit_byte_sha256": "6386b25274330160da150ce0f22a4c06b9b39d5e4455b2a6cf89d26cf8a20735",
+  "tooling": {
+    "pytest": "PASS_176_TESTS",
+    "ruff": "PASS_WITH_ONLY_PREEXISTING_UP038_BASELINE_EXCLUDED",
+    "ruff_preexisting_up038_findings": 27,
+    "mypy": "PASS_22_SOURCE_FILES",
+    "compileall": "PASS",
+    "json_parse": "PASS",
+    "canonical_hashes_recomputed": "PASS",
+    "diff_check": "PASS"
+  },
+  "validation_command_correction": {
+    "first_command_result": "COLLECTION_ERROR_BEFORE_TEST_EXECUTION",
+    "exact_error": "ModuleNotFoundError: No module named 'strategy_control'",
+    "cause": "The first validation command omitted the repository-required PYTHONPATH=src.",
+    "resolution": "The unchanged checkpoint was rerun with PYTHONPATH=src and all 176 tests passed."
+  },
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "program_state": "ACTIVE_RESEARCH",
+  "next_experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "validated_at_utc": "2026-08-03T10:41:28.486376590Z"
+}

@@ -1,0 +1,50 @@
+{
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "verdict": "AUDIT_REJECTED",
+  "development_classification": "HISTORICAL_NO_GO",
+  "development_result_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1",
+  "audited_source_commit": "6953ba10b4801b34ad132ac4c3223d293af32042",
+  "preserved_prior_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+  "preserved_calendar_result": "btc-eth-intraday-calendar-seasonality-v1=AUDIT_REJECTED",
+  "frozen_preregistration_sha256": "96776c370c7ba2e97a1df57571e7fa8c424b94035b8a3c12e78fb66b0fa34772",
+  "effective_contract_sha256": "b20690b0ebd54968feaab050a1498cafe761c19f2a8f328405a9f3e49bb2e2e6",
+  "evidence_consistent": false,
+  "implementation_faithful": false,
+  "confirmed_failed_gates": [
+    "additional_delay_aggregate_net_return_gt",
+    "aggregate_net_return_gt",
+    "annualized_sharpe_gte",
+    "asset_net_contribution_each_gt",
+    "baseline_superiority",
+    "bootstrap_all_three_lower_bounds_gt",
+    "deflated_sharpe_probability_gte",
+    "doubled_cost_aggregate_net_return_gt",
+    "maximum_drawdown_lte",
+    "positive_folds_minimum",
+    "positive_parameter_neighbors_minimum",
+    "probability_of_backtest_overfitting_lte",
+    "regime_gate"
+  ],
+  "material_implementation_defects": [
+    "The development opener validates the data-contract JSON and 36 pre-2026 path labels but never verifies each opened file's frozen sha256 and byte count or the external source-repository commit; development_partitions discards those fields, so the reported result is not bound to the frozen input files.",
+    "PlannedFill.target_hash is never checked or persisted by simulate_path, DEVELOPMENT_RESULT omits the materialized target and input-hash trace, and buy-and-hold fills reuse a primary target hash for different weights; immutable-target fidelity and exact execution provenance are not demonstrated.",
+    "The production loader raises terminal errors for duplicate, nonmonotonic, or invalid-OHLC rows instead of routing the affected joint session through the frozen incomplete-session quarantine path, while a session absent from both symbols is absent from all_starts and generates no causal gap_detection_time; the frozen quarantine and recovery state machine is incomplete."
+  ],
+  "limitations": [
+    "This read-only audit did not inspect Parquet, raw or archived market values, any 2026 holdout file, footer, or value, and did not recalculate returns.",
+    "The reported numerical outputs were checked for canonical-hash and gate-condition consistency but could not be independently reproduced from market values.",
+    "The 47 focused synthetic tests passed with cache and bytecode writes disabled, but synthetic coverage cannot establish the identity of the external development files or cure the missing execution trace."
+  ],
+  "rationale": [
+    "The clean audited commit equals the supplied commit; the wrapper, effective-contract, reused-data-contract, prior-result, implementation-artifact, and deterministic-result canonical hashes recompute to their recorded values.",
+    "The exact 25-gate report contains the confirmed 13 failures, including negative primary and stress returns, Sharpe below 0.75, drawdown above 0.20, only two positive folds, zero positive neighbors, negative BTC contribution, failed bootstrap, DSR, PBO, baseline, and regime gates; HISTORICAL_NO_GO therefore remains fixed despite audit rejection.",
+    "Material frozen-contract fidelity and input-identity defects prevent terminal methodological confirmation of the exact evaluation evidence.",
+    "The holdout remained closed, no holdout values were read, no candidate was promoted, and capital remains zero."
+  ],
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "candidate_promoted": false,
+  "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+  "capital_permitted": 0,
+  "overall_program_state": "ACTIVE_RESEARCH"
+}
