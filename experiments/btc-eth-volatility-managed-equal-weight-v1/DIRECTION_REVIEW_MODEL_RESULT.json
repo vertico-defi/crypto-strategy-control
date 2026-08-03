@@ -1,0 +1,124 @@
+{
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "verdict": "REVISION_REQUIRED",
+  "draft_sha256": "fdd19cf8e260a155afccce61e98c660feaae595710463f44ff21c1456a7c4520",
+  "source_commit": "c3977fb5d279c1cdd5576a0c2a3b7a927b49ee13",
+  "family_distinct": true,
+  "economic_hypothesis_coherent": true,
+  "target_volatility_defensible": true,
+  "no_data_or_returns_inspected": true,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "performance_claim_made": false,
+  "capital_permitted": 0,
+  "critical_issues": [
+    "baseline_superiority_question is unresolved, so the draft can silently reinterpret a mandatory ACCEPTANCE_GATES.yaml gate after results are known.",
+    "The exact development input identity is not freeze-ready: the draft does not bind the source repository to source_repository_commit_in_freeze_manifest=d1d6066a6042b0c2e1c6af75047f5ebf935c739f, enumerate the exact 36 development allowlist entries, or freeze canonical target/fill trace serialization and hashing.",
+    "The complete-session grid, causal missing-record detection time, missing exact B_s handling, exposed-quarantine liquidation vector, and classification precedence are insufficiently exact. 'Fails the scheduled decision closed' is ambiguous between skip-to-cash and terminal failure.",
+    "The promised every-minute drawdown path conflicts with an exposed missing-minute interval unless the contract either terminates on an unpriceable exposed mark or explicitly limits the path to valid synchronized marks and records that limitation.",
+    "The statistical panel does not freeze the exact seven-trial endpoint intersection, consecutive-calendar-day treatment, unavailable-cash spans, genuine cash zeros, benchmark comparison panel, or whether gaps may be bridged as one daily return.",
+    "The DSR count treatment is directionally correct but not executable: exact ordered prior/current registries, immutable result hashes, nonannualized Sharpe convention, SR0 formula, autocorrelation, moments, and degeneracy rules are absent.",
+    "PBO lacks the exact zero-volatility/infinity rule, rank denominator, logit event, and complete fail-closed degeneracy treatment.",
+    "The stationary bootstrap lacks its exact restart algorithm, NumPy linear percentile convention, and comprehensive degeneracy behavior.",
+    "Regime labels lack exact interval-start assignment, threshold equality rules, required expanding-median history, cost and safety-PnL assignment, and degeneracy handling.",
+    "The holdout gate map is internally impossible if only fold counts change: a six-month holdout cannot satisfy the unchanged 320-common-day minimum and is unlikely to satisfy 40 weekly rebalances. Exact holdout minima must be frozen without weakening ACCEPTANCE_GATES.yaml.",
+    "The holdout latch is described as unique rather than a fixed canonical path, which could permit a new latch on retry; file-and-directory fsync, atomic replacement, pre-existing-latch rejection, and terminal error precedence are not fully specified.",
+    "The prospective wording could exclude a genuinely new Sunday decision merely because its weights equal the previous decision; uniqueness must be by Sunday decision key, while recomputation of the same key must not count.",
+    "Fold initialization does not explicitly prohibit pre-fold targets, fills, units, PnL, or pending state while permitting only causal pre-start estimator warmup."
+  ],
+  "required_revisions": [
+    "Freeze the exact baseline rule returned in exact_baseline_superiority_rule and apply it identically in development and holdout; all ties fail.",
+    "Bind the data contract, freeze-manifest commit d1d6066a6042b0c2e1c6af75047f5ebf935c739f, exact 36 development path/byte/SHA-256 entries, and opened-byte rehashes before parsing; persist a canonical session input-manifest hash.",
+    "Freeze a canonical JSON serialization/hash schema for every target and fill, including experiment, trial or benchmark, boundary, session, I_s, B_s, lookback, target volatility, sigma_hat, cap state, scalar, weights, ordered source identifiers/hashes, execution vector identity, status, and parent target hash.",
+    "Define each UTC session's exact half-open minute grid and the earliest causal detection time for missing, duplicate, nonmonotonic, invalid, asynchronous, or absent records. Missing exact B_s must never scan forward for an ordinary fill and must trigger the declared quarantine or terminal path.",
+    "Define exposed-quarantine liquidation as the earliest later valid synchronized vector after the causal trigger, or instead fail immediately if exposure cannot be priced; freeze which choice applies and reconcile it with the drawdown claim.",
+    "Replace ambiguous numerical handling with explicit precedence: input/hash/unpriceable-terminal defects are DATA_INTEGRITY_FAILURE; scheduled finite-estimator or target degeneracy is a terminal NUMERICAL_DEGENERACY_FAILURE; only fully evaluated failed economic gates produce HISTORICAL_NO_GO.",
+    "Freeze one exact common panel: identical valid endpoint timestamps across all seven trials for primary Sharpe, bootstrap, DSR, and PBO; specify consecutive-day rules, missing spans, genuine cash zeros, and identical benchmark comparison timestamps.",
+    "Freeze the complete 42-attempt registry by ordered name and immutable artifact hash. Use N=42 only in SR0's expected-maximum term and ddof=1 dispersion from exactly 35 observed nonannualized daily Sharpes; never impute seven calendar slots.",
+    "Freeze the complete DSR, PBO, bootstrap, regime, exceptional-profit, contribution, and concentration formulas and all nonfinite, zero-volatility, empty-block, insufficient-history, and tie behavior.",
+    "Freeze holdout overrides as fold_count=2, positive_folds_minimum=2, completed_scheduled_rebalances_minimum=20, completed_scheduled_rebalances_each_fold_minimum=8, and minimum_common_days=150; every other inherited and supplemental gate remains identical.",
+    "Use one fixed canonical latch path. Exclusive-create it once with accessed=false and all authorization hashes, fsync file and directory, atomically replace it with accessed=true immediately before first 2026 path resolution, fsync file and directory again, and make any pre-existing/malformed/mismatched latch or post-arm interruption terminal with no retry.",
+    "Clarify prospective counting: one count for each unique eligible Sunday key after its trace is materialized even if the target equals the prior target; retries or recomputation of the same key never add a count.",
+    "State that every fold starts at its boundary in exact cash with no position, PnL, pending target, or prior decision; pre-start rows may affect only causal estimator warmup."
+  ],
+  "confirmed_strengths": [
+    "The family is genuinely distinct: relative BTC/ETH target weights remain exactly 50/50 while only aggregate risky exposure changes, unlike fully invested inverse-volatility allocation and return-sign-driven trend.",
+    "The 40% annual target, hard scalar cap at one, zero floor, no leverage, fixed primary, four declared neighbors, and two additional variants are defensible ex ante and prohibit post-hoc primary replacement.",
+    "The fixed-sleeve estimator explicitly separates a hypothetical daily 50/50 estimator return from the actual weekly-rebalanced, between-fill drifting portfolio.",
+    "Strictly lagged information time, next-vector execution, independent doubled-cost and delay stresses, terminal cash, chronological folds, and zero-interest cash are appropriate.",
+    "Fourteen-basis-point one-way base cost, doubled-cost stress, additional-session delay, contribution reconciliation, concentration, regime, bootstrap, DSR, and PBO gates are conservative in intent.",
+    "The holdout remains closed and unread, no candidate exists, capital is zero, and prior terminal results are preserved."
+  ],
+  "exact_baseline_superiority_rule": {
+    "closest_counterfactual": "equal_weight_weekly_fully_invested",
+    "secondary_counterfactual": "equal_weight_buy_and_hold",
+    "all_conditions_required": [
+      "primary aggregate net return is strictly greater than zero",
+      "primary aggregate net return is strictly greater than equal_weight_weekly_fully_invested aggregate net return",
+      "primary annualized Sharpe is strictly greater than equal_weight_weekly_fully_invested annualized Sharpe",
+      "primary annualized Sharpe is strictly greater than equal_weight_buy_and_hold annualized Sharpe",
+      "primary event-level maximum drawdown is strictly lower than equal_weight_weekly_fully_invested event-level maximum drawdown",
+      "primary event-level maximum drawdown is strictly lower than equal_weight_buy_and_hold event-level maximum drawdown"
+    ],
+    "comparison_requirements": "Use identical boundary, eligibility, quarantine, execution-vector availability, costs, terminal cash, and common daily endpoint panel; no metric substitution or post-result benchmark selection.",
+    "strict_ties_fail": true,
+    "cash_baseline_treatment": "The separately inherited strictly-positive aggregate-net gate establishes superiority to zero-return cash; cash drawdown is not a required comparison."
+  },
+  "multiplicity_verdict": {
+    "status": "CONCEPTUALLY_CORRECT_BUT_REQUIRES_EXACT_REGISTRY_AND_FORMULAS",
+    "N_total": 42,
+    "observed_sharpes": 35,
+    "no_return_slots": 7,
+    "composition": {
+      "prior_completed_observed": 21,
+      "calendar_no_return": 7,
+      "volatility_parity_observed": 7,
+      "current_observed": 7
+    },
+    "DSR_treatment": "Use N=42 only in SR0=sigma_SR*((1-Euler_gamma)*Phi_inverse(1-1/42)+Euler_gamma*Phi_inverse(1-1/(42*e))). Estimate sigma_SR with ddof=1 from exactly 35 hash-bound observed nonannualized daily Sharpes. Evaluate the current primary nonannualized Sharpe on the exact seven-current-trial common panel with frozen 28-lag Bartlett T_eff, bias-false skew, nonexcess kurtosis, and probability-zero degeneracies.",
+    "PBO_treatment": "Use only the seven current trials on their exact common daily matrix, eight nonempty chronological numpy.array_split blocks, all 70 four-block training choices, declared-order exact training ties, average test ranks, relative_rank=rank/8, event log(relative_rank/(1-relative_rank))<=0, and PBO=1 for any missing, empty, nonfinite, unresolved, or invalid case.",
+    "no_invented_returns": true
+  },
+  "evidence_trace_requirements": [
+    "Recompute and bind the draft/frozen-contract canonical and byte hashes before execution.",
+    "Verify the external source repository freeze commit and exact selected path, byte count, and SHA-256 allowlist before opening; rehash the exact opened bytes before parsing.",
+    "Persist ordered record identifiers and hashes for every estimator input, with event and availability timestamps and the derived I_s.",
+    "Persist canonical immutable target hashes before fills and distinguish every different trial, benchmark, weight vector, boundary, and decision.",
+    "Persist exact execution-vector identity, B_s, atomic BTC/ETH row hashes, fill hash, cost rate, pretrade weights, target weights, currency cost, status, cancellation reason, and parent target hash.",
+    "Persist gap detection, quarantine, recovery-counter, safety-liquidation, terminal override, event-wealth, endpoint-wealth, contribution, and reconciliation traces.",
+    "Prove base, doubled-cost, delay, fold, trial, and benchmark paths start independently from cash and use no shared mutable portfolio state.",
+    "Require deterministic synthetic tests for byte-identity rejection, target-hash collision rejection, missing B_s, causal gap clocks, exposed liquidation, prefix isolation, panel intersection, terminal vector, DSR/PBO/bootstrap degeneracies, and contribution reconciliation."
+  ],
+  "holdout_latch_requirements": [
+    "A separate live Sol/xhigh pre-access audit must return HOLDOUT_OPEN_APPROVED after every development gate and evidence trace passes.",
+    "Commit a clean authorization binding source, frozen contract, evaluator, tests, seeds, registries, development result, validation, audit, and the exact 12 holdout path/byte/SHA-256 entries.",
+    "Reject every 2026 path before resolution, stat, footer, schema, metadata, dataset construction, or value access unless authorization validates.",
+    "Use a fixed canonical latch path; exclusive-create once with accessed=false, authorization hashes, and invocation id, then fsync the file and containing directory.",
+    "Immediately before first 2026 path resolution, atomically persist accessed=true and first_access_at_utc, then fsync file and directory.",
+    "Any pre-existing, malformed, mismatched, or accessed latch, or any error/interruption after arming, is terminal; no deletion, reset, repair, rerun, reopen, or partial selection is permitted.",
+    "Permit exactly one deterministic holdout invocation and zero repair attempts after arming; keep capital at zero."
+  ],
+  "prospective_decision_verdict": {
+    "status": "COHERENT_AFTER_COUNTING_CLARIFICATION",
+    "post_freeze_only": true,
+    "minimum_duration_days": 30,
+    "minimum_independent_decisions": 100,
+    "expected_minimum_elapsed_weeks": 109,
+    "exact_count_rule": "Count one decision for each unique experiment_id plus eligible Sunday signal-session end only after a complete target/source trace is materialized. A new Sunday counts even when its weights equal the previous target; reruns, retries, duplicate processing, or recomputation of the same Sunday key never count.",
+    "IID_claim_permitted": false,
+    "candidate_freeze_requires_holdout_and_terminal_audit": true,
+    "positive_net_return_required": true,
+    "capital_permitted": 0
+  },
+  "limitations": [
+    "The 40% target is an ex-ante design choice rather than an economically identified optimum.",
+    "The estimator assumes a daily rebalanced 50/50 sleeve while actual holdings drift between weekly fills; this approximation must remain explicit.",
+    "The evidence applies only to fixed BTCUSDT/ETHUSDT spot paths and cannot support cross-sectional, delisting, or broad-universe claims.",
+    "One development year and four quarterly folds provide limited regime coverage.",
+    "Weekly prospective decisions with overlapping lookbacks are operationally distinct but strongly dependent, making the roughly 109-week minimum non-IID.",
+    "Fixed fees, spread, slippage, zero-interest cash, and no market-impact model are abstractions; no performance or deployability claim is justified at direction review."
+  ],
+  "preserved_prior_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+  "preserved_volatility_parity_result": "btc-eth-causal-volatility-parity-rebalancing-v1=HISTORICAL_NO_GO_DEVELOPMENT/AUDIT_REJECTED",
+  "overall_program_state": "ACTIVE_RESEARCH"
+}
