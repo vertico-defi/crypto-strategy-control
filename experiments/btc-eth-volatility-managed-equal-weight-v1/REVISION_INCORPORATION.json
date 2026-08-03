@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "original_draft_sha256": "fdd19cf8e260a155afccce61e98c660feaae595710463f44ff21c1456a7c4520",
+  "direction_review_result_sha256": "729ac7027768dbcba3aa937a1a84cf905cf38049c73a1224805fe7a407285ce1",
+  "revised_draft_sha256": "d47659466a2e55e72eef47051cba3b6c2cb551d036e41269bdbf0d7a9f19d8ad",
+  "required_revision_count": 13,
+  "incorporated_revision_count": 13,
+  "all_incorporated": true,
+  "market_values_read": false,
+  "returns_calculated": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "capital_permitted": 0,
+  "mapping": [
+    {"revision":1,"contract_paths":["panels_and_benchmarks.baseline_superiority_all_strict","panels_and_benchmarks.baseline_ties"]},
+    {"revision":2,"contract_paths":["data_identity_contract.source_repository_commit_in_freeze_manifest","data_identity_contract.development_allowlist","data_identity_contract.pre_open_verification","data_identity_contract.session_input_manifest"]},
+    {"revision":3,"contract_paths":["target_fill_and_accounting_trace.canonical_hash_rule","target_fill_and_accounting_trace.target_keys","target_fill_and_accounting_trace.fill_keys","target_fill_and_accounting_trace.target_before_fill"]},
+    {"revision":4,"contract_paths":["joint_session_gap_and_quarantine.row_clock","joint_session_gap_and_quarantine.valid_row","joint_session_gap_and_quarantine.causal_detection","joint_session_gap_and_quarantine.missing_ordinary_fill"]},
+    {"revision":5,"contract_paths":["joint_session_gap_and_quarantine.exposed_safety_liquidation","joint_session_gap_and_quarantine.drawdown_limitation"]},
+    {"revision":6,"contract_paths":["joint_session_gap_and_quarantine.failure_precedence","estimator_and_primary.scalar"]},
+    {"revision":7,"contract_paths":["panels_and_benchmarks.trial_common_endpoint_panel","panels_and_benchmarks.cash_unavailable_span","panels_and_benchmarks.baseline_comparison_panel"]},
+    {"revision":8,"contract_paths":["multiplicity_registry.groups_in_order","multiplicity_registry.counts","statistics.DSR"]},
+    {"revision":9,"contract_paths":["statistics.stationary_bootstrap","statistics.DSR","statistics.PBO","statistics.regimes","statistics.exceptional_profit","statistics.asset_contribution_and_concentration"]},
+    {"revision":10,"contract_paths":["holdout_one_shot.explicit_overrides","holdout_one_shot.all_other_gates"]},
+    {"revision":11,"contract_paths":["holdout_one_shot.fixed_latch_path","holdout_one_shot.create","holdout_one_shot.arm","holdout_one_shot.one_invocation"]},
+    {"revision":12,"contract_paths":["prospective.decision_key","prospective.count","prospective.dependence"]},
+    {"revision":13,"contract_paths":["walk_forward.fold_initialization","walk_forward.strict_prefix_slicing"]}
+  ],
+  "validated_at_utc": "2026-08-03T11:04:29.382614969Z"
+}
