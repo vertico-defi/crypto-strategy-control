@@ -1,3 +1,3 @@
 # Next Task
 
-Commit and push the exact `btc-eth-relative-value-rotation-v1` development result `e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e` and validation artifact, then run a read-only native live `gpt-5.6-sol`/`xhigh` independent terminal audit without opening any 2026 footer or value. Preserve the fourth call for same-model retry only if the first audit has a confirmed infrastructure failure.
+Commit and push terminal `btc-eth-relative-value-rotation-v1=AUDIT_REJECTED` evidence, build and publish the sanitized zero-capital snapshot with the exact evidence commit, then allocate and preregister `cs-ranking-binance-spot-archive-ptu-audit-resolution-v2` as a bounded native-audit resolution that preserves rather than rewrites v1 `AUDIT_INCONCLUSIVE` evidence.

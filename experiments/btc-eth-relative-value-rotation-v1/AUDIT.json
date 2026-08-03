@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v1",
+  "audit_stage": "TERMINAL_DEVELOPMENT_AUDIT",
+  "audited_source_commit": "4712d6ae99cc1d3961768d4f6ad8e38755262167",
+  "preregistration_sha256": "ad640b386250361ae324e0ea7a17a989b67af3eac5f4912a92dfe67f2c8c0649",
+  "development_result_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e",
+  "requested_model": "gpt-5.6-sol",
+  "actual_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "invocation_interface": "native_subagent",
+  "parent_observed_started_at_utc": "2026-08-03T06:27:24.701209Z",
+  "parent_observed_ended_at_utc": "2026-08-03T06:36:48.228206Z",
+  "parent_observed_duration_seconds": 563.526997,
+  "response_identifier": null,
+  "timestamp_limitation": "Native subagent internal timestamps and a response identifier were not exposed; exact parent-observed start and completion timestamps are recorded.",
+  "audit_payload_sha256": "42ee9d6b029623db2569bfbed9c03df447f5f27be07fec3e84e039c428398dcb",
+  "audit_payload": {
+    "verdict": "AUDIT_REJECTED",
+    "preserved_prior_result": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+    "development_classification": "HISTORICAL_NO_GO",
+    "development_result_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e",
+    "performance_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "candidate_promoted": false,
+    "capital_permitted": 0,
+    "methodology_integrity": "REJECTED_MATERIAL_FROZEN_CONTRACT_DEVIATIONS",
+    "gate_failures_confirmed": [
+      "baseline_superiority",
+      "bootstrap_mean_daily_net_return_lower_95_ci_gt",
+      "completed_entries_total_minimum",
+      "completed_holds_each_asset_minimum",
+      "deflated_sharpe_probability_gte",
+      "maximum_drawdown_lte",
+      "probability_of_backtest_overfitting_lte",
+      "regime_gate"
+    ],
+    "critical_issues": [
+      "Canonical fills are constructed independently per asset before synchronization. When asset availability cutoffs differ, the evaluator rejects unequal per-asset first fills instead of selecting the earliest synchronized BTC/ETH vector strictly after the maximum cross-asset cutoff; it also does not take the maximum availability over every required lookback observation.",
+      "The terminal session is selected from the assumed session-plus-one-day-plus-one-minute timestamp rather than the actual last canonical C_s strictly before the half-open end. A missing or availability-delayed final expected fill can therefore cause quarantine/failure instead of the frozen ex-ante override at the true last valid fill.",
+      "relative_value.rotation_state_machine implements an off-by-one pending clock: delay zero fills on the next valid session and delay one fills two sessions later. Its tests ratify that lifecycle, while the reporting pipeline uses separate clock logic, so the implementation and tests do not provide one consistent frozen base/delayed state machine.",
+      "The DSR primitive requires at least four observations although the frozen degeneracy rule fails only below three; a three-endpoint input is therefore classified degenerately contrary to the preregistration."
+    ],
+    "limitations": [
+      "This was a source-and-committed-evidence audit only; raw market data, the external data repository, and all 2026 Parquet footers or values were not inspected, so the reported returns were not independently reproduced.",
+      "The committed tests do not exercise unequal cross-asset availability cutoffs or an actual last canonical fill differing from the assumed 00:01 timestamp.",
+      "AUDIT_REJECTED does not reopen evaluation, alter the immutable HISTORICAL_NO_GO classification, permit holdout access, or authorize promotion or capital."
+    ],
+    "rationale": [
+      "The canonical development-result hash, preregistration hash, evaluator artifact hashes, validation record, and immutable ledger checkpoint agree with the committed evidence.",
+      "The eight reported failed-gate names match the committed gate checks and their recorded threshold comparisons.",
+      "Seven frozen trial definitions, primary selection, cash/rotation rules, self-financing costs, fold-prefix slicing, quarantine accounting, bootstrap, aligned DSR/PBO reporting, regime reporting, concentration, and zero-capital/closed-holdout fields are substantially represented.",
+      "HISTORICAL_NO_GO_CONFIRMED requires every material frozen-contract behavior to be implemented. The cross-asset canonical-fill and terminal-fill deviations are material causal execution defects, and the prohibited raw-data inspection means this audit cannot establish that they were inert in the reported evaluation."
+    ]
+  },
+  "fallback": null,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0
+}
