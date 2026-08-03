@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "status": "FROZEN_NO_DATA",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "frozen_at_utc": "2026-08-03T11:07:09.297848972Z",
+  "frozen_source_commit": "e2704536a8768f2fe03de566d7acad85d6fb05f3",
+  "preregistration_sha256": "42f99d6724d4cb315635bbf12bc70bf2f17594871d16698c83997665fe7cac7c",
+  "preregistration_hash_rule": "Parse JSON, remove only the top-level preregistration_sha256 field, serialize with sorted keys and compact separators as UTF-8, then SHA-256.",
+  "effective_contract": {
+    "path": "experiments/btc-eth-volatility-managed-equal-weight-v1/PREREGISTRATION_REVISED_DRAFT.json",
+    "canonical_sha256": "d47659466a2e55e72eef47051cba3b6c2cb551d036e41269bdbf0d7a9f19d8ad",
+    "byte_sha256": "f983562d54339cbb8f4221e6f44a81725946e120d6c68ea9de200fa2a2374a30",
+    "complete": true,
+    "status_inside_hashed_contract": "DRAFT_REVISED_NOT_FROZEN",
+    "wrapper_is_freezing_authority": true
+  },
+  "original_draft": {
+    "path": "experiments/btc-eth-volatility-managed-equal-weight-v1/PREREGISTRATION_DRAFT.json",
+    "canonical_sha256": "fdd19cf8e260a155afccce61e98c660feaae595710463f44ff21c1456a7c4520"
+  },
+  "direction_review": {
+    "path": "experiments/btc-eth-volatility-managed-equal-weight-v1/DIRECTION_REVIEW_MODEL_RESULT.json",
+    "canonical_sha256": "729ac7027768dbcba3aa937a1a84cf905cf38049c73a1224805fe7a407285ce1",
+    "byte_sha256": "09c3944e1ca3dd5d77a88d1c3a87e355566b22303915051e822eefa08b5d8690",
+    "verdict": "REVISION_REQUIRED",
+    "all_required_revisions_incorporated": true
+  },
+  "revision_incorporation": {
+    "path": "experiments/btc-eth-volatility-managed-equal-weight-v1/REVISION_INCORPORATION.json",
+    "canonical_sha256": "d61eda7c4b06a4675bd64eedc78db21b93b88621a57a586665e70dba3bb0aa35",
+    "byte_sha256": "0ca417988c33966f9e2f9198a8dace09b2b05893a78f62ccb2ddbe50839e828c",
+    "required": 13,
+    "incorporated": 13
+  },
+  "data_identity": {
+    "reused_contract_path": "experiments/btc-eth-vol-targeted-trend-v1/DATA_CONTRACT.json",
+    "reused_contract_canonical_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+    "reused_contract_byte_sha256": "47dcf7e5bec24ec73be45cdeb200e25671807e7a28c3c1204499a4e20ae972b7",
+    "source_repository_commit_in_freeze_manifest": "d1d6066a6042b0c2e1c6af75047f5ebf935c739f",
+    "development_allowlist_count": 36,
+    "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd",
+    "holdout_allowlist_count": 12,
+    "holdout_parquet_footers_or_values_read": false
+  },
+  "preserved_results": {
+    "registered_inventory": "cs-ranking-ptu-data-audit-v1=DATA_NO_GO",
+    "archive_observed_resolution": "cs-ranking-binance-spot-archive-ptu-audit-resolution-v2=DATA_NO_GO",
+    "calendar": "btc-eth-intraday-calendar-seasonality-v1=AUDIT_REJECTED",
+    "volatility_parity": "btc-eth-causal-volatility-parity-rebalancing-v1=HISTORICAL_NO_GO_DEVELOPMENT/AUDIT_REJECTED",
+    "volatility_parity_development_result_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1",
+    "volatility_parity_audit_result_sha256": "1a54b8ffd960f46d5cdc9899efe2868824de8b8005a83da30f0b43958716130f"
+  },
+  "budget": {
+    "max_wall_seconds": 1800,
+    "max_agent_calls": 4,
+    "agent_calls_used": 1,
+    "agent_calls_remaining": 3,
+    "max_repair_attempts": 1,
+    "repair_attempts_used": 0,
+    "repair_attempts_remaining": 1,
+    "bounded_cycles": 1,
+    "max_gpu_seconds": 0,
+    "capital_permitted": 0
+  },
+  "continuation": {
+    "scheduled_enabled": false,
+    "active_owner_type": "interactive_goal",
+    "bounded_cycles_per_run": 1,
+    "service_observed_active": false,
+    "timer_observed_active": false,
+    "service_observed_installed": false,
+    "timer_observed_installed": false
+  },
+  "pre_implementation_invariants": {
+    "market_values_read": false,
+    "returns_calculated": false,
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "candidate_promoted": false,
+    "performance_claim_made": false,
+    "credentials_accessed": false,
+    "orders_created": false,
+    "gpu_or_mining_changed": false,
+    "capital_permitted": 0
+  },
+  "next_task": "live_terra_medium_pure_implementation_and_synthetic_tests_before_any_market_value_access"
+}
