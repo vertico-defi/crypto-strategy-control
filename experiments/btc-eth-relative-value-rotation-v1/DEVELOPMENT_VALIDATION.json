@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "validated_at_utc": "2026-08-03T06:25:13.798852Z",
+  "experiment_id": "btc-eth-relative-value-rotation-v1",
+  "stage": "DEVELOPMENT",
+  "classification": "HISTORICAL_NO_GO",
+  "performance_claim_scope": "DEVELOPMENT_ONLY_NOT_A_CANDIDATE",
+  "source_commit": "717f76a9d4f35fc80ca6c2d4d52dc344118cc123",
+  "preregistration_sha256": "ad640b386250361ae324e0ea7a17a989b67af3eac5f4912a92dfe67f2c8c0649",
+  "data_contract_result_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+  "development_result_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e",
+  "development_result_file_sha256": "2476edba0cafad9dcb37fd5b4f663f24bc099107b496b52e6290c1b546bda3c9",
+  "failed_gate_count": 8,
+  "failed_gates": [
+    "baseline_superiority",
+    "bootstrap_mean_daily_net_return_lower_95_ci_gt",
+    "completed_entries_total_minimum",
+    "completed_holds_each_asset_minimum",
+    "deflated_sharpe_probability_gte",
+    "maximum_drawdown_lte",
+    "probability_of_backtest_overfitting_lte",
+    "regime_gate"
+  ],
+  "pytest": "PASS_105_TESTS",
+  "ruff": "PASS",
+  "mypy": "PASS_16_SOURCE_FILES",
+  "diff_check": "PASS",
+  "evaluator_artifact_sha256": {
+    "src/strategy_control/orchestrator.py": "35c5de1a12993728682b4b7faea6d28d876c1a1cc0f63e621061cd88cf841f3a",
+    "src/strategy_control/relative_value.py": "14cec32ac733d8e72754447c68cc4382b8489bf0cb33b73a53a2364d2b0a4575",
+    "src/strategy_control/relative_value_pipeline.py": "789b4282d1bb2f13b10a0430eab1c412e54e36b6749362a4e0b32f1d90e0d775",
+    "tests/test_relative_value.py": "a611706a138aae783fda569fbac599ff30f83ec23954f804181ec366c535672a",
+    "tests/test_relative_value_pipeline.py": "7e780921a969617b67353c15608e3d30aa819a1f61816914990558d9d770e3a3"
+  },
+  "source_partition_count": 36,
+  "holdout_values_read": false,
+  "holdout_opened": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "audit_ready": true
+}

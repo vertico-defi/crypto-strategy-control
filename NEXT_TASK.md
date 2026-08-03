@@ -1,3 +1,3 @@
 # Next Task
 
-Commit the frozen `btc-eth-relative-value-rotation-v1` preregistration with hash `ad640b386250361ae324e0ea7a17a989b67af3eac5f4912a92dfe67f2c8c0649`, then use one live Terra/medium implementation call for a pure no-I/O core. Parent-review every timing, pending, quarantine, fold, accounting, statistics, and gate rule before any data or return evaluation.
+Commit and push the exact `btc-eth-relative-value-rotation-v1` development result `e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e` and validation artifact, then run a read-only native live `gpt-5.6-sol`/`xhigh` independent terminal audit without opening any 2026 footer or value. Preserve the fourth call for same-model retry only if the first audit has a confirmed infrastructure failure.
