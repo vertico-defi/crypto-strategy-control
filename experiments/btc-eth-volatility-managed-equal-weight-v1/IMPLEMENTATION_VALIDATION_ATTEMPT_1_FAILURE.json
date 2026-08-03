@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "classification": "IMPLEMENTATION_VALIDATION_FAILURE_PRE_DATA",
+  "failed_at_utc": "2026-08-03T11:16:12.379182979Z",
+  "invocation_mode": "deterministic_local",
+  "market_values_read": false,
+  "returns_calculated": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "capital_permitted": 0,
+  "agent_generated_files": [
+    "src/strategy_control/volatility_managed.py",
+    "tests/test_volatility_managed.py"
+  ],
+  "parent_validation_that_passed": {
+    "focused_tests": "PASS_11_TESTS",
+    "full_repository_tests": "PASS_187_TESTS",
+    "ruff_focused": "PASS",
+    "mypy_focused": "PASS",
+    "diff_check": "PASS"
+  },
+  "exact_failure": "Frozen required_synthetic_tests inventory mismatch: required 30 exact names, found 0 exact matches in 11 generated tests.",
+  "additional_pre_data_defects": [
+    "Deflated Sharpe omitted the frozen bias-false skew and nonexcess-kurtosis denominator.",
+    "PBO block construction did not match NumPy array_split remainder allocation.",
+    "Stationary-bootstrap upper percentile used rounded indexing rather than linear interpolation.",
+    "Trade accounting could accept nonfinite or negative weights and return nonfinite costs.",
+    "Canonical target and fill validation depended on mapping insertion order rather than exact key membership."
+  ],
+  "repair_attempts_used_after_record": 1,
+  "repair_attempts_remaining_after_record": 0,
+  "model_fallback_permitted": false,
+  "reason": "CODING_AND_TEST_COVERAGE_FAILURE_NOT_MODEL_QUOTA_RATE_LIMIT_OR_AVAILABILITY"
+}

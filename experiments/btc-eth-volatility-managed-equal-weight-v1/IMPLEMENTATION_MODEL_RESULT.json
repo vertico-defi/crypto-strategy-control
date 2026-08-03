@@ -1,0 +1,47 @@
+{
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "actual_model": "gpt-5.6-terra",
+  "reasoning_level": "medium",
+  "invocation_mode": "live",
+  "model_generated_research_claim": false,
+  "files_created": [
+    "src/strategy_control/volatility_managed.py",
+    "tests/test_volatility_managed.py"
+  ],
+  "agent_validation": {
+    "focused_tests": 11,
+    "ruff": "PASS",
+    "mypy": "PASS",
+    "diff_check": "PASS"
+  },
+  "reported_coverage": [
+    "canonical/hash validation",
+    "36-entry allowlist identity",
+    "byte verification",
+    "causal gaps and exact fills",
+    "safety vectors",
+    "equal-sleeve volatility scaling",
+    "target/fill parent hashes",
+    "path/fold isolation",
+    "panels and baselines",
+    "costs and contributions",
+    "bootstrap, DSR, and PBO",
+    "regimes",
+    "holdout minima and latch validation",
+    "Sunday deduplication"
+  ],
+  "limitations": [
+    "No data opener, evaluator loop, or on-disk atomic holdout-latch creation was implemented in this pure-core call."
+  ],
+  "frozen_contract_defect_reported": false,
+  "prohibited_access": {
+    "data_paths_or_parquet": false,
+    "market_values": false,
+    "holdout_2026": false,
+    "credentials": false,
+    "orders": false,
+    "gpu_or_mining": false,
+    "git_writes": false,
+    "capital": 0
+  }
+}

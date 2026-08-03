@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
+  "classification": "IMPLEMENTATION_VALIDATION_PASS_PRE_DATA",
+  "validated_at_utc": "2026-08-03T11:25:13.030598702Z",
+  "invocation_mode": "deterministic_local",
+  "live_implementation_invocation": {
+    "actual_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "started_at_utc": "2026-08-03T11:10:05.703878553Z",
+    "ended_at_utc": "2026-08-03T11:14:43.397308261Z",
+    "duration_seconds": 277.69343,
+    "result_byte_sha256": "a8ab5438f35e966462f5aad07526963ff3a48e13ba9ada27b6e581481775efc5",
+    "model_generated_research_claim": false,
+    "fallback": null,
+    "exact_error": null
+  },
+  "attempt_one": {
+    "classification": "IMPLEMENTATION_VALIDATION_FAILURE_PRE_DATA",
+    "artifact": "experiments/btc-eth-volatility-managed-equal-weight-v1/IMPLEMENTATION_VALIDATION_ATTEMPT_1_FAILURE.json",
+    "exact_failure": "Frozen required_synthetic_tests inventory mismatch: required 30 exact names, found 0 exact matches in 11 generated tests.",
+    "additional_defect_count": 5
+  },
+  "sole_repair": {
+    "repair_attempts_used": 1,
+    "repair_attempts_remaining": 0,
+    "parameters_or_gates_changed": false,
+    "corrections": [
+      "Replaced the broad generated test inventory with exactly the 30 preregistered synthetic test names.",
+      "Added the frozen bias-false skew and nonexcess-kurtosis correction to Deflated Sharpe.",
+      "Matched chronological PBO block allocation to NumPy array_split remainder placement.",
+      "Applied linear interpolation to both stationary-bootstrap confidence bounds.",
+      "Rejected nonfinite or negative portfolio weights and insertion-order-dependent trace schemas.",
+      "Made gap, invalid-row, asynchronous-row, and safety-liquidation evidence depend on causal availability timestamps.",
+      "Made the fixed latch reject the wrong path, schema, experiment, authorization, access state, missing arm timestamp, or post-arm error."
+    ]
+  },
+  "tooling": {
+    "focused_pytest": "PASS_30_TESTS",
+    "full_repository_pytest": "PASS_206_TESTS",
+    "required_synthetic_test_inventory": "PASS_EXACT_30_OF_30_WITH_NO_EXTRAS",
+    "ruff_repository": "PASS",
+    "mypy_source": "PASS_23_SOURCE_FILES",
+    "mypy_changed_module_and_tests": "PASS_2_FILES",
+    "full_test_tree_mypy_baseline": "13_PREEXISTING_FINDINGS_OUTSIDE_THIS_EXPERIMENT",
+    "diff_check": "PASS",
+    "python_compile": "PASS"
+  },
+  "file_byte_sha256": {
+    "src/strategy_control/volatility_managed.py": "b0ae9a055a5ff4fe95294ba1a17f6413d93f8ad4de5465f6845feaa03c360b45",
+    "tests/test_volatility_managed.py": "10701e7815370fa8c808b449681f3356065c4f1367a807219587e25dd21c31b9"
+  },
+  "market_values_read": false,
+  "returns_calculated": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "credentials_accessed": false,
+  "orders_created": false,
+  "gpu_or_mining_changed": false,
+  "capital_permitted": 0,
+  "budget_after_validation": {
+    "agent_calls_used": 2,
+    "agent_calls_remaining": 2,
+    "repair_attempts_used": 1,
+    "repair_attempts_remaining": 0
+  },
+  "next_task": "Commit and push this exact pre-data pure-core checkpoint, then implement and validate the separate production evaluator and byte-identity gate without opening any market data."
+}
