@@ -1,0 +1,543 @@
+{
+  "schema_version": "1.0",
+  "status": "DRAFT_REVISED_NOT_FROZEN",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "created_at_utc": "2026-08-03T09:03:09.651707Z",
+  "revised_at_utc": "2026-08-03T09:33:06.411476Z",
+  "source_parent_commit": "bf8994e220137cb7aa4f84eee21d0994d41608ed",
+  "draft_sha256": "b20690b0ebd54968feaab050a1498cafe761c19f2a8f328405a9f3e49bb2e2e6",
+  "draft_hash_rule": "Parse JSON, remove only the top-level draft_sha256 field, serialize with sorted keys and compact separators as UTF-8, then SHA-256.",
+  "original_draft_sha256": "0caf8e6984c9c7add463784b51bf0efbab4f050533f42373fabdafb5843e5c61",
+  "direction_review": {
+    "verdict": "REVISION_REQUIRED",
+    "model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "invocation_mode": "live",
+    "source_commit": "8516ea75d67403dbf34d8820b6f07b06c7bf0238",
+    "model_result_sha256": "6978aec1ef3631446abc9a75d89f8726b1f2271f6f18ad5f4eb1d2f61ac6698c",
+    "critical_issue_count": 13,
+    "required_revision_count": 17,
+    "all_required_revisions_incorporated": true
+  },
+  "effective_contract_complete": true,
+  "strategy_family": "FIXED_PAIR_LONG_ONLY_BOUNDED_INVERSE_VOLATILITY_REBALANCING",
+  "family_distinction": {
+    "primary_driver": "Only the magnitudes of causally lagged synchronized BTCUSDT and ETHUSDT return volatilities determine simultaneous long-only weights.",
+    "raw_diagnostic": "Before clipping, two-asset inverse-volatility weights are verified as equal component risk contribution only when portfolio variance and both component risks are strictly positive.",
+    "clipped_primary_name": "Bounded inverse-volatility allocation; it is not called exact risk parity or ERC after clipping.",
+    "portfolio_state": "Both assets are held simultaneously at nonnegative weights summing to one whenever eligible; cash exists only before entry, after terminal liquidation, or during causal quarantine.",
+    "excluded_drivers": [
+      "return_sign",
+      "Donchian_or_price_level",
+      "dip_drawdown_recovery_or_reversal",
+      "cross_asset_return_rank_or_winner_selection",
+      "weekday_or_hour_expected_return",
+      "fitted_predictor",
+      "strategic_cash_filter",
+      "volatility_target_scalar"
+    ],
+    "operational_calendar_only": "Sunday selects a fixed rebalance opportunity and never changes expected return, eligibility, or directional exposure.",
+    "primary_replacement_permitted": false,
+    "family_transformation_permitted": false
+  },
+  "economic_hypothesis": "A causally estimated, long-only BTC/ETH bounded inverse-volatility portfolio with disciplined weekly rebalancing may diversify concentration risk and improve net risk-adjusted performance and drawdown versus simple equal-weight weekly rebalancing and equal-weight buy-and-hold after conservative spot costs, without leverage or market timing.",
+  "capital_permitted": 0,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "data_contract": {
+    "venue": "binance_spot",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "fixed_universe_only": true,
+    "broad_universe_or_survivorship_claim": false,
+    "reused_verified_contract": "experiments/btc-eth-vol-targeted-trend-v1/DATA_CONTRACT.json",
+    "reused_verified_contract_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+    "canonical_inventory_sha256": "1a5d5eaab533892b17b296750a2750514e51455d503456285b31b1845e63cc2f",
+    "source_freeze_manifest_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+    "source_partition_count": 48,
+    "development_partitions": 36,
+    "holdout_partitions": 12,
+    "development_value_window_utc": [
+      "2024-07-01T00:01:00Z",
+      "2026-01-01T00:00:00Z"
+    ],
+    "development_return_window_utc": [
+      "2025-01-01T00:00:00Z",
+      "2026-01-01T00:00:00Z"
+    ],
+    "holdout_value_window_utc": [
+      "2026-01-01T00:01:00Z",
+      "2026-07-01T00:00:00Z"
+    ],
+    "known_missing_event_timestamps_utc": [
+      "2024-08-12T10:03:00Z",
+      "2024-08-12T10:04:00Z"
+    ],
+    "holdout_parquet_footers_or_values_read": false
+  },
+  "joint_session_and_recovery": {
+    "timezone": "UTC",
+    "complete_session": "Exactly 1,440 unique consecutive minute-bar ends per asset from 00:01 through the next 00:00, synchronized across both assets. Invalid OHLC, duplicates, nonmonotonic timestamps, or any missing minute make the joint session incomplete.",
+    "session_prices": "Open is first valid minute open, high maximum high, low minimum low, close final close, and session availability is the maximum causal available_timestamp over every required row.",
+    "paired_return": "Synchronized simple close-to-close return for each asset; estimator windows contain exactly the declared number of contiguous eligible joint returns.",
+    "incomplete_session": "Quarantine the whole joint session, never forward-fill or substitute, and clear close, paired-return, covariance, volatility-estimate, and regime-median histories.",
+    "recovery_completed_joint_sessions": 150,
+    "recovery_start": "After the causal trigger when actual cash, or only after a fully priced safety liquidation when exposed."
+  },
+  "trial_registry": {
+    "declared_trial_order": [
+      "primary_60d_bounds_20_80_weekly",
+      "short_30d_bounds_20_80_weekly",
+      "long_90d_bounds_20_80_weekly",
+      "tight_bounds_30_70_60d_weekly",
+      "wide_bounds_10_90_60d_weekly",
+      "biweekly_60d_bounds_20_80",
+      "equal_weight_weekly_rebalanced"
+    ],
+    "definitions": {
+      "primary_60d_bounds_20_80_weekly": {
+        "lookback": 60,
+        "bounds": [
+          0.2,
+          0.8
+        ],
+        "schedule": "every eligible completed Sunday session"
+      },
+      "short_30d_bounds_20_80_weekly": {
+        "lookback": 30,
+        "bounds": [
+          0.2,
+          0.8
+        ],
+        "schedule": "every eligible completed Sunday session"
+      },
+      "long_90d_bounds_20_80_weekly": {
+        "lookback": 90,
+        "bounds": [
+          0.2,
+          0.8
+        ],
+        "schedule": "every eligible completed Sunday session"
+      },
+      "tight_bounds_30_70_60d_weekly": {
+        "lookback": 60,
+        "bounds": [
+          0.3,
+          0.7
+        ],
+        "schedule": "every eligible completed Sunday session"
+      },
+      "wide_bounds_10_90_60d_weekly": {
+        "lookback": 60,
+        "bounds": [
+          0.1,
+          0.9
+        ],
+        "schedule": "every eligible completed Sunday session"
+      },
+      "biweekly_60d_bounds_20_80": {
+        "lookback": 60,
+        "bounds": [
+          0.2,
+          0.8
+        ],
+        "schedule": "eligible Sundays whose integer week index from fixed Sunday anchor 2024-07-07 is even"
+      },
+      "equal_weight_weekly_rebalanced": {
+        "eligibility_lookback": 60,
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "schedule": "the exact primary Sunday decision timestamps"
+      }
+    },
+    "parameter_neighbors": [
+      "short_30d_bounds_20_80_weekly",
+      "long_90d_bounds_20_80_weekly",
+      "tight_bounds_30_70_60d_weekly",
+      "wide_bounds_10_90_60d_weekly"
+    ],
+    "common_rules": "An inverse-volatility trial changes only its declared lookback, bounds, or Sunday schedule. All other estimator formulas, clocks, costs, quarantine, terminal treatment, daily panels, folds, gates, and failures are identical.",
+    "primary_fixed_before_data": true,
+    "variant_or_benchmark_promotion_permitted": false
+  },
+  "bounded_inverse_volatility_estimator": {
+    "input_matrix": "For trial lookback L, use exactly the same contiguous L-by-2 paired-return matrix for marginal volatilities and covariance, with sample ddof=1 and no shrinkage. Primary L=60.",
+    "marginal_volatility": "sigma_i is sample standard deviation ddof=1 for column i and must be finite and strictly positive.",
+    "covariance": "S is the 2x2 sample covariance matrix ddof=1. Let scale=max(S_BB,S_EE), which must be finite and >0.",
+    "covariance_tolerances": [
+      "abs(S_ii-sigma_i^2)<=1e-12*scale for both assets",
+      "abs(S_BE-S_EB)<=1e-12*scale",
+      "lambda_min(S)>=-1e-12*scale",
+      "finite correlation within [-1-1e-12,1+1e-12]"
+    ],
+    "raw_weights": "w_BTC=sigma_ETH/(sigma_BTC+sigma_ETH); w_ETH=1-w_BTC. These raw weights alone may be described as two-asset ERC after all raw-risk checks pass.",
+    "raw_risk_checks": "Let v=w' S w. Require finite v>1e-12*scale. RC_i=w_i*(S w)_i/sqrt(v) must be finite and >0. Require abs(RC_BTC-RC_ETH)<=1e-10*sqrt(v) and abs((RC_BTC+RC_ETH)-sqrt(v))<=1e-10*sqrt(v).",
+    "bounded_weights": "Clip raw BTC weight to the trial's declared lower and upper BTC bounds; set ETH to one minus BTC. Recompute finite positive portfolio variance and finite component risks after clipping, report them, and do not require equality after clipping.",
+    "sum_tolerance": "Every target component is finite, nonnegative, and BTC+ETH=1 within 1e-12; residual strategic cash is forbidden.",
+    "scheduled_numerical_failure": "Any estimator, covariance, correlation, eigenvalue, raw-risk, bounded-risk, or weight failure at a scheduled decision terminates NUMERICAL_DEGENERACY_FAILURE. It may not skip, carry a prior target, choose cash, or alter the strategy."
+  },
+  "causal_target_and_execution_clocks": {
+    "information_time": "For completed signal session s and trial lookback L, I_s is the maximum event_timestamp and available_timestamp across both assets and every row used by that session and estimator window.",
+    "target_materialization": "At I_s, materialize the complete immutable target and persist a canonical target hash bound to experiment, trial, session end, every input identifier, I_s, weights, and estimator diagnostics.",
+    "expected_open": "B_s is the smallest whole-minute UTC open timestamp strictly greater than I_s.",
+    "canonical_execution_vector": "C_s exists only as the exact atomic BTCUSDT/ETHUSDT minute-open vector at B_s. Later record availability may validate C_s but may not choose or move B_s.",
+    "missing_expected_vector": "A missing, invalid, asynchronous, partial, duplicated, or nonfinite C_s triggers the frozen quarantine path when causally knowable. Never scan for a later base fill and never fill assets separately.",
+    "base_execution": "On each scheduled eligible Sunday, execute the immutable target atomically at exact C_s.",
+    "stress_isolation": "Base, doubled-cost, and additional-delay paths run independently from cash with identical materialized Sunday targets and no shared portfolio state.",
+    "additional_delay": "Hold at most one immutable Sunday target pending through exactly the next completed joint session and execute only at that session's exact C. No later signal supersedes it. A missing exact delayed C triggers quarantine and no later substitute is allowed.",
+    "same_timestamp_event_order": "Apply causally knowable integrity detection; mark existing units; apply safety-liquidation precedence; execute an eligible pending target; then record state. Quarantine or terminal cancellation precedes any ordinary execution.",
+    "pending_cancellation": "Cancel every pending target on quarantine or terminal override. A safety cash target may replace it only under the frozen exposed-quarantine rule."
+  },
+  "wealth_state_quarantine_and_terminal": {
+    "state": "Finite positive wealth; BTC, ETH, and cash units/weights; last valid mark; pending target; quarantine and recovery state; event-level wealth path; asset contribution ledger.",
+    "between_rebalances": "Hold asset units and let weights drift. Non-scheduled sessions create no trade and no target reset.",
+    "cash_quarantine": "When actual cash, cancel pending entry, carry cash without fabricated return observations through unavailable endpoints, reset histories, and wait for 150 complete joint recovery sessions.",
+    "exposed_quarantine": "Cancel the ordinary pending target and materialize a safety cash target at the earliest later exact synchronized valid minute vector. Retain every held-asset price change and liquidation cost. If any exposed mark or liquidation endpoint is unpriceable, terminate DATA_INTEGRITY_FAILURE.",
+    "post_liquidation": "Carry exact cash without zero-filling unavailable time, preserve wealth continuity, and rebuild estimator/regime histories only from the subsequent contiguous recovery run.",
+    "boundary_target": "For every half-open boundary ending E, predeclare at run initialization T_E=E minus one minute and an unconditional cash target for the exact atomic synchronized minute-open vector at T_E.",
+    "terminal_execution": "At exact T_E, cancel pending targets, mark holdings, liquidate atomically with cost, and require exact cash. A missing, invalid, partial, or nonfinite T_E vector is DATA_INTEGRITY_FAILURE; never choose an earlier observed vector.",
+    "scope": "Apply terminal execution independently to every aggregate run, fold, stress path, trial, and benchmark."
+  },
+  "self_financing_cost_and_contribution": {
+    "mark": "At any valid mark P, derive W_pre from existing units and prices, then drifted pretrade weights w_minus over BTC, ETH, and cash. W_pre and all weights must be finite; W_pre>0; weights must sum to one within 1e-12.",
+    "reported_turnover": "u=0.5*sum over BTC,ETH,cash of abs(q_j-w_minus_j).",
+    "costed_gross_risky_traded_fraction": "g=abs(q_BTC-w_minus_BTC)+abs(q_ETH-w_minus_ETH). Cash entry or exit has g=1; a risky reallocation of delta has g=2*delta.",
+    "cost": "Exact currency cost=W_pre*c*g for one-way rate c. Base c=0.0014; doubled-cost stress c=0.0028.",
+    "post_trade": "W_post=W_pre*(1-c*g). Require finite W_post>0 and c*g<1; allocate exact target q against W_post. A no-trade mark has g=u=cost=0.",
+    "economic_subinterval_asset_pnl": "For each fill-or-mark subinterval without an intervening trade, gross currency PnL_i=W_start*w_i_start*(P_i_end/P_i_start-1). Split a daily interval at every intraday trade and sum subinterval contributions.",
+    "cost_allocation": "Allocate every exact currency cost, including initial, ordinary, delayed, safety, and terminal trades, across BTC and ETH in proportion to abs(q_i-w_minus_i). Zero risky change requires zero cost.",
+    "daily_net_pnl": "Difference between consecutive daily endpoint wealth values after all intervening marks, trades, price changes, and costs.",
+    "reconciliation": "Cumulative BTC net contribution plus ETH net contribution plus zero cash contribution must equal terminal wealth minus initial wealth within 1e-10*max(1,abs(terminal wealth-initial wealth)). Any failure is DATA_INTEGRITY_FAILURE.",
+    "asset_gate": "Both cumulative net asset contributions must be strictly positive."
+  },
+  "common_daily_statistical_panel": {
+    "endpoint": "The exact synchronized BTCUSDT/ETHUSDT minute-open vector at 23:59:00 UTC each calendar day. No later or earlier substitute is allowed.",
+    "observation": "At most one portfolio simple return between consecutive endpoint wealth observations. Every intraday fill, cost, mark, safety liquidation, and terminal liquidation is reflected in endpoint wealth; liquidation is never an extra daily observation.",
+    "unpriceable_exposure": "If any trial is exposed at a required endpoint that cannot be priced exactly, terminate DATA_INTEGRITY_FAILURE.",
+    "unavailable_cash_span": "When all relevant state is exact cash, an unavailable endpoint span is absent rather than a fabricated zero.",
+    "seven_trial_intersection": "Sharpe, bootstrap, DSR, and PBO use only the exact intersection of identical endpoint timestamps across all seven current trials. Genuine common cash zeros remain.",
+    "minimum_common_development_days": 320,
+    "minimum_common_holdout_days": 150
+  },
+  "benchmarks": {
+    "common_fairness": "Every benchmark uses the same exact joint execution vectors, 23:59 daily grid, availability and quarantine facts, boundary vector, cost formula, fold resets, and missing-data failures as the primary.",
+    "cash": "One genuine zero only on an existing valid daily endpoint interval; unavailable cash spans are absent.",
+    "BTCUSDT_buy_and_hold": "Enter BTC weight one at the primary's first eligible fill in the boundary, drift without rebalancing, and liquidate at exact T_E. After forced liquidation, re-enter only at the first primary-eligible post-recovery fill.",
+    "ETHUSDT_buy_and_hold": "Enter ETH weight one on the same clock, drift, quarantine identically, re-enter identically, and liquidate at exact T_E.",
+    "equal_weight_buy_and_hold": "Enter 0.5/0.5 at the primary's first eligible fill, drift without ordinary rebalancing, quarantine/re-enter identically, and liquidate at exact T_E.",
+    "equal_weight_weekly_rebalanced": "The declared seventh trial; it uses the primary 60-session eligibility and exact primary Sunday decision timestamps with all common rules."
+  },
+  "walk_forward_contract": {
+    "loader_guard": "Allow only the verified 36 2024-2025 development partitions and reject any path containing year=2026 before path resolution, opener invocation, footer parsing, dataset construction, or value access.",
+    "aggregate_development": "Run independently from cash over [2025-01-01T00:00:00Z,2026-01-01T00:00:00Z), allowing strictly pre-2025 observations only for causal warmup and no pre-start PnL.",
+    "development_folds": [
+      [
+        "2025-01-01T00:00:00Z",
+        "2025-04-01T00:00:00Z"
+      ],
+      [
+        "2025-04-01T00:00:00Z",
+        "2025-07-01T00:00:00Z"
+      ],
+      [
+        "2025-07-01T00:00:00Z",
+        "2025-10-01T00:00:00Z"
+      ],
+      [
+        "2025-10-01T00:00:00Z",
+        "2026-01-01T00:00:00Z"
+      ]
+    ],
+    "holdout_folds": [
+      [
+        "2026-01-01T00:00:00Z",
+        "2026-04-01T00:00:00Z"
+      ],
+      [
+        "2026-04-01T00:00:00Z",
+        "2026-07-01T00:00:00Z"
+      ]
+    ],
+    "prefix_isolation": "Before any state machine, slice sessions, rows, availability, targets, vectors, endpoints, and warmup to timestamps strictly before fold end. No later fact may alter a fold.",
+    "fold_start": "Each path starts exact cash with no pending target, PnL, units, or prior decision. Causal warmup carries no position or PnL.",
+    "fold_end": "Every exposure, safety liquidation, daily endpoint, and terminal cash vector must be priceable strictly before fold end under exact T_E; otherwise DATA_INTEGRITY_FAILURE.",
+    "random_split": false,
+    "fitted_parameters": false,
+    "purging_and_embargo": "No fitted overlapping label exists. Strict causal prefix slicing, independent cash initialization, and half-open endpoint enforcement apply."
+  },
+  "statistical_contract": {
+    "annualized_sharpe": "Mean common daily net return divided by sample standard deviation ddof=1 times sqrt(365), risk-free zero. Nonfinite or zero volatility fails.",
+    "event_level_maximum_drawdown": "max_t(1-W_t/max_{u<=t}W_u) over the full ordered event-level wealth path including initial wealth and every price mark, ordinary fill, cost, safety liquidation, and terminal liquidation.",
+    "stationary_bootstrap": {
+      "block_lengths": [
+        10,
+        20,
+        40
+      ],
+      "restart_probability": "For block length b, 1/b.",
+      "replicate": "Length T; begin at a uniformly sampled index. At each next draw restart at a new uniform index with probability 1/b, otherwise advance one index modulo T.",
+      "resamples_each": 2000,
+      "seed": "int.from_bytes(SHA256(UTF-8(experiment_id+'|stationary-bootstrap|'+decimal_b))[0:8],'big',signed=false)",
+      "statistic": "Mean common daily net return.",
+      "percentiles": "NumPy linear percentiles 0.025 and 0.975.",
+      "gate": "Every one of the three lower bounds is strictly positive.",
+      "degenerate": "Any nonfinite input/output, invalid restart, insufficient common panel, empty replicate, invalid T, or nonpositive required denominator fails."
+    },
+    "DSR": {
+      "ordered_attempt_count_N": 35,
+      "prior_completed_registry": [
+        "btc-eth-vol-targeted-trend-v1:primary_combined",
+        "btc-eth-vol-targeted-trend-v1:donchian_only",
+        "btc-eth-vol-targeted-trend-v1:time_series_momentum_only",
+        "btc-eth-vol-targeted-trend-v1:shorter_horizons",
+        "btc-eth-vol-targeted-trend-v1:longer_horizons",
+        "btc-eth-vol-targeted-trend-v1:lower_volatility_target",
+        "btc-eth-vol-targeted-trend-v1:higher_volatility_target",
+        "btc-eth-long-only-mean-reversion-v1:primary_standardized_shock",
+        "btc-eth-long-only-mean-reversion-v1:raw_three_session_drawdown_baseline",
+        "btc-eth-long-only-mean-reversion-v1:shorter_two_session_shock",
+        "btc-eth-long-only-mean-reversion-v1:longer_five_session_shock",
+        "btc-eth-long-only-mean-reversion-v1:shallower_entry",
+        "btc-eth-long-only-mean-reversion-v1:deeper_entry",
+        "btc-eth-long-only-mean-reversion-v1:slower_volatility_estimator",
+        "btc-eth-relative-value-rotation-v1:primary_risk_adjusted_20_60_120",
+        "btc-eth-relative-value-rotation-v1:raw_60_session_relative_strength_rotation",
+        "btc-eth-relative-value-rotation-v1:short_10_30_60_horizons",
+        "btc-eth-relative-value-rotation-v1:long_60_120_180_horizons",
+        "btc-eth-relative-value-rotation-v1:raw_unadjusted_20_60_120",
+        "btc-eth-relative-value-rotation-v1:wide_0_50_rotation_gap",
+        "btc-eth-relative-value-rotation-v1:always_in_higher_score_no_cash_filter"
+      ],
+      "prior_result_hashes": [
+        "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703",
+        "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23",
+        "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e"
+      ],
+      "calendar_no_return_registry": [
+        "btc-eth-intraday-calendar-seasonality-v1:primary_26_week_split_trimmed_holm_0_05",
+        "btc-eth-intraday-calendar-seasonality-v1:simple_26_week_hour_only_untrimmed_mean_above_H",
+        "btc-eth-intraday-calendar-seasonality-v1:short_13_week_split_trimmed_holm_0_05",
+        "btc-eth-intraday-calendar-seasonality-v1:long_39_week_split_trimmed_holm_0_05",
+        "btc-eth-intraday-calendar-seasonality-v1:liberal_26_week_split_trimmed_holm_0_10",
+        "btc-eth-intraday-calendar-seasonality-v1:strict_26_week_split_trimmed_holm_0_025",
+        "btc-eth-intraday-calendar-seasonality-v1:untrimmed_26_week_split_holm_0_05"
+      ],
+      "calendar_contract_sha256": "102a0de94ded6d4c7fa7667702c07e8e8328c57feda5be597ec75d8efb8c7b96",
+      "calendar_terminal_model_result_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0",
+      "current_registry": "The seven trial_registry names in declared order.",
+      "no_invented_returns": "Calendar slots affect N=35 only and receive no pseudo-return or pseudo-Sharpe.",
+      "sigma_SR": "Sample standard deviation ddof=1 of the 28 actually observed nonannualized daily Sharpes: 21 immutable prior completed records plus seven current common-panel trial Sharpes.",
+      "SR0": "sigma_SR*((1-Euler_gamma)*Phi_inverse(1-1/35)+Euler_gamma*Phi_inverse(1-1/(35*e))).",
+      "observed": "Current primary nonannualized Sharpe on the exact current seven-trial common daily panel.",
+      "autocorrelation": "Sample autocorrelation rho_k of demeaned current primary common daily returns for k=1..28; a zero or nonfinite denominator fails.",
+      "VIF": "max(1,1+2*sum over k=1..28 of ((1-k/29)*rho_k)).",
+      "T_eff": "T/VIF; T_eff<30 fails.",
+      "moments": "Bias-false sample skew and nonexcess kurtosis of current primary common daily returns.",
+      "z": "(observed-SR0)*sqrt(T_eff-1)/sqrt(1-skew*observed+((nonexcess_kurtosis-1)/4)*observed^2).",
+      "probability": "Standard normal CDF of z.",
+      "gate": ">=0.95",
+      "degenerate": "Any missing or hash-incompatible observed prior record, missing current trial, zero sigma_SR, T_eff<30, invalid autocorrelation, nonpositive DSR denominator, or nonfinite quantity yields probability zero."
+    },
+    "PBO": {
+      "scope": "Only the seven current trials on their exact common daily endpoint matrix.",
+      "blocks": "numpy.array_split into eight nonempty chronological blocks.",
+      "splits": "All 70 four-block training choices.",
+      "training_selection": "Maximum training daily Sharpe with declared trial order resolving exact ties. Zero-volatility Sharpe is negative infinity unless mean>0, then positive infinity.",
+      "test_rank": "Rank the selected trial test Sharpe worst=1 through best=7 with average tied ranks; relative_rank=rank/8.",
+      "event": "log(relative_rank/(1-relative_rank))<=0.",
+      "estimate": "Event count divided by 70.",
+      "gate": "<=0.2",
+      "degenerate": "Missing columns, unpriceable common endpoints, empty blocks, NaN, unresolved selection or infinity/tie handling, or invalid rank/logit yields PBO=1."
+    },
+    "regimes": {
+      "assignment": "At each daily interval start, use only the preceding completed synchronized BTC session. Assign every cost and safety-liquidation PnL to that interval-start regime.",
+      "trend_axis": "Up iff close_s/close_(s-120)-1>0; otherwise down.",
+      "volatility_axis": "Current 60-simple-return ddof=1 BTC volatility is high iff strictly above the expanding median of at least 120 prior eligible volatility estimates excluding current; otherwise low.",
+      "gap_reset": "Any incomplete joint session clears close, volatility-estimate, and median histories; rebuild only from the subsequent contiguous run.",
+      "eligibility": "At least 45 included daily intervals and five completed scheduled rebalances.",
+      "gate": "At least three regimes are eligible; every eligible regime has strictly positive net return and none is below -5%."
+    },
+    "exceptional_profit": {
+      "denominator": "Finite sum of strictly positive daily interval net currency PnL; a nonpositive or nonfinite denominator fails.",
+      "largest_positive_interval_fraction_maximum": 0.5,
+      "top_five_positive_intervals_fraction_maximum": 0.75
+    },
+    "rebalance_count": "One completed scheduled target execution, including the initial scheduled entry, counts once. Terminal and safety liquidations, pending targets, retries, marks, and unchanged processing without a completed scheduled fill do not count."
+  },
+  "development_gates_all_required": {
+    "acceptance_gates_yaml_inherited_without_weakening": true,
+    "aggregate_net_return_gt": 0.0,
+    "annualized_sharpe_gte": 0.75,
+    "maximum_drawdown_lte": 0.2,
+    "positive_folds_minimum": 3,
+    "fold_count": 4,
+    "doubled_cost_aggregate_net_return_gt": 0.0,
+    "additional_delay_aggregate_net_return_gt": 0.0,
+    "positive_parameter_neighbors_minimum": 3,
+    "parameter_neighbor_count": 4,
+    "bootstrap_all_three_lower_bounds_gt": 0.0,
+    "deflated_sharpe_probability_gte": 0.95,
+    "probability_of_backtest_overfitting_lte": 0.2,
+    "baseline_superiority": "Primary net return and annualized Sharpe each strictly exceed equal_weight_weekly_rebalanced; primary Sharpe strictly exceeds equal_weight_buy_and_hold; primary maximum drawdown is strictly below both equal-weight benchmarks.",
+    "asset_net_contribution_each_gt": 0.0,
+    "regime_gate": "pass",
+    "exceptional_profit_gate": "pass",
+    "weight_concentration_gate": "Every primary bounded target has BTC and ETH weights each within [0.2,0.8], summing to one within 1e-12; any violation fails.",
+    "completed_scheduled_rebalances_minimum": 40,
+    "completed_scheduled_rebalances_each_fold_minimum": 8,
+    "minimum_common_days": 320,
+    "no_material_leakage": true,
+    "no_survivorship_contamination": true,
+    "data_integrity": "All hashes, exact clocks, atomic vectors, common panels, event-level wealth, cost/contribution reconciliation, numerical checks, quarantine, and terminal cash pass.",
+    "capital_permitted": 0
+  },
+  "holdout_one_shot_contract": {
+    "development_failure": "Any failed development gate is terminal HISTORICAL_NO_GO for this experiment and the holdout remains unopened.",
+    "preaccess_authorization": "Commit a clean authorization binding exact source, frozen preregistration, reused data contract, exact 12-path byte-hash allowlist, evaluator, tests, configuration, seven-trial and 35-attempt DSR registries, every seed, development result, deterministic validation, and a live Sol/xhigh HOLDOUT_OPEN_APPROVED audit hash.",
+    "loader_guard": "Reject every 2026 path before path resolution, opener invocation, footer parsing, dataset construction, or value access unless authorization and latch validate exactly.",
+    "latch_create": "At the sole invocation, exclusive-create HOLDOUT_ACCESS_LATCH.json containing invocation_id, all authorization hashes, and accessed=false; fsync the file and its directory.",
+    "latch_arm": "Immediately before resolving or opening the first 2026 path, atomically persist accessed=true and first_access_at_utc, then fsync file and directory.",
+    "fail_closed": "Any pre-existing, malformed, hash-mismatched, or accessed latch, or any interruption/error after arming, is terminal with no repair, rerun, deletion, reset, fold retry, reopen, or partial selection.",
+    "invocations": 1,
+    "repair_attempts_after_arm": 0,
+    "explicit_holdout_gates": {
+      "aggregate_net_return_gt": 0.0,
+      "positive_folds_minimum": 2,
+      "fold_count": 2,
+      "annualized_sharpe_gte": 0.75,
+      "maximum_drawdown_lte": 0.2,
+      "doubled_cost_aggregate_net_return_gt": 0.0,
+      "additional_delay_aggregate_net_return_gt": 0.0,
+      "positive_parameter_neighbors_minimum": 3,
+      "parameter_neighbor_count": 4,
+      "bootstrap_all_three_lower_bounds_gt": 0.0,
+      "deflated_sharpe_probability_gte": 0.95,
+      "probability_of_backtest_overfitting_lte": 0.2,
+      "baseline_superiority": "identical strict development definition",
+      "asset_net_contribution_each_gt": 0.0,
+      "regime_gate": "identical causal definitions and thresholds",
+      "exceptional_profit_gate": "identical limits",
+      "weight_concentration_gate": "Every primary bounded target has BTC and ETH weights each within [0.2,0.8], summing to one within 1e-12.",
+      "completed_scheduled_rebalances_minimum": 20,
+      "completed_scheduled_rebalances_each_fold_minimum": 8,
+      "minimum_common_days": 150,
+      "no_material_leakage": true,
+      "no_survivorship_contamination": true,
+      "data_integrity_and_terminal_cash": true,
+      "capital_permitted": 0
+    },
+    "all_pass_status": "HISTORICAL_CANDIDATE_PENDING_INDEPENDENT_TERMINAL_AUDIT",
+    "any_failure_status": "HISTORICAL_NO_GO"
+  },
+  "promotion_and_prospective_contract": {
+    "candidate_freeze": "Only after every holdout gate and a separate live Sol/xhigh terminal audit pass; freeze every data, source, code, contract, registry, seed, accounting, and timestamp hash while capital remains zero.",
+    "post_freeze_data": "Every event and availability timestamp used for warmup, target, execution, return, or decision count is strictly later than candidate freeze.",
+    "decision_key": "experiment_id plus the unique eligible Sunday signal-session end.",
+    "count_rule": "Count a key once only after its target is materialized and hash-recorded. Retries, duplicate processing, pending fills, safety liquidations, and terminal cash add no count. An unchanged newly computed target may count once.",
+    "independence_limitation": "This is operational deduplication, not IID statistical independence; adjacent 60-session windows overlap heavily and unchanged targets do not create extra evidence strength.",
+    "minimum_valid_decisions": 100,
+    "approximate_minimum_eligible_weeks": 100,
+    "elapsed_time_note": "A wholly post-freeze 60-session warmup makes the no-gap elapsed minimum roughly 108-109 weeks; quarantine or unavailable Sundays only extend it. The 30-day minimum is nonbinding.",
+    "minimum_elapsed_days": 30,
+    "positive_net_return_required": true,
+    "parameter_or_gate_change_permitted": false,
+    "live_or_paper_orders": false,
+    "capital_permitted": 0
+  },
+  "required_synthetic_tests": [
+    "raw_inverse_volatility_ERC_before_clipping",
+    "clipped_weights_not_asserted_ERC",
+    "perfect_anticorrelation_zero_variance_fails",
+    "covariance_symmetry_eigenvalue_and_scale_tolerances",
+    "trial_specific_lookback_matrix",
+    "scheduled_numerical_failure_terminal",
+    "information_time_includes_event_and_availability",
+    "target_hash_materialized_at_information_time",
+    "expected_whole_minute_open_strictly_after_information_time",
+    "missing_exact_base_vector_no_later_substitute",
+    "additional_delay_exact_next_session_and_no_supersession",
+    "same_timestamp_event_order_and_pending_cancellation",
+    "exact_2359_daily_endpoint_no_substitute",
+    "intraday_liquidation_not_extra_daily_observation",
+    "exposed_unpriceable_endpoint_fails",
+    "cash_unavailable_span_absent_not_zero",
+    "seven_trial_common_panel_minima",
+    "ex_ante_terminal_T_E_exact_and_no_earlier_fallback",
+    "reported_turnover_vs_costed_risky_fraction",
+    "cash_entry_exit_and_risky_rotation_costs",
+    "asset_contribution_currency_reconciliation",
+    "trial_inheritance_and_equal_weight_clock",
+    "buy_and_hold_entry_quarantine_reentry_and_terminal_fairness",
+    "stationary_bootstrap_restart_and_big_endian_seeds",
+    "DSR_35_attempt_registry_no_calendar_imputation",
+    "DSR_Bartlett_T_eff_and_degeneracies",
+    "PBO_common_matrix_ties_infinities_and_degeneracies",
+    "regime_prior_only_median_gap_reset_assignment_and_rebalance_minimum",
+    "event_level_drawdown_path",
+    "exceptional_profit_currency_denominator",
+    "development_rebalance_minima",
+    "development_loader_rejects_2026_before_resolution",
+    "holdout_authorization_and_irreversible_fsynced_latch",
+    "holdout_explicit_gate_map",
+    "prospective_Sunday_key_deduplication_and_postfreeze_warmup"
+  ],
+  "model_routing": {
+    "direction_review": [
+      "gpt-5.6-sol",
+      "xhigh",
+      "live",
+      "completed"
+    ],
+    "implementation": [
+      "gpt-5.6-terra",
+      "medium",
+      "live"
+    ],
+    "deterministic_validation": [
+      null,
+      null,
+      "deterministic_local"
+    ],
+    "independent_audit": [
+      "gpt-5.6-sol",
+      "xhigh",
+      "live"
+    ],
+    "fallback": "Only confirmed quota, rate-limit, throttling, or temporary model-unavailable errors permit fallback. Coding, test, data, weak-result, or audit failures do not."
+  },
+  "budget": {
+    "max_wall_seconds": 1800,
+    "max_agent_calls": 4,
+    "agent_calls_used": 1,
+    "max_repair_attempts": 1,
+    "repair_attempts_used": 0,
+    "bounded_cycles": 1,
+    "max_gpu_seconds": 0,
+    "capital_permitted": 0
+  },
+  "prohibitions": [
+    "development_market_value_or_return_access_before_freeze",
+    "holdout_path_resolution_footer_or_value_access_before_authorization_and_latch",
+    "post_hoc_gate_change",
+    "primary_replacement_or_variant_promotion",
+    "calendar_no_return_pseudo_Sharpe_or_pseudo_return",
+    "return_sign_or_cash_filter_addition",
+    "family_transformation",
+    "random_seed_selection",
+    "live_or_paper_orders",
+    "exchange_or_wallet_credentials",
+    "capital",
+    "leverage",
+    "shorting",
+    "borrow",
+    "funding",
+    "paid_data",
+    "paid_compute",
+    "GPU_or_mining_change"
+  ]
+}

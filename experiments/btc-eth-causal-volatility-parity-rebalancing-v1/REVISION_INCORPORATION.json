@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "status": "PASS_NO_DATA_MECHANICAL_INCORPORATION",
+  "original_draft_sha256": "0caf8e6984c9c7add463784b51bf0efbab4f050533f42373fabdafb5843e5c61",
+  "direction_model_result_sha256": "6978aec1ef3631446abc9a75d89f8726b1f2271f6f18ad5f4eb1d2f61ac6698c",
+  "revised_draft_sha256": "b20690b0ebd54968feaab050a1498cafe761c19f2a8f328405a9f3e49bb2e2e6",
+  "required_revision_count": 17,
+  "incorporated_revision_count": 17,
+  "checks": [
+    {
+      "id": 1,
+      "requirement": "bounded_inverse_volatility_naming_and_raw_ERC_only",
+      "evidence": [
+        "strategy_family",
+        "family_distinction.raw_diagnostic",
+        "family_distinction.clipped_primary_name",
+        "economic_hypothesis",
+        "bounded_inverse_volatility_estimator.raw_weights",
+        "bounded_inverse_volatility_estimator.bounded_weights"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 2,
+      "requirement": "exact_covariance_component_risk_tolerances_and_terminal_numerical_failure",
+      "evidence": [
+        "bounded_inverse_volatility_estimator.input_matrix",
+        "bounded_inverse_volatility_estimator.covariance_tolerances",
+        "bounded_inverse_volatility_estimator.raw_risk_checks",
+        "bounded_inverse_volatility_estimator.scheduled_numerical_failure"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 3,
+      "requirement": "information_time_target_hash_and_non_substitutable_exact_base_vector",
+      "evidence": [
+        "causal_target_and_execution_clocks.information_time",
+        "causal_target_and_execution_clocks.target_materialization",
+        "causal_target_and_execution_clocks.expected_open",
+        "causal_target_and_execution_clocks.canonical_execution_vector",
+        "causal_target_and_execution_clocks.missing_expected_vector"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 4,
+      "requirement": "exact_common_2359_daily_endpoint_panel_without_extra_liquidation_observations",
+      "evidence": [
+        "common_daily_statistical_panel"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 5,
+      "requirement": "isolated_paths_exact_delay_pending_lifecycle_and_event_order",
+      "evidence": [
+        "causal_target_and_execution_clocks.stress_isolation",
+        "causal_target_and_execution_clocks.additional_delay",
+        "causal_target_and_execution_clocks.same_timestamp_event_order",
+        "causal_target_and_execution_clocks.pending_cancellation"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 6,
+      "requirement": "predeclared_exact_T_E_terminal_cash_no_fallback",
+      "evidence": [
+        "wealth_state_quarantine_and_terminal.boundary_target",
+        "wealth_state_quarantine_and_terminal.terminal_execution",
+        "wealth_state_quarantine_and_terminal.scope"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 7,
+      "requirement": "reported_half_L1_turnover_separate_from_costed_risky_fraction",
+      "evidence": [
+        "self_financing_cost_and_contribution.reported_turnover",
+        "self_financing_cost_and_contribution.costed_gross_risky_traded_fraction",
+        "self_financing_cost_and_contribution.cost",
+        "self_financing_cost_and_contribution.post_trade"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 8,
+      "requirement": "currency_asset_contribution_allocation_and_reconciliation",
+      "evidence": [
+        "self_financing_cost_and_contribution.economic_subinterval_asset_pnl",
+        "self_financing_cost_and_contribution.cost_allocation",
+        "self_financing_cost_and_contribution.reconciliation",
+        "self_financing_cost_and_contribution.asset_gate"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 9,
+      "requirement": "trial_inheritance_equal_weight_clock_and_buy_hold_fairness",
+      "evidence": [
+        "trial_registry.common_rules",
+        "trial_registry.definitions.equal_weight_weekly_rebalanced",
+        "benchmarks"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 10,
+      "requirement": "exact_stationary_circular_bootstrap_and_big_endian_seeds",
+      "evidence": [
+        "statistical_contract.stationary_bootstrap"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 11,
+      "requirement": "ordered_35_attempt_DSR_with_28_observed_sharpes_and_no_calendar_imputation",
+      "evidence": [
+        "statistical_contract.DSR"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 12,
+      "requirement": "within_family_PBO_exact_common_matrix_and_fail_closed_degeneracies",
+      "evidence": [
+        "statistical_contract.PBO"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 13,
+      "requirement": "exact_prior_only_regimes_gap_reset_assignment_and_rebalance_minima",
+      "evidence": [
+        "statistical_contract.regimes"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 14,
+      "requirement": "event_level_drawdown_exceptional_profit_and_rebalance_sufficiency",
+      "evidence": [
+        "statistical_contract.event_level_maximum_drawdown",
+        "statistical_contract.exceptional_profit",
+        "statistical_contract.rebalance_count",
+        "development_gates_all_required.completed_scheduled_rebalances_minimum",
+        "holdout_one_shot_contract.explicit_holdout_gates.completed_scheduled_rebalances_minimum"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 15,
+      "requirement": "irreversible_exclusive_fsynced_one_shot_holdout_latch",
+      "evidence": [
+        "holdout_one_shot_contract.preaccess_authorization",
+        "holdout_one_shot_contract.loader_guard",
+        "holdout_one_shot_contract.latch_create",
+        "holdout_one_shot_contract.latch_arm",
+        "holdout_one_shot_contract.fail_closed"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 16,
+      "requirement": "explicit_nonweakened_holdout_gate_map",
+      "evidence": [
+        "holdout_one_shot_contract.explicit_holdout_gates"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": 17,
+      "requirement": "deduplicated_operational_prospective_decisions_and_non_IID_limitation",
+      "evidence": [
+        "promotion_and_prospective_contract.decision_key",
+        "promotion_and_prospective_contract.count_rule",
+        "promotion_and_prospective_contract.independence_limitation",
+        "promotion_and_prospective_contract.elapsed_time_note"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "market_values_read": false,
+  "returns_calculated": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "performance_claim_made": false,
+  "capital_permitted": 0,
+  "validated_at_utc": "2026-08-03T09:33:06.411476Z"
+}
