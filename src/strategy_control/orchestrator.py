@@ -49,6 +49,16 @@ from strategy_control.trend_pipeline import (
 from strategy_control.trend_pipeline import (
     load_development_market,
 )
+from strategy_control.volatility_parity import VolatilityParityError
+from strategy_control.volatility_parity_evaluator import (
+    evaluate_development as evaluate_volatility_parity_development,
+)
+from strategy_control.volatility_parity_evaluator import (
+    load_development_market as load_volatility_parity_development_market,
+)
+from strategy_control.volatility_parity_pipeline import (
+    verify_frozen_contract as verify_volatility_parity_frozen_contract,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "CURRENT_STATE.json"
@@ -65,6 +75,7 @@ TREND_EXPERIMENT_ID = "btc-eth-vol-targeted-trend-v1"
 MEAN_REVERSION_EXPERIMENT_ID = "btc-eth-long-only-mean-reversion-v1"
 RELATIVE_VALUE_EXPERIMENT_ID = "btc-eth-relative-value-rotation-v1"
 CALENDAR_EXPERIMENT_ID = "btc-eth-intraday-calendar-seasonality-v1"
+VOLATILITY_PARITY_EXPERIMENT_ID = "btc-eth-causal-volatility-parity-rebalancing-v1"
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
 InvocationMode = Literal["live", "mock", "deterministic_local"]
 
@@ -1758,6 +1769,145 @@ def run_calendar_development() -> dict[str, Any]:
     }
 
 
+def run_volatility_parity_development() -> dict[str, Any]:
+    """Run the sole frozen 2024--2025 volatility-parity development evaluation."""
+
+    state = load_json(STATE)
+    if (
+        state.get("program_state") != "ACTIVE_RESEARCH"
+        or state.get("current_experiment_id") != VOLATILITY_PARITY_EXPERIMENT_ID
+        or state.get("data_contract_status") != "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PASS"
+        or state.get("implementation_status") != "PASS_REPAIRED_PRODUCTION_PRE_DATA"
+        or state.get("next_task") != "run_single_bounded_volatility_parity_development_evaluation"
+        or state.get("repair_status") != "USED_PRE_DATA_IMPLEMENTATION_VALIDATION"
+        or int(state["budgets"].get("cycles_remaining", 0)) != 1
+        or int(state["budgets"].get("repair_attempts_remaining", 0)) != 0
+    ):
+        raise StateError("volatility-parity experiment is not at the development gate")
+    git = git_state()
+    if not git["clean"] or not isinstance(git.get("head"), str):
+        raise StateError("controller working tree must be clean before development evaluation")
+    if state.get("implementation_source_commit") != git["head"]:
+        raise StateError("development evaluator is not bound to the clean implementation commit")
+
+    experiment_root = ROOT / "experiments" / VOLATILITY_PARITY_EXPERIMENT_ID
+    wrapper_path = experiment_root / "PREREGISTRATION.json"
+    effective_path = experiment_root / "PREREGISTRATION_REVISED_DRAFT.json"
+    wrapper = load_json(wrapper_path)
+    effective = load_json(effective_path)
+    try:
+        verify_volatility_parity_frozen_contract(wrapper, effective, effective_path.read_bytes())
+    except VolatilityParityError as exc:
+        raise StateError("frozen volatility-parity contract hash mismatch") from exc
+    data_contract = load_json(ROOT / "experiments" / TREND_EXPERIMENT_ID / "DATA_CONTRACT.json")
+    if _sha(data_contract) != effective["data_contract"]["reused_verified_contract_sha256"]:
+        raise StateError("reused volatility-parity data contract hash mismatch")
+
+    started = _now()
+    monotonic_start = time.monotonic()
+    report_path = experiment_root / "DEVELOPMENT_RESULT.json"
+    partial_calculations_discarded = False
+    try:
+        market = load_volatility_parity_development_market(
+            ROOT.parent / "crypto-direction-lab", data_contract
+        )
+        partial_calculations_discarded = True
+        report = evaluate_volatility_parity_development(market, effective, ROOT / "experiments")
+        duration = round(time.monotonic() - monotonic_start, 6)
+        if duration > float(state["budgets"]["max_wall_seconds"]):
+            raise StateError("volatility-parity development exceeded frozen wall budget")
+        report.update(
+            {
+                "started_at_utc": started,
+                "ended_at_utc": _now(),
+                "duration_seconds": duration,
+                "invocation_mode": "deterministic_local",
+                "source_commit": git["head"],
+                "preregistration_sha256": wrapper["preregistration_sha256"],
+                "effective_contract_sha256": wrapper["effective_contract"]["canonical_sha256"],
+                "data_contract_result_sha256": _sha(data_contract),
+            }
+        )
+        atomic_json(report_path, report)
+        outcome = str(report["classification"])
+        exact_error = None
+        result_hash = _sha(report)
+    except (
+        ImportError,
+        OSError,
+        StateError,
+        ValueError,
+        VolatilityParityError,
+    ) as exc:
+        duration = round(time.monotonic() - monotonic_start, 6)
+        outcome = "DEVELOPMENT_PIPELINE_FAILURE"
+        exact_error = _bounded_error(f"{type(exc).__name__}: {exc}")
+        result_hash = None
+        report = {
+            "schema_version": "1.0",
+            "experiment_id": VOLATILITY_PARITY_EXPERIMENT_ID,
+            "stage": "DEVELOPMENT",
+            "classification": outcome,
+            "started_at_utc": started,
+            "ended_at_utc": _now(),
+            "duration_seconds": duration,
+            "invocation_mode": "deterministic_local",
+            "holdout_values_read": False,
+            "holdout_opened": False,
+            "candidate_promoted": False,
+            "returns_calculated": False,
+            "partial_calculations_discarded": partial_calculations_discarded,
+            "capital_permitted": 0,
+            "exact_error": exact_error,
+        }
+        atomic_json(report_path, report)
+    append_jsonl(
+        MODEL_LEDGER,
+        {
+            "record_type": "LOCAL_PIPELINE_INVOCATION",
+            "experiment_id": VOLATILITY_PARITY_EXPERIMENT_ID,
+            "role": "volatility_parity_development_evaluator",
+            "requested_model": None,
+            "actual_model": None,
+            "reasoning_level": None,
+            "invocation_mode": "deterministic_local",
+            "started_at_utc": started,
+            "ended_at_utc": report["ended_at_utc"],
+            "duration_seconds": report["duration_seconds"],
+            "outcome": outcome,
+            "model_result_received": False,
+            "model_generated_research_claim": False,
+            "result_sha256": result_hash,
+            "exact_error": exact_error,
+            "fallback": None,
+            "holdout_opened": False,
+        },
+    )
+    state.update(
+        {
+            "development_status": outcome,
+            "next_task": (
+                "run_volatility_parity_pre_holdout_independent_audit"
+                if outcome == "DEVELOPMENT_GO"
+                else "run_volatility_parity_terminal_independent_audit"
+            ),
+            "updated_at_utc": report["ended_at_utc"],
+        }
+    )
+    budgets = dict(state["budgets"])
+    budgets["cycles_remaining"] = 0
+    state["budgets"] = budgets
+    atomic_json(STATE, state)
+    return {
+        "status": outcome,
+        "report": str(report_path.relative_to(ROOT)),
+        "result_sha256": result_hash,
+        "holdout_opened": False,
+        "returns_calculated": report.get("returns_calculated", False),
+        "capital_permitted": 0,
+    }
+
+
 def sanitize_trend_audit_payload(payload: object, *, result_sha256: str) -> dict[str, Any]:
     """Allowlist a terminal trend audit and preserve the closed-holdout boundary."""
 
@@ -2723,6 +2873,7 @@ def main() -> None:
             "mean-reversion-independent-audit",
             "relative-value-development",
             "calendar-development",
+            "volatility-parity-development",
         ),
     )
     parser.add_argument("--cycles", type=int, default=1)
@@ -2779,6 +2930,8 @@ def main() -> None:
             result = run_relative_value_development()
         elif args.command == "calendar-development":
             result = run_calendar_development()
+        elif args.command == "volatility-parity-development":
+            result = run_volatility_parity_development()
         elif args.command == "prospective":
             result = {"status": "NO_FROZEN_PROSPECTIVE_CANDIDATE", "capital_permitted": 0}
         elif args.command == "snapshot":

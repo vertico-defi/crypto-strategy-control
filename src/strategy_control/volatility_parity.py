@@ -87,6 +87,7 @@ class Session:
     close: float
     complete: bool
     rows: tuple[MinuteBar, ...] = ()
+    input_hash: str = ""
 
 
 @dataclass(frozen=True)
@@ -224,6 +225,16 @@ def aggregate_sessions(bars: Sequence[MinuteBar]) -> tuple[Session, ...]:
                 close=rows[-1].close,
                 complete=complete,
                 rows=tuple(rows),
+                input_hash=canonical_hash(
+                    {
+                        "session_start": start.isoformat(),
+                        "rows": [
+                            row.source_record_id
+                            or f"{_utc(row.event_timestamp).isoformat()}|{index}"
+                            for index, row in enumerate(rows)
+                        ],
+                    }
+                ),
             )
         )
     return tuple(sessions)
