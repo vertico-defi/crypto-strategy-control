@@ -1,0 +1,399 @@
+{
+  "schema_version": "1.0",
+  "status": "DRAFT_PENDING_SOL_XHIGH_DIRECTION_REVIEW",
+  "experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1",
+  "created_at_utc": "2026-08-03T09:03:09.651707Z",
+  "source_parent_commit": "d8b2b74fcd568345b8e5eb9b475c4cc1c7d38ea2",
+  "draft_sha256": "0caf8e6984c9c7add463784b51bf0efbab4f050533f42373fabdafb5843e5c61",
+  "draft_hash_rule": "Parse JSON, remove only the top-level draft_sha256 field, serialize with sorted keys and compact separators as UTF-8, then SHA-256.",
+  "direction_review_required": {
+    "requested_model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "invocation_mode": "live",
+    "must_finish_before": [
+      "market_value_access_for_this_experiment",
+      "return_calculation",
+      "implementation",
+      "preregistration_freeze"
+    ]
+  },
+  "strategy_family": "FIXED_PAIR_LONG_ONLY_CAUSAL_VOLATILITY_PARITY_REBALANCING",
+  "family_distinction": {
+    "primary_driver": "Causally lagged marginal risk contribution from synchronized BTCUSDT and ETHUSDT return volatility; price direction, relative return rank, drawdown/recovery, and calendar-conditioned expected return are absent.",
+    "portfolio_state": "Both BTCUSDT and ETHUSDT are held simultaneously at long-only weights summing to one whenever the data state is eligible; cash is used only before entry, after terminal liquidation, or during causal quarantine.",
+    "not_trend": "No Donchian level, sign of time-series return, volatility target, or long-or-cash trend signal is used.",
+    "not_mean_reversion": "No drawdown, dip, recovery, oversold, or reversal condition is used.",
+    "not_relative_value_rotation": "The strategy never selects one winner from a cross-asset score and never rotates atomically between one-asset states.",
+    "not_calendar_seasonality": "UTC weekday and hour affect only the fixed operational weekly rebalance schedule, never expected return, eligibility, or directional exposure.",
+    "no_family_transformation": "The primary cannot be replaced by a variant, fitted predictor, cash filter, market-timing overlay, or one-asset selector after data inspection."
+  },
+  "economic_hypothesis": "A causally estimated, long-only BTC/ETH equal-risk-contribution portfolio with disciplined weekly rebalancing may diversify concentration risk and improve net risk-adjusted performance and drawdown versus simple equal-weight weekly rebalancing and equal-weight buy-and-hold after conservative spot costs, without leverage or market timing.",
+  "capital_permitted": 0,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "data_contract": {
+    "venue": "binance_spot",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "fixed_universe_only": true,
+    "universe_claim": "No broad cross-sectional or point-in-time market-universe claim; both assets are fixed before evaluation.",
+    "reused_verified_contract": "experiments/btc-eth-vol-targeted-trend-v1/DATA_CONTRACT.json",
+    "reused_verified_contract_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+    "canonical_inventory_sha256": "1a5d5eaab533892b17b296750a2750514e51455d503456285b31b1845e63cc2f",
+    "source_freeze_manifest_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+    "source_partition_count": 48,
+    "development_partitions": 36,
+    "holdout_partitions": 12,
+    "development_value_window_utc": [
+      "2024-07-01T00:01:00Z",
+      "2026-01-01T00:00:00Z"
+    ],
+    "development_return_window_utc": [
+      "2025-01-01T00:00:00Z",
+      "2026-01-01T00:00:00Z"
+    ],
+    "final_holdout_value_window_utc": [
+      "2026-01-01T00:01:00Z",
+      "2026-07-01T00:00:00Z"
+    ],
+    "known_missing_event_timestamps_utc": [
+      "2024-08-12T10:03:00Z",
+      "2024-08-12T10:04:00Z"
+    ],
+    "holdout_parquet_footers_or_values_read": false
+  },
+  "daily_session_contract": {
+    "timezone": "UTC",
+    "complete_session_requirement": "Exactly 1,440 unique consecutive minute-bar ends per asset from 00:01 through the next 00:00, synchronized across both assets; invalid OHLC, duplicates, nonmonotonic timestamps, or any missing minute make the joint session incomplete.",
+    "daily_prices": "Open is the first valid minute open, high is the maximum high, low is the minimum low, close is the final close, and availability is the maximum causal available_timestamp over every required record.",
+    "incomplete_session_rule": "Quarantine the entire joint session, never forward-fill, and reset return-volatility and regime histories.",
+    "recovery_completed_sessions": 150,
+    "return_definition": "Synchronized simple close-to-close returns for each asset; every estimator window must contain exactly the declared number of contiguous eligible joint returns."
+  },
+  "primary_allocation_contract": {
+    "estimation_lookback_completed_joint_returns": 60,
+    "volatility_estimator": "Per-asset sample standard deviation with ddof=1 over exactly 60 synchronized simple daily returns ending at the completed signal session; zero, nonfinite, or missing volatility makes the decision ineligible.",
+    "covariance_check": "Compute the 2x2 sample covariance matrix with ddof=1 over the same 60 paired returns. It must be finite, symmetric within 1e-12, and positive semidefinite within numerical tolerance; otherwise the decision is ineligible.",
+    "raw_equal_risk_contribution_weights": "For two long-only assets, raw BTC weight=(1/sigma_BTC)/((1/sigma_BTC)+(1/sigma_ETH)); raw ETH weight=1-raw BTC weight. Verify from the same covariance matrix that absolute ex-ante component-risk contributions differ by no more than 1e-10 before clipping.",
+    "concentration_bounds": {
+      "minimum_weight_each": 0.2,
+      "maximum_weight_each": 0.8,
+      "clip_rule": "Clip raw BTC weight to [0.2,0.8], set ETH weight to one minus BTC, and do not re-solve or fit the bounds."
+    },
+    "rebalance_schedule": "One target is computed after every eligible completed UTC Sunday session. Weekday is an operational schedule only and is not a return predictor.",
+    "target_set": "Continuous long-only BTC/ETH weights summing exactly to one; no strategic cash, shorting, leverage, volatility scalar, winner selection, or return-sign filter.",
+    "initial_entry": "Enter the first eligible Sunday target inside each independent evaluation boundary from cash.",
+    "between_rebalances": "Hold units and let weights drift; no daily reset to target and no trade on non-scheduled sessions.",
+    "tie_and_rounding": "Use float64 arithmetic without lot rounding. Exact equal volatilities produce 0.5/0.5. Weight-sum error above 1e-12 fails closed.",
+    "funding_borrow_and_interest": "Not applicable to long-only unlevered spot; residual cash exists only at lifecycle boundaries and earns zero."
+  },
+  "execution_and_accounting_contract": {
+    "information_cutoff": "For signal session s, the maximum event and causal availability timestamp across both assets and every observation required by the 60-return estimator.",
+    "canonical_daily_price_vector": "C_s is the single earliest synchronized BTCUSDT/ETHUSDT minute-bar open whose implied open timestamp is strictly greater than the information cutoff; separate per-asset or substitute fills are forbidden.",
+    "base_execution": "The immutable target computed after eligible Sunday signal session s executes atomically at C_s before any later signal can exist.",
+    "additional_delay_stress": "The same immutable Sunday target executes at the canonical C_(s+1) after one additional completed joint daily session. Exposure through the delay is retained, no later target supersedes it, and a causal safety liquidation has precedence.",
+    "marking_frequency": "Portfolio wealth and net returns are marked at every consecutive valid canonical daily vector, including days with no rebalance; a rebalance cost enters the interval containing its fill.",
+    "turnover": "One-half of the L1 change across BTC, ETH, and cash from drifted pretrade weights to target weights.",
+    "self_financing": "At each canonical vector, mark existing units to current prices, derive drifted BTC/ETH/cash weights, deduct one-way cost from post-gross wealth times turnover, and allocate the remaining wealth to the atomic target; days without a trade retain units and incur zero turnover.",
+    "one_way_cost_bps": {
+      "fee": 10.0,
+      "half_spread": 1.0,
+      "slippage": 3.0,
+      "total": 14.0
+    },
+    "doubled_cost_total_one_way_bps": 28.0,
+    "initial_and_terminal_costs": true,
+    "terminal_cash": "At the last causally identifiable C_s strictly before a half-open evaluation end, replace any ordinary target with cash and liquidate atomically with cost; final state must be exact cash.",
+    "quarantine": [
+      "Detect incomplete sessions or missing/asynchronous canonical vectors only when causally knowable.",
+      "If cash with a pending entry, cancel it, carry cash without a return observation across absent time, reset histories, and require 150 new complete joint sessions.",
+      "If exposed, cancel any pending rebalance and replace it with a safety cash target at the earliest later synchronized valid vector; retain the complete held-asset return and liquidation cost as a labeled economic interval.",
+      "After priced liquidation, carry cash without invented zero returns through quarantine and rebuild only from the subsequent contiguous 150-session recovery run.",
+      "If an exposed endpoint or liquidation cannot be priced finitely, terminate DATA_INTEGRITY_FAILURE; never omit, zero-fill, or interpolate exposure."
+    ],
+    "wealth_continuity": "Ending cash wealth of every segment is the starting wealth of the next; no return interval bridges an absent quarantine boundary."
+  },
+  "walk_forward_contract": {
+    "loader_guard": "Allow only the verified 36 2024-2025 development partitions and reject every path containing year=2026 before any footer or value parser is called.",
+    "aggregate_development_evaluation": "One independent run from cash over [2025-01-01T00:00:00Z,2026-01-01T00:00:00Z), using pre-2025 observations only for causal warmup and no PnL before the start.",
+    "development_folds": [
+      [
+        "2025-01-01T00:00:00Z",
+        "2025-04-01T00:00:00Z"
+      ],
+      [
+        "2025-04-01T00:00:00Z",
+        "2025-07-01T00:00:00Z"
+      ],
+      [
+        "2025-07-01T00:00:00Z",
+        "2025-10-01T00:00:00Z"
+      ],
+      [
+        "2025-10-01T00:00:00Z",
+        "2026-01-01T00:00:00Z"
+      ]
+    ],
+    "final_holdout_folds": [
+      [
+        "2026-01-01T00:00:00Z",
+        "2026-04-01T00:00:00Z"
+      ],
+      [
+        "2026-04-01T00:00:00Z",
+        "2026-07-01T00:00:00Z"
+      ]
+    ],
+    "fold_isolation": "Slice all sessions, canonical vectors, availability records, and warmup to timestamps strictly before fold end before invoking any state machine; each fold starts from cash with no pending target or PnL state.",
+    "first_permissible_entry": "The first scheduled Sunday session at or after fold start with the complete trial-specific lookback and recovery state; earlier warmup carries no position or PnL.",
+    "fold_boundary": "Half-open. Every daily marked interval and any safety liquidation ends strictly before fold end; otherwise fail DATA_INTEGRITY_FAILURE.",
+    "minimum_eligible_daily_intervals_per_fold": 60,
+    "purging_and_embargo": "No fitted target or overlapping label exists; strict prefix slicing, causal lookbacks, cash-reset folds, and half-open endpoints replace a numerical embargo.",
+    "random_split": false,
+    "training_or_fitted_parameters": "none"
+  },
+  "fixed_trials_and_benchmarks": {
+    "declared_trial_order": [
+      "primary_60d_bounds_20_80_weekly",
+      "short_30d_bounds_20_80_weekly",
+      "long_90d_bounds_20_80_weekly",
+      "tight_bounds_30_70_60d_weekly",
+      "wide_bounds_10_90_60d_weekly",
+      "biweekly_60d_bounds_20_80",
+      "equal_weight_weekly_rebalanced"
+    ],
+    "trial_definitions": {
+      "primary_60d_bounds_20_80_weekly": {
+        "lookback": 60,
+        "bounds": [
+          0.2,
+          0.8
+        ],
+        "schedule": "every eligible Sunday"
+      },
+      "short_30d_bounds_20_80_weekly": {
+        "lookback": 30,
+        "bounds": [
+          0.2,
+          0.8
+        ],
+        "schedule": "every eligible Sunday"
+      },
+      "long_90d_bounds_20_80_weekly": {
+        "lookback": 90,
+        "bounds": [
+          0.2,
+          0.8
+        ],
+        "schedule": "every eligible Sunday"
+      },
+      "tight_bounds_30_70_60d_weekly": {
+        "lookback": 60,
+        "bounds": [
+          0.3,
+          0.7
+        ],
+        "schedule": "every eligible Sunday"
+      },
+      "wide_bounds_10_90_60d_weekly": {
+        "lookback": 60,
+        "bounds": [
+          0.1,
+          0.9
+        ],
+        "schedule": "every eligible Sunday"
+      },
+      "biweekly_60d_bounds_20_80": {
+        "lookback": 60,
+        "bounds": [
+          0.2,
+          0.8
+        ],
+        "schedule": "eligible Sundays with floor(days_since_2024-07-07/7) even; fixed anchor 2024-07-07"
+      },
+      "equal_weight_weekly_rebalanced": {
+        "lookback": 60,
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "schedule": "every eligible Sunday"
+      }
+    },
+    "primary_fixed_before_data": true,
+    "parameter_neighbors": [
+      "short_30d_bounds_20_80_weekly",
+      "long_90d_bounds_20_80_weekly",
+      "tight_bounds_30_70_60d_weekly",
+      "wide_bounds_10_90_60d_weekly"
+    ],
+    "benchmarks": {
+      "cash_zero_return": "Genuine zero at every valid daily canonical interval; absent quarantine intervals remain absent.",
+      "BTCUSDT_buy_and_hold": "Enter BTC weight one at the first valid boundary vector, drift, and liquidate at the same terminal vector with identical initial and terminal costs and quarantine treatment.",
+      "ETHUSDT_buy_and_hold": "Enter ETH weight one at the first valid boundary vector, drift, and liquidate identically.",
+      "equal_weight_BTC_ETH_buy_and_hold": "Enter 0.5/0.5 once, drift without rebalancing, and liquidate identically.",
+      "equal_weight_weekly_rebalanced": "The fully specified declared trial with identical scheduling, execution, costs, quarantine, folds, and terminal treatment."
+    },
+    "selection_rule": "The primary is never selected from variants or benchmarks and cannot be replaced after results."
+  },
+  "statistical_contract": {
+    "daily_return_panel": "Every ordinary valid canonical daily mark-to-mark interval, including genuine cash zeros, plus fully priced quarantine liquidation intervals; absent cash quarantine spans and boundary-crossing intervals are excluded, never zero-filled.",
+    "annualization_sessions": 365,
+    "sharpe": "Mean daily net return divided by sample standard deviation ddof=1 times sqrt(365), risk-free zero; any nonfinite or zero-volatility case fails.",
+    "maximum_drawdown": "Maximum peak-to-trough loss on the complete event-level compounded wealth path, retaining rebalance costs and intraday-priced safety liquidations rather than using only an aggregated daily series.",
+    "bootstrap": {
+      "method": "Politis-Romano stationary circular block bootstrap",
+      "expected_block_lengths_sessions": [
+        10,
+        20,
+        40
+      ],
+      "resamples_each": 2000,
+      "rng": "NumPy Generator PCG64",
+      "seeds": "unsigned first 64 bits of SHA256 UTF-8 experiment_id plus literal :block10, :block20, or :block40",
+      "statistic": "mean daily net return",
+      "confidence_interval": "two-sided percentile with NumPy linear interpolation at 0.025 and 0.975",
+      "gate": "lower 95% bound strictly positive for all three block lengths"
+    },
+    "deflated_sharpe_ratio": {
+      "current_family_trial_count": 7,
+      "prior_completed_controller_trial_records": 21,
+      "prior_declared_without_return_records": 7,
+      "draft_treatment_requiring_direction_review": "Use the 21 immutable completed prior trial Sharpes plus seven current aligned trial Sharpes. The seven calendar trials that terminated without returns are counted as prior research attempts in effective multiplicity but are not assigned invented Sharpes; Sol/xhigh must make the exact conservative estimator executable before freeze.",
+      "minimum_probability": 0.95,
+      "degenerate_rule": "Any missing required prior record, fewer than three aligned observations, zero primary variance, nonfinite moment, or nonpositive denominator fails."
+    },
+    "probability_of_backtest_overfitting": {
+      "method": "CSCV within the seven fixed current-family trials",
+      "chronological_blocks": 8,
+      "train_blocks_per_split": 4,
+      "split_count": 70,
+      "selection_metric": "daily net Sharpe",
+      "selection_tie_rule": "first in declared trial order",
+      "maximum": 0.2,
+      "degenerate_rule": "Fewer than eight common observations, any empty block, nonfinite rank/logit, or undefined selection yields PBO one."
+    },
+    "asset_contribution": "Attribute interval gross currency PnL from drifted risky weights and allocate each rebalance cost over absolute BTC/ETH weight changes. Both cumulative net asset contributions must be strictly positive.",
+    "exceptional_profit_limits": {
+      "largest_positive_interval_fraction_of_positive_total_pnl_maximum": 0.5,
+      "top_five_positive_intervals_fraction_of_positive_total_pnl_maximum": 0.75
+    },
+    "regimes": "Use the inherited causal BTC 120-session up/down and prior-median 60-session high/low volatility definitions. At least three regimes must each contain at least 45 daily intervals; every eligible regime must have strictly positive primary net return and none may be below -5%.",
+    "rebalance_sufficiency": {
+      "development_completed_scheduled_rebalances_minimum": 40,
+      "development_completed_rebalances_per_fold_minimum": 8,
+      "holdout_completed_scheduled_rebalances_minimum": 20,
+      "holdout_completed_rebalances_per_fold_minimum": 8
+    }
+  },
+  "historical_gates_all_required": {
+    "acceptance_gates_yaml_inherited_without_weakening": true,
+    "aggregate_net_return_gt": 0.0,
+    "annualized_sharpe_gte": 0.75,
+    "maximum_drawdown_lte": 0.2,
+    "positive_development_folds_minimum": 3,
+    "development_fold_count": 4,
+    "doubled_cost_aggregate_net_return_gt": 0.0,
+    "additional_delay_aggregate_net_return_gt": 0.0,
+    "positive_parameter_neighbors_minimum": 3,
+    "parameter_neighbor_count": 4,
+    "bootstrap_lower_95_ci_all_three_gt": 0.0,
+    "deflated_sharpe_probability_gte": 0.95,
+    "probability_of_backtest_overfitting_lte": 0.2,
+    "baseline_superiority": "Primary annualized Sharpe and net return must each be strictly above equal-weight weekly rebalancing, primary annualized Sharpe must be strictly above equal-weight buy-and-hold, and primary maximum drawdown must be strictly below both equal-weight benchmarks.",
+    "asset_net_contribution_each_gt": 0.0,
+    "exceptional_profit_gate": "pass",
+    "regime_gate": "pass",
+    "rebalance_sufficiency_gate": "pass",
+    "no_material_leakage": true,
+    "no_survivorship_contamination": true,
+    "data_integrity_and_terminal_cash": true
+  },
+  "holdout_contract": {
+    "open_rule": "The reused data contract remains exact PASS, every development gate passes, code and evidence are clean and committed, and a separate live Sol/xhigh pre-holdout audit returns HOLDOUT_OPEN_APPROVED.",
+    "access_record": "Before parsing any 2026 footer or value, commit the frozen preregistration, data, evaluator, seed, and exact 12 holdout byte hashes plus a one-shot access timestamp.",
+    "one_shot": "Exactly one deterministic holdout invocation may parse the 12 holdout partitions after the access-record commit.",
+    "post_access_failure": "Any data, execution, accounting, statistic, or evaluator error after first holdout footer/value access terminates HOLDOUT_EVALUATION_FAILURE with no repair, rerun, reopen, or partial selection.",
+    "fold_count": 2,
+    "positive_folds_minimum": 2,
+    "all_historical_gates_apply": true,
+    "completed_scheduled_rebalances_minimum": 20,
+    "completed_rebalances_per_fold_minimum": 8,
+    "terminal_on_any_failed_gate": "HISTORICAL_NO_GO",
+    "candidate_status_on_all_pass": "HISTORICAL_CANDIDATE_PENDING_INDEPENDENT_TERMINAL_AUDIT"
+  },
+  "promotion_and_prospective_contract": {
+    "historical_candidate_freeze": "Only after every holdout gate and a separate live Sol/xhigh terminal audit pass; freeze data, source, code, config, costs, seeds, and timestamp while capital remains zero.",
+    "prospective_data": "Every event and availability timestamp must be strictly later than the candidate freeze timestamp.",
+    "independent_decision": "One eligible synchronized Sunday target computation counts at most once, whether or not the resulting weight equals the preceding target; safety liquidations and repeated processing do not count.",
+    "minimum_independent_decisions": 100,
+    "minimum_duration_days": 30,
+    "positive_net_return_required": true,
+    "accounting": "Identical frozen allocation, schedule, execution, cost, quarantine, statistics, and gates; no refit, retuning, trial promotion, or gate change.",
+    "capital_permitted": 0
+  },
+  "direction_review_questions": [
+    "Is inverse-volatility weighting with the stated covariance verification a correct and auditable two-asset equal-risk-contribution definition before and after clipping?",
+    "Is the family genuinely distinct from the rejected trend, mean-reversion, relative-value rotation, and calendar experiments?",
+    "Are weekly signal, availability, canonical fill, marking, delayed-fill, quarantine, terminal, and fold clocks fully causal and non-bridging?",
+    "Are concentration bounds and the fixed Sunday schedule defensible without becoming post-hoc market timing?",
+    "Do the seven trials, four parameter neighbors, and baseline gates form a coherent and sufficiently demanding test without an impossible or circular benchmark requirement?",
+    "How must the seven prior calendar trials with no return series enter program-level DSR multiplicity without inventing performance?",
+    "Are bootstrap, DSR, PBO, event-level drawdown, regimes, contribution, concentration, and rebalance-count degeneracies exact enough to implement fail closed?",
+    "Is a weekly prospective decision count methodologically independent, even though the 100-decision minimum will require roughly 100 eligible weeks?",
+    "What exact one-shot latch and evidence hashes are required before any 2026 footer or value access?"
+  ],
+  "model_routing": {
+    "research_direction": [
+      "gpt-5.6-sol",
+      "xhigh",
+      "live"
+    ],
+    "implementation": [
+      "gpt-5.6-terra",
+      "medium",
+      "live"
+    ],
+    "deterministic_validation": [
+      null,
+      null,
+      "deterministic_local"
+    ],
+    "independent_audit": [
+      "gpt-5.6-sol",
+      "xhigh",
+      "live"
+    ]
+  },
+  "budget": {
+    "max_wall_seconds": 1800,
+    "max_agent_calls": 4,
+    "max_repair_attempts": 1,
+    "bounded_cycles": 1,
+    "max_gpu_seconds": 0,
+    "capital_permitted": 0,
+    "direction_calls_used": 0
+  },
+  "prohibitions": [
+    "market_value_access_before_direction_review_and_freeze",
+    "2026_holdout_footer_or_value_access_before_all_gates_and_pre_holdout_audit",
+    "post_hoc_gate_changes",
+    "replacement_of_primary_with_variant_or_benchmark",
+    "return_sign_or_cash_filter_addition",
+    "family_transformation",
+    "random_seed_selection",
+    "live_or_paper_orders",
+    "exchange_or_wallet_credentials",
+    "capital",
+    "leverage",
+    "shorting",
+    "borrow",
+    "funding",
+    "paid_data",
+    "paid_compute",
+    "GPU_or_mining_change"
+  ]
+}
