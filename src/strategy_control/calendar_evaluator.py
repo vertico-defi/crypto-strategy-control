@@ -886,7 +886,9 @@ def evaluate_calendar_development(
 
     if market.holdout_values_read:
         raise CalendarEvaluationError("holdout values were read")
-    if preregistration.get("status") != "DRAFT_REVISED_REVIEWED":
+    # The immutable wrapper freezes this referenced object; its own pre-wrapper
+    # status remains part of the hash and must not be rewritten after freezing.
+    if preregistration.get("status") != "DRAFT_REVISED_NOT_FROZEN":
         raise CalendarEvaluationError("effective frozen contract status changed")
     frozen_gates = preregistration.get("historical_gates_all_required")
     if not isinstance(frozen_gates, Mapping) or len(frozen_gates) != 17:

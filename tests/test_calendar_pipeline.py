@@ -16,6 +16,7 @@ from strategy_control.calendar_pipeline import (
     fifth_valid_vector,
     fold_source_prefix,
     open_development_partition,
+    verify_preregistration,
 )
 from strategy_control.calendar_seasonality import TRIALS, CalendarIntegrityError
 
@@ -50,6 +51,15 @@ def test_loader_rejects_2026_before_any_opener_call() -> None:
         open_development_partition("x/year=2026/x.parquet", opened.append)
     assert opened == []
     assert len(development_partitions(contract())) == 36
+
+
+def test_wrapper_freezes_the_unchanged_pre_wrapper_effective_status() -> None:
+    root = Path("experiments/btc-eth-intraday-calendar-seasonality-v1")
+    wrapper = json.loads((root / "PREREGISTRATION.json").read_text())
+    effective_bytes = (root / "PREREGISTRATION_REVISED_DRAFT.json").read_bytes()
+    effective = json.loads(effective_bytes)
+    assert effective["status"] == "DRAFT_REVISED_NOT_FROZEN"
+    verify_preregistration(wrapper, effective, effective_bytes=effective_bytes)
 
 
 def test_unequal_availability_and_missing_hour_are_invalid() -> None:
