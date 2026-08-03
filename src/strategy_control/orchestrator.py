@@ -2459,7 +2459,8 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
         "is permitted."
         if terminal.get("performance_scope") == "DEVELOPMENT_ONLY_NOT_A_CANDIDATE"
         else "Data-contract result only: no holdout was opened, no returns were calculated, "
-        "and no profitability conclusion is permitted."
+        "no candidate was promoted, capital remains zero, and no profitability conclusion "
+        "is permitted."
     )
     snapshot = {
         "schema_version": "1.0",

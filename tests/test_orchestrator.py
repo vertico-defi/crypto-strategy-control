@@ -409,6 +409,8 @@ def test_public_snapshot_allowlist_is_static_and_zero_capital(
     snapshot = json.loads((tmp_path / result["path"]).read_text())
     assert snapshot["capital_permitted"] == 0
     assert snapshot["classification"] == "DATA_NO_GO"
+    assert "no candidate was promoted" in snapshot["limitation"]
+    assert "capital remains zero" in snapshot["limitation"]
 
 
 def test_public_snapshot_labels_development_rejection_without_candidate_claim(
