@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-intraday-calendar-seasonality-v1",
+  "validated_at_utc": "2026-08-03T07:52:08.953495Z",
+  "invocation_mode": "deterministic_local",
+  "model_generated_research": false,
+  "source_commit_of_effective_contract": "0b8ad3c18853f194c557ffea7c9a4817d5e310d8",
+  "preregistration_sha256": "1e67b67cc3d89f9ddd6315cf35bc5c1e5b71353bdaf073a43dbf4b462025509e",
+  "effective_contract_sha256": "102a0de94ded6d4c7fa7667702c07e8e8328c57feda5be597ec75d8efb8c7b96",
+  "effective_contract_byte_sha256": "fe8accad9269272e6534a014462e672d827ebf440d60c864603dd0139acf1db6",
+  "direction_review_result_sha256": "7fbcfc51c48d965f8435d6791fc8869a0ff0f518d5c25c9fc7aec40c566e8ee2",
+  "checks": {
+    "wrapper_canonical_hash_recomputed": "PASS",
+    "effective_contract_canonical_hash_recomputed": "PASS",
+    "effective_contract_byte_hash_recomputed": "PASS",
+    "effective_contract_source_commit_is_parent_of_freeze": "PASS",
+    "all_20_direction_revisions_recorded": "PASS",
+    "development_data_read": false,
+    "holdout_footer_or_value_read": false,
+    "returns_calculated": false,
+    "capital_permitted": 0
+  },
+  "commands": [
+    {"command": ".venv/bin/pytest -q", "result": "PASS", "tests_passed": 105},
+    {"command": ".venv/bin/ruff check .", "result": "PASS"},
+    {"command": ".venv/bin/mypy src", "result": "PASS", "source_files_checked": 16},
+    {"command": "git diff --check", "result": "PASS"}
+  ],
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "verdict": "FREEZE_VALIDATION_PASS"
+}
