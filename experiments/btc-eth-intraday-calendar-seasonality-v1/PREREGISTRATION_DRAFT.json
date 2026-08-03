@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0",
+  "status": "DRAFT_PENDING_DIRECTION_REVIEW",
+  "experiment_id": "btc-eth-intraday-calendar-seasonality-v1",
+  "created_at_utc": "2026-08-03T07:14:49.582657Z",
+  "source_commit": "407c49776d5342552bc5ad7a2cf7839a39403d8e",
+  "draft_sha256": "0d13f8d5b4c11a568a237f0bf536b69af73205d90307b6ecd73df0b6f69ab0f0",
+  "strategy_family": "FIXED_UNIVERSE_INTRADAY_UTC_CALENDAR_SEASONALITY_LONG_OR_CASH",
+  "research_stage": "NO_DATA_DIRECTION_REVIEW",
+  "capital_permitted": 0,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_permitted": false,
+  "family_distinction": {
+    "rejected_trend_family": "Uses no Donchian breakout, price trend sign, moving average, time-series momentum, or volatility target.",
+    "rejected_mean_reversion_family": "Uses no drawdown, oversold threshold, recovery threshold, holding-period dip trade, or price-deviation reversion rule.",
+    "rejected_relative_value_family": "Uses no BTC-versus-ETH momentum rank, cross-asset score gap, rotation threshold, or winner-takes-all relative-strength rule.",
+    "archive_universe_requirement": false,
+    "fixed_universe_only": ["BTCUSDT", "ETHUSDT"],
+    "prohibited_transformations": "The primary may not be replaced with a trend, dip, cross-asset rank, fitted nonlinear model, hand-selected calendar cell, or post-development schedule."
+  },
+  "economic_hypothesis": "Recurring UTC market-participation, settlement, and regional-liquidity cycles may create stable hour-of-day effects that are strong enough to support a simple causally estimated BTCUSDT/ETHUSDT long-or-cash schedule after conservative spot execution costs.",
+  "data_contract": {
+    "venue": "binance_spot",
+    "symbols": ["BTCUSDT", "ETHUSDT"],
+    "reused_verified_contract": "experiments/btc-eth-vol-targeted-trend-v1/DATA_CONTRACT.json",
+    "reused_verified_contract_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+    "source_freeze_manifest_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+    "source_partition_count": 48,
+    "development_partitions": 36,
+    "holdout_partitions": 12,
+    "development_observation_window_utc": ["2024-07-01T00:00:00Z", "2026-01-01T00:00:00Z"],
+    "development_pnl_window_utc": ["2025-01-01T00:00:00Z", "2026-01-01T00:00:00Z"],
+    "final_holdout_value_window_utc": ["2026-01-01T00:01:00Z", "2026-07-01T00:00:00Z"],
+    "holdout_parquet_footers_or_values_read": false,
+    "development_loader_guard": "Allow only the 36 verified 2024-2025 partitions and reject every path containing year=2026 before footer or value parsing.",
+    "broad_universe_claim": false
+  },
+  "draft_calendar_feature_contract": {
+    "session": "Nonoverlapping UTC clock hours, each identified by its known-in-advance hour start and represented by the first valid synchronized minute open at or after the hour boundary and the corresponding next-hour endpoint.",
+    "calendar_bucket": "Forty-eight fixed buckets: UTC hour_of_day 0 through 23 crossed with weekday_or_weekend, where Saturday and Sunday UTC are weekend.",
+    "return_observation": "Open-to-next-hour-open simple return for one asset, attributed to the bucket of the interval start; only completed, causally available, fully priced intervals enter estimates.",
+    "estimation_refresh": "Once at each UTC Monday boundary using only eligible return observations whose endpoint and availability timestamp are strictly before that boundary; the resulting immutable schedule is used for the next seven UTC days.",
+    "primary_lookback_weeks": 26,
+    "minimum_bucket_observations": {"weekday": 80, "weekend": 32},
+    "primary_location_estimator": "Arithmetic mean of finite bucket returns after symmetric 5% tail trimming within that bucket, with trimming thresholds recomputed from only the causal training window.",
+    "uncertainty_estimator": "Sample standard error ddof=1 of the retained trimmed observations; nonfinite, zero-dispersion, or insufficient buckets are ineligible.",
+    "signal_strength": "Estimated bucket mean divided by its standard error.",
+    "primary_threshold": 1.5,
+    "cost_awareness": "A bucket can be active only if its estimated mean is strictly greater than a frozen expected-turnover charge derived from the 14 bps one-way cost and the known neighboring target schedule; exact treatment requires direction-review approval.",
+    "no_calendar_selection": "All 48 buckets, both assets, the 26-week lookback, trimming, and threshold are fixed before development. No observed bucket may be manually added, removed, merged, or relabelled."
+  },
+  "draft_portfolio_rule": {
+    "per_asset_active": "An asset is active for an upcoming bucket only when its causal signal strength strictly exceeds 1.5 and its estimated mean passes the frozen cost-aware threshold.",
+    "target_when_none_active": {"BTCUSDT": 0.0, "ETHUSDT": 0.0, "cash": 1.0},
+    "target_when_one_active": "Weight 1.0 in the active asset and zero in the other asset.",
+    "target_when_both_active": {"BTCUSDT": 0.5, "ETHUSDT": 0.5, "cash": 0.0},
+    "gross_exposure_maximum": 1.0,
+    "shorting": false,
+    "leverage": false,
+    "borrowing": false,
+    "funding": "not applicable to unlevered spot long-or-cash positions",
+    "selection_rule": "The primary rule is fixed before development and can never be replaced by an alternative regardless of observed results."
+  },
+  "draft_execution_contract": {
+    "information_cutoff": "Maximum causal availability timestamp across both assets and every observation used by the weekly schedule fit, plus the immediately preceding synchronized valid price needed to establish current portfolio state.",
+    "base_execution": "For upcoming UTC hour h known after the preceding completed hour, compute the fixed calendar target and execute at the single earliest synchronized BTCUSDT/ETHUSDT minute-bar open strictly after the information cutoff and not before h; never use the same bar that completed a fitted return.",
+    "additional_delay_stress": "Execute the same immutable target at the fifth later synchronized real minute-bar open; intervening target decisions may not supersede it.",
+    "one_way_cost_bps": {"fee": 10.0, "half_spread": 1.0, "slippage": 3.0, "total": 14.0},
+    "doubled_cost_total_one_way_bps": 28.0,
+    "turnover": "One-half L1 distance across BTC, ETH, and cash after causal risky-asset drift; simultaneous BTC/ETH changes are one atomic rebalance.",
+    "self_financing": "Apply gross interval returns to drifted BTC/ETH/cash weights, then charge turnover times one-way cost to post-gross wealth. Initial and terminal trades are included.",
+    "missing_or_asynchronous_bar": "Fail closed through a fully specified quarantine and priced-liquidation state machine; exposed PnL may never be omitted, zero-filled, or bridged across an unpriceable gap.",
+    "terminal_cash": "Liquidate at the last actual synchronized canonical fill strictly before the half-open evaluation end, with cost; exact causal selection requires direction-review approval."
+  },
+  "draft_walk_forward_contract": {
+    "development_folds": [
+      ["2025-01-01T00:00:00Z", "2025-04-01T00:00:00Z"],
+      ["2025-04-01T00:00:00Z", "2025-07-01T00:00:00Z"],
+      ["2025-07-01T00:00:00Z", "2025-10-01T00:00:00Z"],
+      ["2025-10-01T00:00:00Z", "2026-01-01T00:00:00Z"]
+    ],
+    "aggregate_development_evaluation": "One independent run from cash over calendar 2025; pre-2025 allowlisted observations may warm the first causal weekly fit but carry no PnL or position.",
+    "fold_start": "Every fold starts from cash with no pending target or PnL. Calendar estimators may train on eligible allowlisted observations strictly before fold start, but never on observations at or after fold end.",
+    "fold_isolation": "Pre-slice price, availability, gap, fit, and execution inputs to timestamps strictly before fold end before invoking any state machine.",
+    "refresh_is_walk_forward": true,
+    "random_split": false,
+    "purging_and_embargo": "No overlapping target labels are intended because return intervals are nonoverlapping hours; direction review must determine whether an explicit purge/embargo is nevertheless required around weekly fit and fold boundaries.",
+    "minimum_eligible_hourly_intervals_per_fold": 500
+  },
+  "draft_trials_and_benchmarks": {
+    "declared_trial_count": 7,
+    "declared_trial_order": [
+      "primary_26_week_weekday_weekend_trimmed_t_1_5",
+      "simple_26_week_hour_only_raw_mean_positive",
+      "short_13_week_weekday_weekend_trimmed_t_1_5",
+      "long_39_week_weekday_weekend_trimmed_t_1_5",
+      "low_threshold_26_week_t_1_0",
+      "high_threshold_26_week_t_2_0",
+      "untrimmed_26_week_weekday_weekend_t_1_5"
+    ],
+    "parameter_neighbors": [
+      "short_13_week_weekday_weekend_trimmed_t_1_5",
+      "long_39_week_weekday_weekend_trimmed_t_1_5",
+      "low_threshold_26_week_t_1_0",
+      "high_threshold_26_week_t_2_0",
+      "untrimmed_26_week_weekday_weekend_t_1_5"
+    ],
+    "simple_calendar_baseline": "The hour-only raw-mean-positive trial uses 24 UTC hour buckets, the same 26-week causal refresh and execution/cost/quarantine accounting, no trimming, no weekend split, and no t threshold beyond strictly positive estimated mean after expected turnover charge.",
+    "benchmarks": [
+      "cash with genuine zero return on every ordinary valid portfolio interval",
+      "BTCUSDT buy-and-hold with identical initial and terminal cost treatment",
+      "ETHUSDT buy-and-hold with identical initial and terminal cost treatment",
+      "equal-weight BTCUSDT/ETHUSDT buy-and-hold with drift and no periodic rebalance",
+      "simple_26_week_hour_only_raw_mean_positive"
+    ],
+    "multiplicity": "DSR and PBO must use all seven trials on exact common causal interval timestamps; exact formulas, tie rules, and degeneracies require direction-review approval."
+  },
+  "draft_historical_gates": {
+    "inherit_acceptance_gates_yaml_without_weakening": true,
+    "positive_aggregate_net_return": true,
+    "positive_folds_minimum": 3,
+    "maximum_drawdown_lte": 0.2,
+    "annualized_net_sharpe_gte": 0.75,
+    "doubled_cost_positive": true,
+    "additional_execution_delay_positive": true,
+    "parameter_neighbors_positive_minimum": 4,
+    "bootstrap_mean_return_lower_95_ci_gt": 0,
+    "deflated_sharpe_probability_gte": 0.95,
+    "probability_of_backtest_overfitting_lte": 0.2,
+    "baseline_superiority": "Primary net return and net Sharpe must both strictly exceed the simple hour-only calendar baseline.",
+    "completed_target_changes_minimum": 24,
+    "completed_exposed_hours_each_asset_minimum": 120,
+    "positive_net_currency_contribution_each_asset": true,
+    "regime_stability": "Every eligible BTC up/down crossed with high/low volatility regime must be strictly positive, with eligibility thresholds and causal regime formation frozen after direction review.",
+    "asset_sensitivity": "Primary must remain positive in independent BTC-only and ETH-only portfolio evaluations under identical accounting.",
+    "exceptional_interval_concentration_limits": "Largest positive hourly interval at most 25% and top five at most 50% of total positive net currency PnL.",
+    "no_material_leakage": true,
+    "no_dependence_on_one_fold_asset_seed_calendar_cell_or_exceptional_interval": true
+  },
+  "draft_statistics": {
+    "bootstrap": "Stationary circular block bootstrap with block length suitable for hourly and weekly dependence, 2,000 resamples, deterministic experiment-derived seed, and exact percentile rules to be frozen after direction review.",
+    "annualization": "sqrt(365*24) only for a complete hourly return series; absent quarantine spans are not zero-filled and require an exact effective-sample rule.",
+    "deflated_sharpe_ratio": "Seven declared trials with exact common timestamps, nonannualized per-interval Sharpe, skew/kurtosis adjustment, and fail-closed degeneracies.",
+    "probability_of_backtest_overfitting": "CSCV over chronological blocks with all seven declared trials, deterministic tie rules, and fail-closed degeneracies.",
+    "seed_selection": "No lucky seed: every deterministic seed is derived from the frozen experiment_id hash and may not be changed."
+  },
+  "holdout_and_prospective_policy": {
+    "development_failure": "Terminal HISTORICAL_NO_GO; never open the final holdout for this experiment and never retune this family against it.",
+    "pre_holdout_requirement": "A clean hash-committed development pass plus independent Sol/xhigh methodology audit of exact implementation and artifacts.",
+    "final_holdout_access": "One clean hash-committed deterministic invocation may read the 12 allowlisted January-June 2026 partitions only after every development and audit gate passes. Any error after access is terminal; no retry or repair may use the opened holdout.",
+    "holdout_gates": "Same frozen accounting and robustness gates, with two chronological 2026 folds and no refit beyond the preregistered causal weekly estimator.",
+    "prospective_freeze": "Only a historical pass freezes exact source/data/config hashes and enters PROSPECTIVE_REGISTRY.json; prospective observations must arrive after the freeze timestamp.",
+    "prospective_minimum_duration_days": 30,
+    "prospective_minimum_independent_decisions": 100,
+    "capital_permitted": 0,
+    "live_or_paper_orders": false
+  },
+  "direction_review_requirements": [
+    "Decide whether the hypothesis is economically coherent and genuinely distinct from the three rejected fixed-pair families.",
+    "Reject or repair any future-informed calendar estimation, hour-boundary timestamp, weekly-refresh, availability-cutoff, or execution alignment ambiguity.",
+    "Make expected-turnover cost awareness mathematically executable without using the future realized neighboring target or double-counting execution costs.",
+    "Assess whether 48 buckets, trimming, thresholds, and seven trials create excessive data mining for the available warmup and development length.",
+    "Specify exact base and delayed pending-target clocks, self-financing interval accounting, gap quarantine, forced liquidation, fold isolation, and terminal cash.",
+    "Specify complete bootstrap, DSR, PBO, regime, asset, concentration, trade-sufficiency, and common-timestamp rules without weakening ACCEPTANCE_GATES.yaml.",
+    "Confirm that the primary can never be replaced by a lucky calendar cell, neighbor, benchmark, asset subset, or seed.",
+    "Specify the one-shot holdout and prospective decision rules, or return REJECT_FAMILY if the draft cannot be made defensible without opening data."
+  ],
+  "permitted_direction_verdicts": ["REVISION_REQUIRED", "PRE_FREEZE_READY", "REJECT_FAMILY"],
+  "compute_budget": {
+    "wall_seconds": 1800,
+    "agent_calls": 4,
+    "repair_attempts": 1,
+    "experiments": 1,
+    "cycles": 1,
+    "gpu_seconds": 0
+  },
+  "prohibited_actions": [
+    "read any market-data value, Parquet footer, development return, or 2026 holdout value during direction review",
+    "use current exchange metadata or an archive-derived dynamic universe",
+    "change GPU or Vertcoin mining state",
+    "use credentials, wallets, orders, capital, leverage, paid data, paid compute, or autonomous purchasing",
+    "freeze this draft before every live direction-review requirement is resolved"
+  ]
+}
