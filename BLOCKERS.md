@@ -1,9 +1,10 @@
 # Blockers
 
-- No current research blocker.
+- The user-approved and durably registered research space is independently audited as exhausted. Further work requires explicit human authorization for a new lawful data route, a genuinely distinct strategy family, or a bounded retry; this is not an authentication, infrastructure, or safety failure.
 - `cs-ranking-binance-spot-archive-ptu-audit-resolution-v2` is terminal `DATA_NO_GO`; the archive-derived manifest is ineligible because its frozen provenance cannot independently bind claimed symbols and objects to retained official response evidence.
 - `cs-ranking-ptu-data-audit-v1=DATA_NO_GO` and archive audit v1 `AUDIT_INCONCLUSIVE` remain immutable. Trend, mean reversion, and relative value retain their prior terminal results; every 2026 strategy holdout remains unopened and unread.
 - `btc-eth-intraday-calendar-seasonality-v1` is terminal `AUDIT_REJECTED` because its final development attempt failed preflight and the independent audit found material implementation defects. It has no completed historical result and conveys no economic verdict on calendar seasonality; it cannot be retried or used to open its holdout.
 - `btc-eth-causal-volatility-parity-rebalancing-v1` preserves its sole 2024–2025 deterministic `HISTORICAL_NO_GO` at result hash `983ad070...` and is terminal `AUDIT_REJECTED` because input-byte identity, target provenance, and quarantine behavior were not fully demonstrated. Its holdout is permanently closed and no retry is permitted.
 - `btc-eth-volatility-managed-equal-weight-v1` is terminal `AUDIT_REJECTED`, preserving its sole `DEVELOPMENT_PIPELINE_FAILURE` before any market row or return was materialized. It has no economic result and cannot be repaired, rerun, or used to open its holdout. This is an experiment-level terminal state, not an overall-program blocker.
 - Scheduled continuation remains disabled while the interactive Goal owns the repository; GPU and mining remain unchanged.
+- All seven ordered cross-sectional families remain economically unevaluated because no approved point-in-time universe route passed. Calendar seasonality and equal-weight volatility management remain terminally consumed without economic results; neither may be relabeled as an economic rejection.

@@ -1,0 +1,131 @@
+{
+  "verdict": "APPROVED_SPACE_EXHAUSTED",
+  "audited_source_commit": "680ccdad3b3c0b94ad61a6d5b9d1bbd239ddb7a6",
+  "goal_completion_condition_2_met": true,
+  "approved_data_routes": [
+    {
+      "route": "registered point-in-time cross-sectional universe",
+      "status": "TERMINAL_DATA_NO_GO",
+      "evidence": "cs-ranking-ptu-data-audit-v1 remains exactly DATA_NO_GO, independently confirmed DATA_NO_GO_CONFIRMED; no holdout or returns were opened."
+    },
+    {
+      "route": "official Binance public spot archive-observed USDT universe",
+      "status": "TERMINAL_DATA_NO_GO",
+      "evidence": "Archive v1 remains AUDIT_INCONCLUSIVE; the separate frozen resolution-v2 returned DATA_NO_GO because retained evidence cannot bind the claimed 680 directories and boundary objects to reproducible official-response provenance. The route is ineligible without rewriting a terminal result."
+    },
+    {
+      "route": "verified Binance BTCUSDT/ETHUSDT fixed-pair historical source",
+      "status": "DATA_CONTRACT_PASS_APPROVED_QUEUE_CONSUMED",
+      "evidence": "direction-v3-derived has 48 manifest-hashed partitions under data-contract hash d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183; 36 pre-2026 development partitions supported every approved fixed-pair family, while all 12 holdout partitions remained value-unread."
+    },
+    {
+      "route": "perp-carry-v2b-availability",
+      "status": "REGISTERED_BUT_NOT_AN_ELIGIBLE_HISTORICAL_ROUTE",
+      "evidence": "DATA_INVENTORY identifies it only as a prospective displayed-funding collector, not a point-in-time historical universe; no user-approved historical carry experiment or retrospective data contract exists."
+    }
+  ],
+  "approved_strategy_families": [
+    {
+      "family": "cross-sectional momentum",
+      "status": "TERMINALLY_BLOCKED_BY_APPROVED_UNIVERSE_DATA_NO_GO",
+      "evidence": "Explicitly first in the user-approved cross-sectional baseline queue; neither registered inventory nor the terminal Binance archive route supplies an eligible point-in-time universe, and fixed BTC/ETH data is not cross-sectional.",
+      "economic_result_exists": false
+    },
+    {
+      "family": "volatility-adjusted cross-sectional momentum",
+      "status": "TERMINALLY_BLOCKED_BY_APPROVED_UNIVERSE_DATA_NO_GO",
+      "evidence": "Explicitly second in the approved queue and subject to the same failed universe prerequisite.",
+      "economic_result_exists": false
+    },
+    {
+      "family": "linear or logistic cross-sectional ranker",
+      "status": "TERMINALLY_BLOCKED_BY_APPROVED_UNIVERSE_DATA_NO_GO",
+      "evidence": "Explicitly approved only after a valid point-in-time universe and simple baselines; that prerequisite received DATA_NO_GO.",
+      "economic_result_exists": false
+    },
+    {
+      "family": "LightGBM cross-sectional ranker",
+      "status": "TERMINALLY_BLOCKED_BY_APPROVED_UNIVERSE_DATA_NO_GO",
+      "evidence": "Explicitly approved after simpler rankers; no eligible universe exists and prerequisite baselines could not lawfully run.",
+      "economic_result_exists": false
+    },
+    {
+      "family": "XGBoost cross-sectional ranker",
+      "status": "TERMINALLY_BLOCKED_BY_APPROVED_UNIVERSE_DATA_NO_GO",
+      "evidence": "Explicitly approved after LightGBM; the terminal universe route prevents lawful evaluation.",
+      "economic_result_exists": false
+    },
+    {
+      "family": "cross-sectional abstention or cash filter",
+      "status": "TERMINALLY_BLOCKED_BY_APPROVED_UNIVERSE_DATA_NO_GO",
+      "evidence": "Explicitly approved only on a valid ranking pipeline; no eligible universe or preceding lawful ranking result exists.",
+      "economic_result_exists": false
+    },
+    {
+      "family": "Graph Attention Network cross-sectional ranker",
+      "status": "TERMINALLY_BLOCKED_BY_PREREQUISITE_AND_DATA_NO_GO",
+      "evidence": "Explicitly gated behind valid universe and baseline pipelines; neither prerequisite passed, so opening this family would violate the ordered queue.",
+      "economic_result_exists": false
+    },
+    {
+      "family": "BTC/ETH volatility-targeted trend following",
+      "status": "TERMINAL_HISTORICAL_NO_GO_DEVELOPMENT_AUDIT_INCONCLUSIVE",
+      "evidence": "The explicit fallback produced immutable development result d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703; its audit timed out, holdout stayed closed, and its bounded calls were consumed.",
+      "economic_result_exists": true
+    },
+    {
+      "family": "BTC/ETH long-only mean reversion",
+      "status": "TERMINAL_AUDIT_REJECTED_WITH_PRESERVED_HISTORICAL_NO_GO",
+      "evidence": "Development result 0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23 remains HISTORICAL_NO_GO; material execution, quarantine, regime, and fold deviations prevented confirmation, and the bounded experiment was consumed.",
+      "economic_result_exists": true
+    },
+    {
+      "family": "BTC/ETH relative-value rotation",
+      "status": "TERMINAL_AUDIT_REJECTED_WITH_PRESERVED_HISTORICAL_NO_GO",
+      "evidence": "Development result e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e remains HISTORICAL_NO_GO; canonical-fill and terminal-clock defects made the audit reject fidelity.",
+      "economic_result_exists": true
+    },
+    {
+      "family": "BTC/ETH intraday calendar seasonality",
+      "status": "TERMINALLY_CONSUMED_IMPLEMENTATION_AND_AUDIT_FAILURE",
+      "evidence": "The terminal audit explicitly states no completed historical result and no economic calendar-family verdict; repair and four-call budgets are exhausted, and repository blockers prohibit retrying the frozen experiment.",
+      "economic_result_exists": false
+    },
+    {
+      "family": "BTC/ETH causal bounded inverse-volatility allocation",
+      "status": "TERMINAL_AUDIT_REJECTED_WITH_PRESERVED_HISTORICAL_NO_GO",
+      "evidence": "Exact deterministic result 983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1 remains HISTORICAL_NO_GO; terminal audit rejected input identity, target provenance, and quarantine fidelity, with no retry permitted.",
+      "economic_result_exists": true
+    },
+    {
+      "family": "BTC/ETH equal-weight portfolio volatility management",
+      "status": "TERMINALLY_CONSUMED_PIPELINE_AND_AUDIT_FAILURE",
+      "evidence": "The exact DEVELOPMENT_PIPELINE_FAILURE, error, byte hash f5e438872f0522073e50f2f121423033250518ed46652586d5a32cf4e72c1676, and canonical hash 120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78 are immutable; no economic result exists and repair/rerun are forbidden.",
+      "economic_result_exists": false
+    }
+  ],
+  "exhaustion_basis": [
+    "Every explicitly approved cross-sectional family is unreachable because both approved point-in-time-universe routes are terminal and no other registered dataset is eligible for cross-sectional ranking.",
+    "The verified fixed-pair route has been used across every family durably selected in the approved queue: trend, mean reversion, relative value, calendar seasonality, bounded inverse-volatility allocation, and equal-weight volatility management.",
+    "Each selected family is either boundedly evaluated or terminally consumed. Earlier unused calls were closed rather than transferred; this fourth live call consumes the final remaining call of the latest bounded budget, and all repair/cycle budgets are exhausted.",
+    "A terminal implementation or audit failure consumes the exact experiment and, absent an explicitly approved distinct successor, consumes that family within the bounded queue. Treating a fresh repair as a new family would evade the no-rerun budget.",
+    "No repository or user evidence explicitly approves another distinct fixed-pair family. Inventing one would expand the research space rather than continue it.",
+    "Exhaustion is limited to the user-approved and durably registered space; it is not a claim that every conceivable public dataset or crypto strategy is impossible."
+  ],
+  "next_family": null,
+  "unresolved_methodology_integrity": [
+    "Trend has a development HISTORICAL_NO_GO but no completed independent audit verdict because the final audit timed out.",
+    "Mean reversion, relative value, and bounded inverse-volatility retain immutable development HISTORICAL_NO_GO records, but audit rejection prevents treating those records as faithful economic verdicts for the exact frozen strategies.",
+    "Calendar seasonality and equal-weight volatility management have no economic result. Their exact experiments are terminally consumed, not economically rejected; a new attempt would require explicit human expansion or reauthorization of the approved space rather than autonomous relabeling as a distinct family.",
+    "The archive DATA_NO_GO is a reproducible provenance failure for the exact approved Binance route, not proof that an archive-observed universe is impossible in principle.",
+    "The explicit cross-sectional baseline and model queue remains economically unevaluated, but it has no lawful registered point-in-time universe path after the terminal archive verdict.",
+    "cs-ranking-ptu-data-audit-v1=DATA_NO_GO and every other exact prior terminal result must remain unchanged."
+  ],
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live"
+}
