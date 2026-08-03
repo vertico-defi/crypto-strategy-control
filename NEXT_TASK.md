@@ -1,3 +1,3 @@
 # Next Task
 
-Commit and publish the terminal `btc-eth-long-only-mean-reversion-v1=AUDIT_REJECTED` evidence while preserving its deterministic `HISTORICAL_NO_GO` and closed holdout. Then allocate a fresh bounded zero-GPU/zero-capital budget and draft `btc-eth-relative-value-rotation-v1` for Sol/xhigh direction review before any implementation or return evaluation.
+After explicit managed approval, commit the exact revised relative-value draft/review/controller checkpoint with draft hash `ef4585bda01ad5490d0edd0993fb6e36a5b96db4f3b44f01ba15294380879633`. Verify the tree is clean and the hash unchanged, then freeze a preregistration referencing that commit. Do not implement, read data/returns, or open the holdout before freeze.
