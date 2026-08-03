@@ -32,6 +32,8 @@ from strategy_control.calendar_evaluator import (
 )
 from strategy_control.calendar_pipeline import (
     CalendarPipelineError,
+)
+from strategy_control.calendar_pipeline import (
     verify_preregistration as verify_calendar_preregistration,
 )
 from strategy_control.mean_reversion_pipeline import (

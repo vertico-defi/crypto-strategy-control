@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-intraday-calendar-seasonality-v1",
+  "classification": "AUDIT_REJECTED",
+  "audited_evidence_commit": "f0ce8fb1c7a3413b21fe65473b5bdc3aad7ca400",
+  "preregistration_sha256": "1e67b67cc3d89f9ddd6315cf35bc5c1e5b71353bdaf073a43dbf4b462025509e",
+  "effective_contract_sha256": "102a0de94ded6d4c7fa7667702c07e8e8328c57feda5be597ec75d8efb8c7b96",
+  "audit_model_result_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0",
+  "audit_model_result_byte_sha256": "790a0ccb28f336c3a7df79a7caf0756b210157dcdd9e19defd86f7ffa4cfb65b",
+  "audit_byte_sha256": "4b24cfe1703d9b4bb2437b174f68c67bd981f22883964d33fba33a018a3ec733",
+  "tooling": {
+    "pytest": "PASS_129_TESTS",
+    "ruff": "PASS",
+    "mypy": "PASS_19_SOURCE_FILES",
+    "compileall": "PASS",
+    "json_parse": "PASS",
+    "canonical_audit_model_result_hash_recomputed": "PASS",
+    "diff_check": "PASS"
+  },
+  "post_audit_nonsemantic_change": {
+    "path": "src/strategy_control/orchestrator.py",
+    "change": "Ruff-required import grouping only; no evaluator, signal, timing, gate, data-access, or result behavior changed.",
+    "sha256": "243771cbcc4df147d8f1a4067da1b595f849257f6fcffd800908a056024eacf9"
+  },
+  "evidence_correction_recorded": true,
+  "allowlisted_development_partitions_loaded": 36,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "capital_permitted": 0,
+  "validated_at_utc": "2026-08-03T08:53:27.419129Z"
+}
