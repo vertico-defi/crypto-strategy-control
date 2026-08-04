@@ -74,6 +74,17 @@
 - Current blocker: none; one attempt remains.
 - Exact resume state: direction attempts 2/3 used; implementation repairs 0/3; network requests/objects 0; holdout unresolved/unopened/unread; returns/models/backtests 0; capital/GPU zero; mining unchanged.
 
+## 2026-08-04T18:28:03.761989000Z — final audit input fixed; schema repair 1/3
+
+- Current checkpoint: nominal attempt 3 remains unconsumed after a pre-reasoning invalid-schema abort; repair 1/3 is complete pending commit.
+- What changed: noninteractive stdin produced thread `019fce06...`, then the API rejected unsupported `allOf`. Corrected schema `5e8154a7...` uses the supported closed subset and parent semantic validation.
+- What was verified: exact clean source, prompt delivery and thread start; no model reasoning/result; no draft or method change; no fallback, data, holdout, return, model training, backtest, capital, or GPU action.
+- What failed: the original output schema was not API-compatible.
+- Current best defensible result: draft is still unfrozen; no universe or candidate.
+- Next experiment: commit the failure and repair authorization, then rerun the same nominal final Sol/xhigh attempt.
+- Current blocker: none.
+- Exact resume state: substantive direction attempts 2/3 used; startup aborts 1; repairs 1/3 used and 2 remain; network/objects 0; holdout unresolved/unopened/unread; returns/models/backtests 0; capital/GPU zero; mining unchanged.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.

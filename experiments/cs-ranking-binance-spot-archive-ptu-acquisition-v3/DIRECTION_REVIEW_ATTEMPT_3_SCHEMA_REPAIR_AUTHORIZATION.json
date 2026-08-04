@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T18:28:03.761989000Z",
+  "repair_stage": "NO_DATA_DIRECTION_REVIEW_OUTPUT_SCHEMA",
+  "pre_run_implementation_repair_round": 1,
+  "maximum_pre_run_implementation_repairs": 3,
+  "source_parent_commit": "ef1d1dcaef16b3a7601980f08227d474c5408dfd",
+  "trigger": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_ABORTED_INVALID_SCHEMA.json",
+    "byte_sha256": "7fa60e2e15ed53a142a4c043397789b7f9b0debd7db6ce3240d3eab3f217edf4",
+    "canonical_sha256": "4e6070aa25ecc567bbb7f3fee73c9f125b5fc8c84e5fcf025000c193b407efb5",
+    "exact_error": "Invalid schema for response_format 'codex_output_schema': In context=(), 'allOf' is not permitted."
+  },
+  "nominal_audit_attempt": 3,
+  "audit_attempt_consumed_by_trigger": false,
+  "reason": "The API rejected the request before model reasoning. Repository precedent treats a pre-model input/schema failure as a non-consuming aborted invocation. Phase 2 classifies a parser/schema defect as IMPLEMENTATION_BLOCKED rather than an audit, data, or economic verdict.",
+  "repair_scope_exact": [
+    "remove unsupported top-level allOf, if, and then keywords",
+    "remove nonessential schema keywords not required for response shape: $schema, pattern, minLength, minItems, maxItems, and uniqueItems",
+    "replace const constraints with explicit type plus one-value enum",
+    "preserve every required top-level and nested field",
+    "preserve additionalProperties false for the top-level object and both nested object shapes",
+    "preserve exact verdict, status, severity, identity, draft-hash, and false-boundary enum values",
+    "move semantic cardinality and verdict/revision consistency validation to deterministic parent checks after response parse"
+  ],
+  "prohibited_scope": [
+    "change the preregistration draft",
+    "change any methodological requirement, sufficiency gate, resource limit, sample, causal rule, failure classification, or prior verdict",
+    "change the model, reasoning level, prompt, read-only permission, evidence scope, or timeout",
+    "authorize implementation, acquisition, data, holdout, return, trading, credential, capital, GPU, or mining action"
+  ],
+  "invalid_schema_identity": {
+    "path_at_source_commit": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+    "source_commit": "ef1d1dcaef16b3a7601980f08227d474c5408dfd",
+    "byte_sha256": "a9683091dcb09434d5c510294b29e7dccc9d2d0b7fd1d4b008df27bcfe5562f8",
+    "canonical_sha256": "f77b845da9a1331023da5a12a29b33722594d33db040c957923bf4b4ce03c17e"
+  },
+  "corrected_schema_identity": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+    "byte_sha256": "c92a4742bad1f1ad2a19d5a99d956a6f3dcbbf5f008217555fa9e91b35471bbd",
+    "canonical_sha256": "5e8154a7c91aa5de404b05fb3d4d59e0238dc2d4152ee86253c7d709fae387f1"
+  },
+  "parent_semantic_validation_after_parse": [
+    "source_commit is exactly 40 lowercase hexadecimal characters and equals clean review HEAD",
+    "checks contains at least 16 nonempty unique check labels",
+    "confirmed and limitations contain only nonempty strings",
+    "DIRECTION_ACCEPTED requires required_revisions length exactly zero and no FAIL check",
+    "REVISION_REQUIRED requires required_revisions length at least one and at least one FAIL check",
+    "every revision field and every check/finding field is nonempty",
+    "all six safety booleans are false"
+  ],
+  "rerun_rule": "After the corrected schema and this authorization are committed cleanly, rerun the same nominal audit attempt 3 with committed prompt 7cf733bb..., live gpt-5.6-sol/xhigh, read-only sandbox, no TTY, noninteractive stdin redirection, and external 1200-second deadline.",
+  "fallback_used": false,
+  "implementation_authorized": false,
+  "acquisition_authorized": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0
+}

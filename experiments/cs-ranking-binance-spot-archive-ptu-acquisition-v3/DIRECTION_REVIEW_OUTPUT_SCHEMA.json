@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -21,28 +20,26 @@
     "implementation_authorized"
   ],
   "properties": {
-    "schema_version": {"const": "1.0"},
-    "experiment_id": {"const": "cs-ranking-binance-spot-archive-ptu-acquisition-v3"},
-    "verdict": {"enum": ["DIRECTION_ACCEPTED", "REVISION_REQUIRED"]},
-    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-    "draft_sha256": {"const": "144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e"},
-    "scope": {"type": "string", "minLength": 1},
+    "schema_version": {"type": "string", "enum": ["1.0"]},
+    "experiment_id": {"type": "string", "enum": ["cs-ranking-binance-spot-archive-ptu-acquisition-v3"]},
+    "verdict": {"type": "string", "enum": ["DIRECTION_ACCEPTED", "REVISION_REQUIRED"]},
+    "source_commit": {"type": "string"},
+    "draft_sha256": {"type": "string", "enum": ["144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e"]},
+    "scope": {"type": "string"},
     "confirmed": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1},
-      "uniqueItems": true
+      "items": {"type": "string"}
     },
     "checks": {
       "type": "array",
-      "minItems": 16,
       "items": {
         "type": "object",
         "additionalProperties": false,
         "required": ["check", "status", "finding"],
         "properties": {
-          "check": {"type": "string", "minLength": 1},
-          "status": {"enum": ["PASS", "FAIL", "LIMITATION"]},
-          "finding": {"type": "string", "minLength": 1}
+          "check": {"type": "string"},
+          "status": {"type": "string", "enum": ["PASS", "FAIL", "LIMITATION"]},
+          "finding": {"type": "string"}
         }
       }
     },
@@ -53,34 +50,23 @@
         "additionalProperties": false,
         "required": ["severity", "clause", "problem", "exact_required_change", "rationale"],
         "properties": {
-          "severity": {"enum": ["major", "minor"]},
-          "clause": {"type": "string", "minLength": 1},
-          "problem": {"type": "string", "minLength": 1},
-          "exact_required_change": {"type": "string", "minLength": 1},
-          "rationale": {"type": "string", "minLength": 1}
+          "severity": {"type": "string", "enum": ["major", "minor"]},
+          "clause": {"type": "string"},
+          "problem": {"type": "string"},
+          "exact_required_change": {"type": "string"},
+          "rationale": {"type": "string"}
         }
       }
     },
     "limitations": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1},
-      "uniqueItems": true
+      "items": {"type": "string"}
     },
-    "market_data_accessed": {"const": false},
-    "network_accessed": {"const": false},
-    "holdout_accessed": {"const": false},
-    "strategy_returns_calculated": {"const": false},
-    "performance_claim_made": {"const": false},
-    "implementation_authorized": {"const": false}
-  },
-  "allOf": [
-    {
-      "if": {"properties": {"verdict": {"const": "DIRECTION_ACCEPTED"}}},
-      "then": {"properties": {"required_revisions": {"maxItems": 0}}}
-    },
-    {
-      "if": {"properties": {"verdict": {"const": "REVISION_REQUIRED"}}},
-      "then": {"properties": {"required_revisions": {"minItems": 1}}}
-    }
-  ]
+    "market_data_accessed": {"type": "boolean", "enum": [false]},
+    "network_accessed": {"type": "boolean", "enum": [false]},
+    "holdout_accessed": {"type": "boolean", "enum": [false]},
+    "strategy_returns_calculated": {"type": "boolean", "enum": [false]},
+    "performance_claim_made": {"type": "boolean", "enum": [false]},
+    "implementation_authorized": {"type": "boolean", "enum": [false]}
+  }
 }
