@@ -2,6 +2,7 @@
   "budgets": {
     "current_experiment": {
       "audit_attempts_used_by_stage": {
+        "route_4_no_data_direction_review": 1
       },
       "prior_route_terminal_audit_attempts": {
         "route_3_terminal_direction_review_classification": 1
@@ -12,7 +13,7 @@
       "maximum_implementation_repairs": 3,
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
-        "direction_review_used": 0,
+        "direction_review_used": 1,
         "implementation_used": 0,
         "independent_audit_used": 0,
         "production_integration_used": 0
@@ -67,7 +68,10 @@
   "direction_review_model_result": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
   "direction_review_model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
   "direction_review_model_result_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
-  "direction_review_status": "ROUTE_4_PENDING_ATTEMPT_1",
+  "direction_review_status": "ATTEMPT_1_AUDIT_PENDING_TIMEOUT_ATTEMPT_2_AUTHORIZED",
+  "route_4_direction_review_attempt_1_timeout": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_1_TIMEOUT.json",
+  "route_4_direction_review_attempt_1_timeout_byte_sha256": "4b78ae2104e5b23bd72c132e37989fb885433b1581217da431421cc547c9a134",
+  "route_4_direction_review_attempt_1_timeout_sha256": "7d56dd253d7672df62eb9ffead69763bec61ded27c46d8724efe27474ce332dc",
   "route_4_direction_review_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_AUTHORIZATION.json",
   "route_4_direction_review_authorization_byte_sha256": "b0229b180f829b21bbead8f51bc64923ceebda3cd8feee5ca08f27972247a37b",
   "route_4_direction_review_authorization_sha256": "fa68d6f53f2aa0433eec0a79803ff85406bd977a2a20ad33b5db57e2b97ee3a7",
@@ -131,7 +135,7 @@
     "source_snapshot_commit": "5af05f34d1b401fb28f750c724fc32b22eaaeb92",
     "store_live": false
   },
-  "next_task": "commit_and_push_route_4_direction_review_authorization_then_run_live_read_only_sol_xhigh_attempt_1",
+  "next_task": "commit_and_push_route_4_attempt_1_timeout_then_run_externally_timed_live_read_only_sol_xhigh_attempt_2",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",

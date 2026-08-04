@@ -50,6 +50,17 @@
 
 - Review authorization checkpoint: `fa68d6f...` requests live read-only Sol/xhigh attempt 1/3 against draft `144d7957...` with schema `f77b845d...`; no data or network permission is granted.
 
+## 2026-08-04T17:56:45.959008067Z — route 4 direction attempt 1 timed out
+
+- Current checkpoint: attempt 1/3 is `AUDIT_PENDING`; no model event or verdict was received.
+- What changed: timeout artifact `7d56dd25...` preserves exit 1/SIGINT, the 1,431.654660873-second parent interval, and the controller's 231.654660873-second late ceiling enforcement.
+- What was verified: exact clean source `54440419...`; same requested/actual Sol/xhigh/live/read-only routing; no fallback; no repository mutation; zero implementation repair, network data, objects, market/holdout values, return, model, backtest, capital, or GPU action.
+- What failed: the monolithic audit did not emit a result within the frozen live-invocation ceiling, and the parent failed to enforce that ceiling on time.
+- Current best defensible result: draft remains unfrozen; no eligible universe and no candidate.
+- Next experiment: commit the timeout evidence, then run same-model attempt 2/3 with an external 1,200-second deadline and narrower bound evidence set.
+- Current blocker: none; two eligible service-retry attempts remain.
+- Exact resume state: direction attempts 1/3 used; repairs 0/3; network requests and objects 0; holdout unresolved/unopened/unread; returns/models/backtests 0; capital/GPU zero; mining unchanged.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.
