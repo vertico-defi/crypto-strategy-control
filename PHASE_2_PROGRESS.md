@@ -142,3 +142,14 @@
 - Next action: commit revised contract/proof, then bind them in a frozen self-hashed preregistration wrapper.
 - Current blocker: none.
 - Exact resume state: repairs 0/3; post-run repairs 0/2; direction invocation 1; no implementation/data/economic attempt; holdout unresolved/unread; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T13:48:29.667677373Z — relative-value rotation v2 preregistration frozen
+
+- Current checkpoint: wrapper `c20a1a28...` freezes the complete composite contract `ee1c3246...` against committed source `8423b59a...`; a clean wrapper/state commit is pending.
+- What changed: the wrapper binds the exact v1 base, twenty ordered amendments, all seven incorporated review findings, route authorization, data identity, multiplicity registry, fresh budget, and pre-implementation safety state.
+- What was verified: fourteen inherited clause hashes, seven trials, nineteen gates, 7/7 review incorporation, 49 named prior slots, zero market/holdout access, and unchanged Phase 1 evidence.
+- What failed: nothing. Implementation is deliberately not yet authorized until this immutable wrapper and state are committed.
+- Current best defensible result: no route-2 economic result exists; the Phase 1 +41.53% observation remains contaminated prior evidence only.
+- Next action: commit and push the frozen wrapper/state, then issue a separate bounded pure-implementation authorization for live Terra/medium work without market-data access.
+- Current blocker: none.
+- Exact resume state: wrapper byte hash `aa922a6c...`, canonical hash `c20a1a28...`; repairs 0/3; post-run repairs 0/2; no implementation/data/economic attempt; holdout unresolved/unread; capital/GPU zero; mining unchanged.

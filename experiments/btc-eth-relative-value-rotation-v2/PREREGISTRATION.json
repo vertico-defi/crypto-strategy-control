@@ -1,0 +1,136 @@
+{
+  "schema_version": "2.0",
+  "status": "FROZEN",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "frozen_at_utc": "2026-08-04T13:45:00Z",
+  "frozen_source_commit": "8423b59a734bb26926754adfe1258312d05b7698",
+  "hash_rule": "The canonical SHA-256 of this complete wrapper uses sorted keys, compact separators, UTF-8, and is recorded externally in CURRENT_STATE.json and EXPERIMENT_LEDGER.jsonl; no self-referential hash field exists.",
+  "freezing_authority": "This wrapper freezes the complete mechanically resolvable composite contract and does not duplicate, override, or reinterpret it.",
+  "effective_contract": {
+    "path": "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION_DRAFT.json",
+    "canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+    "byte_sha256": "ece8372a68bd81344a1c4b6200713ec19985bff35cd095a73f1c70039508c0ac",
+    "committed_source": "8423b59a734bb26926754adfe1258312d05b7698",
+    "status_inside_hashed_contract": "DRAFT_REVISED_NOT_FROZEN",
+    "complete": true,
+    "wrapper_is_freezing_authority": true,
+    "base_v1_clause_hash_count": 14,
+    "exact_rfc6901_replacement_count": 20,
+    "authoritative_resolution": "Verify the exact v1 base and all root hashes, apply the ordered exact amendment manifest, attach enumerated additive Phase 2 sections, and canonicalize exactly as the effective contract requires."
+  },
+  "original_draft": {
+    "canonical_sha256": "2da4f8f95c523d41ded3213faf1ad853fb9561332a04adfe7ceef24c79105521",
+    "byte_sha256": "80b8144f57f2edd59d8c458bd315ae3c445c5d400adc76a10ca26a0c194cd7f7",
+    "committed_source": "5684b76f971ee88091a11e30c100582d680cd96a"
+  },
+  "direction_review": {
+    "verdict": "REVISION_REQUIRED",
+    "completion_token": "DIRECTION_REVIEW_REVISIONS_INCORPORATED",
+    "review_path": "experiments/btc-eth-relative-value-rotation-v2/DIRECTION_REVIEW.json",
+    "review_canonical_sha256": "f11acdd75b3a5e7d52fd6b0cb5416aa9e6864eccf8becb7077e51941596f6b7c",
+    "review_byte_sha256": "64662fb820c5051d4c6f59adbe905a75574bfe5961a283e812fbaaed5352c721",
+    "model_result_path": "experiments/btc-eth-relative-value-rotation-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
+    "model_result_payload_canonical_sha256": "cd2b54fad4f74bba76a413ae14061216ecbdaaecadf1897fad6146a14675172c",
+    "model_result_byte_sha256": "17e086299633dc579c8fc1f14f03826af2853236ac0a16968d9ba134c2267bbb",
+    "requested_model": "gpt-5.6-sol",
+    "actual_model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "invocation_mode": "live",
+    "fallback": null,
+    "exact_error": null
+  },
+  "revision_incorporation": {
+    "path": "experiments/btc-eth-relative-value-rotation-v2/REVISION_INCORPORATION.json",
+    "canonical_sha256": "2b588f5762878877cb8979299a160a2477dc3655f15c750eafb5f486ff7ccdea",
+    "byte_sha256": "9fbbe8ae7d35218501e3c346262942c77a98ed3c05aa87cd4302a2ff6ca95cb0",
+    "committed_source": "8423b59a734bb26926754adfe1258312d05b7698",
+    "required": 7,
+    "incorporated": 7,
+    "economic_definition_changed": false
+  },
+  "authorization": {
+    "phase_2_path": "PHASE_2_AUTHORIZATION.json",
+    "phase_2_byte_sha256": "2686b9caeda1e4d443132cdeafc6c86dfa8e296bde5a711a55f190219bd7c2db",
+    "route_path": "experiments/btc-eth-relative-value-rotation-v2/ROUTE_AUTHORIZATION.json",
+    "route_canonical_sha256": "72b3fcbfec86cce164fcd0eebb75d206a2e25a4d1e416ddff100bd557aeb73c5",
+    "route_byte_sha256": "30065c9b4f05f9096fbd064f05a244757ecda48a2d4b5567594c40e1bfb90fc6",
+    "program_state": "ACTIVE_RESEARCH_PHASE_2"
+  },
+  "data_identity": {
+    "reused_contract_path": "experiments/btc-eth-vol-targeted-trend-v1/DATA_CONTRACT.json",
+    "reused_contract_canonical_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+    "reused_contract_byte_sha256": "47dcf7e5bec24ec73be45cdeb200e25671807e7a28c3c1204499a4e20ae972b7",
+    "source_repository_commit_in_freeze_manifest": "d1d6066a6042b0c2e1c6af75047f5ebf935c739f",
+    "dataset_freeze_manifest_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+    "development_allowlist_count": 36,
+    "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd"
+  },
+  "phase_1_preserved_evidence": {
+    "phase_1_final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
+    "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
+    "relative_value_v1_terminal": "HISTORICAL_NO_GO / AUDIT_REJECTED",
+    "relative_value_v1_preregistration_sha256": "ad640b386250361ae324e0ea7a17a989b67af3eac5f4912a92dfe67f2c8c0649",
+    "relative_value_v1_preregistration_byte_sha256": "6d2d287c628e6fcf89fdf778df8951842c4e3422625abfa43056c69dff6b97ce",
+    "relative_value_v1_development_result_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e",
+    "relative_value_v1_audit_byte_sha256": "dfb4311b430eed9940ce19a0495e00db8f377736d7203248027d45aec28f573b",
+    "v1_reported_result_treatment": "CONTAMINATED_PRIOR_COUNTED_FOR_MULTIPLICITY_NOT_PARAMETER_SELECTION",
+    "immutability": "No Phase 1 experiment, audit, commit, ledger entry, publication, or verdict is reopened, rewritten, softened, or relabeled."
+  },
+  "multiplicity_freeze": {
+    "prior_slots": 49,
+    "prior_observed": 28,
+    "prior_unimputed": 21,
+    "first_complete_development": {"N": 56, "observed": 35, "unimputed": 21},
+    "second_complete_development": {"N": 63, "observed": 42, "unimputed": 21},
+    "third_complete_development": {"N": 70, "observed": 49, "unimputed": 21},
+    "holdout_after_accepted_attempt_1_2_or_3": [
+      {"N": 63, "observed": 42, "unimputed": 21},
+      {"N": 70, "observed": 49, "unimputed": 21},
+      {"N": 77, "observed": 56, "unimputed": 21}
+    ],
+    "no_imputation": true
+  },
+  "budget": {
+    "maximum_pre_run_implementation_repairs": 3,
+    "pre_run_implementation_repairs_used": 0,
+    "maximum_post_run_fidelity_repairs": 2,
+    "post_run_fidelity_repairs_used": 0,
+    "maximum_independent_audit_attempts_per_review_stage": 3,
+    "audit_attempts_used_by_stage": {"direction_review": 1},
+    "maximum_live_invocation_wall_seconds": 1200,
+    "maximum_local_evaluation_wall_seconds": 1800,
+    "bounded_cycles_per_controller_run": 1,
+    "max_gpu_seconds": 0,
+    "capital_permitted": 0
+  },
+  "pre_implementation_invariants": {
+    "exact_v1_economic_contract_preserved": true,
+    "exact_v1_gate_count": 19,
+    "exact_v1_trial_count": 7,
+    "required_pre_economic_test_count": 37,
+    "all_direction_revisions_incorporated": true,
+    "market_files_accessed_for_v2": false,
+    "market_values_read_for_v2": false,
+    "returns_calculated_for_v2": false,
+    "holdout_paths_resolved": false,
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "candidate_promoted": false,
+    "capital_permitted": 0,
+    "fixed_pair_compute": "CPU_ONLY",
+    "vertcoin_mining": "UNCHANGED",
+    "scheduled_continuation_enabled": false,
+    "active_owner_type": "interactive_goal",
+    "store_live": false
+  },
+  "implementation_authorization": {
+    "status": "NOT_YET_ISSUED_PENDING_FROZEN_WRAPPER_COMMIT",
+    "required_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "initial_scope": "Pure implementation and synthetic/fixed-fixture tests only; no market file, external data repository, or 2026 path may be opened by the model invocation.",
+    "production_scope_after_pure_validation": "Only after focused/full deterministic checks pass may a separately recorded production-validation authorization use the exact 36 development files. Formal economic evaluation remains forbidden until complete production evidence and Sol/xhigh fidelity approval."
+  },
+  "next_task": "commit_frozen_wrapper_then_issue_bounded_pure_implementation_authorization"
+}
