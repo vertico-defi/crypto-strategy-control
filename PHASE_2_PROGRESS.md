@@ -307,3 +307,14 @@
 - Next action: commit/push the revised contract and run a fresh live read-only Sol/xhigh acceptance review before freeze or implementation.
 - Current blocker: none.
 - Exact resume state: direction review attempts 1/3; repairs 0/3; post-run repairs 0/2; market/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T16:17:57.144143283Z — route-3 acceptance review leaves two no-data issues
+
+- Current checkpoint: live Sol/xhigh attempt 2 returns `REVISION_REQUIRED`; attempts used 2/3, implementation repairs 0/3.
+- What changed: no economic contract or implementation changed. Exact audit evidence is preserved, including the separately classified wrong-commit invocation.
+- What was verified: all bindings, 15 inherited clause hashes, resolver/composite, route-2 terminal multiplicity carry-forward, branch arithmetic, frozen economics, zero data/holdout/returns access.
+- What failed: disposition and nested artifact schemas are not yet fully closed; audit authority after a third service interruption is ambiguous.
+- Current best defensible result: no route-3 or Phase 2 economic result exists.
+- Next action: incorporate only the two finite no-data contract edits, refresh hashes and proofs, commit cleanly, then use final direction-review attempt 3 before freeze or implementation.
+- Current blocker: none.
+- Exact resume state: direction review 2/3; implementation repairs 0/3; post-run repairs 0/2; market/holdout/returns false; capital/GPU zero; mining unchanged.

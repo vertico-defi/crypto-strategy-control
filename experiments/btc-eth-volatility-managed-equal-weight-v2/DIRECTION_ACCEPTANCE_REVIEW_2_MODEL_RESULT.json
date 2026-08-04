@@ -1,0 +1,143 @@
+{
+  "verdict": "REVISION_REQUIRED",
+  "source_commit": "b1599b4025f0284be224ea386cadc09a46b38a72",
+  "source_clean": true,
+  "recomputed_hashes": {
+    "all_declared_bindings_match": true,
+    "drafts": {
+      "original_byte_sha256": "f0ed45c6bfb36aaa11cb5c2d1399f80f0219f7c59d2d7c578a186398b90cc736",
+      "original_canonical_sha256": "cc2030dcc1b599ef6beb37bae1134746e1e870d5325cda4cb816a3978088fbdd",
+      "revised_byte_sha256": "cab8cc73a4661581865e4f0b34f290526e7acda9061e460a7ae31d04cced5035",
+      "revised_canonical_sha256": "bdf2aa7e2d1373598593f6172acf93790cb420a5017a118a4840ad1c1e7b121f"
+    },
+    "authorization_and_review": {
+      "phase_2_authorization_byte_sha256": "2686b9caeda1e4d443132cdeafc6c86dfa8e296bde5a711a55f190219bd7c2db",
+      "route_authorization_byte_sha256": "71537af3c1486fd244a034f660339428f5ddc0c46d2db6876c2d8a17bd37ad8a",
+      "route_authorization_canonical_sha256": "7698550b1c4aa785e3fc0ae9f71525548a0007ce63b94c4db5c6e65580f916d2",
+      "direction_review_byte_sha256": "d4a912b3665843b5a6ed698c0378b272a8a4ec1788fcaddadf077d5584a51278",
+      "direction_review_canonical_sha256": "94d180dbef3822036abf3702943c3c03254543ed34c60b8611c0cc452585779f",
+      "direction_model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
+      "direction_model_result_canonical_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7"
+    },
+    "v1_base": {
+      "byte_sha256": "f983562d54339cbb8f4221e6f44a81725946e120d6c68ea9de200fa2a2374a30",
+      "self_excluding_canonical_sha256": "d47659466a2e55e72eef47051cba3b6c2cb551d036e41269bdbf0d7a9f19d8ad"
+    },
+    "inherited_v1_root_clauses": {
+      "all_15_match": true,
+      "strategy_family": "3ba851aef83d7f042da3b8b40a2d172a48d6707a10211997a0d37233c58100eb",
+      "family_distinction": "e87916a0de5100a00f8736da8011f26d69821c9379d15f206e653110d15aabb7",
+      "economic_hypothesis": "71661f404385cb07bc32759db29f803d7cd72243370803f687965958ae16b3bb",
+      "data_identity_contract": "2770c9e74691873f0328d2590c60fee9775121eddb29f2097a9bd5ede382bc23",
+      "joint_session_gap_and_quarantine": "ced9f0c4d8c2db0b3785763fa3bc711f0a3a7bdfa68e5e720d05b507e1101ba1",
+      "estimator_and_primary": "f0e7c9b02b003ecb3721cb4c84c465023a54f92a4d7e3322b9407628855ad05a",
+      "trials": "2472f923d766085f0b72dc3a82e40b977529b51c58ff8502f6ed9533b2ecc6e5",
+      "target_fill_and_accounting_trace": "31e5f2c8e5b1dd2a729df1b3758a4be905e057d4b350a4775954b2a0ce92f6df",
+      "panels_and_benchmarks": "a1d25039fd7e9dae3cb9a0de6bae3a5784462583ba48cd1c24b79d953b67234a",
+      "walk_forward": "5153270f703ab2937adf528da11369bac0409f6bcbeb18c853da8ee8bce666f4",
+      "statistics": "60c2c62fe89a9569953892997869ad06d07d994ca2d93a535420e17f9572333b",
+      "development_gates_all_required": "69df09c2b34f7f223419498d3eacb6507148a4ba05ac55635aa00de70f167956",
+      "holdout_one_shot": "ba8b6cb39f36812e890cc5873d52a82367d8904ba161bae2042caff368cc6ff1",
+      "prospective": "5b7b376ff14e8e36a04370bfffa5ff35626c09b31bf917df799f384a00ac34af",
+      "prohibitions": "ebd57edbcd41567d52ac452fff56a54272c23b64b22e65d041cf2408d4159d79"
+    },
+    "resolver": {
+      "metadata_removals": 10,
+      "metadata_removals_unique_and_existing": true,
+      "amendments": 6,
+      "amendments_unique_and_existing": true,
+      "authoritative_phase_2_additions": 9,
+      "addition_sources_existing_targets_initially_absent_and_unique": true,
+      "resolved_canonical_byte_count": 92467,
+      "resolved_composite_canonical_sha256": "75bb39e156fdb580e4fd49db101c208c257a2d085291632cc3845f44ddaf65dc",
+      "declared_composite_match": true,
+      "stale_v1_metadata_removed": true
+    },
+    "route_2_bindings": {
+      "frozen_effective_contract_canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+      "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80",
+      "terminal_audit_canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"
+    }
+  },
+  "revision_checks": {
+    "1": {"pass": true, "evidence": "The exact ten stale-v1 metadata pointers are uniquely removed, six replacements are applied, nine absent Phase-2 sections are attached, unlisted mutation is rejected, and the single composite recomputes to 75bb39e156fdb580e4fd49db101c208c257a2d085291632cc3845f44ddaf65dc."},
+    "2": {"pass": true, "evidence": "Slots 1-49 equal the route-2 frozen effective registry exactly; slots 50-56 are unimputed and bind the recomputed terminal validation and audit hashes; slots 57-63 and every authorized future development or holdout branch have exact unique names and correct append-only arithmetic."},
+    "3": {"pass": false, "evidence": "Full-path oracle scope, selectors, tolerances, hashes, and top-level key sets are present, but the complete-artifact rule defers nested schemas to later implementation fixtures. The disposition schema also lacks a closed per-kind nullability and state table for ordinary versus override targets, while listing safety_override and terminal_override kinds despite stating override targets receive exact_fill dispositions. A single dependency_graph_sha256 is not mechanically defined as the separately required production and oracle dependency bindings."},
+    "4": {"pass": true, "evidence": "The contract fixes sorted endpoint intersection, exact one-day intervals, maximal consecutive segments, causal event-slice boundaries, identical comparison slices, wealth-one reconstruction, chronological stitching without gap observations, and rejects resets, bridging, zero fill, and full-path substitution."},
+    "5": {"pass": true, "evidence": "Seven fail-closed derived predicates cover leakage, survivorship, gate inheritance, source identity, terminal cash, panel equality, and trace closure using explicit inequalities, counts, hashes, identities, and accounting equations; constant or controller-only assertions are prohibited."},
+    "6": {"pass": false, "evidence": "Repair consumption and both non-economic exhaustion branches are otherwise explicit, but interruption_exhaustion first freezes AUDIT_PENDING with zero retries and then says a separately recorded service restoration may provide further audit authority. That alternative is ambiguous against the fixed three-attempt ceiling and the required no-retries state."},
+    "7": {"pass": true, "evidence": "The guard permits only the in-memory 2026-01-01 half-open comparison boundary, rejects candidate 2026 market-data identities before access operations, and preserves only the separately latched exact hash-bound no-discovery exception."}
+  },
+  "economic_invariance": {
+    "pass": true,
+    "economic_hypothesis_unchanged": true,
+    "primary_target": 0.4,
+    "primary_lookback_sessions": 60,
+    "trial_count": 7,
+    "trial_order_exact": true,
+    "risky_sleeve": "fixed_50_50",
+    "no_leverage": true,
+    "no_shorting": true,
+    "no_asset_tilt": true,
+    "no_return_sign_filter": true,
+    "one_way_cost": 0.0014,
+    "doubled_one_way_cost": 0.0028,
+    "clocks_unchanged": true,
+    "folds_unchanged": true,
+    "recovery_sessions": 90,
+    "seed_rule_unchanged": true,
+    "non_DSR_statistics_unchanged": true,
+    "only_DSR_changes": ["/statistics/DSR/N", "/statistics/DSR/sigma_SR"],
+    "development_gate_count": 25,
+    "development_gates_unchanged": true,
+    "holdout_thresholds_unchanged": true,
+    "prospective_rules_unchanged": true,
+    "prior_result_used_for_tuning": false,
+    "capital_permitted": 0,
+    "gpu_seconds_permitted": 0,
+    "vertcoin_mining": "UNCHANGED"
+  },
+  "multiplicity_counts": {
+    "prior_slots": 56,
+    "prior_observed": 28,
+    "prior_unimputed": 28,
+    "first_49_exactly_equal_route_2": true,
+    "route_2_terminal_slots": {"range": "50-56", "count": 7, "unimputed": 7, "validation_and_audit_bound": true},
+    "current_predeclared_slots": {"range": "57-63", "count": 7, "pending_pre_result_binding": 7},
+    "first_complete_development": {"N": 63, "observed": 35, "unimputed": 28},
+    "second_complete_development": {"N": 70, "observed": 42, "unimputed": 28},
+    "third_complete_development": {"N": 77, "observed": 49, "unimputed": 28},
+    "holdout_after_attempt_1": {"slot_range": "64-70", "N": 70, "observed": 42, "unimputed": 28},
+    "holdout_after_attempt_2": {"slot_range": "71-77", "N": 77, "observed": 49, "unimputed": 28},
+    "holdout_after_attempt_3": {"slot_range": "78-84", "N": 84, "observed": 56, "unimputed": 28},
+    "all_declared_names_exact": true,
+    "all_declared_names_unique": true,
+    "append_only_arithmetic_correct": true
+  },
+  "holdout_accessed": false,
+  "market_data_accessed": false,
+  "returns_calculated": false,
+  "performance_claim_made": false,
+  "implementation_authorized": false,
+  "unresolved_issues": [
+    "Revision 3 does not freeze a complete nested artifact schema or a mechanically exhaustive disposition state table before implementation.",
+    "Revision 6 leaves an ambiguous service-restoration route to further audit authority after the third interruption despite zero retries remaining."
+  ],
+  "exact_required_changes": [
+    {
+      "revision": 3,
+      "paths": ["/implementation_fidelity_corrections/target_fill_reconciliation", "/implementation_fidelity_corrections/serialization"],
+      "change": "Add a closed per-disposition state table that assigns each ordinary and safety/terminal override target exactly one disposition kind, defines the source and nullability of every field for every state, enumerates cancellation reasons, and removes or defines the currently inconsistent safety_override and terminal_override disposition kinds. Replace the deferred nested-schema sentence with exact preregistered key, type, nullability, cardinality, and invariant schemas for resource_measurement, stage_timestamps, every count object, derived_integrity_predicates, reconciliation_summary, and holdout_access. Bind production and oracle dependency graphs separately, or define an exact canonical two-graph composite, and bind every trace/schema/output hash explicitly."
+    },
+    {
+      "revision": 6,
+      "paths": ["/independent_audit_stages/common/interruption_exhaustion"],
+      "change": "Replace the final service-restoration alternative with an exact rule that after the third service-only interruption the stage remains AUDIT_PENDING with zero retries and no fourth invocation; service restoration alone grants no attempt. Any increase or reset of the three-attempt budget must require explicit human authorization recorded as a separate contract amendment."
+    },
+    {
+      "revision": "hash_refresh",
+      "paths": ["/effective_contract_resolution/resolved_composite_canonical_sha256", "/original_draft_canonical_sha256", "/original_draft_byte_sha256"],
+      "change": "After only the two no-data contract edits above, recompute and record the revised draft byte and canonical hashes, the resolved composite canonical hash and byte count, and the corresponding revision-incorporation bindings without altering any economic clause."
+    }
+  ]
+}
