@@ -1,7 +1,9 @@
 {
   "budgets": {
     "current_experiment": {
-      "audit_attempts_used_by_stage": {},
+      "audit_attempts_used_by_stage": {
+        "direction_review": 1
+      },
       "implementation_repairs_remaining": 3,
       "implementation_repairs_used": 0,
       "maximum_audit_attempts_per_review_stage": 3,
@@ -46,11 +48,13 @@
   "direction_review_model_result_sha256": "cd2b54fad4f74bba76a413ae14061216ecbdaaecadf1897fad6146a14675172c",
   "direction_review_status": "REVISION_REQUIRED_INCORPORATED_7_OF_7_FROZEN",
   "effective_contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
-  "implementation_authorization": null,
+  "implementation_authorization": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_AUTHORIZATION.json",
+  "implementation_authorization_byte_sha256": "84764b65d6b3ee61b47466237daad01e203be15c389d98d9ce17aa650d97fb0c",
+  "implementation_authorization_sha256": "15ce7f752a66e48d049cb1fddbd3f8e090b6b4813b81608374c084dd7ae920a6",
   "implementation_evidence_commit": "d4fcfaec04e93efc2547d0c94af1934ef556d44d",
   "implementation_model_result": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_MODEL_RESULT.json",
   "implementation_model_result_sha256": "b15eb8f78615ac24a7290245597e65af7a791ec6324a7877128f1faae8f4452a",
-  "implementation_status": "NOT_STARTED_ROUTE_2",
+  "implementation_status": "AUTHORIZED_PURE_IMPLEMENTATION_PENDING_CLEAN_COMMIT",
   "implementation_artifact_sha256": {
     "experiments/btc-eth-long-only-mean-reversion-v2/final_mechanical_production_validation.py": "7ee98e1ba4fbe1a89f720c3e56d974c79f7668309a32d70af2cbc9ff4cba7f68",
     "src/strategy_control/mean_reversion_v2.py": "dc8bb8f23716c6d9acbcdb3c50908103a40a21a5aee7a6f67b6c0ce9faed0f5d",
@@ -77,7 +81,7 @@
     "source_snapshot_commit": "61b69c5ed5c5f06f8907a052ee166a7c01e994ad",
     "store_live": false
   },
-  "next_task": "commit_frozen_route_2_preregistration_then_issue_bounded_pure_implementation_authorization",
+  "next_task": "commit_route_2_implementation_authorization_then_invoke_live_terra_medium",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -99,7 +103,7 @@
   ],
   "preregistration": "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION.json",
   "preregistration_byte_sha256": "aa922a6ce0027f00186f08c69cfeb3ef000b46a40ea14688d94daed3afee5187",
-  "preregistration_committed_source": null,
+  "preregistration_committed_source": "5a70bced49457393d08eaf1af7024f10e88c7ab5",
   "preregistration_draft": "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION_DRAFT.json",
   "preregistration_draft_byte_sha256": "ece8372a68bd81344a1c4b6200713ec19985bff35cd095a73f1c70039508c0ac",
   "preregistration_draft_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
@@ -107,7 +111,7 @@
   "preregistration_original_draft_sha256": "2da4f8f95c523d41ded3213faf1ad853fb9561332a04adfe7ceef24c79105521",
   "preregistration_revision_incorporation_sha256": "2b588f5762878877cb8979299a160a2477dc3655f15c750eafb5f486ff7ccdea",
   "preregistration_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
-  "preregistration_status": "FROZEN_PENDING_CLEAN_COMMIT",
+  "preregistration_status": "FROZEN_COMMITTED_PUSHED",
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
@@ -175,5 +179,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T13:48:29.667677373Z"
+  "updated_at_utc": "2026-08-04T13:50:52.606953806Z"
 }

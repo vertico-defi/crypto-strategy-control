@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T13:50:52.606953806Z",
+  "authorization_stage": "PURE_IMPLEMENTATION_AND_SYNTHETIC_FIXED_FIXTURE_TESTS_PRE_DATA",
+  "frozen_preregistration_commit": "5a70bced49457393d08eaf1af7024f10e88c7ab5",
+  "preregistration_path": "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION.json",
+  "preregistration_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
+  "preregistration_byte_sha256": "aa922a6ce0027f00186f08c69cfeb3ef000b46a40ea14688d94daed3afee5187",
+  "effective_contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "required_pre_economic_test_count": 37,
+  "model_route": {
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "maximum_initial_invocations": 1,
+    "fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits fallback; code or test failure never does."
+  },
+  "allowed_repository_mutations": [
+    "create src/strategy_control/relative_value_v2.py",
+    "create src/strategy_control/relative_value_v2_pipeline.py",
+    "create tests/test_relative_value_v2.py",
+    "create tests/test_relative_value_v2_production.py",
+    "create additional pure v2 helper or deterministic fixture files only when mechanically required by the frozen contract"
+  ],
+  "prohibited_repository_mutations": [
+    "modify any Phase 1 experiment artifact, evaluator, audit, result, rejection, ledger row, or publication claim",
+    "modify the frozen v2 preregistration, effective contract, direction review, or revision incorporation",
+    "modify CURRENT_STATE.json, any ledger, progress log, decision log, authorization, lock, Git state, or portfolio",
+    "open any market-data repository, market file, current exchangeInfo response, external data source, or network endpoint",
+    "resolve, stat, inspect, open, list, hash, or read any January-June 2026 holdout path, file, footer, schema, metadata, row, or value",
+    "calculate a strategy return, aggregate performance metric, acceptance gate, or performance claim",
+    "run git add, commit, push, fetch, reset, checkout, or history rewrite"
+  ],
+  "data_and_runtime_scope": {
+    "market_file_access": false,
+    "source_data_repository_access": false,
+    "2026_path_resolution_stat_footer_schema_metadata_or_value_access": false,
+    "return_calculation": false,
+    "performance_claim": false,
+    "network_data_acquisition": false,
+    "test_scope": "synthetic deterministic and committed fixed fixtures only",
+    "production_interface_design_permitted": true,
+    "production_real_data_execution_permitted": false,
+    "cpu_only": true
+  },
+  "implementation_requirements": [
+    "create a distinct v2 production path; do not modify or silently reuse the v1 evaluator as the v2 implementation",
+    "resolve and implement the exact frozen composite contract without changing the seven trials, their order, signals, parameters, costs, folds, seed, accounting, nineteen gates, or any other economic or statistical rule",
+    "derive each decision from one synchronized cross-asset information set cut off at the maximum full-lookback availability timestamp, then select the earliest exact synchronized execution vector strictly after that cutoff",
+    "implement the frozen base and delayed clocks as independent cash-initialized state machines with the exact C_s and C_(s+1) transition order",
+    "select the actual last canonical synchronized terminal vector in the half-open boundary; never reuse a penultimate or reconstructed vector",
+    "enforce strict half-open fold prefix isolation, lifecycle-scoped preapproval 2026 rejection, and the distinct postapproval exact twelve-entry latch without resolving a holdout path in this stage",
+    "implement all ordered fail-closed data, quarantine, execution, evaluation, post-run repair, and audit-status precedence",
+    "implement deterministic canonical traces for information cutoffs, scores, decisions, targets, exact vectors, fills, costs, returns, dispositions, and terminal cash without calculating a market return in this stage",
+    "implement corrected finite and degenerate DSR/PBO handling and the append-only named-slot multiplicity registry exactly as frozen",
+    "implement frozen representative selectors, exact/categorical comparisons, 1e-12 finite-float tolerances, NaN rejection, and a genuinely independent reconciliation oracle that does not import the production calculation path",
+    "name tests so every applicable frozen pre-economic obligation is mechanically discoverable and prove the v1 economics remain unchanged"
+  ],
+  "parent_validation_after_call": {
+    "required": true,
+    "formal_economic_attempt_authorized": false,
+    "real_data_integration_authorized": false,
+    "implementation_repair_accounting": "An initial implementation call does not consume a repair round. A repository change required after parent validation is IMPLEMENTATION_BLOCKED_PRE_RUN and consumes exactly one authorized pre-run repair round."
+  },
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED",
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "formal_economic_attempt_authorized": false
+}

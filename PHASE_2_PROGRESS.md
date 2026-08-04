@@ -153,3 +153,14 @@
 - Next action: commit and push the frozen wrapper/state, then issue a separate bounded pure-implementation authorization for live Terra/medium work without market-data access.
 - Current blocker: none.
 - Exact resume state: wrapper byte hash `aa922a6c...`, canonical hash `c20a1a28...`; repairs 0/3; post-run repairs 0/2; no implementation/data/economic attempt; holdout unresolved/unread; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T13:50:52.606953806Z — bounded pure implementation authorized
+
+- Current checkpoint: frozen route-2 preregistration commit `5a70bced...` is pushed and exactly matches `origin/main`; pure implementation authorization `15ce7f75...` awaits its own clean commit.
+- What changed: one initial live Terra/medium call may create only distinct v2 production code and deterministic synthetic/fixed-fixture tests. It may not access market data, a data repository, any 2026 path, returns, Git state, ledgers, or the portfolio.
+- What was verified: frozen wrapper `c20a1a28...` and byte hash `aa922a6c...` recompute; the complete repository test, Ruff, strict Mypy, compilation, JSON, and diff gates passed before the freeze commit; local and remote commit both equal `5a70bced...`.
+- What failed: nothing. No repair round is consumed by the initial implementation call itself.
+- Current best defensible result: no route-2 economic result; implementation evidence will not be interpreted as profitability.
+- Next action: commit/push the authorization, then invoke live `gpt-5.6-terra`/`medium` under its no-data scope and independently validate its changes.
+- Current blocker: none.
+- Exact resume state: implementation 0 calls; repairs 0/3; post-run repairs 0/2; direction review 1; market/holdout/return access false; capital/GPU zero; mining unchanged.
