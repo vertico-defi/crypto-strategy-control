@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "validated_at_utc": "2026-08-04T07:54:12.020276Z",
+  "classification": "PASS_PURE_PRE_DATA",
+  "invocation_mode": "deterministic_local",
+  "repair_round": 1,
+  "implementation_repairs_used": 1,
+  "implementation_repairs_remaining": 2,
+  "preserved_initial_failure_artifact": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_VALIDATION_ATTEMPT_1_FAILURE.json",
+  "preserved_initial_failure_sha256": "35d91d2fdacac6d1d9da396174d144b099b35e28655cc8c2e3587ae1c9c35ed4",
+  "effective_contract_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+  "effective_contract_byte_sha256": "1da897a3eff60a013181d6381fc20b9e7e1678cad6005dd6c9224fdb15385a77",
+  "preregistration_sha256": "5f4d41bbd9f3fc34b29e86da271d324a442520c87bacece160627c6051cd13b6",
+  "preregistration_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+  "implementation_byte_sha256": {
+    "src/strategy_control/mean_reversion_v2.py": "dc8bb8f23716c6d9acbcdb3c50908103a40a21a5aee7a6f67b6c0ce9faed0f5d",
+    "tests/test_mean_reversion_v2.py": "65ab47559c603311b5edfcf5317e535e0dcdabb93cf7ebaf23ba0e5b7b551287"
+  },
+  "validation": {
+    "focused_pytest": "PASS_36",
+    "full_pytest": "PASS_253",
+    "ruff": "PASS_ALL_REPOSITORY_FILES",
+    "mypy": "PASS_25_SOURCE_FILES",
+    "python_bytecode_compilation": "PASS",
+    "git_diff_check": "PASS",
+    "research_runtime_dependency": "preinstalled NumPy 2.2.6 used only for the frozen synthetic PCG64 bootstrap test"
+  },
+  "frozen_test_obligation_accounting": {
+    "required_pre_economic_test_count": 35,
+    "exact_named_obligations_present_and_passing_in_pure_suite": 31,
+    "production_only_exact_named_obligations_deferred": 4,
+    "production_only_deferred_obligations": [
+      "source_contract_and_36_entry_allowlist_hash_mismatch_rejected_before_resolution",
+      "source_commit_byte_count_and_sha256_verified_before_parse",
+      "verified_buffer_parse_uses_list_valued_pyarrow_columns",
+      "representative_real_rows_materialize_from_all_allowlisted_files"
+    ],
+    "additional_truthful_pure_tests": [
+      "production_identity_and_real_row_obligations_are_explicitly_deferred",
+      "DSR_autocorrelation_and_dynamic_registry_degeneracies_fail_closed",
+      "future_close_cannot_change_prior_signal",
+      "canonical_hash_rejects_nonfinite_and_normalizes_key_order",
+      "raw_drawdown_baseline_exits_on_daily_not_three_session_return"
+    ],
+    "all_35_pre_economic_obligations_complete": false
+  },
+  "material_repairs_completed": [
+    "Exact pending fills execute only at their scheduled eligible fill index and timestamp; forward scanning and inconsistent index/time pairs fail closed.",
+    "The delayed clock executes at the next synchronized eligible fill identity rather than one calendar day later, and the holding clock starts at actual fill.",
+    "The mandatory exit is pinned to entry fill index plus the frozen holding interval count, while a valid recovery exit may occur earlier.",
+    "The raw drawdown baseline uses the three-session return for entry and the distinct one-session return for recovery exit.",
+    "Signals read only causal windows, gaps require exact daily continuity, cash quarantine does not bridge segments, and finalized pre-gap regime labels cannot be changed by a future gap.",
+    "Strict fold prefixing stops at the boundary before validating or transforming the suffix, so post-end rows and malformed suffix events cannot affect the fold.",
+    "Target IDs, decision-target relationships, fill/disposition outcomes, trace hashes, and terminal cash are derived and fail closed.",
+    "Accounting reconciliation independently rebuilds units, drifted weights, costs, interval returns, wealth, and terminal cash without calling the evaluator.",
+    "The seven-trial common panel and comparator panels reject invalid, nonconsecutive, cross-segment, duplicate, and nongenuine zero endpoints.",
+    "The frozen seven trials, raw and standardized signal rules, 14/28 bps costs, four development folds, seed, exact 19 gates, count types, bootstrap, DSR, PBO, Sharpe, and drawdown mechanics are pinned by deterministic tests.",
+    "Append-only multiplicity supports the first development run, both authorized repaired runs, and a later holdout stage without imputing the 14 no-return slots."
+  ],
+  "production_validation_still_required": [
+    "Verify the frozen source repository commit, reused data-contract hashes, 36-entry allowlist, file byte counts, and file SHA-256 values before parsing.",
+    "Parse the same verified buffers through the real PyArrow path using a list-valued column selector and materialize representative rows from every allowlisted development file.",
+    "Exercise the causal minute grid, joint-session construction, exact synchronized fills, row identity, gap/quarantine boundaries, and canonical production traces end to end on the allowlisted development bytes.",
+    "Obtain read-only Sol/xhigh implementation-fidelity approval before calculating or interpreting aggregate return, Sharpe, gates, or any strategy-performance conclusion."
+  ],
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "economic_result_exists": false,
+  "performance_claim_permitted": false,
+  "model_generated_research_claim": false,
+  "market_files_accessed": false,
+  "source_data_repository_accessed": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED",
+  "phase_1_hashes_verified_unchanged": {
+    "experiments/program-approved-space-audit-v1/AUDIT.json": "b8b1dfbaf675cc31e2938df1a17cff534722371a6a2a962ceecbfe3a1da8b750",
+    "experiments/btc-eth-long-only-mean-reversion-v1/PREREGISTRATION.json": "f71ce339e2380b50e733ac20f713119f84fd4511d6083d6ee4f9d5efb27850c9",
+    "experiments/btc-eth-long-only-mean-reversion-v1/DEVELOPMENT_RESULT.json": "258e8e2b04baeb81c4f074c01e8368b558a451482112f71417089defcfa4b38d",
+    "experiments/btc-eth-long-only-mean-reversion-v1/AUDIT.json": "8f5899a1bc9115e7a9d532b3617ab6b542c953ee4a658d4cfbb66cf3fb2d59b7"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "validated_at_utc": "2026-08-04T07:27:26.442371947Z",
+  "classification": "IMPLEMENTATION_BLOCKED_PRE_RUN",
+  "invocation_mode": "deterministic_local",
+  "implementation_model_result_sha256": "b15eb8f78615ac24a7290245597e65af7a791ec6324a7877128f1faae8f4452a",
+  "generated_source_byte_sha256": "600397a5f8efc8a3fb840d3f13fb83febbeda68af5c3edff318d8533f8487f3a",
+  "generated_test_byte_sha256": "bfbdedfcd3c8c44c4606a9429640e6cb96388d83eafe5adbc682fc7665efa70b",
+  "focused_pytest": {
+    "status": "PASS",
+    "tests": 36
+  },
+  "ruff": {
+    "status": "FAIL",
+    "error_count": 106,
+    "representative_rules": ["E501", "E701", "E702", "F401", "I001", "RUF059", "SIM300"]
+  },
+  "mypy": {
+    "status": "FAIL",
+    "error_count": 6,
+    "issues": ["unsafe dataclass asdict typing", "nullable trial thresholds used without narrowing", "undeclared NumPy import", "untyped gate callback"]
+  },
+  "material_semantic_failures": [
+    "Clock.apply_prior_fill refuses execution at the exact scheduled fill timestamp and tests the wrong later-decision behavior instead of exact B_s execution.",
+    "Additional delay is implemented as one calendar day rather than the next synchronized eligible ordinary fill.",
+    "The j+5 test verifies only later target creation on an inconsistent index/timestamp sequence and does not prove exact execution at entry fill index plus five.",
+    "exact_signal scans the entire close sequence for bad values, allowing a future invalid close to change an earlier signal.",
+    "common_panel treats a genuine-cash flag as general endpoint eligibility and therefore excludes valid exposed intervals.",
+    "dsr_probability accepts only N=49 and cannot execute the frozen append-only repaired-run or holdout registries.",
+    "reconcile_trace delegates only to target disposition checks and does not reconcile decision, cost, accounting, or return records.",
+    "self_financing emits an artificial initial interval and lacks a derived terminal-cash invariant.",
+    "Several tests use placeholder absence or hashability assertions under names that claim production byte, parser, real-row, holdout-guard, terminal-fill, and baseline-panel coverage.",
+    "The model self-reported 35 obligations covered even though it separately acknowledged that production identity, real rows, fill mapping, and full reconciliation remain unimplemented."
+  ],
+  "fallback_permitted": false,
+  "economic_result_exists": false,
+  "performance_claim_permitted": false,
+  "formal_economic_attempt_consumed": false,
+  "implementation_repairs_used_after_classification": 1,
+  "implementation_repairs_remaining": 2,
+  "market_files_accessed": false,
+  "source_data_repository_accessed": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "capital_permitted": 0
+}

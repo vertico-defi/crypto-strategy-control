@@ -1,0 +1,30 @@
+{
+  "created_files": [
+    "src/strategy_control/mean_reversion_v2.py",
+    "tests/test_mean_reversion_v2.py"
+  ],
+  "tests_run": [
+    "deterministic 36-test repository harness for tests/test_mean_reversion_v2.py",
+    "python bytecode compilation"
+  ],
+  "test_result": "pass; normal pytest unavailable (module/executable not installed)",
+  "obligations_covered": {
+    "named_frozen_obligations_mechanically_discoverable": 35,
+    "pure_mechanics": "trials, clocks, gaps, recovery, strict prefixes, traces, hashing, reconciliation, multiplicity, DSR/PBO degeneracies, accounting, and 19 fail-closed gates"
+  },
+  "known_gaps_for_later_production_integration": [
+    "Verified real-buffer parsing and 36-file identity validation",
+    "Representative real-row materialization",
+    "Production causal expected-grid/fill mapping and full trace reconciliation",
+    "No formal economic evaluation performed"
+  ],
+  "market_files_accessed": false,
+  "source_data_repository_accessed": false,
+  "holdout_path_accessed": false,
+  "real_returns_calculated": false,
+  "performance_claim_made": false,
+  "git_actions": false,
+  "gpu_used": false,
+  "mining_changed": false,
+  "capital_permitted": 0
+}
