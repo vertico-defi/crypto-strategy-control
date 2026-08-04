@@ -30,3 +30,24 @@
 - Publication checkpoint: source snapshot `ca12b529...` and portfolio `dc6431f...` are pushed; CI `30890937423` and Pages `30890939218` passed, and deployed content was fetched and verified.
 - Publication safety: gate `PASS`; `STORE_LIVE=false`; zero API routes; no strong-secret, private-path, prohibited tracked path, oversized tracked file, server, exchange, wallet, or capital-execution publication finding.
 - Public interpretation: Phase 1 remains exactly `APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED`; Phase 2 is `PASS_PURE_PRE_DATA` with no economic result or candidate; holdouts closed; capital zero.
+## 2026-08-04T08:25:11Z — mean-reversion v2 production adapter blocked before data
+
+- Current checkpoint: `IMPLEMENTATION_BLOCKED_PRE_RUN`; production repair round 2/3 is consumed and one pre-run repair remains.
+- Changed: one live Terra/medium call created only the authorized production adapter and synthetic test file; parent validation evidence is preserved at canonical hash `b215df6c...`.
+- Verified: live response `019fcbd8...`; no fallback/model error; Phase 1 and frozen v2 hashes unchanged; no source-data, market, 2026, holdout, return, metric, capital, GPU, or mining access.
+- Failed: one causal UTC session-grid test; 26 Ruff findings; four mypy findings; exact synchronized fill-row resolution and required trace/accounting failure paths remain incomplete.
+- Best defensible result: no Phase 2 economic result exists. Pure mechanics previously passed, but the production path is not fidelity-ready.
+- Next experiment: none; remain on `btc-eth-long-only-mean-reversion-v2` until the final authorized pre-run repair passes or is terminally consumed.
+- Current blocker: bounded mechanical implementation defects, autonomously repairable within the final authorized round.
+- Exact resume state: repair the two uncommitted production files, rerun focused/full deterministic validation, then proceed to exact 36-file development identity validation only if all pre-data checks pass.
+
+## 2026-08-04T08:45:46Z — mean-reversion v2 synthetic production adapter passes
+
+- Current checkpoint: `PASS_SYNTHETIC_PRODUCTION_PRE_REAL_DATA`; final pre-run repair 3/3 is complete, pending a clean source checkpoint.
+- What changed: the preserved live Terra repair-2 result `ca6a7d11...` still failed parent fidelity at `883417fc...`; final deterministic repair source `1004918b...`, tests `ae87697d...`, and validation evidence `c2e106de...` now enforce strict suffix isolation, exact synchronized base/delayed vectors, terminal-fill selection, real adjacent-fill accounting, and explicit fully missing-session quarantine.
+- What was verified: 44/44 focused tests, 262/262 repository tests, Ruff, strict typing across 26 source files, bytecode compilation, diff checks, unchanged Phase 1 evidence, unchanged frozen v2 hashes, no fallback, and no data/holdout/return/metric/capital/GPU/mining action.
+- What failed: no current synthetic production defect. Real 36-partition identity, PyArrow materialization, representative real-row mechanics, canonical pure/production trace binding, and the independent Sol/xhigh fidelity audit remain incomplete.
+- Current best defensible result: implementation-only `PASS_SYNTHETIC_PRODUCTION_PRE_REAL_DATA`; no Phase 2 economic evidence, candidate, return, or performance claim exists.
+- Next experiment: none; remain on `btc-eth-long-only-mean-reversion-v2`, commit the clean production checkpoint, then run bounded parent-only non-economic validation on the exact frozen development allowlist.
+- Current blocker: none.
+- Exact resume state: program `ACTIVE_RESEARCH_PHASE_2`; implementation calls 3; production live invocations 2; repairs 3/3 used and 0 remaining; post-run repairs 0/2; formal economic attempt unconsumed and unauthorized; source-data and market files still unaccessed in Phase 2; January-June 2026 holdout sealed/unread; capital zero; CPU-only; mining unchanged.

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "authorized_at_utc": "2026-08-04T08:38:24.333592571Z",
+  "classification_before_repair": "IMPLEMENTATION_BLOCKED_PRE_RUN",
+  "repair_round": 3,
+  "maximum_pre_run_implementation_repairs": 3,
+  "implementation_repairs_used_including_this_round": 3,
+  "implementation_repairs_remaining_after_this_round": 0,
+  "validation_failure": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_VALIDATION_REPAIR_2_FAILURE.json",
+  "invocation_mode": "deterministic_local",
+  "allowed_mutations": [
+    "src/strategy_control/mean_reversion_v2_pipeline.py",
+    "tests/test_mean_reversion_v2_production.py"
+  ],
+  "required_repairs": [
+    "slice the raw strict prefix before validating rows and prove any suffix at or after fold end is inert",
+    "bind execution-row resolution to an explicit half-open boundary and ignore every suffix beyond it",
+    "retain exact base and delayed prices plus row identities in canonical fill evidence",
+    "retain the final eligible base fill and separately predeclare the exact terminal fill strictly before the boundary",
+    "independently reconcile a true adjacent-fill interval from prior postcost units/cash/prices through current fill cost and current postcost equity",
+    "add adversarial deterministic tests for suffix isolation, nonzero adjacent-fill return, delayed vector retention, and terminal fill selection"
+  ],
+  "failure_rule": "Any remaining mechanical defect after this bounded repair cannot be changed again under the pre-run repair budget. It must be classified truthfully under the Phase 2 repair-budget policy; no economic conclusion may be inferred.",
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "source_data_repository_access_permitted": false,
+  "market_file_access_permitted": false,
+  "holdout_access_permitted": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

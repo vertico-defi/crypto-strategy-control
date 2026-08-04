@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "validated_at_utc": "2026-08-04T08:25:11.390080471Z",
+  "classification": "IMPLEMENTATION_BLOCKED_PRE_RUN",
+  "stage": "PRODUCTION_PATH_SYNTHETIC_VALIDATION_PRE_REAL_DATA",
+  "invocation_mode": "deterministic_local",
+  "production_integration_model_result": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_MODEL_RESULT.json",
+  "production_integration_model_result_sha256": "707d69aa4e24218130aabbe91b7a7bd4e07b16cd654bf2e2c482a54cc33fff9a",
+  "production_integration_model_result_byte_sha256": "385159d3d04b4fb9052fb2b4a8e78e99ad197af4ebed71644a890881645b5b1a",
+  "generated_source_byte_sha256": "2fff7691cf6971ae7a709dd4687487e7e275e91fee98ffe7a4a42e90fb18ac28",
+  "generated_test_byte_sha256": "6c85e3d382cac5482c7c3d3cbe2022450bb241018b12f8f39709ab56048a69aa",
+  "validation": {
+    "focused_pytest_with_preinstalled_research_dependencies": {
+      "status": "FAIL",
+      "passed": 44,
+      "failed": 1,
+      "exact_failure": "test_expected_minute_grids_joint_sessions_gaps_and_recovery_are_causal: expected completeness [true,false] but received [false,true,false]"
+    },
+    "ruff": {
+      "status": "FAIL",
+      "error_count": 26,
+      "rules": ["B007", "E501", "F401", "I001"]
+    },
+    "mypy": {
+      "status": "FAIL",
+      "error_count": 4,
+      "issues": [
+        "two undeclared optional PyArrow imports",
+        "strict-prefix comprehension inferred as object rather than MinuteRow",
+        "nullable delayed-session information cutoff used without narrowing"
+      ]
+    },
+    "python_bytecode_compilation": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "material_semantic_failures": [
+    "Session labels subtract one calendar day from each row date instead of deriving the session from the bar-end timestamp minus one minute. Midnight endpoints therefore create spurious and misclassified UTC sessions.",
+    "FillIdentity.prices contains signal-session closing prices rather than prices resolved from the exact synchronized base or delayed execution rows.",
+    "The adapter computes base and delayed timestamps from eligible session cutoffs but does not prove that both assets have an exact row at either execution identity, so exact synchronized fills without forward scanning are not yet implemented.",
+    "The synthetic suite does not yet cover nonmonotonic rows, invalid asynchronous execution rows, risky-gap failure, 150-session recovery, nonbridging fill boundaries, canonical decision/target/fill/cost/return records, or independent representative accounting reconciliation.",
+    "The production test named representative_real_rows_materialize_from_all_allowlisted_files creates repeated synthetic rows and does not materialize a table or validate all 36 distinct file identities; real-data validation correctly remains deferred."
+  ],
+  "repair_round_consumed": 2,
+  "implementation_repairs_used": 2,
+  "implementation_repairs_remaining": 1,
+  "fallback_permitted": false,
+  "economic_result_exists": false,
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "source_data_repository_accessed": false,
+  "market_files_accessed": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_permitted": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED",
+  "phase_1_hashes_verified_unchanged": {
+    "experiments/program-approved-space-audit-v1/AUDIT.json": "b8b1dfbaf675cc31e2938df1a17cff534722371a6a2a962ceecbfe3a1da8b750",
+    "experiments/btc-eth-long-only-mean-reversion-v1/PREREGISTRATION.json": "f71ce339e2380b50e733ac20f713119f84fd4511d6083d6ee4f9d5efb27850c9",
+    "experiments/btc-eth-long-only-mean-reversion-v1/DEVELOPMENT_RESULT.json": "258e8e2b04baeb81c4f074c01e8368b558a451482112f71417089defcfa4b38d",
+    "experiments/btc-eth-long-only-mean-reversion-v1/AUDIT.json": "8f5899a1bc9115e7a9d532b3617ab6b542c953ee4a658d4cfbb66cf3fb2d59b7"
+  }
+}

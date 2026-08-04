@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "purpose": "phase_2_mean_reversion_v2_production_integration_repair_round_2",
+  "role": "implementation_repair",
+  "requested_model": "gpt-5.6-terra",
+  "actual_model": "gpt-5.6-terra",
+  "reasoning_level": "medium",
+  "invocation_mode": "live",
+  "invocation_interface": "codex_cli",
+  "response_identifier": "019fcbe3-c6a4-7a01-8253-a0def4a868eb",
+  "started_at_utc": "2026-08-04T08:28:44.628170721Z",
+  "ended_at_utc": "2026-08-04T08:35:29.707000Z",
+  "duration_seconds": 405.078829279,
+  "fallback": null,
+  "exact_model_error": null,
+  "outcome": "REPAIR_RECEIVED_TOOLING_PASS_PARENT_FIDELITY_FAILED",
+  "modified_files": [
+    "src/strategy_control/mean_reversion_v2_pipeline.py",
+    "tests/test_mean_reversion_v2_production.py"
+  ],
+  "model_reported_validation": {
+    "focused_pytest": "PASS_43",
+    "ruff": "PASS",
+    "strict_mypy": "PASS",
+    "python_bytecode_compilation": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "parent_validation": {
+    "focused_pytest": "PASS_43",
+    "full_pytest": "PASS_261",
+    "ruff_all_repository_files": "PASS",
+    "strict_mypy_source_files": "PASS_26",
+    "python_bytecode_compilation": "PASS",
+    "git_diff_check": "PASS",
+    "fidelity_acceptance": "REJECTED_PENDING_FINAL_REPAIR"
+  },
+  "parent_acceptance_reason": "Strict fold-prefix isolation is violated because the suffix is validated before slicing; representative interval accounting ignores prior_prices and uses one price vector on both sides of the interval; delayed and terminal execution evidence is incomplete.",
+  "source_data_repository_accessed": false,
+  "market_files_accessed": false,
+  "holdout_path_or_metadata_accessed": false,
+  "holdout_values_read": false,
+  "real_returns_calculated": false,
+  "aggregate_metrics_calculated": false,
+  "performance_claim_made": false,
+  "model_generated_research_claim": false,
+  "git_actions_by_model": false,
+  "gpu_used": false,
+  "mining_changed": false,
+  "capital_permitted": 0
+}

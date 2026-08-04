@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "authorized_at_utc": "2026-08-04T08:27:58.114305678Z",
+  "classification_before_repair": "IMPLEMENTATION_BLOCKED_PRE_RUN",
+  "repair_round": 2,
+  "maximum_pre_run_implementation_repairs": 3,
+  "implementation_repairs_used_including_this_round": 2,
+  "implementation_repairs_remaining_after_this_round": 1,
+  "failure_artifact": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_VALIDATION_ATTEMPT_1_FAILURE.json",
+  "failure_artifact_sha256": "b215df6c38885a031177fed56f650d6655390fd85fba2da3cd007737b68c3b78",
+  "failure_artifact_byte_sha256": "09663cf283d9e1297d50ff2c9e7626a74fd4d4d6cea6e7b180883dc8ce08fe8a",
+  "model_route": {
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "maximum_repair_invocations": 1,
+    "fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits fallback; coding or test failure never does."
+  },
+  "allowed_mutations": [
+    "src/strategy_control/mean_reversion_v2_pipeline.py",
+    "tests/test_mean_reversion_v2_production.py"
+  ],
+  "required_repairs": [
+    "derive each UTC session from the bar-end timestamp minus one minute and reject nonmonotonic or duplicate causal rows",
+    "resolve exact synchronized BTCUSDT and ETHUSDT base and delayed execution rows without forward scanning",
+    "store exact execution prices rather than signal-session closes in fill identities",
+    "fail closed on missing, asynchronous, invalid, cross-segment, or terminal execution identities",
+    "cover risky-gap failure, 150-session recovery, nonbridging segments, strict fold prefix, and terminal boundaries",
+    "expose canonical mechanical row, session, fill, trace, cost, and representative-return records sufficient for later parent-only real-data reconciliation without computing aggregate metrics",
+    "pass repository Ruff and strict mypy without installing dependencies or weakening checks"
+  ],
+  "prohibited": [
+    "modify any Phase 1 file or frozen Phase 2 contract, audit, or validation artifact",
+    "modify CURRENT_STATE.json, any ledger, decision log, progress log, publication file, or Git state",
+    "read any source-data repository, market file, 2026 path, holdout metadata, schema, or value",
+    "calculate real-data returns, aggregate performance metrics, gates, Sharpe, drawdown, bootstrap, DSR, or PBO",
+    "use network data, credentials, orders, wallets, capital, leverage, GPU, or change mining"
+  ],
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "purpose": "phase_2_mean_reversion_v2_non_economic_production_path_implementation",
+  "role": "implementation",
+  "requested_model": "gpt-5.6-terra",
+  "actual_model": "gpt-5.6-terra",
+  "reasoning_level": "medium",
+  "invocation_mode": "live",
+  "invocation_interface": "codex_cli",
+  "response_identifier": "019fcbd8-8368-7b92-a647-3e9d4084f236",
+  "started_at_utc": "2026-08-04T08:16:25.098000Z",
+  "ended_at_utc": "2026-08-04T08:22:28.483000Z",
+  "duration_seconds": 363.385,
+  "fallback": null,
+  "exact_model_error": null,
+  "outcome": "IMPLEMENTATION_RECEIVED_PARENT_VALIDATION_FAILED",
+  "created_files": [
+    "src/strategy_control/mean_reversion_v2_pipeline.py",
+    "tests/test_mean_reversion_v2_production.py"
+  ],
+  "model_reported_validation": {
+    "python_bytecode_compilation": "PASS",
+    "synthetic_identity_and_holdout_guard_smoke": "PASS",
+    "git_diff_check": "PASS",
+    "pytest": "UNAVAILABLE_IN_INVOCATION_ENVIRONMENT_NO_MODULE_NAMED_PYTEST",
+    "ruff": "UNAVAILABLE_IN_INVOCATION_ENVIRONMENT_COMMAND_NOT_FOUND"
+  },
+  "model_reported_deferred_parent_only_obligations": [
+    "authorized 36-file real development identity validation",
+    "representative real-row hashes and input manifests",
+    "end-to-end mechanical trace and independent reconciliation",
+    "read-only implementation-fidelity audit"
+  ],
+  "parent_acceptance": "REJECTED_PENDING_REPAIR",
+  "parent_acceptance_reason": "The project environment found a causal UTC session-label defect, lint and strict-typing failures, and incomplete exact synchronized-fill mechanics. The implementation therefore cannot proceed to real-data validation.",
+  "source_data_repository_accessed": false,
+  "market_files_accessed": false,
+  "holdout_path_or_metadata_accessed": false,
+  "holdout_values_read": false,
+  "real_returns_calculated": false,
+  "aggregate_metrics_calculated": false,
+  "performance_claim_made": false,
+  "model_generated_research_claim": false,
+  "git_actions_by_model": false,
+  "gpu_used": false,
+  "mining_changed": false,
+  "capital_permitted": 0
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "validated_at_utc": "2026-08-04T08:45:46.127578181Z",
+  "classification": "PASS_SYNTHETIC_PRODUCTION_PRE_REAL_DATA",
+  "stage": "FINAL_PRE_RUN_PRODUCTION_PATH_REPAIR_SYNTHETIC_FIDELITY_VALIDATION",
+  "invocation_mode": "deterministic_local",
+  "repair_round_validated": 3,
+  "implementation_repairs_used": 3,
+  "implementation_repairs_remaining": 0,
+  "preserved_failure_artifacts": [
+    {
+      "path": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_VALIDATION_ATTEMPT_1_FAILURE.json",
+      "canonical_sha256": "b215df6c38885a031177fed56f650d6655390fd85fba2da3cd007737b68c3b78",
+      "byte_sha256": "09663cf283d9e1297d50ff2c9e7626a74fd4d4d6cea6e7b180883dc8ce08fe8a"
+    },
+    {
+      "path": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_VALIDATION_REPAIR_2_FAILURE.json",
+      "canonical_sha256": "883417fc146512a9271af4b9de3cd3172e21ada4c71109e873fa459609775b12",
+      "byte_sha256": "35557f08725769b12573a468d68f0ae67d156d766897d813c17e19e864044197"
+    }
+  ],
+  "final_artifacts": {
+    "source": "src/strategy_control/mean_reversion_v2_pipeline.py",
+    "source_byte_sha256": "1004918bc3783ccce5dc5301bc3d6320274784e5b6e1c4270a16e8249407d78c",
+    "tests": "tests/test_mean_reversion_v2_production.py",
+    "tests_byte_sha256": "ae87697d01aa976ccc01e20107f029e0b76f50dca295dd9d9c99d02b48e7a6cc"
+  },
+  "repairs_verified": [
+    "strict-prefix slicing precedes payload validation, so malformed rows at or after a half-open boundary are inert",
+    "execution-row resolution is bound to an explicit half-open boundary",
+    "fill identities retain exact synchronized base and delayed BTCUSDT and ETHUSDT prices and row identities",
+    "the final ordinary base fill is retained and the exact terminal fill is separately selected strictly inside the boundary",
+    "representative accounting independently reconciles a nonzero adjacent-fill interval from prior units, cash, prices, current transaction cost, and current postcost equity",
+    "UTC sessions follow the bar-end convention and fully missing calendar sessions are explicitly materialized as incomplete and quarantined",
+    "risky gaps, 150-session recovery, nonbridging segments, asynchronous vectors, delayed execution, and terminal boundaries fail closed",
+    "canonical mechanical evidence exposes row, session, fill, trace, cost, and representative-return identities without an aggregate performance calculation"
+  ],
+  "deterministic_tooling": {
+    "focused_pytest": "PASS_44",
+    "full_pytest": "PASS_262",
+    "ruff": "PASS_ALL_REPOSITORY_FILES",
+    "strict_mypy": "PASS_26_SOURCE_FILES",
+    "python_bytecode_compilation": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "preserved_phase_1_byte_identities": {
+    "program_audit_model_result": "651779a56e0fe312ce617c59ac611377c2d09141c99f2dd2b49320ee7f9ed57f",
+    "mean_reversion_v1_preregistration": "f71ce339e2380b50e733ac20f713119f84fd4511d6083d6ee4f9d5efb27850c9",
+    "mean_reversion_v1_development_result": "258e8e2b04baeb81c4f074c01e8368b558a451482112f71417089defcfa4b38d",
+    "mean_reversion_v1_audit": "8f5899a1bc9115e7a9d532b3617ab6b542c953ee4a658d4cfbb66cf3fb2d59b7"
+  },
+  "preserved_frozen_v2_byte_identities": {
+    "preregistration_wrapper": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+    "effective_contract": "1da897a3eff60a013181d6381fc20b9e7e1678cad6005dd6c9224fdb15385a77"
+  },
+  "remaining_pre_economic_obligations": [
+    "reverify the exact frozen source commit, data contract, freeze manifest, inventory, and 36-entry allowlist before resolving any market path",
+    "run the production reader and PyArrow parser against every exact hash-allowlisted development partition",
+    "materialize representative real rows and reconcile the real causal session, target, fill, cost, and interval-return production path",
+    "bind production mechanical records to the pure canonical decision-trace reconciler",
+    "obtain a live read-only Sol/xhigh implementation-fidelity approval before authorizing any formal economic evaluation"
+  ],
+  "all_pre_economic_obligations_complete": false,
+  "economic_result_exists": false,
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "source_data_repository_accessed": false,
+  "market_files_accessed": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_permitted": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}
