@@ -285,3 +285,14 @@
 - Next action: validate and commit/push the no-data draft, then invoke one live read-only `gpt-5.6-sol`/`xhigh` direction review.
 - Current blocker: none.
 - Exact resume state: route-3 direction review attempts 0/3; repairs 0/3; post-run repairs 0/2; data/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T15:39:48.407635017Z — route-3 direction review requires seven revisions
+
+- Current checkpoint: live Sol/xhigh read-only review `94d180db...` returned `REVISION_REQUIRED`; implementation remains prohibited.
+- What changed: no contract text yet. The complete normalized model result `3111455b...` and invocation metadata are preserved before incorporation.
+- What was verified: route, draft, Phase 2, all inherited root-clause, and resolved-composite hashes; exact v1 terminal no-result state; unchanged v2 economics; correct N=63/35 observed/28 unimputed arithmetic; no tuning; closed holdout.
+- What failed: one authoritative composite, slot-level registry, full target/fill/disposition and oracle evidence, exact common-panel event drawdown, derived-integrity predicates, repair/audit exhaustion semantics, and filesystem-scoped pre-holdout guard need finite no-data correction.
+- Current best defensible result: no route-3 or Phase 2 economic result exists. This review is methodology evidence only.
+- Next action: incorporate all seven corrections without market access, recompute every affected identity, commit the revised contract, and obtain direction acceptance before freeze or implementation.
+- Current blocker: none.
+- Exact resume state: direction review attempts 1/3; repairs 0/3; post-run repairs 0/2; market/holdout/returns false; capital/GPU zero; mining unchanged.

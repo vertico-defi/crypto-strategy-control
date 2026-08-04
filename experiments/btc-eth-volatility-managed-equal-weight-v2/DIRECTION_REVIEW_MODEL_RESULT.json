@@ -1,0 +1,87 @@
+{
+  "verdict": "REVISION_REQUIRED",
+  "scope": "Fresh live read-only Phase 2 research-direction and preregistration audit at clean commit d3b4a05ce0a0eba6aff98609f489162e16f20c40. The review used only repository evidence and did not access, resolve, list, stat, hash, or read external market data, any holdout source, market values, strategy returns, or target-strategy performance evidence.",
+  "confirmed": [
+    "The route authorization, draft, Phase 2 authorization, v1 base, all fifteen declared v1 root-clause hashes, and the six existing amendment targets recompute exactly.",
+    "Phase 1 remains immutable and btc-eth-volatility-managed-equal-weight-v1 remains DEVELOPMENT_PIPELINE_FAILURE / AUDIT_REJECTED / NO_ECONOMIC_RESULT, not unprofitable.",
+    "Applying the six existing RFC 6901 replacements yields the declared composite hash 281f1817e93eaec46b9d24f8e587970007816b7834de7e52ea2bb2a4e40d4368.",
+    "The 40 percent primary target, 60-session primary lookback, seven trials and ordering, fixed 50/50 sleeve, no leverage, no shorting, no asset tilt, no return-sign filter, costs, clocks, folds, 90-session recovery, seed rule, non-DSR statistics, all 25 gate entries, holdout thresholds, and prospective rules remain inherited.",
+    "The registry arithmetic is correct: 56 prior slots comprise 28 observed and 28 unimputed slots; a first complete seven-trial route-3 development run would use N=63, 35 observed, and 28 unimputed.",
+    "The v2 draft addresses all seven v1 audit findings in concept, but several proof obligations are not mechanically complete.",
+    "The target strategy remains ex ante and economically unchanged; no observed result selected its economics.",
+    "The holdout remains contractually closed and no performance claim was made."
+  ],
+  "required_revisions": [
+    {
+      "number": 1,
+      "severity": "major",
+      "clause": "effective_contract_resolution.resolver and unlisted_clause_rule",
+      "problem": "The resolved object still contains operative-looking v1 status, timestamps, source, direction-review, model-routing, and stale one-repair budget metadata even though the draft says Phase 2 replaces them.",
+      "exact_required_change": "Add an exact metadata-removal and overlay list for /status, /created_at_utc, /revised_at_utc, /source_parent_commit, /draft_sha256, /draft_hash_rule, /original_draft_sha256, /direction_review, /model_routing, and /budget; enumerate every authoritative additive Phase 2 wrapper section; reject unlisted conflict; and recompute the composite and draft hashes.",
+      "rationale": "There must be one mechanically authoritative composite without stale governance metadata."
+    },
+    {
+      "number": 2,
+      "severity": "major",
+      "clause": "phase_2_multiplicity_registry",
+      "problem": "Correct group counts do not freeze prior slot names, evidence and extraction bindings, the seven route-2 no-return identities, current pre-result identities, or future invalidated-attempt and holdout names.",
+      "exact_required_change": "Embed route-2 slots 1 through 49 exactly; append route-2 slots 50 through 56 in declared order bound to terminal validation 9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80 and terminal audit 3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57; predeclare current slots 57 through 63; freeze observed extraction, conversion, type and finiteness; bind the pre-result invocation; and predeclare exact invalidated-attempt and holdout names.",
+      "rationale": "DSR inputs and all no-return slots must be append-only, reproducible, and non-discretionary."
+    },
+    {
+      "number": 3,
+      "severity": "major",
+      "clause": "target_fill_reconciliation, serialization, and production_path_validation_before_formal_evaluation",
+      "problem": "The disposition schema, override-target identities, full independent reconciliation, selectors, tolerances, oracle isolation, and complete artifact schema are not fully frozen.",
+      "exact_required_change": "Freeze canonical disposition and override-target records; require every target to have one disposition and every fill one parent; reconcile all aggregate, fold, trial, stress, and benchmark paths with an independent oracle that cannot call production calculation helpers; add deterministic selectors, exact field-level equality and tolerance rules, NaN and infinity handling, dependency/source/input/trace/output hashes, and a closed complete-artifact JSON schema. Missing, extra, duplicate, nonserializable, or mismatched records are IMPLEMENTATION_BLOCKED.",
+      "rationale": "Representative or controller-only evidence cannot establish production fidelity."
+    },
+    {
+      "number": 4,
+      "severity": "major",
+      "clause": "common_panel_benchmarks and drawdown_path",
+      "problem": "The common-panel event-drawdown algorithm does not fix endpoint intersection, event-slice inclusion, gap segmentation, or whether segments are stitched or reset.",
+      "exact_required_change": "Freeze sorted endpoint intersection, exact one-day eligible intervals, maximal consecutive segments, precise event-slice boundaries, identical reconstruction for the primary and both equal-weight benchmarks from initial wealth one, excluded-gap behavior, and one fixed stitch-or-reset rule; reject full-path drawdown substitution.",
+      "rationale": "All three drawdowns must be computed on exactly the same causal economic events."
+    },
+    {
+      "number": 5,
+      "severity": "major",
+      "clause": "derived_integrity_evidence",
+      "problem": "Leakage, survivorship, gate inheritance, terminal cash, panel equality, and trace closure are assertions rather than exact evidence predicates.",
+      "exact_required_change": "Add an exact derivation table for source availability and clock inequalities, fixed assets and exact 36-file identity, 25-gate hash inheritance, zero units/no pending/reconciled terminal cash, ordered endpoint/interval/event-slice hashes, and target/disposition/fill plus wealth/contribution equations. Missing or false predicates fail closed.",
+      "rationale": "Constants and controller assertions are not derived production evidence."
+    },
+    {
+      "number": 6,
+      "severity": "major",
+      "clause": "failure_precedence priorities 4 through 7 and repair policy",
+      "problem": "Audit retry exhaustion and repair-consumption or repair-exhaustion semantics are not fully aligned with Phase 2.",
+      "exact_required_change": "After three service-only audit interruptions keep AUDIT_PENDING with no retries and block downstream work; consume post-run repair for any code, schema, oracle, or executable-evidence change; distinguish mechanically repairable but unauthorized administrative blocking from a defect requiring material hypothesis change and a separately authorized preregistration; neither branch permits an economic label.",
+      "rationale": "Service interruption and implementation authority cannot be mistaken for economic evidence."
+    },
+    {
+      "number": 7,
+      "severity": "minor",
+      "clause": "data_contract.pre_holdout_guard",
+      "problem": "Rejecting every 2026 label could reject the in-memory 2026-01-01 half-open development boundary itself.",
+      "exact_required_change": "Restrict the guard to candidate market-data path and year/month identities at development, validation, audit, and pre-open entry points before resolution, stat, footer, schema, metadata, or value access; preserve the sole exact hash-bound post-approval latch exception with no discovery.",
+      "rationale": "A timestamp boundary is not market-data access, while every holdout filesystem identity must remain sealed."
+    }
+  ],
+  "facts_inferences_and_uncertainty": {
+    "fact": "All stated repository identities and contract comparisons were recomputed at the clean reviewed commit.",
+    "inference": "The successor is genuinely ex ante and its economics were not result-selected, based on committed evidence; this is not proof of actions outside the repository.",
+    "uncertainty": "Universal-negative access claims outside committed evidence were not independently verified because external systems were intentionally out of scope."
+  },
+  "implementation_may_begin": false,
+  "holdout_accessed": false,
+  "market_data_accessed": false,
+  "returns_calculated": false,
+  "performance_claim_made": false,
+  "raw_response_external_capture": {
+    "temporary_path_not_repository_evidence": "/tmp/volatility_managed_v2_direction_review_last_message.txt",
+    "byte_count": 13661,
+    "byte_sha256": "5fc62c72b0ee220dc2fd50540887eb1d318374fcf200bd6cc836e9ab79bf4bdd"
+  }
+}
