@@ -2,7 +2,8 @@
   "budgets": {
     "current_experiment": {
       "audit_attempts_used_by_stage": {
-        "direction_review": 1
+        "direction_review": 1,
+        "terminal_implementation_classification": 1
       },
       "implementation_repairs_remaining": 0,
       "implementation_repairs_used": 3,
@@ -12,7 +13,7 @@
       "model_invocations": {
         "direction_review_used": 1,
         "implementation_used": 4,
-        "independent_audit_used": 0,
+        "independent_audit_used": 1,
         "production_integration_used": 0
       },
       "post_run_fidelity_repairs_remaining": 2,
@@ -110,7 +111,7 @@
     "source_snapshot_commit": "61b69c5ed5c5f06f8907a052ee166a7c01e994ad",
     "store_live": false
   },
-  "next_task": "commit_route_2_terminal_implementation_failure_then_run_live_sol_xhigh_terminal_audit",
+  "next_task": "commit_route_2_terminal_audit_authorization_then_invoke_live_sol_xhigh_read_only",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -185,6 +186,9 @@
     "holdout_values_read": false,
     "queue_routing": "BEGIN_BTC_ETH_VOLATILITY_MANAGED_EQUAL_WEIGHT_V2_AFTER_TERMINAL_AUDIT"
   },
+  "route_2_terminal_audit_authorization": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_AUDIT_AUTHORIZATION.json",
+  "route_2_terminal_audit_authorization_byte_sha256": "01d26e4cf93ce387789a9c5a472869c200cb7faeb30cebf764e011b0a06a9beb",
+  "route_2_terminal_audit_authorization_sha256": "036743cc3c2e2b90e27a86251529ba7804df9d1a910ff9cdbd8edcd614d6d7b6",
   "production_integration_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_AUTHORIZATION.json",
   "production_integration_authorization_byte_sha256": "f3e3c60de2ac562f77913cbef6890a3701d5b9e2256404ee6ab031b270d27671",
   "production_integration_authorization_sha256": "3b4dcb136512eb1012cc0b763e83d56fe846b0241ed1ef6e1a815b9d0815bcab",
@@ -220,5 +224,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T14:44:02.573708563Z"
+  "updated_at_utc": "2026-08-04T14:48:48.087968395Z"
 }

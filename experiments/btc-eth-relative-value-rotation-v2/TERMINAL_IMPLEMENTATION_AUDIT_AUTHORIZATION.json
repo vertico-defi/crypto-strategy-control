@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T14:48:48.087968395Z",
+  "authorization_stage": "READ_ONLY_TERMINAL_IMPLEMENTATION_CLASSIFICATION_AUDIT_ATTEMPT_1",
+  "source_commit": "dd8a8697f4b0f0928c319d1e05b702c9c55e43e3",
+  "terminal_validation": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_VALIDATION.json",
+  "terminal_validation_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80",
+  "frozen_preregistration_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
+  "effective_contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "model_route": {
+    "requested_model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "invocation_mode": "live",
+    "repository_permission": "read_only",
+    "maximum_invocations_for_this_attempt": 1,
+    "maximum_wall_seconds": 1200,
+    "fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits fallback."
+  },
+  "audit_questions": [
+    "Does the committed implementation materially fail any mandatory item in final repair authorization a7eeae5a90429e43e11c4ff8c2b7c0c90a5a90bac846882345e86e1692c18a8f?",
+    "Are the terminal validation's specific oracle, multiplicity, recovery, quarantine, fold, parity, reconciliation, and superficial-test findings reproducible from committed source and tests?",
+    "Did all three authorized pre-run repair rounds become consumed under the recorded repair policy, with no further route-2 code repair authorized?",
+    "Is the defensible terminal classification IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT?",
+    "Must HISTORICAL_NO_GO, DATA_NO_GO, unprofitable, candidate, and performance language remain forbidden for this exact experiment?",
+    "Does repository evidence support zero market-data, return, holdout, capital, GPU, mining, credential, order, or portfolio access by the final repair?",
+    "Is administrative routing to btc-eth-volatility-managed-equal-weight-v2 justified without treating the relative-value family as economically evaluated or consumed?"
+  ],
+  "required_output": [
+    "one explicit verdict: PASS_TERMINAL_CLASSIFICATION or AUDIT_REJECTED",
+    "file, symbol, and test evidence for every material conclusion",
+    "separate facts from inferences",
+    "state whether any market or holdout access or economic result exists",
+    "state whether route 3 may begin",
+    "report exact unresolved uncertainty"
+  ],
+  "prohibited": [
+    "modify any repository file, Git state, portfolio, service, or external system",
+    "open, resolve, list, stat, hash, or read any external market-data repository, market file, network data source, or January-June 2026 path, footer, schema, metadata, row, or value",
+    "calculate or infer a strategy return, change a frozen verdict, propose parameter tuning, or make a performance claim",
+    "use credentials, connect a wallet or exchange, place an order, authorize capital, use GPU, or change mining"
+  ],
+  "capital_permitted": 0,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "formal_economic_attempt_consumed": false
+}

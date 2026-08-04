@@ -241,3 +241,14 @@
 - Next action: commit/push this exact terminal implementation evidence, run one read-only Sol/xhigh terminal audit, publish the meaningful negative transition, then preregister `btc-eth-volatility-managed-equal-weight-v2`.
 - Current blocker: none. Route 2 is administratively terminal and route 3 is next.
 - Exact resume state: route-2 repairs 3/3, 0 remaining; formal attempt unconsumed; market/holdout/returns false; every holdout sealed/unread; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T14:48:48.087968395Z — route-2 terminal audit authorized
+
+- Current checkpoint: terminal implementation evidence commit `dd8a869...` is pushed; read-only Sol/xhigh audit authorization `036743cc...` awaits a clean commit.
+- What changed: one independent audit attempt may verify the terminal classification, repair accounting, prohibited economic labels, and route-3 transition from committed evidence only.
+- What was verified: the authorization binds source `dd8a869...`, terminal validation `9efe0356...`, frozen wrapper `c20a1a28...`, and effective contract `ee1c3246...`; permissions are read-only.
+- What failed: nothing new; the final implementation failures remain terminal.
+- Current best defensible result: route 2 has no economic result and cannot support a profitability claim.
+- Next action: commit/push authorization, run live `gpt-5.6-sol`/`xhigh`, preserve its exact verdict, then route to volatility-management v2.
+- Current blocker: none.
+- Exact resume state: terminal audit attempt 1 authorized; holdout/data/returns false; capital/GPU zero; mining unchanged.
