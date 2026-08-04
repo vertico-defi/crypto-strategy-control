@@ -425,3 +425,14 @@
 - Next experiment/action: no experiment may start. Await explicit human authorization for one provenance-correct fourth no-data Sol/xhigh review amendment binding the corrected schema and revised draft.
 - Current blocker: `EXPLICIT_HUMAN_AUTHORIZATION_REQUIRED_FOR_FOURTH_NO_DATA_SOL_XHIGH_DIRECTION_REVIEW_AMENDMENT`.
 - Exact resume state: direction review 3/3, zero remaining; implementation repair 1/3 used, 2 remaining; post-run repairs 0/2; implementation/acquisition unauthorized; network/data/object/return/holdout access zero; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T19:04:13.087068690Z — route-4 methodology blocker published and verified
+
+- Current checkpoint: source evidence `3009964f...`, sanitized source snapshot `30c769b9...`, and portfolio `8ff5d408...` are pushed and synchronized.
+- What changed: the public static portfolio now reports `REVISION_REQUIRED / PREREGISTRATION_NOT_FROZEN / HUMAN_REVIEW_AMENDMENT_REQUIRED / NO_ECONOMIC_RESULT` and binds the exact source evidence commit.
+- What was verified: publication-history audit PASS for Strategy Control; 5/5 portfolio tests, syntax/type checks, and a 22-page static build with zero API routes pass under `STORE_LIVE=false`; GitHub validation `30941508645` and Pages `30941514552` succeeded; the deployed page returned HTTP 200 and its exact safety/evidence text was inspected.
+- What failed: no publication gate. The unchanged blocker is the missing explicit human-authorized review amendment.
+- Current best defensible result: no route-4 data verdict and no Phase 2 economic result.
+- Next action: await explicit human authorization for one provenance-correct fourth no-data Sol/xhigh direction review amendment. Do not freeze, implement, acquire, or start the conditional tournament.
+- Current blocker: `EXPLICIT_HUMAN_AUTHORIZATION_REQUIRED_FOR_FOURTH_NO_DATA_SOL_XHIGH_DIRECTION_REVIEW_AMENDMENT`.
+- Exact resume state: route-4 direction review 3/3, implementation repair 1/3, post-run repairs 0/2; all market/data/object/return/holdout counters zero; capital/GPU zero; mining unchanged.
