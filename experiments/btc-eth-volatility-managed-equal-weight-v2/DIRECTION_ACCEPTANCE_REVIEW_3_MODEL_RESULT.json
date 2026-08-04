@@ -1,0 +1,312 @@
+{
+  "verdict": "REVISION_REQUIRED",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
+  "audit_stage": "NO_DATA_DIRECTION_ACCEPTANCE",
+  "substantive_attempt": 3,
+  "maximum_attempts": 3,
+  "attempts_remaining": 0,
+  "source": {
+    "required_commit": "abed769ff38ca8af7e238371461a913b80ac67fe",
+    "head_at_start": "abed769ff38ca8af7e238371461a913b80ac67fe",
+    "head_at_end": "abed769ff38ca8af7e238371461a913b80ac67fe",
+    "clean_at_start": true,
+    "clean_at_end": true,
+    "read_only": true,
+    "files_modified": false
+  },
+  "recomputed_hashes": {
+    "all_declared_committed_bindings_match": true,
+    "artifacts": {
+      "phase_2_authorization": {
+        "byte_sha256": "2686b9caeda1e4d443132cdeafc6c86dfa8e296bde5a711a55f190219bd7c2db",
+        "canonical_sha256": "945eaca653843f830a44c8c3ebd2be4265668989c41f07000437a51e2bc1a123"
+      },
+      "route_authorization": {
+        "byte_sha256": "71537af3c1486fd244a034f660339428f5ddc0c46d2db6876c2d8a17bd37ad8a",
+        "canonical_sha256": "7698550b1c4aa785e3fc0ae9f71525548a0007ce63b94c4db5c6e65580f916d2"
+      },
+      "original_direction_draft": {
+        "byte_sha256": "f0ed45c6bfb36aaa11cb5c2d1399f80f0219f7c59d2d7c578a186398b90cc736",
+        "canonical_sha256": "cc2030dcc1b599ef6beb37bae1134746e1e870d5325cda4cb816a3978088fbdd"
+      },
+      "attempt_2_bound_draft": {
+        "byte_sha256": "cab8cc73a4661581865e4f0b34f290526e7acda9061e460a7ae31d04cced5035",
+        "canonical_sha256": "bdf2aa7e2d1373598593f6172acf93790cb420a5017a118a4840ad1c1e7b121f"
+      },
+      "current_revised_draft": {
+        "byte_sha256": "e378b6a9f21515f9a69c91197f2c573917773237f389f3c40fb63c5f151ff4fe",
+        "canonical_sha256": "a2c19ef1fca485a3a2565cb43cff345c92918cc95af3f6d540e92891a6216401"
+      },
+      "revision_incorporation": {
+        "byte_sha256": "aa87f2cc277d164d37dc8a9a5634e507cb6b3b4b45a118218dd7382635c21889",
+        "canonical_sha256": "c35593d1d89ff5aba777d7901e6b5be610619b92dca1ee9ec1ce52c4ba0ce2e4"
+      },
+      "direction_review": {
+        "byte_sha256": "d4a912b3665843b5a6ed698c0378b272a8a4ec1788fcaddadf077d5584a51278",
+        "canonical_sha256": "94d180dbef3822036abf3702943c3c03254543ed34c60b8611c0cc452585779f"
+      },
+      "direction_review_model_result": {
+        "byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
+        "canonical_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7"
+      },
+      "direction_acceptance_review_2": {
+        "byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
+        "canonical_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0"
+      },
+      "direction_acceptance_review_2_model_result": {
+        "byte_sha256": "52f0d86715800b3b543852f1ae9c852f443fc0f88060b44b1b8a41dbb4212fef",
+        "canonical_sha256": "142fd2258c37f85145b8c2e216d7cdc58c90435f7e66647d38b80f25560dee7f"
+      },
+      "v1_preregistration_base": {
+        "byte_sha256": "f983562d54339cbb8f4221e6f44a81725946e120d6c68ea9de200fa2a2374a30",
+        "self_excluding_canonical_sha256": "d47659466a2e55e72eef47051cba3b6c2cb551d036e41269bdbf0d7a9f19d8ad"
+      },
+      "route_2_frozen_wrapper": {
+        "byte_sha256": "aa922a6ce0027f00186f08c69cfeb3ef000b46a40ea14688d94daed3afee5187",
+        "canonical_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db"
+      },
+      "route_2_effective_contract": {
+        "byte_sha256": "ece8372a68bd81344a1c4b6200713ec19985bff35cd095a73f1c70039508c0ac",
+        "canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9"
+      },
+      "route_2_terminal_validation": {
+        "byte_sha256": "c477090b311f998dc9bd7976853b518c20c663946e52c7f6d0776d6ab205051a",
+        "canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80"
+      },
+      "route_2_terminal_audit_authorization": {
+        "byte_sha256": "01d26e4cf93ce387789a9c5a472869c200cb7faeb30cebf764e011b0a06a9beb",
+        "canonical_sha256": "036743cc3c2e2b90e27a86251529ba7804df9d1a910ff9cdbd8edcd614d6d7b6"
+      },
+      "route_2_terminal_audit_model_result": {
+        "byte_sha256": "04bdbbd0080ab0c15f58597d64a4d77a81033057e180536ddd69b2bccbac2055",
+        "canonical_sha256": "83a744e00cb841aa417dc7145a9c1bf9985c6a8514d10bbc6883ebed8ca4bce9"
+      },
+      "route_2_terminal_audit": {
+        "byte_sha256": "27e4a50d122a46c88516acee47af75aeb6435f445e2cb12c503756c5c37fe6d3",
+        "canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"
+      }
+    },
+    "inherited_root_clause_hashes": {
+      "all_15_match": true,
+      "strategy_family": "3ba851aef83d7f042da3b8b40a2d172a48d6707a10211997a0d37233c58100eb",
+      "family_distinction": "e87916a0de5100a00f8736da8011f26d69821c9379d15f206e653110d15aabb7",
+      "economic_hypothesis": "71661f404385cb07bc32759db29f803d7cd72243370803f687965958ae16b3bb",
+      "data_identity_contract": "2770c9e74691873f0328d2590c60fee9775121eddb29f2097a9bd5ede382bc23",
+      "joint_session_gap_and_quarantine": "ced9f0c4d8c2db0b3785763fa3bc711f0a3a7bdfa68e5e720d05b507e1101ba1",
+      "estimator_and_primary": "f0e7c9b02b003ecb3721cb4c84c465023a54f92a4d7e3322b9407628855ad05a",
+      "trials": "2472f923d766085f0b72dc3a82e40b977529b51c58ff8502f6ed9533b2ecc6e5",
+      "target_fill_and_accounting_trace": "31e5f2c8e5b1dd2a729df1b3758a4be905e057d4b350a4775954b2a0ce92f6df",
+      "panels_and_benchmarks": "a1d25039fd7e9dae3cb9a0de6bae3a5784462583ba48cd1c24b79d953b67234a",
+      "walk_forward": "5153270f703ab2937adf528da11369bac0409f6bcbeb18c853da8ee8bce666f4",
+      "statistics": "60c2c62fe89a9569953892997869ad06d07d994ca2d93a535420e17f9572333b",
+      "development_gates_all_required": "69df09c2b34f7f223419498d3eacb6507148a4ba05ac55635aa00de70f167956",
+      "holdout_one_shot": "ba8b6cb39f36812e890cc5873d52a82367d8904ba161bae2042caff368cc6ff1",
+      "prospective": "5b7b376ff14e8e36a04370bfffa5ff35626c09b31bf917df799f384a00ac34af",
+      "prohibitions": "ebd57edbcd41567d52ac452fff56a54272c23b64b22e65d041cf2408d4159d79"
+    },
+    "resolved_composite": {
+      "canonical_sha256": "a0bd8f8a27c04b8df6188a823c62c1bbff1180f61a14e8b15dbc6c0fcc5b690e",
+      "declared_sha256": "a0bd8f8a27c04b8df6188a823c62c1bbff1180f61a14e8b15dbc6c0fcc5b690e",
+      "canonical_byte_count": 106554,
+      "match": true
+    }
+  },
+  "per_revision_pass": {
+    "original_revision_1": true,
+    "original_revision_2": true,
+    "original_revision_3": false,
+    "original_revision_4": true,
+    "original_revision_5": true,
+    "original_revision_6": true,
+    "original_revision_7": true,
+    "attempt_2_revision_3": false,
+    "attempt_2_revision_6": true
+  },
+  "direction_revision_findings": {
+    "disposition_state_table": {
+      "pass": false,
+      "row_count": 7,
+      "ordinary_target_rows": 5,
+      "safety_override_target_rows": 1,
+      "terminal_override_target_rows": 1,
+      "allowed_kinds_exact": true,
+      "cancellation_reason_set_exact": true,
+      "field_sources_and_nullable_patterns_present": true,
+      "override_targets_exact_fill_only": true,
+      "required_safety_or_terminal_vector_failure_is_fail_closed": true,
+      "mechanically_mutually_exclusive": false,
+      "finding": "The missing-or-invalid exact-execution-vector ordinary-target condition and the independently detected incomplete-session-quarantine condition can both match the same still-pending target because the former does not exclude an earlier quarantine disposition and the latter does not exclude a quarantine caused by the due execution vector itself."
+    },
+    "complete_pre_economic_artifact_schema": {
+      "pass": false,
+      "top_level_key_count": 41,
+      "top_level_keys_unique": true,
+      "nested_schemas_present": true,
+      "production_and_oracle_dependency_bindings_separate": true,
+      "schema_trace_and_output_hash_keys_present": true,
+      "self_excluding_final_hash_rule_present": true,
+      "fixture_or_observed_result_deferral_prohibited": true,
+      "explicit_top_level_field_type_and_nullability_map_present": false,
+      "count_invariants_mechanically_consistent": false,
+      "finding": "The contract enumerates top-level keys but does not assign each top-level field an exact JSON type, nullability, constant or binding invariant. Its target_disposition_fill_counts invariant also says total_disposition_count equals both disposition-kind counts instead of their sum, and similarly fails to state target-class and fill-class sums mechanically."
+    },
+    "audit_interruption_budget": {
+      "pass": true,
+      "fixed_attempt_ceiling": 3,
+      "third_service_interruption_state": "AUDIT_PENDING_WITH_ZERO_RETRIES",
+      "fourth_invocation_authorized_by_service_restoration": false,
+      "budget_reset_authorized_by_service_restoration": false,
+      "only_explicit_human_authorized_separate_contract_amendment_may_change_budget": true
+    }
+  },
+  "economic_invariance": {
+    "pass": true,
+    "hypothesis_unchanged": true,
+    "assets_exact": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "fixed_risky_sleeve": "50/50",
+    "primary_target_annualized_volatility": 0.4,
+    "primary_lookback_sessions": 60,
+    "trial_count": 7,
+    "trial_order_exact": true,
+    "no_leverage": true,
+    "no_shorting": true,
+    "no_asset_tilt": true,
+    "no_return_sign_filter": true,
+    "one_way_cost": 0.0014,
+    "doubled_one_way_cost": 0.0028,
+    "execution_clocks_unchanged": true,
+    "fold_count": 4,
+    "folds_unchanged": true,
+    "recovery_sessions": 90,
+    "bootstrap_seed_rule_unchanged": true,
+    "non_DSR_statistics_unchanged": true,
+    "DSR_changes_limited_to_append_only_N_and_sigma_SR_identity": true,
+    "development_gate_count": 25,
+    "development_gates_unchanged": true,
+    "holdout_thresholds": {
+      "fold_count": 2,
+      "positive_folds_minimum": 2,
+      "completed_scheduled_rebalances_minimum": 20,
+      "completed_scheduled_rebalances_each_fold_minimum": 8,
+      "minimum_common_days": 150
+    },
+    "holdout_thresholds_unchanged": true,
+    "prospective_minimum_independent_decisions": 100,
+    "prospective_minimum_duration_days": 30,
+    "prospective_positive_net_return_rule_unchanged": true,
+    "prospective_rules_unchanged": true,
+    "prior_result_used_for_tuning": false,
+    "economic_tuning_detected": false
+  },
+  "multiplicity_counts": {
+    "prior_slots": 56,
+    "prior_slot_numbers_contiguous": true,
+    "prior_slot_names_unique": true,
+    "prior_observed": 28,
+    "prior_unimputed": 28,
+    "first_49_exactly_equal_route_2_frozen_registry": true,
+    "route_2_terminal_slots": {
+      "range": "50-56",
+      "count": 7,
+      "identities_exact": true,
+      "all_unimputed": true,
+      "terminal_validation_binding_match": true,
+      "terminal_audit_binding_match": true
+    },
+    "current_predeclared_slots": {
+      "range": "57-63",
+      "count": 7,
+      "identities_exact": true,
+      "all_pending_pre_result_binding": true
+    },
+    "first_complete_development": {
+      "N": 63,
+      "observed": 35,
+      "unimputed": 28
+    },
+    "second_complete_development": {
+      "N": 70,
+      "observed": 42,
+      "unimputed": 28
+    },
+    "third_complete_development": {
+      "N": 77,
+      "observed": 49,
+      "unimputed": 28
+    },
+    "holdout_after_development_attempt_1": {
+      "slot_range": "64-70",
+      "N": 70,
+      "observed": 42,
+      "unimputed": 28
+    },
+    "holdout_after_development_attempt_2": {
+      "slot_range": "71-77",
+      "N": 77,
+      "observed": 49,
+      "unimputed": 28
+    },
+    "holdout_after_development_attempt_3": {
+      "slot_range": "78-84",
+      "N": 84,
+      "observed": 56,
+      "unimputed": 28
+    },
+    "development_transition_arithmetic_correct": true,
+    "holdout_transition_arithmetic_correct": true,
+    "append_only_identity_rules_pass": true
+  },
+  "access_flags": {
+    "committed_repository_contract_evidence_only": true,
+    "external_market_data_file_accessed": false,
+    "external_market_data_identity_resolved": false,
+    "external_market_data_filesystem_listed": false,
+    "external_market_data_file_statted": false,
+    "external_market_data_file_hashed": false,
+    "external_market_data_file_parsed": false,
+    "source_data_repository_accessed": false,
+    "prohibited_2026_market_identity_accessed": false,
+    "holdout_path_resolved": false,
+    "holdout_accessed": false,
+    "holdout_value_read": false,
+    "market_value_read": false,
+    "returns_calculated": false,
+    "performance_claim_made": false,
+    "deterministic_or_controller_test_used_as_profitability_evidence": false,
+    "implementation_repairs_consumed": 0
+  },
+  "unresolved_issues": [
+    {
+      "revision": 3,
+      "json_paths": [
+        "/implementation_fidelity_corrections/target_fill_reconciliation/disposition_state_table_exact/1/condition",
+        "/implementation_fidelity_corrections/target_fill_reconciliation/disposition_state_table_exact/2/condition",
+        "/implementation_fidelity_corrections/target_fill_reconciliation/state_table_exhaustion_rule"
+      ],
+      "required_change": "Make the ordinary-target rows pairwise exclusive: the missing-or-invalid-vector row applies only while the target remains pending, with no earlier quarantine or override disposition; the incomplete-session row applies only to a distinct causal trigger strictly before due execution-vector evaluation. If the due vector itself causes quarantine, only the missing-or-invalid-vector row applies. Freeze earliest-causal-event evaluation and prohibit later facts from rematching an already disposed target."
+    },
+    {
+      "revision": 3,
+      "json_paths": [
+        "/implementation_fidelity_corrections/serialization/complete_pre_economic_artifact_field_schema_exact",
+        "/implementation_fidelity_corrections/serialization/hash_binding_rule"
+      ],
+      "required_change": "Add an exact nonnullable top-level field map: schema_version and experiment_id are fixed strings; stage is exactly PRE_ECONOMIC_PRODUCTION_VALIDATION; status is exactly PASS; source_commit is the lowercase 40-hex clean implementation commit bound before invocation; every one of the 25 pre-final *_sha256 fields is a nonnullable lowercase 64-hex binding to its named frozen source, dependency manifest, schema, trace, identity, or reconciliation object; each of the nine nested fields is a nonnullable object or declared array governed by its named exact schema; complete is boolean exactly true; canonical_sha256 is a nonnullable lowercase 64-hex self-excluding final hash. Require complete_artifact_schema_sha256 to bind this top-level map, the exact top-level key set, all nine nested schemas, scalar rules, invariants, and the self-excluding hash rule."
+    },
+    {
+      "revision": 3,
+      "json_paths": [
+        "/implementation_fidelity_corrections/serialization/target_disposition_fill_counts_schema/invariants"
+      ],
+      "required_change": "Replace the invariant with exact arithmetic: total_target_count equals ordinary_target_count plus safety_override_target_count plus terminal_override_target_count; total_disposition_count equals total_target_count and equals exact_fill_disposition_count plus causal_cancellation_disposition_count; total_fill_count equals ordinary_fill_count plus safety_fill_count plus terminal_fill_count and equals exact_fill_disposition_count; causal_cancellation_disposition_count equals total_target_count minus total_fill_count; every cancelled target has zero fills."
+    }
+  ],
+  "fourth_invocation_authorized": false,
+  "service_restoration_grants_additional_attempt": false,
+  "separate_human_authorized_contract_amendment_required_for_any_additional_attempt": true,
+  "formal_economic_attempt_authorized": false,
+  "implementation_authorized": false
+}

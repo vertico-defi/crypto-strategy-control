@@ -1,5 +1,16 @@
 # Phase 2 Durable Progress Log
 
+## 2026-08-04T16:45:39.128747376Z — route 3 terminal at direction review
+
+- Current checkpoint: route 3 is provisionally terminal `PREREGISTRATION_BLOCKED_DIRECTION_REVIEW_BUDGET_EXHAUSTED / METHODOLOGY_INCONCLUSIVE / NO_ECONOMIC_RESULT`, pending a separate terminal-classification audit.
+- What changed: final live Sol/xhigh direction attempt 3/3 returned `REVISION_REQUIRED`; the exact payload is `5a5781ed...`, wrapper `ebc2c8d7...`, and terminal validation `0f84e9aa...`.
+- What was verified: clean source `abed769...`; all bindings and 15 inherited clauses; unchanged strategy economics; exact multiplicity; zero data, holdout, return, implementation, repair, GPU, mining, credential, order, or capital action.
+- What failed: ordinary disposition rows can overlap; no exact top-level artifact field map exists; one count invariant uses equality instead of sums. These are finite no-data contract defects, not economic or data findings.
+- Current best defensible result: no candidate and no route-3 economic result. The volatility-management family was not implemented, backtested, evaluated, or economically consumed.
+- Next experiment: after a separate read-only terminal-classification audit, begin `cs-ranking-binance-spot-archive-ptu-acquisition-v3` under a fresh route authorization and preregistration.
+- Current blocker: none for administrative terminal audit or the authorized queue transition; a fourth direction-acceptance attempt itself would require new human authority and will not be run.
+- Exact resume state: direction attempts 3/3 used; implementation 0; repairs 0/3; formal evaluation unauthorized/unconsumed; route-3 holdout unresolved/unread; capital/GPU zero; mining unchanged; Phase 2 active.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.
