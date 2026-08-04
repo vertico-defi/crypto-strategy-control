@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T17:30:51.241149877Z",
+  "audit_stage": "NO_DATA_DIRECTION_REVIEW",
+  "audit_attempt": 1,
+  "maximum_attempts_for_this_stage": 3,
+  "source_parent_commit": "e54427c0c841affd74afe82bd290ca721c8fb449",
+  "required_source_clean": true,
+  "requested_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "permission": "read_only",
+  "bound_route_authorization": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
+    "byte_sha256": "c517a6979133676aa470ded8a33d1a71fc3bf07cf84d91d6e908cf8033e9e8ce",
+    "canonical_sha256": "f71a9a59fb13f7eb6af1ed60bcc645e2d40a230040e2729c27003546cf5bcd66"
+  },
+  "bound_draft": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+    "byte_count": 45942,
+    "canonical_byte_count": 42336,
+    "byte_sha256": "437d87ceb355b030b8729fae2183547a939d7c10e41812f12e7c45e0cfefa1b6",
+    "canonical_sha256": "144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e"
+  },
+  "output_schema": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+    "byte_sha256": "a9683091dcb09434d5c510294b29e7dccc9d2d0b7fd1d4b008df27bcfe5562f8",
+    "canonical_sha256": "f77b845da9a1331023da5a12a29b33722594d33db040c957923bf4b4ce03c17e"
+  },
+  "required_decision": "Determine whether the draft is sufficiently exact, causal, reproducible, bounded, and fail-closed to freeze before any official Binance request or acquisition implementation. Return DIRECTION_ACCEPTED only if no methodological or specification revision is required; otherwise enumerate every finite exact revision in one response.",
+  "allowed_verdicts": ["DIRECTION_ACCEPTED", "REVISION_REQUIRED"],
+  "required_checks": [
+    "recompute every bound byte and canonical hash and verify the exact clean review commit",
+    "verify all Phase 1, registered PTU, archive v1, and archive v2 results remain exact and ineligible",
+    "verify v3 is materially new evidence acquisition and does not seed observations from the rejected manifest",
+    "verify exact root and month-scoped listing queries retain raw bytes, decoded CommonPrefixes, ObjectRecords, pagination, ETags, sizes, last-modified values, and retrieval timestamps",
+    "verify month-scoped query and transport guards cannot resolve or return a 2026 object identity or use a full per-symbol prefix",
+    "verify ZIP/checksum retention, calculated hashes, row parsing, timestamp cutover, value checks, and cross-object conflict rules are independently reconstructable",
+    "verify missing months, daily gaps, malformed months, duplicates, revisions, renames, migrations, and symbol reuse are explicit and fail closed",
+    "verify listing, recovery, liquidity, last-bar, delisting, exact next-bar, delay, terminal, and multi-asset synchronization rules are causal and do not use future survival",
+    "verify the archive-observed claim and formal-completeness/asset-identity limitations are scientifically defensible",
+    "verify manifest and production artifact schemas, types, hashes, ordering, nullability, cardinalities, and cross-artifact arithmetic are sufficiently exact for independent audit",
+    "verify the real production probe, full run, raw-only reconstruction, representative selector, and reconciliation requirements actually close v2's production-path failure",
+    "verify sufficiency thresholds were fixed ex ante, are meaningful for a cross-sectional baseline, and cannot be weakened after observation",
+    "verify request, byte, storage, concurrency, runtime, memory, resume, retry, and blocker rules are safe and bounded without paid services or GPU use",
+    "verify implementation repair, acquisition timeout, network blocker, data no-go, audit pending, and terminal precedence cannot mislabel an implementation or infrastructure failure as economic evidence",
+    "verify DATA_CONTRACT_GO does not authorize strategy returns, model training, holdout access, promotion, trading, credentials, or capital",
+    "verify the draft stage itself made zero network, archive, market, holdout, return, model-training, backtest, GPU, mining, credential, order, and capital action"
+  ],
+  "prohibited_actions": [
+    "modify any repository or filesystem file",
+    "make any network request or browse any website",
+    "invoke Binance, S3, GitHub, exchange, wallet, or market-data endpoints",
+    "access, resolve, list, stat, hash, parse, or read data/raw, external market data, any 2026 market-data identity, or any holdout source",
+    "calculate returns, train a model, run a backtest, infer profitability, select a parameter, or make a performance claim",
+    "authorize implementation, acquisition, data-contract promotion, holdout opening, or capital action",
+    "use Git write, commit, push, or mutation capability",
+    "treat controller tests or prior diagnostic returns as evidence of trading profitability"
+  ],
+  "required_output": "One JSON object conforming exactly to the bound output schema. The reviewer must report all material revisions in this attempt so the parent can make one bounded no-data correction pass.",
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "mining_change_permitted": false,
+  "implementation_authorized": false,
+  "acquisition_authorized": false,
+  "holdout_access_authorized": false
+}
