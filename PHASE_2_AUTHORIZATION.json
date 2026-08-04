@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "zero-capital-crypto-research-phase-2",
+  "authorized_at_utc": "2026-08-04T06:30:05.632734620Z",
+  "program_state": "ACTIVE_RESEARCH_PHASE_2",
+  "objective": "Discover a crypto strategy with credible positive net expectancy that passes preregistered development, robustness, independent-audit, sealed-holdout, and frozen prospective-validation gates.",
+  "source_parent_commit": "28b54d428f8af54d30815e4dbdc04e3bbdd3c762",
+  "phase_1_terminal": {
+    "preserved_exact_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
+    "scope": "USER_APPROVED_AND_DURABLY_REGISTERED_ZERO_COST_ROUTES_AND_FAMILIES_ONLY",
+    "goal_completion_condition_2_met": true,
+    "terminal_evidence_commit": "e7ce407f7197d469c2dc6baa0a0926667474961b",
+    "source_snapshot_commit": "3868cd2658ebb8621444dd40a3e3320550435a79",
+    "terminal_publication_commit": "28b54d428f8af54d30815e4dbdc04e3bbdd3c762",
+    "terminal_state_byte_sha256": "15ba8ed22f1bcc3b8d53aa05e000c1e001fd1a61cb1040de6998458172e21e21",
+    "terminal_state_canonical_sha256": "abbd13f08ef16b17ff0fd29ddae3a7058c165fb11207ff4762821a913fe33427",
+    "program_audit_byte_sha256": "b8b1dfbaf675cc31e2938df1a17cff534722371a6a2a962ceecbfe3a1da8b750",
+    "program_audit_canonical_sha256": "052725226ee11a6ea812f0f32e9548ade538b92d73f6443c40eb642775339ce3",
+    "program_audit_model_result_byte_sha256": "651779a56e0fe312ce617c59ac611377c2d09141c99f2dd2b49320ee7f9ed57f",
+    "program_audit_model_result_canonical_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
+    "immutability_rule": "No Phase 1 experiment, audit, commit, ledger entry, publication, or terminal verdict may be rewritten, deleted, softened, or relabeled."
+  },
+  "phase_2_queue": [
+    "btc-eth-long-only-mean-reversion-v2",
+    "btc-eth-relative-value-rotation-v2",
+    "btc-eth-volatility-managed-equal-weight-v2",
+    "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+    "cross-sectional-baseline-and-ml-tournament-conditional-on-v3-audit-pass"
+  ],
+  "cross_sectional_conditional_queue": [
+    "cross-sectional-momentum",
+    "volatility-adjusted-momentum",
+    "linear-or-logistic-ranker",
+    "lightgbm",
+    "xgboost",
+    "abstention-or-cash-filter",
+    "graph-attention-network",
+    "compact-temporal-neural-model-only-if-baselines-justify"
+  ],
+  "first_experiment": {
+    "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+    "purpose": "Implementation-fidelity correction of v1, not strategy improvement.",
+    "contaminated_prior_evidence": "The v1 reported +14.60% development result is diagnostic contaminated prior evidence and may not be used for parameter selection.",
+    "mean_reversion_v1_preregistration_byte_sha256": "f71ce339e2380b50e733ac20f713119f84fd4511d6083d6ee4f9d5efb27850c9",
+    "mean_reversion_v1_frozen_preregistration_sha256": "1a722dfa9450f26e20a748e09d50a990cc35ccae35cf94ffd70303d9fedfcd3b",
+    "mean_reversion_v1_development_result_byte_sha256": "258e8e2b04baeb81c4f074c01e8368b558a451482112f71417089defcfa4b38d",
+    "mean_reversion_v1_audit_byte_sha256": "8f5899a1bc9115e7a9d532b3617ab6b542c953ee4a658d4cfbb66cf3fb2d59b7",
+    "development_data_contract_byte_sha256": "47dcf7e5bec24ec73be45cdeb200e25671807e7a28c3c1204499a4e20ae972b7",
+    "development_data_contract_canonical_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183"
+  },
+  "repair_and_audit_policy": {
+    "maximum_pre_run_implementation_repairs": 3,
+    "maximum_post_run_fidelity_repairs": 2,
+    "maximum_independent_audit_attempts_per_review_stage": 3,
+    "audit_retry_only_after": [
+      "timeout",
+      "context_exhaustion",
+      "temporary_service_failure"
+    ],
+    "audit_interruption_classification": "AUDIT_PENDING",
+    "mechanical_failure_classification": "IMPLEMENTATION_BLOCKED",
+    "economic_consumption_conditions": [
+      "contract-faithful implementation completes with a defensible economic no-go",
+      "reproducible data no-go under the authorized data route",
+      "the full Phase 2 repair budget is consumed and the remaining defect requires a material change to the economic hypothesis"
+    ]
+  },
+  "pre_evaluation_requirements": [
+    "frozen hashed preregistration committed before returns",
+    "unit tests",
+    "integration tests using exact hash-allowlisted real development files",
+    "representative rows materialized",
+    "independent signal-target-fill-cost-return reconciliation",
+    "gap terminal fold and delay boundary tests",
+    "implementation-fidelity review",
+    "final holdout latch confirmed closed"
+  ],
+  "holdout": {
+    "period": "2026-01-01 through 2026-06-30",
+    "status": "SEALED_UNOPENED_UNREAD",
+    "opening_permitted_before_frozen_candidate": false
+  },
+  "resource_and_safety_boundaries": {
+    "capital_permitted": 0,
+    "live_or_paper_orders_permitted": false,
+    "exchange_or_wallet_credentials_permitted": false,
+    "leverage_permitted": false,
+    "paid_data_api_compute_or_credits_permitted": false,
+    "automatic_top_up_permitted": false,
+    "fixed_pair_compute": "CPU_ONLY",
+    "gpu_change_requires_separate_approval": true,
+    "vertcoin_mining": "UNCHANGED",
+    "store_live": false
+  },
+  "authorization_checkpoint_claims": {
+    "market_values_read": false,
+    "returns_calculated": false,
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "candidate_promoted": false,
+    "phase_1_evidence_modified": false
+  }
+}

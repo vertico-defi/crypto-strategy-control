@@ -223,6 +223,36 @@ def test_program_correction_is_not_a_terminal_experiment(
     assert task["task"] == orchestrator.ARCHIVE_EXPERIMENT_ID
 
 
+def test_phase_2_is_a_supported_active_state() -> None:
+    state = {
+        "schema_version": "2.0",
+        "program_state": "ACTIVE_RESEARCH_PHASE_2",
+        "capital_permitted": 0,
+        "next_task": "draft_mean_reversion_v2_preregistration",
+        "budgets": {},
+    }
+    orchestrator.validate_state(state)
+    assert orchestrator.is_active_program_state(state) is True
+
+
+def test_phase_2_selection_does_not_reopen_the_phase_1_archive_route() -> None:
+    state = {
+        "program_state": "ACTIVE_RESEARCH_PHASE_2",
+        "current_experiment_id": orchestrator.PHASE_2_MEAN_REVERSION_EXPERIMENT_ID,
+        "next_task": "draft_mean_reversion_v2_preregistration",
+    }
+    task = orchestrator.select_task(state)
+    assert task == {
+        "task": "draft_mean_reversion_v2_preregistration",
+        "experiment_id": orchestrator.PHASE_2_MEAN_REVERSION_EXPERIMENT_ID,
+        "phase": 2,
+        "information_value": (
+            "Execute the explicitly authorized Phase 2 queue while preserving all "
+            "Phase 1 terminal evidence."
+        ),
+    }
+
+
 def test_scheduled_continuation_refuses_active_goal_and_disabled_state() -> None:
     with pytest.raises(orchestrator.StateError, match="disabled"):
         orchestrator.require_scheduled_continuation_authority(
@@ -275,6 +305,26 @@ def test_unregistered_resume_task_is_a_no_mutation_result(
         "capital_permitted": 0,
         "current_experiment_id": "new-experiment",
         "next_task": "native_review_required",
+        "budgets": {},
+    }
+    state.write_text(json.dumps(payload))
+    monkeypatch.setattr(orchestrator, "STATE", state)
+    result = orchestrator.run_cycle(invocation_mode="live", dry_run=False)
+    assert result["status"] == "NO_AUTOMATED_STEP_REGISTERED"
+    assert result["model_invocations"] == 0
+    assert json.loads(state.read_text()) == payload
+
+
+def test_unregistered_phase_2_task_is_a_no_mutation_result(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "CURRENT_STATE.json"
+    payload = {
+        "schema_version": "2.0",
+        "program_state": "ACTIVE_RESEARCH_PHASE_2",
+        "capital_permitted": 0,
+        "current_experiment_id": orchestrator.PHASE_2_MEAN_REVERSION_EXPERIMENT_ID,
+        "next_task": "draft_mean_reversion_v2_preregistration",
         "budgets": {},
     }
     state.write_text(json.dumps(payload))

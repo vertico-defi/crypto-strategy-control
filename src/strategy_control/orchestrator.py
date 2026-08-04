@@ -87,6 +87,13 @@ RELATIVE_VALUE_EXPERIMENT_ID = "btc-eth-relative-value-rotation-v1"
 CALENDAR_EXPERIMENT_ID = "btc-eth-intraday-calendar-seasonality-v1"
 VOLATILITY_PARITY_EXPERIMENT_ID = "btc-eth-causal-volatility-parity-rebalancing-v1"
 VOLATILITY_MANAGED_EXPERIMENT_ID = "btc-eth-volatility-managed-equal-weight-v1"
+PHASE_2_MEAN_REVERSION_EXPERIMENT_ID = "btc-eth-long-only-mean-reversion-v2"
+PHASE_2_RELATIVE_VALUE_EXPERIMENT_ID = "btc-eth-relative-value-rotation-v2"
+PHASE_2_VOLATILITY_MANAGED_EXPERIMENT_ID = "btc-eth-volatility-managed-equal-weight-v2"
+PHASE_2_ARCHIVE_ACQUISITION_EXPERIMENT_ID = (
+    "cs-ranking-binance-spot-archive-ptu-acquisition-v3"
+)
+ACTIVE_PROGRAM_STATES = frozenset({"ACTIVE_RESEARCH", "ACTIVE_RESEARCH_PHASE_2"})
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
 InvocationMode = Literal["live", "mock", "deterministic_local"]
 
@@ -198,7 +205,7 @@ def validate_state(state: dict[str, Any]) -> None:
     if state["capital_permitted"] != 0:
         raise StateError("capital permission must remain zero")
     if state["program_state"] not in {
-        "ACTIVE_RESEARCH",
+        *ACTIVE_PROGRAM_STATES,
         "DATA_BLOCKED",
         "PAUSED_FOR_USAGE",
         "PUBLICATION_PENDING",
@@ -207,6 +214,12 @@ def validate_state(state: dict[str, Any]) -> None:
         "SAFETY_STOP",
     }:
         raise StateError("unsupported program state")
+
+
+def is_active_program_state(state: dict[str, Any]) -> bool:
+    """Recognize active research phases without relabeling a prior terminal phase."""
+
+    return state.get("program_state") in ACTIVE_PROGRAM_STATES
 
 
 def git_state() -> dict[str, Any]:
@@ -254,12 +267,22 @@ def select_task(state: dict[str, Any] | None = None) -> dict[str, Any]:
     """Return one distinct, high-information task without inspecting a holdout."""
 
     current = state or load_json(STATE)
+    if current.get("program_state") == "ACTIVE_RESEARCH_PHASE_2":
+        return {
+            "task": current.get("next_task", "PHASE_2_TASK_NOT_REGISTERED"),
+            "experiment_id": current.get("current_experiment_id"),
+            "phase": 2,
+            "information_value": (
+                "Execute the explicitly authorized Phase 2 queue while preserving all "
+                "Phase 1 terminal evidence."
+            ),
+        }
     terminal_ids = {str(item["experiment_id"]) for item in terminal_experiments()}
     if COMPLETED_EXPERIMENT_ID not in terminal_ids:
         raise StateError("frozen initial DATA_NO_GO record is missing")
     if ARCHIVE_EXPERIMENT_ID in terminal_ids:
         return {"task": "SELECT_NEXT_APPROVED_FAMILY", "reason": "archive audit is terminal"}
-    if current.get("program_state") != "ACTIVE_RESEARCH":
+    if not is_active_program_state(current):
         return {"task": "PROGRAM_NOT_ACTIVE", "reason": str(current.get("program_state"))}
     return {
         "task": ARCHIVE_EXPERIMENT_ID,
@@ -998,7 +1021,7 @@ def run_cycle(*, invocation_mode: InvocationMode, dry_run: bool) -> dict[str, An
             "state": state["program_state"],
             "codex_calls": 0,
         }
-    if state["program_state"] != "ACTIVE_RESEARCH":
+    if not is_active_program_state(state):
         return {
             "status": "PROGRAM_NOT_ACTIVE",
             "program_state": state["program_state"],
