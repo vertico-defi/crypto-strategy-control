@@ -131,3 +131,14 @@
 - Next action: incorporate all seven revisions without data access, prove 7/7 incorporation and exact v1 economics, then freeze and commit the preregistration.
 - Current blocker: none.
 - Exact resume state: direction call 1 complete with no fallback/error; repairs 0/3; post-run repairs 0/2; no economic/audit attempt; holdout unresolved/unread; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T13:43:37.339402071Z — all seven route-2 direction revisions incorporated
+
+- Current checkpoint: revised composite contract `ee1c3246...` and 7/7 proof `2b588f57...` are ready for a clean commit, then freeze.
+- What changed: twenty exact RFC 6901 replacements now resolve the v1 base; explicit clock pseudocode, 49 named prior slots, lifecycle holdout guards, ordered failure precedence, deterministic selectors/tolerances/oracle isolation, and exact audit-stage tokens/evidence are frozen in draft form.
+- What was verified: 14/14 base clauses, exact seven-trial order and 19-gate map, exact seed, 20 unique existing replace targets, contiguous unique slots 1-49, 28 finite observed extraction paths, 21 unimputed slots, and complete 7/7 incorporation.
+- What failed: nothing. This remains a no-data contract and is not yet the frozen wrapper.
+- Current best defensible result: no route-2 economic result; prior +41.53% remains contaminated only.
+- Next action: commit revised contract/proof, then bind them in a frozen self-hashed preregistration wrapper.
+- Current blocker: none.
+- Exact resume state: repairs 0/3; post-run repairs 0/2; direction invocation 1; no implementation/data/economic attempt; holdout unresolved/unread; capital/GPU zero; mining unchanged.
