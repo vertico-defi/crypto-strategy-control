@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T14:24:51.284487872Z",
+  "authorization_stage": "PRE_RUN_IMPLEMENTATION_REPAIR_2_OF_3_NO_DATA",
+  "source_parent_commit": "184a4ab91c165b4acb3cb16df9c5ea4c7747d34a",
+  "frozen_preregistration_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
+  "effective_contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "failure_artifact": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_VALIDATION_REPAIR_1_FAILURE.json",
+  "failure_artifact_sha256": "14210a168bb40027b5e7cd0b5ba24c742315cf3045d3972b51463da1bc354084",
+  "budget": {
+    "pre_run_implementation_repairs_used_including_this_round": 2,
+    "pre_run_implementation_repairs_remaining_after_this_round": 1,
+    "maximum_live_invocation_wall_seconds": 1200,
+    "cpu_only": true,
+    "gpu_seconds_permitted": 0,
+    "capital_permitted": 0
+  },
+  "model_route": {
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "maximum_invocations_for_this_repair": 1,
+    "fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits fallback; code, test, data, or methodology failure never does."
+  },
+  "allowed_mutations": [
+    "modify src/strategy_control/relative_value_v2.py",
+    "modify src/strategy_control/relative_value_v2_pipeline.py",
+    "modify src/strategy_control/relative_value_v2_oracle.py",
+    "modify tests/test_relative_value_v2.py",
+    "modify tests/test_relative_value_v2_production.py",
+    "create narrowly related pure v2 helper or deterministic test files only when mechanically required"
+  ],
+  "measured_failures_that_must_be_repaired": [
+    "BoundaryIndex must isolate rows strictly before its half-open boundary before validating retained order, shape, duplicate keys, or values; malformed, duplicate, nonmonotonic, or invalid suffix rows must neither enter nor invalidate the earlier prefix.",
+    "The v2 decision rule must match the preserved v1 rule for all asset-score ordering, tie, raw-median sign, and nonfinite combinations, including the measured fixture where v1 returns CASH while current v2 returns ETHUSDT.",
+    "The production path must calculate trial-specific scores from complete named lookback observations and retain every input row identity, observation count, availability timestamp, common cutoff, exact vector, raw median, risk adjustment, and final score used in each decision.",
+    "The base and delayed simulators must compute each decision only after the due fill has changed state, accrue exact interval returns, turnover, costs, attribution, wealth, and disposition, and preserve independently reconstructible ordinary and terminal fills.",
+    "Cash quarantine, exposed priced liquidation, fail-closed unpriced liquidation, no-bridge segmentation, 150 newly complete synchronized-session recovery, regime reset, and independent aggregate/fold/trial/stress state are missing.",
+    "Exact stationary bootstrap, valid T=3 DSR primitive handling, hash-bound 49-slot multiplicity extraction, nineteen finite fail-closed gates, derived governance safety evidence, and full independent oracle recomputation are missing.",
+    "Exact-named tests currently asserting only constants, lengths, object identities, membership, defaults, ranges, or unrelated helpers do not prove their named behavior and must be replaced with substantive behavioral assertions."
+  ],
+  "required_repair": [
+    "Read and resolve the complete frozen composite contract and the bound failure artifact. Do not treat the current passing suite or existence of all 37 names as evidence that the behavior is complete.",
+    "Implement strict-prefix isolation before validation in every boundary-specific index and add a fixture proving byte-for-byte equivalent earlier-prefix outputs with a clean suffix versus a malformed, duplicate, nonmonotonic, or invalid later suffix.",
+    "Build an independent copied-formula v1 decision oracle without importing the v1 production evaluator, exhaustively compare every finite ordering/tie/sign case, and preserve exact v1 actual-asset cash-filter precedence.",
+    "Implement a score_at or equivalent production scorer that resolves every frozen trial horizon and risk adjustment from an explicit complete lookback identity set, fails closed on any missing/nonfinite input, and records the maximum availability cutoff before exact synchronized execution-vector selection.",
+    "Implement exact immutable target scheduling and two independent state machines. Base decision s must use post-fill state and execute at C_s; delayed decision s must use its own post-fill state and execute at C_(s+1). Never accept caller-supplied targets in place of the decision path. Terminal cash must replace any due risky target without a transient risky fill.",
+    "Implement complete interval accounting from exact prior and current fill identities: asset return, held weights, turnover, cost, attribution, net return, wealth, and cash invariants. Every output must be independently recomputable from canonical trace fields.",
+    "Implement ordered quarantine_action and period/fold runner behavior for gaps, priced liquidation, unpriced failure, no bridge, 150 newly complete synchronized-session recovery, regime reset, half-open fold isolation, and independent trial/stress state across all four exact development folds.",
+    "Implement the exact stationary bootstrap rather than calling PBO, exact T=3 DSR primitive probability, frozen Phase 2 DSR/PBO handling, and a MultiplicityRegistry or equivalent that verifies exact artifact hashes and JSON-pointer extraction for all 49 prior slots before the first 56/35/21 run state.",
+    "Implement finite fail-closed recomputation of all nineteen gates and explicit derived records proving no performance evidence, no holdout access, zero capital/GPU permission, and unchanged mining within this no-data stage.",
+    "Expand the separate oracle so it independently computes representative signals, decisions, clocks, quarantine/recovery, fills, costs, interval returns, attribution, wealth, bootstrap/statistics where applicable, multiplicity extraction, regimes, and gates without importing production calculation helpers.",
+    "Make every one of the 37 exact named tests behaviorally substantive. Specifically forbid passing a named obligation solely through a constant, length, identity, membership, default value, broad range, source-text assertion, or substitution of a different statistical function.",
+    "Run only synthetic deterministic or existing committed non-market fixed fixtures. Report every unresolved obligation explicitly; do not claim success when any frozen behavior remains scaffolding."
+  ],
+  "prohibited": [
+    "change any frozen strategy asset, trial, order, signal formula, parameter, threshold, cost, fold, gate, seed, clock, accounting, holdout, or multiplicity rule",
+    "modify any Phase 1 file or any frozen Phase 2 contract, authorization, state, ledger, log, lock, Git state, or portfolio file",
+    "open, resolve, list, stat, hash, or read any market-data repository, market file, external data source, network endpoint, or January-June 2026 path, footer, schema, metadata, row, or value",
+    "calculate a strategy return or performance metric from market data, make a performance claim, or run formal economic evaluation",
+    "install packages, purchase data/compute/credits, use GPU, change mining, use credentials, connect wallets/exchanges, place orders, or authorize capital"
+  ],
+  "required_validation_by_model": [
+    "all 37 exact named tests collected and behaviorally passed using only synthetic or committed non-market fixed fixtures",
+    "explicit clean-suffix versus invalid-suffix prefix-equivalence tests",
+    "exhaustive independent v1 decision-parity tests",
+    "independent full-trace and gate reconciliation tests that do not import production calculation helpers",
+    "all repository tests with the already installed research dependencies",
+    "repository-wide Ruff",
+    "strict Mypy for all source files",
+    "bytecode compilation",
+    "explicit unresolved-defect report and exact command outcomes"
+  ],
+  "parent_validation_required": true,
+  "real_data_production_validation_authorized": false,
+  "formal_economic_attempt_authorized": false,
+  "holdout_paths_resolved": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "capital_permitted": 0
+}

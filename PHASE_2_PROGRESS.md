@@ -197,3 +197,14 @@
 - Next action: commit and push the exact failed repair/evidence, then issue one narrowly specified no-data repair-2 authorization bound to the measured semantic failures.
 - Current blocker: none. One pre-run repair will remain after repair 2 is charged.
 - Exact resume state: implementation invocations 2; repairs 2/3 used; post-run repairs 0/2; formal evaluation unauthorized/unconsumed; market/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T14:24:51.284487872Z — route-2 implementation repair 2 authorized
+
+- Current checkpoint: failed repair-1 commit `184a4ab...` is pushed and synchronized; repair-2 authorization `87d131ec...` awaits a clean commit.
+- What changed: one live Terra/medium no-data call is bound to the measured suffix-isolation and v1-decision-parity failures plus the absent scoring, clock/accounting, quarantine/recovery/fold, bootstrap, multiplicity, gate, governance, and independent-oracle behavior.
+- What was verified: the authorization binds exact frozen wrapper `c20a1a28...`, effective contract `ee1c3246...`, failure artifact `14210a16...`, and parent commit `184a4ab...`; it forbids placeholder named tests and every market, holdout, return, Git, GPU, mining, or capital action.
+- What failed: no new failure. Repair 1 remains rejected and is the bound input to repair 2.
+- Current best defensible result: no route-2 economic result or performance claim exists.
+- Next action: commit/push the authorization, invoke its single live Terra/medium repair, then perform independent parent semantic validation before any data access.
+- Current blocker: none. Repair accounting is 2/3 used, 1 remaining.
+- Exact resume state: repair 2 authorized/not invoked; formal evaluation false; market/holdout/returns false; capital/GPU zero; mining unchanged.

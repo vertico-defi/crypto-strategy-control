@@ -57,11 +57,14 @@
   "implementation_repair_1_model_result": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_REPAIR_1_MODEL_RESULT.json",
   "implementation_repair_1_model_result_byte_sha256": "8309c8167bd68d7630a890af12e3754eb848fe0ce87e29e16c08bf4ff5328f44",
   "implementation_repair_1_model_result_sha256": "6f837de865bd55d40a0ad888e64d9e406fb38ae54a9807196a8918e066720c22",
+  "implementation_repair_2_authorization": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_REPAIR_2_AUTHORIZATION.json",
+  "implementation_repair_2_authorization_byte_sha256": "3c54104adf2cf46cc1984d24e122466e6b4641d9fc715fd5b8133cd277e3b7d0",
+  "implementation_repair_2_authorization_sha256": "87d131ecfaa45af9f5160b4fc3cf0d9f312005a64f0cd4e443eecd9628a627b2",
   "implementation_evidence_commit": null,
   "implementation_model_result": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_MODEL_RESULT.json",
   "implementation_model_result_byte_sha256": "9af73a57339668448480c12d453474ff69d07629ff745dc9e6c1d393af72e54e",
   "implementation_model_result_sha256": "9b8120254ad699423d77068c1ada94f577f154a5e175e31dce3e7a3d324a10e7",
-  "implementation_status": "IMPLEMENTATION_REPAIR_1_FAILED_PARENT_FIDELITY_REPAIR_2_REQUIRED",
+  "implementation_status": "IMPLEMENTATION_REPAIR_2_AUTHORIZED_PENDING_CLEAN_COMMIT",
   "implementation_artifact_sha256": {
     "src/strategy_control/relative_value_v2.py": "b4bef135c0a512667a748de4bef2298549666991d986a65ad54380098fbad91e",
     "src/strategy_control/relative_value_v2_pipeline.py": "ba90df84a42365b457aa3de27dad3f08711f752ae4396d1859a861798cde2e20",
@@ -92,7 +95,7 @@
     "source_snapshot_commit": "61b69c5ed5c5f06f8907a052ee166a7c01e994ad",
     "store_live": false
   },
-  "next_task": "commit_route_2_repair_1_failure_then_authorize_bounded_repair_2",
+  "next_task": "commit_route_2_repair_2_authorization_then_invoke_live_terra_medium",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -190,5 +193,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T14:22:40.198226452Z"
+  "updated_at_utc": "2026-08-04T14:24:51.284487872Z"
 }
