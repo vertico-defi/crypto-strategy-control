@@ -1,0 +1,417 @@
+{
+  "schema_version": "1.0",
+  "status": "DRAFT_NOT_FROZEN",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
+  "phase": 2,
+  "created_at_utc": "2026-08-04T15:15:46.760779970Z",
+  "source_parent_commit": "36ee5ce01f61dee146476d7be603049ee81b26e3",
+  "purpose": "Audit-faithful successor to btc-eth-volatility-managed-equal-weight-v1. The purpose is implementation and production-path fidelity correction, not economic strategy improvement.",
+  "objective": "Evaluate the unchanged fixed-pair long-only equal-weight portfolio-volatility-management hypothesis only after the corrected implementation passes deterministic, real-production-data, reconciliation, and independent-fidelity gates.",
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "holdout_paths_resolved": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "market_files_accessed_at_draft": false,
+  "market_values_read_at_draft": false,
+  "returns_calculated_at_draft": false,
+  "candidate_promoted": false,
+  "phase_1_preservation": {
+    "phase_1_final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
+    "v1_terminal_state": "DEVELOPMENT_PIPELINE_FAILURE / AUDIT_REJECTED / NO_ECONOMIC_RESULT",
+    "v1_preregistration_path": "experiments/btc-eth-volatility-managed-equal-weight-v1/PREREGISTRATION.json",
+    "v1_preregistration_byte_sha256": "46512ab39cbea08471e088fe5400ac7bc511862a9a1662d6c15d8d5d2215cb33",
+    "v1_frozen_preregistration_sha256": "42f99d6724d4cb315635bbf12bc70bf2f17594871d16698c83997665fe7cac7c",
+    "v1_effective_contract_path": "experiments/btc-eth-volatility-managed-equal-weight-v1/PREREGISTRATION_REVISED_DRAFT.json",
+    "v1_effective_contract_byte_sha256": "f983562d54339cbb8f4221e6f44a81725946e120d6c68ea9de200fa2a2374a30",
+    "v1_effective_contract_sha256": "d47659466a2e55e72eef47051cba3b6c2cb551d036e41269bdbf0d7a9f19d8ad",
+    "v1_development_result_byte_sha256": "f5e438872f0522073e50f2f121423033250518ed46652586d5a32cf4e72c1676",
+    "v1_development_result_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78",
+    "v1_audit_byte_sha256": "860a7d7938d2c68d92a5f31f57207137f97532728c1a58a2625712aedcad335e",
+    "v1_audit_model_result_sha256": "39d93a3af4985c740e740540558bb8ddfc4c5f787177e2746d602c583cba00c5",
+    "v1_exact_error": "ValueError: Expected a list or a dict for 'columns', got <class 'tuple'> instead.",
+    "prior_evidence_treatment": "V1 produced no economic result. It contributes seven named no-return multiplicity slots; no return is invented. Its pipeline and audit failures define mechanical correction obligations and may not justify changing any economic parameter, trial, gate, seed, fold, cost, or threshold.",
+    "immutability": "No Phase 1 artifact, result, audit, ledger entry, commit, publication, or terminal verdict is rewritten, deleted, softened, relabeled, or promoted by this successor."
+  },
+  "route_authorization": {
+    "path": "experiments/btc-eth-volatility-managed-equal-weight-v2/ROUTE_AUTHORIZATION.json",
+    "canonical_sha256": "7698550b1c4aa785e3fc0ae9f71525548a0007ce63b94c4db5c6e65580f916d2",
+    "byte_sha256": "71537af3c1486fd244a034f660339428f5ddc0c46d2db6876c2d8a17bd37ad8a",
+    "phase_2_authorization_path": "PHASE_2_AUTHORIZATION.json",
+    "phase_2_authorization_byte_sha256": "2686b9caeda1e4d443132cdeafc6c86dfa8e296bde5a711a55f190219bd7c2db",
+    "preceding_route_terminal_audit": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+    "preceding_route_terminal_audit_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"
+  },
+  "effective_contract_resolution": {
+    "base": "The exact frozen v1 effective contract is inherited. Its schema/status/experiment/timestamp/source/direction/model/budget metadata is replaced by this Phase 2 wrapper. Every substantive economic, execution, statistical, robustness, gate, holdout, and prospective clause remains exact unless an explicit JSON-pointer replacement below is applied. Added implementation-fidelity and evidence requirements constrain proof of the same contract and do not change its economics.",
+    "base_path": "experiments/btc-eth-volatility-managed-equal-weight-v1/PREREGISTRATION_REVISED_DRAFT.json",
+    "base_canonical_sha256": "d47659466a2e55e72eef47051cba3b6c2cb551d036e41269bdbf0d7a9f19d8ad",
+    "base_byte_sha256": "f983562d54339cbb8f4221e6f44a81725946e120d6c68ea9de200fa2a2374a30",
+    "base_clause_canonical_sha256": {
+      "strategy_family": "3ba851aef83d7f042da3b8b40a2d172a48d6707a10211997a0d37233c58100eb",
+      "family_distinction": "e87916a0de5100a00f8736da8011f26d69821c9379d15f206e653110d15aabb7",
+      "economic_hypothesis": "71661f404385cb07bc32759db29f803d7cd72243370803f687965958ae16b3bb",
+      "data_identity_contract": "2770c9e74691873f0328d2590c60fee9775121eddb29f2097a9bd5ede382bc23",
+      "joint_session_gap_and_quarantine": "ced9f0c4d8c2db0b3785763fa3bc711f0a3a7bdfa68e5e720d05b507e1101ba1",
+      "estimator_and_primary": "f0e7c9b02b003ecb3721cb4c84c465023a54f92a4d7e3322b9407628855ad05a",
+      "trials": "2472f923d766085f0b72dc3a82e40b977529b51c58ff8502f6ed9533b2ecc6e5",
+      "target_fill_and_accounting_trace": "31e5f2c8e5b1dd2a729df1b3758a4be905e057d4b350a4775954b2a0ce92f6df",
+      "panels_and_benchmarks": "a1d25039fd7e9dae3cb9a0de6bae3a5784462583ba48cd1c24b79d953b67234a",
+      "walk_forward": "5153270f703ab2937adf528da11369bac0409f6bcbeb18c853da8ee8bce666f4",
+      "statistics": "60c2c62fe89a9569953892997869ad06d07d994ca2d93a535420e17f9572333b",
+      "development_gates_all_required": "69df09c2b34f7f223419498d3eacb6507148a4ba05ac55635aa00de70f167956",
+      "holdout_one_shot": "ba8b6cb39f36812e890cc5873d52a82367d8904ba161bae2042caff368cc6ff1",
+      "prospective": "5b7b376ff14e8e36a04370bfffa5ff35626c09b31bf917df799f384a00ac34af",
+      "prohibitions": "ebd57edbcd41567d52ac452fff56a54272c23b64b22e65d041cf2408d4159d79"
+    },
+    "amendment_manifest": [
+      {
+        "operation": "replace",
+        "json_pointer": "/experiment_id",
+        "value": "btc-eth-volatility-managed-equal-weight-v2",
+        "reason": "Successor identity only."
+      },
+      {
+        "operation": "replace",
+        "json_pointer": "/multiplicity_registry",
+        "value_ref": "#/phase_2_multiplicity_registry",
+        "reason": "Append Phase 1 v1 and earlier Phase 2 no-return attempts without inventing returns."
+      },
+      {
+        "operation": "replace",
+        "json_pointer": "/statistics/DSR/N",
+        "value": "Use the exact append-only slot count from phase_2_multiplicity_registry: N=63 for the first completed v2 development attempt, N=70 after one invalidated completed v2 attempt, and N=77 after two. A completed holdout appends seven more slots. N counts named attempts whether or not a return exists; missing returns remain unimputed.",
+        "reason": "Required Phase 2 multiplicity accounting."
+      },
+      {
+        "operation": "replace",
+        "json_pointer": "/statistics/DSR/sigma_SR",
+        "value": "Sample standard deviation ddof=1 of every and only finite observed nonannualized daily Sharpe bound by the exact ordered phase_2_multiplicity_registry. On a first completed v2 development attempt this is 28 prior observed Phase 1 Sharpes plus seven current v2 trial Sharpes; the 28 named prior no-return slots receive no value.",
+        "reason": "Exact slot-level Phase 2 identity and no-imputation rule."
+      },
+      {
+        "operation": "replace",
+        "json_pointer": "/holdout_one_shot/fixed_latch_path",
+        "value": "experiments/btc-eth-volatility-managed-equal-weight-v2/HOLDOUT_ACCESS_LATCH.json",
+        "reason": "Experiment-scoped latch identity only."
+      },
+      {
+        "operation": "replace",
+        "json_pointer": "/required_synthetic_tests",
+        "value_ref": "#/required_pre_economic_tests",
+        "reason": "Phase 2 requires substantive proof of all inherited behavior plus the v1 audit corrections."
+      }
+    ],
+    "resolver": "Verify every base clause hash, resolve each RFC 6901 pointer against the exact base object, require the current value to exist, apply replacements in listed order, reject duplicate pointers or unlisted mutation, then canonicalize the resolved composite with sorted keys, compact separators, UTF-8, and SHA-256. Direction review and final freeze bind the resolved composite hash.",
+    "resolved_composite_canonical_sha256": "281f1817e93eaec46b9d24f8e587970007816b7834de7e52ea2bb2a4e40d4368",
+    "unlisted_clause_rule": "Every unlisted value remains exact. No implementation may reinterpret an unchanged clause through a new default or omission."
+  },
+  "unchanged_frozen_economics": {
+    "strategy_family": "FIXED_PAIR_LONG_ONLY_EQUAL_WEIGHT_PORTFOLIO_VOLATILITY_MANAGEMENT",
+    "assets": ["BTCUSDT", "ETHUSDT"],
+    "primary_target_annualized_volatility": 0.4,
+    "primary_lookback_sessions": 60,
+    "primary_schedule": "weekly_after_eligible_completed_UTC_Sunday",
+    "volatility_estimator": "sample_standard_deviation_ddof_1_of_exactly_60_contiguous_fixed_50_50_daily_sleeve_returns_times_sqrt_365",
+    "risky_scalar": "min(1,max(0,0.40/sigma_hat))",
+    "asset_weights": {"BTCUSDT": "0.5*g", "ETHUSDT": "0.5*g", "cash": "1-g"},
+    "no_leverage": true,
+    "no_shorting": true,
+    "no_asset_tilt": true,
+    "no_return_sign_filter": true,
+    "cash_yield": 0.0,
+    "one_way_cost": 0.0014,
+    "doubled_one_way_cost": 0.0028,
+    "development_window": ["2025-01-01T00:00:00Z", "2026-01-01T00:00:00Z"],
+    "folds": [
+      ["2025-01-01T00:00:00Z", "2025-04-01T00:00:00Z"],
+      ["2025-04-01T00:00:00Z", "2025-07-01T00:00:00Z"],
+      ["2025-07-01T00:00:00Z", "2025-10-01T00:00:00Z"],
+      ["2025-10-01T00:00:00Z", "2026-01-01T00:00:00Z"]
+    ],
+    "trials_in_order": [
+      "primary_target40_lookback60_weekly",
+      "neighbor_target30_lookback60_weekly",
+      "neighbor_target50_lookback60_weekly",
+      "neighbor_target40_lookback30_weekly",
+      "neighbor_target40_lookback90_weekly",
+      "target60_lookback60_weekly",
+      "target40_lookback60_biweekly"
+    ],
+    "trial_definitions": "Exact v1 definitions and order inherited by clause hash 2472f923d766085f0b72dc3a82e40b977529b51c58ff8502f6ed9533b2ecc6e5.",
+    "gap_definition_and_90_session_recovery": "Exact v1 joint-session, causal-detection, quarantine, and 90-new-contiguous-session recovery contract inherited without weakening.",
+    "execution_clocks": "Exact v1 I_s, B_s, base, delay, safety-liquidation, and terminal rules inherited.",
+    "position_sizing_and_return_accounting": "Exact v1 units, cash, drift, turnover, cost, contribution, event wealth, and terminal accounting inherited.",
+    "bootstrap_seed_rule": "Exact v1 experiment-id-plus-block-length SHA-256 seed rule; no seed selection or replacement.",
+    "DSR_PBO_procedures": "Exact v1 procedures except the explicit append-only registry/N/sigma_SR identity amendments.",
+    "development_gates": "All 25 v1 gate entries, including the six strict baseline conditions, inherited without weakening.",
+    "holdout_rules": "Exact v1 sealed one-shot rules inherited except the v2 experiment-scoped latch pathname.",
+    "prospective_rules": "Exact v1 post-freeze-only, 100-decision, minimum-30-day, unique-Sunday rules inherited.",
+    "parameter_selection_from_v1_failure_or_other_observed_results": false
+  },
+  "data_contract": {
+    "reused_contract_path": "experiments/btc-eth-vol-targeted-trend-v1/DATA_CONTRACT.json",
+    "reused_contract_canonical_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+    "reused_contract_byte_sha256": "47dcf7e5bec24ec73be45cdeb200e25671807e7a28c3c1204499a4e20ae972b7",
+    "source_repository_commit_in_freeze_manifest": "d1d6066a6042b0c2e1c6af75047f5ebf935c739f",
+    "dataset_freeze_manifest_byte_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+    "development_allowlist_count": 36,
+    "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd",
+    "development_assets": ["BTCUSDT", "ETHUSDT"],
+    "development_rows_expected_per_asset": 790558,
+    "known_missing_minute_count_per_asset": 2,
+    "expected_joint_session_grid": 549,
+    "pre_holdout_guard": "Reject every 2026 label or path token before resolution, stat, footer, schema, metadata, dataset construction, or value access.",
+    "opened_bytes_rule": "Before parse, match exact relative path, byte count, and SHA-256; rehash the exact opened bytes; parse only that verified immutable buffer."
+  },
+  "implementation_fidelity_corrections": {
+    "pyarrow_column_projection": "The production loader passes a list or dictionary accepted by the frozen PyArrow runtime, never a tuple-valued columns selector. A production-path test must exercise the same verified-buffer parser call before formal evaluation.",
+    "real_loader": "Run the actual byte-identity, verified-buffer, parser, row-materialization, expected-grid, session, target, fill, accounting, and serialization production path end to end on all 36 exact allowlisted development partitions. Synthetic parser success is insufficient.",
+    "causal_gap_detection": "Build the expected calendar grid from each half-open boundary before matching rows. Determine invalid and missing-row triggers only from boundary-prefix event and availability timestamps under the inherited causal-detection clause. A later session-completeness summary may not retroactively change target or recovery eligibility.",
+    "quarantine": "Implement the inherited ordered trigger, pending-target cancellation, history clearing, exposed-state retention, earliest-later-valid safety liquidation, exact-cash behavior, and 90-session recovery. Unavailable ordinary fills never scan forward.",
+    "failure_precedence": "Emit the inherited distinct DATA_INTEGRITY_FAILURE, NUMERICAL_DEGENERACY_FAILURE, HISTORICAL_NO_GO, and DEVELOPMENT_GO states. Parser, trace, serialization, code, or incomplete validation failures are IMPLEMENTATION_BLOCKED before economic interpretation and cannot be collapsed into an economic verdict.",
+    "target_fill_reconciliation": "Every materialized target has exactly one terminal disposition: exact fill, causal cancellation with reason, safety override, or terminal override. Every fill binds one immutable parent target hash; orphan target hashes, reused benchmark hashes, and extra fills fail closed. Independently reconstruct signals, targets, fills, costs, interval returns, dispositions, and terminal cash.",
+    "common_panel_benchmarks": "Recompute primary and both equal-weight benchmark net return, annualized Sharpe, and event-level maximum drawdown only on the exact baseline-comparison endpoint intersection and corresponding event slices. A full-path drawdown or different panel may not substitute.",
+    "drawdown_path": "Derive drawdown from initial wealth plus every valid synchronized mark, fill, cost, safety liquidation, and terminal liquidation in causal order. Never fabricate a mark inside a gap; the first later valid mark carries the entire exposed move.",
+    "derived_integrity_evidence": "Leakage, survivorship, gate inheritance, source identity, terminal cash, panel equality, and trace closure must be recomputed from production artifacts and hashes. Constants, booleans, controller-only tests, and assertions about intended behavior are not evidence.",
+    "strict_fold_boundaries": "For each aggregate or fold path, construct a separate immutable row/session index from only rows strictly before its half-open end. Start economic state in cash at fold start; earlier allowed rows may warm only estimators and recovery and cannot create positions, pending targets, or PnL.",
+    "serialization": "The full production evidence object must canonicalize and serialize successfully. Partial in-memory rows, traces, metrics, stage logs, or reconciliation are never promoted."
+  },
+  "phase_2_multiplicity_registry": {
+    "first_completed_v2_development_slot_count_N": 63,
+    "prior_slot_count": 56,
+    "prior_observed_nonannualized_sharpe_count": 28,
+    "prior_unimputed_no_return_slot_count": 28,
+    "current_trial_slot_count": 7,
+    "first_completed_v2_observed_nonannualized_sharpe_count": 35,
+    "first_completed_v2_unimputed_no_return_slot_count": 28,
+    "prior_groups_in_order": [
+      {"experiment_id": "btc-eth-vol-targeted-trend-v1", "slots": 7, "returns": "observed_hash_bound"},
+      {"experiment_id": "btc-eth-long-only-mean-reversion-v1", "slots": 7, "returns": "observed_hash_bound_contaminated_diagnostic"},
+      {"experiment_id": "btc-eth-relative-value-rotation-v1", "slots": 7, "returns": "observed_hash_bound_contaminated_diagnostic"},
+      {"experiment_id": "btc-eth-intraday-calendar-seasonality-v1", "slots": 7, "returns": "no_return_slots_never_imputed"},
+      {"experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1", "slots": 7, "returns": "observed_attempts_with_terminal_audit_rejection"},
+      {"experiment_id": "btc-eth-volatility-managed-equal-weight-v1", "slots": 7, "returns": "no_return_slots_never_imputed"},
+      {"experiment_id": "btc-eth-long-only-mean-reversion-v2", "slots": 7, "returns": "no_return_slots_never_imputed"},
+      {"experiment_id": "btc-eth-relative-value-rotation-v2", "slots": 7, "returns": "no_return_slots_never_imputed"}
+    ],
+    "current_group": {
+      "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
+      "names": [
+        "primary_target40_lookback60_weekly",
+        "neighbor_target30_lookback60_weekly",
+        "neighbor_target50_lookback60_weekly",
+        "neighbor_target40_lookback30_weekly",
+        "neighbor_target40_lookback90_weekly",
+        "target60_lookback60_weekly",
+        "target40_lookback60_biweekly"
+      ],
+      "returns": "current_observed_only_after_complete_fidelity_approved_run"
+    },
+    "append_after_invalidated_complete_attempt": "Append seven named slots. Preserve finite durably serialized Sharpes only; keep missing slots unimputed. Increment N by seven and never overwrite an earlier attempt.",
+    "append_after_holdout": "Append seven named holdout slots under the same observed-or-unimputed rule.",
+    "no_invented_returns": true
+  },
+  "production_path_validation_before_formal_evaluation": {
+    "formal_economic_attempt_authorized": false,
+    "formal_economic_attempt_consumed": false,
+    "required_sequence": [
+      "run focused deterministic tests",
+      "run every repository test with preinstalled research dependencies",
+      "verify Ruff, strict Mypy, and compilation",
+      "recompute frozen contract, manifest, allowlist, file-size, and SHA-256 identities",
+      "execute one bounded non-economic real-data integration against only the 36 allowlisted development partitions",
+      "confirm 790558 rows per asset, two known missing minutes per asset, and the 549-session expected grid",
+      "persist complete/incomplete/eligible/target/fill/cancellation/safety/terminal counts and canonical hashes",
+      "independently reconcile representative signals, targets, exact rows, fills, costs, interval returns, dispositions, drawdown events, and terminal cash",
+      "serialize one complete canonical artifact",
+      "obtain fresh live read-only Sol/xhigh implementation-fidelity approval"
+    ],
+    "real_data_integration_is_economic_attempt": false,
+    "real_data_integration_may_interpret_profitability": false,
+    "performance_fields_in_pre_economic_artifact": "Only mechanical representative calculations needed for exact reconciliation may exist; no aggregate return, Sharpe, gate, trial ranking, or performance characterization may be computed or promoted.",
+    "runtime_boundary": "/usr/bin/timeout --signal=INT --kill-after=5s 1800s with an installed verbose resource wrapper recording wall time, maximum RSS, page faults, swap, and exit status.",
+    "partial_result_rule": "Any timeout, exception, serialization failure, unsafe memory pressure, incomplete stage, or missing evidence is IMPLEMENTATION_BLOCKED. No fallback or partial promotion."
+  },
+  "required_pre_economic_tests": [
+    "source_commit_and_allowlist_hash_mismatch_rejected_before_path_resolution",
+    "opened_byte_count_and_sha256_reverified_before_parse",
+    "pyarrow_column_projection_is_runtime_accepted_list_not_tuple",
+    "verified_buffer_parser_production_call_materializes_representative_real_schema",
+    "exact_36_allowlisted_development_partitions_only",
+    "session_input_manifest_hash_canonical_and_ordered",
+    "future_rows_cannot_change_prior_target_or_fold",
+    "strict_prefix_suffix_and_all_four_fold_boundaries",
+    "target_hash_distinguishes_trial_benchmark_boundary_and_weights",
+    "fill_rejects_parent_target_hash_mismatch",
+    "every_target_has_exactly_one_terminal_disposition",
+    "orphan_reused_or_duplicate_target_and_fill_hashes_fail_closed",
+    "expected_grid_detects_jointly_absent_session_causally",
+    "causal_gap_detection_does_not_use_later_session_completeness",
+    "duplicate_nonmonotonic_invalid_asynchronous_rows_trigger_quarantine",
+    "missing_exact_B_s_never_scans_for_ordinary_fill",
+    "exposed_quarantine_uses_earliest_later_valid_safety_vector",
+    "unpriceable_exposure_before_terminal_fails_data_integrity",
+    "quarantine_clears_histories_and_requires_90_new_complete_sessions",
+    "failure_precedence_distinguishes_integrity_numerical_implementation_and_economic_states",
+    "scheduled_zero_or_nonfinite_volatility_is_terminal_numerical_failure",
+    "base_doubled_delay_fold_trial_benchmark_paths_are_state_independent",
+    "delay_preserves_exact_target_hash_and_is_cancelled_by_quarantine",
+    "fold_starts_cash_with_warmup_only_and_no_prior_target_or_pnl",
+    "daily_panel_requires_exact_seven_trial_intersection_and_consecutive_days",
+    "genuine_cash_zero_distinguished_from_unavailable_span",
+    "baseline_all_six_conditions_strict_and_ties_fail",
+    "benchmark_metrics_and_drawdowns_recomputed_on_exact_common_event_slices",
+    "minute_drawdown_retains_marks_costs_safety_and_terminal_events",
+    "terminal_vector_exact_missing_vector_fails_without_fallback",
+    "costed_gross_risky_trade_and_reported_turnover_are_distinct",
+    "asset_contribution_reconciles_currency_wealth",
+    "63_attempt_DSR_registry_has_35_observed_and_28_unimputed_slots",
+    "DSR_probability_zero_on_every_declared_degeneracy",
+    "PBO_all_70_splits_rank_over_8_and_fail_closed",
+    "bootstrap_all_three_exact_seeds_restart_and_linear_percentiles",
+    "regime_prior_only_equalities_gap_reset_and_cost_assignment",
+    "derived_integrity_and_gate_evidence_recomputed_not_constant",
+    "complete_artifact_serializes_canonically_without_datetime_or_custom_type_failure",
+    "holdout_minima_are_150_days_20_total_8_per_fold_2_of_2",
+    "fixed_latch_preexistence_mismatch_or_post_arm_error_is_terminal",
+    "prospective_new_sunday_counts_even_if_weights_repeat_but_duplicate_key_does_not"
+  ],
+  "independent_audit_stages": {
+    "common": {
+      "model": "gpt-5.6-sol",
+      "reasoning_level": "xhigh",
+      "invocation_mode": "live",
+      "permission": "read_only",
+      "maximum_attempts_per_stage": 3,
+      "retry_only_after": ["timeout", "context_exhaustion", "temporary_service_failure"],
+      "interruption_classification": "AUDIT_PENDING",
+      "required_record": "Actual model, reasoning, invocation mode, timestamps, response identifier, exact error, fallback, usage, input commit and hashes, output hashes, verdict, and stage-local attempt number."
+    },
+    "direction_review": {
+      "timing": "After this no-data draft is cleanly committed and before freeze or implementation.",
+      "scope": "Verify Phase 1 preservation, exact v1 economic inheritance, no tuning, all seven v1 audit findings, PyArrow production-path repair, causal gaps/quarantine/failure precedence, trace closure, common-panel drawdown, derived evidence, multiplicity, repair policy, and sealed holdout.",
+      "pass_tokens": ["DIRECTION_REVIEW_PASS", "DIRECTION_REVIEW_REVISIONS_INCORPORATED"]
+    },
+    "implementation_fidelity_review": {
+      "timing": "After complete real-development production validation and before formal economic evaluation.",
+      "scope": "Verify the exact composite contract, actual verified-buffer parser, all 36 files, causal rows/sessions/gaps, targets/fills/dispositions, independent reconciliation, benchmark panels/drawdowns, derived evidence, resource result, complete serialization, and zero holdout access.",
+      "pass_token": "IMPLEMENTATION_FIDELITY_APPROVED_FOR_FORMAL_DEVELOPMENT_EVALUATION",
+      "substantive_failure": "IMPLEMENTATION_BLOCKED"
+    },
+    "development_methodology_audit": {
+      "timing": "After a complete formal development result and independent full recomputation are committed.",
+      "scope": "Recompute traces, metrics, all gates, slot-level DSR, PBO, bootstrap, baselines, folds, regimes, concentration, attribution, and classification.",
+      "pass_tokens": ["DEVELOPMENT_METHODOLOGY_AUDIT_PASS", "HISTORICAL_NO_GO_CONFIRMED"]
+    },
+    "pre_holdout_robustness_audit": {
+      "timing": "Only after DEVELOPMENT_GO and DEVELOPMENT_METHODOLOGY_AUDIT_PASS.",
+      "pass_token": "ROBUSTNESS_AUDIT_PASS"
+    },
+    "holdout_open_audit": {
+      "timing": "Only after robustness pass and exact candidate freeze, before any 2026 path resolution.",
+      "pass_token": "HOLDOUT_OPEN_APPROVED"
+    },
+    "stage_non_substitution": "Every audit token is distinct and committed; no later audit substitutes for any earlier audit."
+  },
+  "failure_precedence": [
+    {
+      "priority": 1,
+      "condition": "Holdout latch armed and any later failure occurs.",
+      "classification": "HOLDOUT_EVALUATION_FAILURE",
+      "effect": "Preserve observed/unimputed slots, no repair, rerun, or promotion."
+    },
+    {
+      "priority": 2,
+      "condition": "Before fidelity approval, any parser, index, code, trace, clock, boundary, runtime, memory, serialization, oracle, reconciliation, or evidence defect exists.",
+      "classification": "IMPLEMENTATION_BLOCKED",
+      "effect": "No economic verdict. Consume a pre-run repair only when repository code or executable validation evidence must change."
+    },
+    {
+      "priority": 3,
+      "condition": "Exact frozen input appears unable to satisfy the contract but source-data cause is not independently isolated.",
+      "classification": "DATA_INTEGRITY_FAILURE_PENDING_CAUSE",
+      "effect": "No DATA_NO_GO or economic verdict pending independent minimal-reader reproduction and audit."
+    },
+    {
+      "priority": 4,
+      "condition": "Independent reproduction and Sol/xhigh audit prove exact authorized source bytes cannot support the unchanged hypothesis.",
+      "classification": "DATA_NO_GO",
+      "effect": "Terminal authorized-data no-go, not unprofitable."
+    },
+    {
+      "priority": 5,
+      "condition": "Audit ends only through timeout, context exhaustion, or temporary service failure.",
+      "classification": "AUDIT_PENDING",
+      "effect": "Retry only that audit stage within its three-attempt cap."
+    },
+    {
+      "priority": 6,
+      "condition": "A complete development run is invalidated by a mechanical audit defect.",
+      "classification": "POST_RUN_IMPLEMENTATION_BLOCKED",
+      "effect": "Preserve output as invalid, append observed/unimputed multiplicity slots, and use one post-run fidelity repair only if code changes."
+    },
+    {
+      "priority": 7,
+      "condition": "All authorized repair authority is exhausted while a material implementation or evidence defect remains.",
+      "classification": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+      "effect": "Exact experiment becomes administratively terminal. Do not call the family profitable, unprofitable, economically evaluated, HISTORICAL_NO_GO, or DATA_NO_GO."
+    },
+    {
+      "priority": 8,
+      "condition": "A complete contract-faithful fidelity-approved development run and methodology audit fail any gate.",
+      "classification": "HISTORICAL_NO_GO",
+      "effect": "Terminal economic no-go; holdout remains sealed."
+    },
+    {
+      "priority": 9,
+      "condition": "A complete contract-faithful development run passes all gates and methodology audit.",
+      "classification": "DEVELOPMENT_GO",
+      "effect": "Proceed only to pre-holdout robustness audit."
+    },
+    {
+      "priority": 10,
+      "condition": "Evidence is incomplete, partial, synthetic, controller-only, unaudited, trace-only, or reconciliation-only.",
+      "classification": "NO_ECONOMIC_RESULT",
+      "effect": "No profitability label or candidate promotion."
+    }
+  ],
+  "repair_and_resource_budget": {
+    "maximum_pre_run_implementation_repairs": 3,
+    "pre_run_implementation_repairs_used": 0,
+    "maximum_post_run_fidelity_repairs": 2,
+    "post_run_fidelity_repairs_used": 0,
+    "maximum_audit_attempts_per_stage": 3,
+    "maximum_live_invocation_wall_seconds": 1200,
+    "maximum_local_evaluation_wall_seconds": 1800,
+    "CPU_only": true,
+    "GPU_or_mining_change_permitted": false,
+    "capital_permitted": 0
+  },
+  "model_routing": {
+    "research_direction": ["gpt-5.6-sol", "xhigh", "live", "read_only"],
+    "implementation": ["gpt-5.6-terra", "medium", "live"],
+    "deterministic_validation": ["gpt-5.6-luna", "low", "deterministic_local"],
+    "independent_audit": ["gpt-5.6-sol", "xhigh", "live", "read_only"],
+    "fallback": "Only confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits the documented fallback."
+  },
+  "prohibitions": [
+    "market file or value access during direction review or pure implementation",
+    "formal economic evaluation before production validation and fidelity approval",
+    "2026 path resolution, stat, footer, schema, metadata, row, or value access before candidate freeze and HOLDOUT_OPEN_APPROVED",
+    "post-hoc parameter, trial, gate, threshold, cost, fold, seed, or rule change",
+    "return-sign filter",
+    "asset tilt",
+    "leverage",
+    "shorting",
+    "random-seed selection",
+    "performance claim from tests, traces, partial artifacts, or controller output",
+    "live or paper orders",
+    "exchange or wallet credentials",
+    "capital",
+    "paid data, API, compute, or credits",
+    "automatic top-up",
+    "GPU or Vertcoin mining change",
+    "Phase 1 evidence modification"
+  ]
+}

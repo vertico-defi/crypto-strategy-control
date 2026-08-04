@@ -41,7 +41,7 @@
   },
   "current_experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
   "data_contract_status": "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PASS_PHASE_1_EVIDENCE",
-  "development_status": "PREREGISTRATION_PENDING / NO_ECONOMIC_RESULT",
+  "development_status": "PREREGISTRATION_DRAFT_NO_DATA_PENDING_DIRECTION_REVIEW / NO_ECONOMIC_RESULT",
   "direction_review_artifact": null,
   "direction_review_model_result_sha256": null,
   "direction_review_status": "PENDING",
@@ -102,7 +102,7 @@
     "source_snapshot_commit": "8b1b3fc28b02c8c46755688f7b2216be343127bd",
     "store_live": false
   },
-  "next_task": "commit_and_push_route_2_terminal_audit_then_publish_sanitized_transition_and_preregister_route_3",
+  "next_task": "commit_and_push_route_3_no_data_draft_then_invoke_live_sol_xhigh_direction_review",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -125,14 +125,14 @@
   "preregistration": null,
   "preregistration_byte_sha256": null,
   "preregistration_committed_source": null,
-  "preregistration_draft": null,
-  "preregistration_draft_byte_sha256": null,
-  "preregistration_draft_sha256": null,
+  "preregistration_draft": "experiments/btc-eth-volatility-managed-equal-weight-v2/PREREGISTRATION_DRAFT.json",
+  "preregistration_draft_byte_sha256": "f0ed45c6bfb36aaa11cb5c2d1399f80f0219f7c59d2d7c578a186398b90cc736",
+  "preregistration_draft_sha256": "cc2030dcc1b599ef6beb37bae1134746e1e870d5325cda4cb816a3978088fbdd",
   "preregistration_frozen_source_commit": null,
   "preregistration_original_draft_sha256": null,
   "preregistration_revision_incorporation_sha256": null,
   "preregistration_sha256": null,
-  "preregistration_status": "PENDING",
+  "preregistration_status": "DRAFT_NO_DATA_PENDING_CLEAN_COMMIT_AND_DIRECTION_REVIEW",
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
@@ -191,6 +191,9 @@
   "route_2_terminal_audit_model_result": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_AUDIT_MODEL_RESULT.json",
   "route_2_terminal_audit_model_result_byte_sha256": "04bdbbd0080ab0c15f58597d64a4d77a81033057e180536ddd69b2bccbac2055",
   "route_2_terminal_audit_model_result_sha256": "83a744e00cb841aa417dc7145a9c1bf9985c6a8514d10bbc6883ebed8ca4bce9",
+  "route_3_authorization": "experiments/btc-eth-volatility-managed-equal-weight-v2/ROUTE_AUTHORIZATION.json",
+  "route_3_authorization_byte_sha256": "71537af3c1486fd244a034f660339428f5ddc0c46d2db6876c2d8a17bd37ad8a",
+  "route_3_authorization_sha256": "7698550b1c4aa785e3fc0ae9f71525548a0007ce63b94c4db5c6e65580f916d2",
   "production_integration_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_AUTHORIZATION.json",
   "production_integration_authorization_byte_sha256": "f3e3c60de2ac562f77913cbef6890a3701d5b9e2256404ee6ab031b270d27671",
   "production_integration_authorization_sha256": "3b4dcb136512eb1012cc0b763e83d56fe846b0241ed1ef6e1a815b9d0815bcab",
@@ -226,5 +229,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T15:12:47.688556391Z"
+  "updated_at_utc": "2026-08-04T15:20:01.409920555Z"
 }

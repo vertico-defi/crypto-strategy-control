@@ -274,3 +274,14 @@
 - Next action: inspect Phase-1 volatility-management evidence and create the route-3 authorization and no-data preregistration draft.
 - Current blocker: none.
 - Exact resume state: `btc-eth-volatility-managed-equal-weight-v2` current; budgets reset; market/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T15:20:01.409920555Z — route-3 no-data draft complete
+
+- Current checkpoint: route authorization `7698550b...`; preregistration draft `cc2030dc...`; resolved composite `281f1817...`; clean commit and live Sol/xhigh direction review pending.
+- What changed: v2 inherits v1's exact economic contract and adds executable fidelity requirements for the PyArrow production loader, causal gaps/quarantine, failure precedence, target/fill dispositions, common-panel drawdown, derived evidence, strict fold indices, full serialization, and real-data integration.
+- What was verified: v1 wrapper/effective/result/audit byte and canonical identities; all seventeen inherited substantive clause hashes; exact 36-file allowlist identity; Phase 2 route ordering; multiplicity N=63 with 35 observed and 28 unimputed slots on first completed v2 development attempt.
+- What failed: no new failure. V1's exact pipeline and audit failures remain preserved inputs, not economic evidence.
+- Current best defensible result: no route-3 or Phase 2 economic result exists.
+- Next action: validate and commit/push the no-data draft, then invoke one live read-only `gpt-5.6-sol`/`xhigh` direction review.
+- Current blocker: none.
+- Exact resume state: route-3 direction review attempts 0/3; repairs 0/3; post-run repairs 0/2; data/holdout/returns false; capital/GPU zero; mining unchanged.

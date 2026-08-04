@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T15:15:46.760779970Z",
+  "authority": "explicit_phase_2_user_authorization_route_3",
+  "condition_satisfied_by": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+  "condition_satisfied_by_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57",
+  "source_parent_commit": "36ee5ce01f61dee146476d7be603049ee81b26e3",
+  "status": "AUTHORIZED_NOT_PREREGISTERED",
+  "objective": "Create a corrected successor to btc-eth-volatility-managed-equal-weight-v1 using the existing verified BTCUSDT and ETHUSDT development data without describing v1 as unprofitable or changing its preserved terminal evidence.",
+  "phase_1_preservation": {
+    "phase_1_final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
+    "v1_terminal_result": "DEVELOPMENT_PIPELINE_FAILURE / AUDIT_REJECTED / NO_ECONOMIC_RESULT",
+    "v1_economic_result_exists": false,
+    "v1_strategy_unprofitable_claim_permitted": false,
+    "v1_rerun_or_repair": false,
+    "v1_immutability": "No Phase 1 artifact, result, audit, ledger entry, commit, publication, or terminal verdict is rewritten, deleted, softened, relabeled, or promoted."
+  },
+  "required_fidelity_corrections": [
+    "PyArrow tuple-valued column-selector failure",
+    "real production data-loading path",
+    "causal gap detection",
+    "quarantine treatment",
+    "failure precedence",
+    "target and fill reconciliation",
+    "common-panel benchmark treatment",
+    "drawdown-path calculation",
+    "derived integrity evidence",
+    "every additional discrepancy recorded by the v1 audit"
+  ],
+  "required_sequence": [
+    "fresh no-data preregistration preserving v1 economics wherever possible",
+    "live read-only Sol/xhigh direction review",
+    "hash and commit frozen preregistration",
+    "pure production implementation and deterministic tests",
+    "end-to-end real-data integration on the exact 36 allowlisted development files before consuming the formal economic attempt",
+    "live read-only Sol/xhigh implementation-fidelity audit",
+    "formal development economic evaluation only after every pre-economic gate passes"
+  ],
+  "budget": {
+    "maximum_pre_run_implementation_repairs": 3,
+    "pre_run_implementation_repairs_used": 0,
+    "maximum_post_run_fidelity_repairs": 2,
+    "post_run_fidelity_repairs_used": 0,
+    "maximum_independent_audit_attempts_per_review_stage": 3,
+    "maximum_live_invocation_wall_seconds": 1200,
+    "maximum_local_evaluation_wall_seconds": 1800,
+    "gpu_seconds_permitted": 0,
+    "capital_permitted": 0
+  },
+  "model_routing": {
+    "research_direction_and_audit": {"model": "gpt-5.6-sol", "reasoning_level": "xhigh"},
+    "implementation": {"model": "gpt-5.6-terra", "reasoning_level": "medium"},
+    "deterministic_validation": {"model": "gpt-5.6-luna", "reasoning_level": "low"},
+    "fallback_only_after_confirmed_quota_or_temporary_availability_error": true
+  },
+  "holdout_paths_resolved": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "formal_economic_attempt_authorized": false,
+  "market_files_accessed": false,
+  "market_values_read": false,
+  "returns_calculated": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED"
+}
