@@ -62,3 +62,6 @@
 - Next experiment: none authorized. Route 2 may not begin while route 1 remains nonterminal.
 - Current blocker: explicit human authorization is required for one additional bounded mechanical indexing repair; the authorized 3/3 pre-run repair budget is exhausted.
 - Exact resume state: authorize only indexed session construction and indexed exact execution-row lookup, preserving every frozen economic rule; rerun focused/full tests and the exact 36-file production path under a strictly enforced 1,800-second ceiling; then repeat live read-only Sol/xhigh fidelity audit. Formal economic attempt unconsumed/unauthorized; holdout sealed/unread; capital zero; CPU-only; GPU/mining unchanged.
+
+- Publication checkpoint: evidence `94422a5f...`, sanitized source snapshot `55b2cece...`, and portfolio `1eaac5af...` are pushed; validation run `30898044381` and Pages run `30898044376` passed; deployed content was fetched and verified at HTTP 200.
+- Publication safety: `PASS`; five tests; syntax/type checks; 22 static pages; zero API routes; `STORE_LIVE=false`; no exchange, wallet, server, credential, order, or capital-execution functionality.

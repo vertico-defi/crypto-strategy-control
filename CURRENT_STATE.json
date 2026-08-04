@@ -67,13 +67,15 @@
   "last_terminal_experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
   "last_terminal_verdict": "AUDIT_REJECTED",
   "latest_publication": {
-    "pages_deployment_run_id": 30890939218,
+    "deployed_content_verified": true,
+    "evidence_commit": "94422a5f6ed02e797171f1a71bda370e0be7156a",
+    "pages_deployment_run_id": 30898044376,
     "pages_status": "SUCCESS_DEPLOYED_CONTENT_VERIFIED",
-    "portfolio_commit": "dc6431f0494315e797b4a12a49e132f5e90bb910",
+    "portfolio_commit": "1eaac5afab7441943c9afb05569a82a6b993763f",
     "portfolio_publication_gate": "PASS",
-    "portfolio_validation_run_id": 30890937423,
-    "source_checkpoint_commit": "a4cc2684e78f012b7a9cba240c076bb84369ab71",
-    "source_snapshot_commit": "ca12b529da75d3f6d726477c09e2f5322e19e8fc",
+    "portfolio_validation_run_id": 30898044381,
+    "source_checkpoint_commit": "94422a5f6ed02e797171f1a71bda370e0be7156a",
+    "source_snapshot_commit": "55b2cece8281257f3384ee65076569c4b4026e7e",
     "store_live": false
   },
   "next_task": "await_explicit_human_authorization_for_one_additional_mechanical_indexing_repair_before_route_2",
@@ -153,5 +155,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T09:37:12.044745Z"
+  "updated_at_utc": "2026-08-04T09:50:33Z"
 }
