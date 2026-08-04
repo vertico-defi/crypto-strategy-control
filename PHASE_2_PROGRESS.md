@@ -26,6 +26,17 @@
 
 - Publication checkpoint: evidence `21e87ba7...`, source snapshot `5af05f34...`, and portfolio `388e72c0...` are pushed. Validation `30932515249` and Pages `30932522198` passed; deployed content returned HTTP 200 and was verified. Publication gate passed with five tests, syntax/type checks, 22 pages, zero API routes, and `STORE_LIVE=false`.
 
+## 2026-08-04T17:15:23.609542397Z — route 4 authorized; no-data contract next
+
+- Current checkpoint: route 4 is `AUTHORIZED_NOT_PREREGISTERED`; authorization `f71a9a59...` preserves all prior archive verdicts exactly.
+- What changed: the materially new v3 route may, after a frozen contract, retain raw official responses, decoded listings, object metadata, checksum/ZIP evidence, full development rows, continuity, gaps, quarantines, and asset-identity evidence.
+- What was verified: route-3 terminal audit is the queue precondition; v2's three evidence failures are exact v3 obligations; requests will be development-only through 2025-12; current exchangeInfo, future survival/capitalization, paid data, credentials, capital, GPU use, and sealed 2026 access remain forbidden.
+- What failed: no v3 failure. Prior v1 remains `AUDIT_INCONCLUSIVE`, v2 remains `DATA_NO_GO`, and the registered-inventory audit remains `DATA_NO_GO`.
+- Current best defensible result: no candidate and no eligible cross-sectional universe.
+- Next experiment: write and commit the repository-only v3 preregistration draft, then obtain live read-only Sol/xhigh direction review before implementation or network access.
+- Current blocker: none.
+- Exact resume state: route4 network requests 0; objects discovered/downloaded 0; implementation 0; repairs 0/3; audits 0; returns 0; holdout unresolved/unopened/unread; capital/GPU zero; mining unchanged.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.

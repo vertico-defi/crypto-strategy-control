@@ -44,8 +44,8 @@
     "store_live": false
   },
   "current_experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
-  "data_contract_status": "ROUTE_4_V3_NOT_STARTED",
-  "development_status": "ROUTE_AUTHORIZATION_PENDING / NO_ECONOMIC_RESULT",
+  "data_contract_status": "ROUTE_4_AUTHORIZED_PENDING_PREREGISTRATION",
+  "development_status": "ROUTE_4_AUTHORIZED / NO_ECONOMIC_RESULT",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -67,7 +67,7 @@
   "direction_review_model_result": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
   "direction_review_model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
   "direction_review_model_result_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
-  "direction_review_status": "ATTEMPT_3_REVISION_REQUIRED_BUDGET_EXHAUSTED",
+  "direction_review_status": "ROUTE_4_NOT_STARTED",
   "effective_contract_sha256": null,
   "implementation_authorization": null,
   "implementation_authorization_byte_sha256": null,
@@ -125,7 +125,7 @@
     "source_snapshot_commit": "5af05f34d1b401fb28f750c724fc32b22eaaeb92",
     "store_live": false
   },
-  "next_task": "commit_push_and_publish_audited_route_3_terminal_transition_then_create_fresh_route_4_authorization_and_no_data_preregistration",
+  "next_task": "commit_and_push_route_4_authorization_then_create_repository_only_no_data_preregistration",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -138,6 +138,9 @@
   },
   "phase_2_authorization": "PHASE_2_AUTHORIZATION.json",
   "phase_2_authorization_byte_sha256": "2686b9caeda1e4d443132cdeafc6c86dfa8e296bde5a711a55f190219bd7c2db",
+  "route_4_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
+  "route_4_authorization_byte_sha256": "c517a6979133676aa470ded8a33d1a71fc3bf07cf84d91d6e908cf8033e9e8ce",
+  "route_4_authorization_sha256": "f71a9a59fb13f7eb6af1ed60bcc645e2d40a230040e2729c27003546cf5bcd66",
   "phase_2_queue": [
     "btc-eth-long-only-mean-reversion-v2",
     "btc-eth-relative-value-rotation-v2",
@@ -157,7 +160,7 @@
   "preregistration_revision_incorporation_byte_sha256": null,
   "preregistration_revision_incorporation_sha256": null,
   "preregistration_sha256": null,
-  "preregistration_status": "ROUTE_4_NOT_STARTED_PENDING_FRESH_AUTHORIZATION",
+  "preregistration_status": "ROUTE_4_AUTHORIZATION_RECORDED_PENDING_CLEAN_COMMIT",
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",

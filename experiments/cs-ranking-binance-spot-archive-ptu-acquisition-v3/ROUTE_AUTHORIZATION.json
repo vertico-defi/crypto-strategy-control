@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T17:15:23.609542397Z",
+  "authority": "explicit_phase_2_user_authorization_route_4",
+  "condition_satisfied_by": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_AUDIT.json",
+  "condition_satisfied_by_byte_sha256": "2fa69cd240cf1fa9dd65d351c0383b6c5531b4b6e9fc95a3551b4a9e239826c0",
+  "condition_satisfied_by_canonical_sha256": "c10df658ea4387e2df8a7e18c779fdeb049fda8d45ad71d71b92a56d2549c774",
+  "source_parent_commit": "50abefda6e9645adf10bd2b0bad6b2e72cf8feb6",
+  "status": "AUTHORIZED_NOT_PREREGISTERED",
+  "objective": "Acquire and preserve independently reconstructable official Binance public historical spot-archive evidence for a causal archive-observed USDT point-in-time universe, without current-exchangeInfo survivorship contamination or access to the sealed 2026 strategy holdout.",
+  "experiment_kind": "ZERO_COST_DATA_ACQUISITION_AND_POINT_IN_TIME_UNIVERSE_CONTRACT",
+  "strategy_family": "CONDITIONAL_INPUT_TO_COST_AWARE_CROSS_SECTIONAL_RANKING",
+  "materially_new_route": true,
+  "prior_results_preserved": [
+    {
+      "experiment_id": "cs-ranking-ptu-data-audit-v1",
+      "terminal_result": "DATA_NO_GO",
+      "audit_path": "experiments/cs-ranking-ptu-data-audit-v1/AUDIT.json",
+      "audit_byte_sha256": "dadca68f2a0385be72fdce071a3c73da899b2bf77731f93b122aaea676bd967b",
+      "audit_canonical_sha256": "d94585308e029446a3908318734b394404c980d8764a404ece6b0bd93acb6600"
+    },
+    {
+      "experiment_id": "cs-ranking-binance-spot-archive-ptu-audit-v1",
+      "terminal_result": "AUDIT_INCONCLUSIVE",
+      "audit_path": "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/AUDIT.json",
+      "audit_byte_sha256": "989d3f0e07bf7596f3aa70ea007f2306eee0e510d7185dcc5444d841cd77abc6",
+      "audit_canonical_sha256": "852a8113709f6e1afdf6faf2eb89383640db6d13184ace2b04ad517097f7db9c"
+    },
+    {
+      "experiment_id": "cs-ranking-binance-spot-archive-ptu-audit-resolution-v2",
+      "terminal_result": "DATA_NO_GO",
+      "audit_path": "experiments/cs-ranking-binance-spot-archive-ptu-audit-resolution-v2/AUDIT.json",
+      "audit_byte_sha256": "b592c575a4ff6e8884c889891d00da47c596b325471e46bcfb45acea894a9d20",
+      "model_result_path": "experiments/cs-ranking-binance-spot-archive-ptu-audit-resolution-v2/MODEL_RESULT.json",
+      "model_result_byte_sha256": "be2a80141dad77b6c076390a9994d8a6943148b04a79dfe5afe3aa5d9e09e289",
+      "model_result_canonical_sha256": "46e8af6532b445aa812c7fb359cc041420159c2bdc1f659f6c6a91a4488ea735"
+    }
+  ],
+  "prior_result_immutability": "This experiment does not retry, rewrite, delete, soften, relabel, or promote any v1 or v2 result. It must not reuse the rejected v1 manifest as eligible data. Prior artifacts may be used only as contaminated provenance history, implementation requirements, deterministic fixtures, and multiplicity evidence.",
+  "v2_failures_that_v3_must_resolve_with_new_evidence": [
+    "retain raw official listing response bytes and bind every decoded CommonPrefix and ObjectRecord to its response hash",
+    "retain object keys, ETags, sizes, last-modified values, request URLs, pagination markers, retrieval timestamps, and exact response hashes",
+    "retain official checksum bytes and downloaded ZIP bytes or immutable reproducible object references sufficient for independent reconstruction",
+    "bind calculated hashes and checksum assertions to exact retained bytes",
+    "exercise real pagination, acquisition, checksum, manifest-generation, and row-validation production paths end to end",
+    "replace boundary-only observations with complete development-period row validation, continuity evidence, gaps, and quarantine decisions",
+    "retain conservative asset-identity, rename, migration, listing, and delisting evidence without silently merging uncertain episodes"
+  ],
+  "authorized_data_scope": {
+    "official_sources_only": true,
+    "authentication_required": false,
+    "paid_data_or_api_permitted": false,
+    "current_exchange_info_permitted": false,
+    "market_capitalization_permitted": false,
+    "archive_observed_symbol_directory_enumeration_permitted_after_freeze": true,
+    "development_archive_months_permitted_after_freeze": ["2017-08", "2025-12"],
+    "partial_2026_or_holdout_archive_objects_permitted": false,
+    "large_raw_evidence_in_git_permitted": false,
+    "sanitized_manifests_hashes_schemas_summaries_and_reproducibility_instructions_in_git_permitted": true
+  },
+  "holdout_guard": {
+    "sealed_period": ["2026-01-01T00:00:00Z", "2026-07-01T00:00:00Z"],
+    "status": "SEALED_UNOPENED_UNREAD",
+    "before_data_contract_audit_pass": "No 2026 market-data path, object key, listing prefix, archive, footer, row, or value may be resolved, requested, discovered, fetched, opened, read, hashed, or used. The timestamp 2026-01-01T00:00:00Z may appear only as a non-resolving half-open comparison boundary.",
+    "strategy_holdout_opening_permitted": false
+  },
+  "required_sequence": [
+    "fresh repository-only no-data preregistration",
+    "live read-only Sol/xhigh direction review and bounded corrections before freeze",
+    "hash and commit the accepted preregistration before any Binance request or archive access",
+    "Terra/medium production implementation with deterministic and frozen-fixture tests",
+    "preflight storage, rights, request, and resume-safety checks without accessing market values",
+    "real official development-only pagination, acquisition, checksum, manifest-generation, and row-validation production path",
+    "deterministic validation and independent artifact reconstruction",
+    "live read-only Sol/xhigh data-contract and methodology audit",
+    "cross-sectional baseline queue only after an exact DATA_CONTRACT_GO verdict"
+  ],
+  "budget": {
+    "maximum_pre_run_implementation_repairs": 3,
+    "pre_run_implementation_repairs_used": 0,
+    "maximum_post_run_fidelity_repairs": 2,
+    "post_run_fidelity_repairs_used": 0,
+    "maximum_independent_audit_attempts_per_review_stage": 3,
+    "maximum_direction_review_attempts": 3,
+    "direction_review_attempts_used": 0,
+    "maximum_live_invocation_wall_seconds": 1200,
+    "maximum_local_evaluation_wall_seconds": 1800,
+    "gpu_seconds_permitted": 0,
+    "capital_permitted": 0,
+    "network_request_byte_storage_and_cycle_limits": "MUST_BE_FIXED_IN_THE_PREREGISTRATION_BEFORE_NETWORK_ACCESS"
+  },
+  "model_routing": {
+    "research_direction_and_final_data_audit": {"model": "gpt-5.6-sol", "reasoning_level": "xhigh"},
+    "implementation_and_acquisition_pipeline": {"model": "gpt-5.6-terra", "reasoning_level": "medium"},
+    "deterministic_validation_and_reports": {"model": "gpt-5.6-luna", "reasoning_level": "low"},
+    "fallback_only_after_confirmed_quota_rate_limit_throttling_or_temporary_availability_error": true
+  },
+  "failure_classification": {
+    "audit_timeout_or_temporary_service_failure": "AUDIT_PENDING",
+    "parser_test_manifest_trace_or_production_path_failure": "IMPLEMENTATION_BLOCKED",
+    "reproducible_failure_of_authorized_official_data_route": "DATA_NO_GO",
+    "strategy_economic_verdict_permitted_during_route_4": false
+  },
+  "network_requests_made": 0,
+  "archive_objects_discovered": 0,
+  "archive_objects_downloaded": 0,
+  "market_files_accessed": false,
+  "market_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_made": false,
+  "candidate_promoted": false,
+  "holdout_paths_resolved": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED"
+}
