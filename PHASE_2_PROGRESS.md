@@ -24,6 +24,8 @@
 - Current blocker: none.
 - Exact resume state: current route 4 selected/not started; repairs 0/3; audits 0/3 for its first stage; no route-4 network/data acquisition; holdouts sealed/unread; capital/GPU zero; mining unchanged.
 
+- Publication checkpoint: evidence `21e87ba7...`, source snapshot `5af05f34...`, and portfolio `388e72c0...` are pushed. Validation `30932515249` and Pages `30932522198` passed; deployed content returned HTTP 200 and was verified. Publication gate passed with five tests, syntax/type checks, 22 pages, zero API routes, and `STORE_LIVE=false`.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.
