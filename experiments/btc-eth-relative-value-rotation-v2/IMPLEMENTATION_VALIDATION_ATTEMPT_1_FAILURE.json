@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "validated_at_utc": "2026-08-04T14:03:40.792340881Z",
+  "classification": "IMPLEMENTATION_BLOCKED_PRE_RUN",
+  "invocation_mode": "deterministic_local",
+  "source_parent_commit": "5682e47872c3a97f0c42f0cc0fc8fd31499f5db2",
+  "frozen_preregistration_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
+  "effective_contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "implementation_model_result": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_MODEL_RESULT.json",
+  "implementation_model_result_byte_sha256": "9af73a57339668448480c12d453474ff69d07629ff745dc9e6c1d393af72e54e",
+  "implementation_model_result_sha256": "9b8120254ad699423d77068c1ada94f577f154a5e175e31dce3e7a3d324a10e7",
+  "generated_file_byte_sha256": {
+    "src/strategy_control/relative_value_v2.py": "f8f89bd78a8d4ac7158291af6612938d9ab6ded3481db03ac5285d9e9dd57968",
+    "src/strategy_control/relative_value_v2_pipeline.py": "2de4e00dc7a023e0fcae7d65cca58653e61fd55496bfdb5ca31cd7012ce36014",
+    "tests/test_relative_value_v2.py": "a2ec0be036437a0949e66b2d20774c7cee9139c7a79520f24de3ab5d3a618306",
+    "tests/test_relative_value_v2_production.py": "3815458dd349eee177937a9d94e4fb90a2de942b1cc9aa901d361e0cd3bdc633"
+  },
+  "deterministic_results": {
+    "focused_pytest": "PASS_9",
+    "full_repository_pytest_with_preinstalled_research_dependencies": "PASS_275",
+    "model_full_repository_pytest": "FAIL_MISSING_NUMPY_NOT_RERUN",
+    "ruff_repository": "PASS",
+    "strict_mypy": "PASS_28_SOURCE_FILES",
+    "bytecode_compilation": "PASS",
+    "diff_check": "PASS",
+    "allowed_mutation_scope": "PASS_FOUR_AUTHORIZED_FILES_PLUS_PARENT_EVIDENCE_ONLY",
+    "required_named_tests": 37,
+    "exact_required_test_names_present": 6,
+    "exact_required_test_names_missing": 31
+  },
+  "semantic_probe_evidence": {
+    "strict_prefix_nonmonotonic_input": {
+      "input": "timestamps [boundary+1 day, boundary-1 day]",
+      "observed": "returns the prior item instead of rejecting nonmonotonic input",
+      "expected": "fail closed before filtering"
+    },
+    "PBO_block_construction_for_nine_rows": {
+      "required_numpy_array_split": [[0, 1], [2], [3], [4], [5], [6], [7], [8]],
+      "implementation_round_boundaries": [[0], [1], [2], [3], [4, 5], [6], [7], [8]],
+      "result": "mechanically different CSCV partitions"
+    },
+    "nonfinite_gate_values": {
+      "observed": "positive infinity passes six _gt or _gte numeric gates",
+      "expected": "every finite statistic must be finite before comparison"
+    }
+  },
+  "material_contract_failures": [
+    "The v2 source freezes only seven trial names and a seed. It does not define or verify the inherited trial horizons, risk-adjustment flags, cash filters, 0.25/0.50 gaps, 14/28-bps costs, four folds, signal formula, score formula, state-dependent decision rule, accounting, or unchanged economic thresholds.",
+    "information_cutoff accepts any nonempty pair of asset observations and has no required-lookback identity/count contract. It cannot prove that every close, return, volatility observation, event timestamp, and availability timestamp for both assets entered I_s.",
+    "No immutable boundary-specific production index, expected session grid, exact named-vector lookup interface, four-fold construction, quarantine segment, priced forced liquidation, no-bridge handling, or 150-session recovery state exists.",
+    "run_clock consumes externally supplied desired targets instead of computing the base decision from state after C_(s-1) or the delayed decision after the due fill updates state. Its trace writes the vector timestamp into both cutoff and due_timestamp and omits decision-session, due-session, row-identity, cost, and accounting evidence.",
+    "At a delayed terminal vector run_clock first assigns the pending risky target and then overwrites it with cash in memory. The frozen rule replaces the due target with cash; it must not transiently execute an unrecorded risky fill at the terminal vector.",
+    "There is no target/fill/cost/return/attribution/wealth pipeline, so exact terminal accrual, one cash transition, initial and terminal costs, self-financing, baseline panels, stress runs, regime records, and independent state across seven trials cannot be reconciled.",
+    "strict_prefix filters arbitrary input order and does not reject duplicate, nonmonotonic, malformed, timezone-invalid, or boundary-mismatched rows. A measured nonmonotonic input silently returned a prefix item.",
+    "The path guard is only a substring check. It does not bind the exact source commit, 36-entry allowlist, byte counts, SHA-256 identities, lifecycle entry point, or separately latched exact twelve-entry postapproval holdout contract.",
+    "The Phase 2 DSR accepts a caller-supplied anonymous list and does not implement the frozen 49 named prior slots, exact artifact hashes/JSON pointers, annualized-to-daily conversion, current pre-result bindings, or stage transitions. The v1 primitive probability at valid T=3 is not implemented; only a boolean validity predicate exists.",
+    "The frozen stationary bootstrap is absent. PBO uses rounded block boundaries rather than numpy.array_split; for nine endpoints the retained split differs exactly from the frozen rule.",
+    "gate_map lacks finite-number enforcement and allowed positive infinity to pass multiple numerical gates in a deterministic probe. It also does not derive all contract evidence required for the nineteen exact gates.",
+    "reconcile_traces compares two caller-supplied instances of one nine-field production dataclass. It is not a separate oracle and cannot independently recompute signals, vectors, transitions, fills, costs, returns, attribution, regimes, gates, or terminal cash.",
+    "Only six of thirty-seven preregistered test names exist exactly. Thirty-one obligations—including exact v1 inheritance, allowlist identity, clock details, quarantine, recovery, four folds, scan/index agreement, accounting reconciliation, bootstrap, audit-evidence status, and safety derivation—have no exact named test."
+  ],
+  "model_report_discrepancy": "The model's final message claimed the full suite passed. Its captured full-suite command failed on missing NumPy and was not rerun. Parent later proved all 275 tests pass with the preinstalled research dependencies, but passing the existing suite does not cure the missing contract implementation and test obligations.",
+  "fallback_permitted": false,
+  "repair_required": true,
+  "repair_scope": "Complete the no-data contract-faithful v2 implementation and exact deterministic tests without market-data access or economic calculation.",
+  "implementation_repairs_used_after_classification": 1,
+  "implementation_repairs_remaining": 2,
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "economic_result_exists": false,
+  "strategy_family_economically_evaluated": false,
+  "market_files_accessed": false,
+  "source_data_repository_accessed": false,
+  "holdout_paths_resolved": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_permitted": false,
+  "gpu_used": false,
+  "mining_changed": false,
+  "capital_permitted": 0
+}

@@ -164,3 +164,14 @@
 - Next action: commit/push the authorization, then invoke live `gpt-5.6-terra`/`medium` under its no-data scope and independently validate its changes.
 - Current blocker: none.
 - Exact resume state: implementation 0 calls; repairs 0/3; post-run repairs 0/2; direction review 1; market/holdout/return access false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T14:03:40.792340881Z — initial route-2 implementation blocked pre-run
+
+- Current checkpoint: live Terra/medium thread `019fcd0d...` produced four allowed no-data files, but parent fidelity validation classifies the result `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair 1/3 is consumed and awaits a separately committed authorization.
+- What changed: basic synchronized-vector, terminal-vector, clock, DSR/PBO, gate, guard, and trace helpers plus nine synthetic tests were created. No market, holdout, return, Git, portfolio, GPU, mining, or capital access occurred.
+- What was verified: 9/9 focused tests, all 275 repository tests with the installed research dependencies, Ruff, strict Mypy for 28 source files, compilation, diff scope, and unchanged frozen hashes pass.
+- What failed: only 6/37 exact preregistered test names exist. Core frozen trial/scoring/cost/accounting, boundary indices, quarantine/recovery, four folds, execution/accounting traces, bootstrap, exact multiplicity extraction, independent oracle, and safety derivation are absent. Deterministic probes also show nonmonotonic prefix input is silently filtered, PBO block boundaries differ from `numpy.array_split`, and positive infinity can pass numeric gates.
+- Current best defensible result: implementation evidence only; no strategy result or profitability claim exists. The model's final full-suite-pass statement is corrected by the captured command log: its full run failed on missing NumPy and was not rerun, although parent later proved the suite passes in the installed research runtime.
+- Next action: commit/push this exact failed attempt and evidence, then authorize bounded repair 1 to complete the no-data contract and all 37 named tests.
+- Current blocker: none; two pre-run repairs remain after the first required repair was charged.
+- Exact resume state: implementation call 1; repairs 1/3 used; post-run repairs 0/2; formal evaluation unauthorized/unconsumed; market/holdout/returns false; capital/GPU zero; mining unchanged.
