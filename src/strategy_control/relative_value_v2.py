@@ -12,7 +12,7 @@ import json
 import math
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from itertools import combinations
 from statistics import NormalDist, mean, median, stdev
 
@@ -290,13 +290,29 @@ def score_at(
     spec = TRIAL_SPECS.get(trial)
     if spec is None or set(observations) != set(SYMBOLS) or index < max(max(spec.horizons), 20):
         return None
+    # A lookback is a joint daily panel, not two unrelated price series.  The
+    # equality check is deliberately made before any arithmetic so an
+    # asynchronous/missing session cannot become a synthetic signal.
+    required = tuple(range(index - max(max(spec.horizons), 20), index + 1))
+    for position in required:
+        btc, eth = observations[SYMBOLS[0]][position], observations[SYMBOLS[1]][position]
+        if (
+            _utc(btc.event_at) != _utc(eth.event_at)
+            or not btc.identity
+            or not eth.identity
+            or btc.identity == eth.identity
+            or _utc(btc.available_at) < _utc(btc.event_at)
+            or _utc(eth.available_at) < _utc(eth.event_at)
+        ):
+            return None
+        if position > required[0] and _utc(btc.event_at) != _utc(
+            observations[SYMBOLS[0]][position - 1].event_at
+        ) + timedelta(days=1):
+            return None
     output: dict[str, ScoreRecord] = {}
     for asset in SYMBOLS:
         values = observations[asset]
         if index >= len(values):
-            return None
-        required = list(range(index - max(max(spec.horizons), 20), index + 1))
-        if any(i < 0 for i in required):
             return None
         window = [values[i] for i in required]
         if any(
@@ -324,7 +340,7 @@ def score_at(
         value = sum(components) / len(components)
         if not math.isfinite(value):
             return None
-        cutoff = information_cutoff(window)
+        cutoff = max(max(_utc(item.event_at), _utc(item.available_at)) for item in window)
         output[asset] = ScoreRecord(
             raw,
             volatility if spec.risk_adjusted else None,
@@ -342,6 +358,9 @@ def decision_at(
     records = score_at(trial, observations, index)
     if records is None:
         return CASH, {}
+    cutoff = max(record.cutoff for record in records.values())
+    if any(record.cutoff > cutoff for record in records.values()):  # defensive invariant
+        raise RelativeValueV2Error("inconsistent information cutoff")
     return decision_for_scores(
         trial,
         {a: records[a].score for a in SYMBOLS},
@@ -365,72 +384,141 @@ def quarantine_action(actual: str, pending: str | None) -> QuarantineAction:
 
 @dataclass(frozen=True)
 class DecisionTrace:
-    session_id: str
+    """Complete non-default execution evidence for one canonical vector."""
+
+    trial: str
+    period: int
     decision_session_id: str
     due_session_id: str | None
     cutoff: datetime
-    due_timestamp: datetime
+    fill_timestamp: datetime
     row_ids: tuple[str, str]
+    score_inputs: tuple[tuple[str, tuple[str, ...]], ...]
+    raw_returns: tuple[tuple[str, tuple[float, ...]], ...]
+    volatility: tuple[tuple[str, float | None], ...]
+    scores: tuple[tuple[str, float | None], ...]
     desired: str
     actual_before: str
     actual_after: str
     pending_before: str | None
     pending_after: str | None
     disposition: str
-    turnover: float = 0.0
-    cost: float = 0.0
-    interval_return: float = 0.0
-    wealth: float = 1.0
+    held_weights: tuple[tuple[str, float], ...]
+    target_weights: tuple[tuple[str, float], ...]
+    price_relatives: tuple[tuple[str, float], ...]
+    gross_attribution: tuple[tuple[str, float], ...]
+    turnover: float
+    one_way_cost: float
+    interval_return: float
+    wealth: float
+    quarantine_segment: int
+    recovery_count: int
+    regime: str
+    terminal_cash_evidence: bool
 
 
-def run_clock(
-    decisions: Sequence[tuple[str, str]], vectors: Sequence[CanonicalVector], *, delayed: bool
+def simulate_period(
+    trial: str,
+    observations: Mapping[str, Sequence[Observation]],
+    vectors: Sequence[CanonicalVector],
+    *,
+    delayed: bool = False,
+    cost_rate: float = ONE_WAY_COST,
 ) -> tuple[DecisionTrace, ...]:
-    """One explicit C-clock; final vector replaces (never transiently fills) risk."""
-    if len(decisions) != len(vectors) or not decisions:
-        raise RelativeValueV2Error("decisions and vectors must align")
-    actual, pending, traces = CASH, None, []
-    for i, ((session_id, desired), vector) in enumerate(zip(decisions, vectors, strict=True)):
-        if desired not in {CASH, *SYMBOLS}:
-            raise RelativeValueV2Error("invalid desired target")
-        before: str = actual
-        pending_before: str | None = pending
+    """Internally driven post-fill simulator; no caller can provide targets."""
+    if (
+        trial not in TRIAL_SPECS
+        or not vectors
+        or cost_rate not in (ONE_WAY_COST, DOUBLE_ONE_WAY_COST)
+    ):
+        raise RelativeValueV2Error("invalid simulator inputs")
+    if any(vectors[i].timestamp <= vectors[i - 1].timestamp for i in range(1, len(vectors))):
+        raise RelativeValueV2Error("vectors must be chronological")
+    actual, pending, wealth, segment, recovery = CASH, None, 1.0, 0, RECOVERY_SESSIONS
+    traces: list[DecisionTrace] = []
+    for i, vector in enumerate(vectors):
+        before, pending_before = actual, pending
+        relatives = {
+            a: 1.0 if i == 0 else vector.prices[a] / vectors[i - 1].prices[a] for a in SYMBOLS
+        }
+        if any(not math.isfinite(x) or x <= 0 for x in relatives.values()):
+            raise RelativeValueV2Error("DATA_INTEGRITY unpriceable vector")
+        # Accrue exact previous exposure first.  A gap has no bridge: an exposed
+        # state is liquidated only on this first synchronized priced vector.
+        gross = sum(float(before == a) * relatives[a] for a in SYMBOLS) + float(before == CASH)
+        wealth *= gross
+        due = str(i - 1) if delayed and i else None
         terminal = i == len(vectors) - 1
-        due_id: str | None = decisions[i - 1][0] if delayed and i else None
-        if terminal:
-            # Do not execute the due risky pending target; terminal cash replaces it.
-            actual, pending, disposition = (
+        records = score_at(trial, observations, i)
+        complete = records is not None
+        if not complete:
+            segment += 1
+            recovery = 0
+            pending = None
+            desired, actual, disposition = (
                 CASH,
-                None,
-                "terminal_cash_replaces_due" if delayed else "terminal_cash",
+                CASH,
+                "quarantine_priced_liquidation" if before != CASH else "quarantine_cash",
             )
-        elif delayed:
-            if pending is not None:
-                actual, pending = pending, None
-            pending, disposition = desired, "queued_for_next_vector"
         else:
-            actual, disposition = desired, "executed_at_current_vector"
-        turnover = 0.0 if before == actual else 1.0
-        traces.append(
-            DecisionTrace(
-                session_id,
-                session_id,
-                due_id,
-                vector.timestamp,
-                vector.timestamp,
-                vector.row_ids,
-                desired,
-                before,
-                actual,
-                pending_before,
-                pending,
-                disposition,
-                turnover,
-                turnover * ONE_WAY_COST,
-            )
+            recovery = min(RECOVERY_SESSIONS, recovery + 1)
+            if terminal:
+                desired, actual, pending, disposition = (
+                    CASH,
+                    CASH,
+                    None,
+                    "terminal_cash_replaces_due" if delayed else "terminal_cash",
+                )
+            elif delayed:
+                if pending is not None:
+                    actual, pending = pending, None
+                desired, _ = decision_at(trial, observations, i, actual)
+                pending, disposition = desired, "queued_for_next_vector"
+            else:
+                desired, _ = decision_at(trial, observations, i, actual)
+                actual, disposition = desired, "executed_at_current_vector"
+        turnover = float(before != actual)
+        cost = wealth * turnover * cost_rate
+        wealth -= cost
+        if wealth <= 0 or not math.isfinite(wealth):
+            raise RelativeValueV2Error("DATA_INTEGRITY invalid wealth")
+        evidence = records or {}
+        cutoff = max((r.cutoff for r in evidence.values()), default=vector.timestamp)
+        raw = tuple((a, evidence[a].raw_returns if evidence else ()) for a in SYMBOLS)
+        trace = DecisionTrace(
+            trial,
+            i,
+            str(i),
+            due,
+            cutoff,
+            vector.timestamp,
+            vector.row_ids,
+            tuple((a, evidence[a].identities if evidence else ()) for a in SYMBOLS),
+            raw,
+            tuple((a, evidence[a].volatility if evidence else None) for a in SYMBOLS),
+            tuple((a, evidence[a].score if evidence else None) for a in SYMBOLS),
+            desired,
+            before,
+            actual,
+            pending_before,
+            pending,
+            disposition,
+            tuple(target_weights(before).items()),
+            tuple(target_weights(actual).items()),
+            tuple(relatives.items()),
+            tuple((a, wealth / gross * float(before == a) * (relatives[a] - 1)) for a in SYMBOLS),
+            turnover,
+            cost,
+            gross - 1 - turnover * cost_rate,
+            wealth,
+            segment,
+            recovery,
+            "eligible" if complete else "quarantine",
+            terminal and actual == CASH and pending is None,
         )
-    if actual != CASH or pending is not None:
-        raise RelativeValueV2Error("terminal state is not exact cash")
+        traces.append(trace)
+    if actual != CASH or pending is not None or not traces[-1].terminal_cash_evidence:
+        raise RelativeValueV2Error("terminal cash invariant")
     return tuple(traces)
 
 

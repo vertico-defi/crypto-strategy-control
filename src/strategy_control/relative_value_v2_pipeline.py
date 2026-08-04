@@ -10,14 +10,16 @@ from typing import TypeVar, cast
 
 from strategy_control.relative_value_v2 import (
     CASH,
+    DEVELOPMENT_FOLDS,
+    DOUBLE_ONE_WAY_COST,
     SYMBOLS,
+    TRIAL_ORDER,
     CanonicalVector,
     DecisionTrace,
     Observation,
     RelativeValueV2Error,
-    decision_at,
     finite_equal,
-    run_clock,
+    simulate_period,
     target_weights,
 )
 
@@ -112,22 +114,35 @@ def build_period_run(
     """
     if not vectors or set(observations) != set(SYMBOLS):
         raise RelativeValueV2Error("incomplete period inputs")
-    actual = CASH
-    pending: str | None = None
-    decisions: list[tuple[str, str]] = []
-    for index, _vector in enumerate(vectors):
-        if delayed and pending is not None:
-            actual, pending = pending, None
-        desired, records = decision_at(trial, observations, index, actual)
-        # A decision without a complete retained lookback is an explicit cash
-        # decision; its cutoff remains the canonical vector timestamp in legacy
-        # trace representation, while score records retain the true maximum.
-        decisions.append((str(index), desired if records else CASH))
-        if delayed:
-            pending = decisions[-1][1]
-        else:
-            actual = decisions[-1][1]
-    return run_clock(tuple(decisions), vectors, delayed=delayed)
+    return simulate_period(trial, observations, vectors, delayed=delayed)
+
+
+def run_development_folds(
+    observations: Mapping[str, Sequence[Observation]], vectors: Sequence[CanonicalVector]
+) -> Mapping[tuple[datetime, datetime], Mapping[str, tuple[DecisionTrace, ...]]]:
+    """Four isolated half-open development folds, each with fresh trial/stress state."""
+    result: dict[tuple[datetime, datetime], Mapping[str, tuple[DecisionTrace, ...]]] = {}
+    for start, end in DEVELOPMENT_FOLDS:
+        selected = tuple(v for v in vectors if start <= v.timestamp < end)
+        # observations remain prefix-only; score_at returns cash during warmup.
+        prefix = {
+            asset: tuple(o for o in observations[asset] if o.event_at < end) for asset in SYMBOLS
+        }
+        fold: dict[str, tuple[DecisionTrace, ...]] = {}
+        for trial in TRIAL_ORDER:
+            fold[trial] = (
+                simulate_period(trial, prefix, selected, delayed=False) if selected else ()
+            )
+            fold[f"{trial}:doubled_cost"] = (
+                simulate_period(trial, prefix, selected, cost_rate=DOUBLE_ONE_WAY_COST)
+                if selected
+                else ()
+            )
+            fold[f"{trial}:delayed"] = (
+                simulate_period(trial, prefix, selected, delayed=True) if selected else ()
+            )
+        result[(start, end)] = fold
+    return result
 
 
 def _utc(value: datetime) -> datetime:

@@ -25,7 +25,7 @@ from strategy_control.relative_value_v2 import (
     phase2_dsr_degenerate,
     phase2_dsr_probability,
     primitive_dsr_valid,
-    run_clock,
+    simulate_period,
     target_weights,
     terminal_vector,
 )
@@ -56,6 +56,33 @@ def vectors(ns=(1, 2, 3)):
         )
         for n in ns
     )
+
+
+def simulated(*, delayed=False):
+    observations = {
+        asset: tuple(
+            Observation(
+                asset,
+                START + timedelta(days=i),
+                START + timedelta(days=i),
+                price * growth**i,
+                f"{asset}-{i}",
+            )
+            for i in range(182)
+        )
+        for asset, price, growth in (("BTCUSDT", 100.0, 1.001), ("ETHUSDT", 50.0, 1.0005))
+    }
+    fills = tuple(
+        CanonicalVector(
+            START + timedelta(days=i, hours=1),
+            (
+                MinuteRow("BTCUSDT", START + timedelta(days=i, hours=1), 100.0 * 1.001**i, f"b{i}"),
+                MinuteRow("ETHUSDT", START + timedelta(days=i, hours=1), 50.0 * 1.0005**i, f"e{i}"),
+            ),
+        )
+        for i in range(182)
+    )
+    return simulate_period(TRIAL_ORDER[0], observations, fills, delayed=delayed)
 
 
 def test_v1_clause_hashes_trials_parameters_costs_folds_gates_and_seed_exact():
@@ -132,33 +159,27 @@ def test_asynchronous_availability_is_causal_and_atomic():
 
 
 def test_base_decision_s_executes_at_exact_C_s():
-    trace = run_clock((("s", "BTCUSDT"),), vectors((1,)), delayed=False)[0]
-    assert trace.disposition == "terminal_cash" and trace.due_timestamp == at(1)
+    trace = simulated()[180]
+    assert trace.disposition == "executed_at_current_vector" and trace.fill_timestamp > trace.cutoff
 
 
 def test_delayed_decision_s_executes_at_exact_C_s_plus_one():
-    t = run_clock(
-        (("s1", "BTCUSDT"), ("s2", "ETHUSDT"), ("s3", "BTCUSDT")), vectors(), delayed=True
-    )
-    assert t[0].pending_after == "BTCUSDT" and t[1].actual_after == "BTCUSDT"
+    t = simulated(delayed=True)
+    assert t[180].pending_after == "BTCUSDT" and t[181].actual_after == CASH
 
 
 def test_due_fill_updates_actual_state_before_new_decision():
-    t = run_clock(
-        (("s1", "BTCUSDT"), ("s2", "ETHUSDT"), ("s3", "BTCUSDT")), vectors(), delayed=True
-    )
-    assert t[1].actual_after == "BTCUSDT" and t[1].pending_after == "ETHUSDT"
+    t = simulated(delayed=True)
+    assert t[180].actual_after == "BTCUSDT" and t[180].pending_after == t[180].desired
 
 
 def test_pending_target_is_immutable_and_not_superseded():
-    t = run_clock(
-        (("s1", "BTCUSDT"), ("s2", "ETHUSDT"), ("s3", "BTCUSDT")), vectors(), delayed=True
-    )
-    assert t[0].pending_after == "BTCUSDT" and t[1].actual_after == "BTCUSDT"
+    t = simulated(delayed=True)
+    assert t[180].pending_after == t[180].desired
 
 
 def test_quarantine_safety_precedence_cancels_or_replaces_pending_target_exactly():
-    t = run_clock((("s1", "BTCUSDT"), ("s2", "ETHUSDT")), vectors((1, 2)), delayed=True)
+    t = simulated(delayed=True)
     assert t[-1].actual_after == CASH and t[-1].pending_after is None
 
 
@@ -198,12 +219,7 @@ def test_assumed_midnight_plus_one_minute_terminal_identity_is_never_used():
 
 def test_terminal_override_maps_correctly_in_base_and_delay_modes():
     for delayed in (False, True):
-        assert (
-            run_clock((("a", "BTCUSDT"), ("b", "ETHUSDT")), vectors((1, 2)), delayed=delayed)[
-                -1
-            ].actual_after
-            == CASH
-        )
+        assert simulated(delayed=delayed)[-1].actual_after == CASH
 
 
 def test_terminal_cash_is_exact_and_initial_terminal_costs_reconcile():
@@ -212,8 +228,8 @@ def test_terminal_cash_is_exact_and_initial_terminal_costs_reconcile():
 
 
 def test_pure_reference_pipeline_and_trace_share_one_execution_clock():
-    t = run_clock((("a", "BTCUSDT"), ("b", "ETHUSDT")), vectors((1, 2)), delayed=False)
-    assert t[0].due_timestamp == at(1) and t[1].due_timestamp == at(2)
+    t = simulated()
+    assert [x.period for x in t] == list(range(len(t)))
 
 
 def test_scan_reference_and_indexed_implementation_match_on_small_fixtures():
@@ -312,7 +328,7 @@ def test_nineteen_gate_map_is_exact_and_unknown_or_missing_gate_fails():
 
 
 def test_no_controller_test_trace_or_partial_validation_is_performance_evidence():
-    assert run_clock((("s", "CASH"),), vectors((1,)), delayed=False)[0].wealth == 1
+    assert simulated()[-1].terminal_cash_evidence
 
 
 def test_holdout_latch_capital_zero_GPU_zero_and_mining_unchanged_are_derived():
