@@ -2,7 +2,7 @@
   "budgets": {
     "current_experiment": {
       "audit_attempts_used_by_stage": {
-        "route_4_no_data_direction_review": 1
+        "route_4_no_data_direction_review": 2
       },
       "prior_route_terminal_audit_attempts": {
         "route_3_terminal_direction_review_classification": 1
@@ -13,7 +13,7 @@
       "maximum_implementation_repairs": 3,
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
-        "direction_review_used": 1,
+        "direction_review_used": 2,
         "implementation_used": 0,
         "independent_audit_used": 0,
         "production_integration_used": 0
@@ -68,13 +68,21 @@
   "direction_review_model_result": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
   "direction_review_model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
   "direction_review_model_result_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
-  "direction_review_status": "ATTEMPT_1_AUDIT_PENDING_ATTEMPT_2_AUTHORIZED_PENDING_CLEAN_COMMIT",
+  "direction_review_status": "ATTEMPTS_1_AND_2_AUDIT_PENDING_ORCHESTRATION_INPUT_TIMEOUT_ATTEMPT_3_AUTHORIZED",
   "route_4_direction_review_attempt_1_timeout": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_1_TIMEOUT.json",
   "route_4_direction_review_attempt_1_timeout_byte_sha256": "4b78ae2104e5b23bd72c132e37989fb885433b1581217da431421cc547c9a134",
   "route_4_direction_review_attempt_1_timeout_sha256": "7d56dd253d7672df62eb9ffead69763bec61ded27c46d8724efe27474ce332dc",
   "route_4_direction_review_attempt_2_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_2_AUTHORIZATION.json",
   "route_4_direction_review_attempt_2_authorization_byte_sha256": "b06a2f63e98525d96951acf36acf484d4744648d4df888ee856deac411fa0eb5",
   "route_4_direction_review_attempt_2_authorization_sha256": "21dc3a9e8d53f822a3bb8384d7d4a4a2e535df78347a82099c5fc87f039d8323",
+  "route_4_direction_review_attempt_2_timeout": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_2_TIMEOUT.json",
+  "route_4_direction_review_attempt_2_timeout_byte_sha256": "17d7d04a93f4013332259418f35151ccfd85e19d02403ce699278ad8f384a554",
+  "route_4_direction_review_attempt_2_timeout_sha256": "efd567cce4055be4e0b243ae7734439068c82fc3bf0b2b7ac52b45a54b2a85e4",
+  "route_4_direction_review_attempt_3_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_AUTHORIZATION.json",
+  "route_4_direction_review_attempt_3_authorization_byte_sha256": "9eb37e386075e3bd887ada67241e109d5c179d4c65179813379d7425ffe2d5b6",
+  "route_4_direction_review_attempt_3_authorization_sha256": "0aaab5b532571a4144ff07f074b7a26e0dc7f7d95a418b7af6c6258266d7ab86",
+  "route_4_direction_review_attempt_3_prompt": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_PROMPT.md",
+  "route_4_direction_review_attempt_3_prompt_byte_sha256": "7cf733bb03c4fdc8090c4457af0e3b2fbf3e0fb202b94180a61002a92bb76ff1",
   "route_4_direction_review_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_AUTHORIZATION.json",
   "route_4_direction_review_authorization_byte_sha256": "b0229b180f829b21bbead8f51bc64923ceebda3cd8feee5ca08f27972247a37b",
   "route_4_direction_review_authorization_sha256": "fa68d6f53f2aa0433eec0a79803ff85406bd977a2a20ad33b5db57e2b97ee3a7",
@@ -138,7 +146,7 @@
     "source_snapshot_commit": "5af05f34d1b401fb28f750c724fc32b22eaaeb92",
     "store_live": false
   },
-  "next_task": "commit_and_push_route_4_attempt_2_authorization_then_run_externally_timed_decomposed_live_read_only_sol_xhigh_review",
+  "next_task": "commit_and_push_attempt_2_timeout_and_attempt_3_noninteractive_authorization_then_run_final_live_read_only_sol_xhigh_direction_attempt",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",

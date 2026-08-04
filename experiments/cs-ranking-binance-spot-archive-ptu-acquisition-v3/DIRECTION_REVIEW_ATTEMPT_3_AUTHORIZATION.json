@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T18:22:52.922241387Z",
+  "audit_stage": "NO_DATA_DIRECTION_REVIEW",
+  "audit_attempt": 3,
+  "maximum_attempts_for_this_stage": 3,
+  "final_attempt_under_current_authority": true,
+  "retry_basis": "Attempts 1 and 2 ended AUDIT_PENDING with zero Codex events under the same defective interactive PTY input pattern. Attempt 2 was externally terminated at 1200 seconds with exit 124.",
+  "source_parent_commit": "b4f71a5533d38436fc8ce13fea8a974388af5fba",
+  "required_review_source": "The exact clean 40-hex HEAD containing this authorization, its prompt, timeout evidence, and state checkpoint. The reviewer must record and verify that HEAD and verify source_parent_commit is an ancestor without reviewing a different worktree state.",
+  "requested_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "permission": "read_only",
+  "maximum_wall_seconds": 1200,
+  "input_mode": "NONINTERACTIVE_STDIN_REDIRECT_FROM_COMMITTED_PROMPT_FILE",
+  "tty_permitted": false,
+  "model_execution_confirmation": "The parent must receive a Codex JSONL thread.started event before treating model execution as confirmed.",
+  "external_timeout_command_prefix": [
+    "/usr/bin/timeout",
+    "--signal=INT",
+    "--kill-after=5s",
+    "1200s"
+  ],
+  "bound_attempt_2_timeout": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_2_TIMEOUT.json",
+    "byte_sha256": "17d7d04a93f4013332259418f35151ccfd85e19d02403ce699278ad8f384a554",
+    "canonical_sha256": "efd567cce4055be4e0b243ae7734439068c82fc3bf0b2b7ac52b45a54b2a85e4"
+  },
+  "bound_prompt": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_PROMPT.md",
+    "byte_sha256": "7cf733bb03c4fdc8090c4457af0e3b2fbf3e0fb202b94180a61002a92bb76ff1"
+  },
+  "bound_draft": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+    "byte_sha256": "437d87ceb355b030b8729fae2183547a939d7c10e41812f12e7c45e0cfefa1b6",
+    "canonical_sha256": "144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e"
+  },
+  "output_schema": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+    "byte_sha256": "a9683091dcb09434d5c510294b29e7dccc9d2d0b7fd1d4b008df27bcfe5562f8",
+    "canonical_sha256": "f77b845da9a1331023da5a12a29b33722594d33db040c957923bf4b4ce03c17e"
+  },
+  "open_exactly": [
+    "AGENTS.md",
+    "PHASE_2_AUTHORIZATION.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_AUTHORIZATION.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_PROMPT.md",
+    "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-audit-resolution-v2/MODEL_RESULT.json"
+  ],
+  "hash_without_opening": [
+    "experiments/cs-ranking-ptu-data-audit-v1/AUDIT.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/AUDIT.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/PREREGISTRATION.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/SYMBOL_MANIFEST.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-audit-resolution-v2/AUDIT.json",
+    "experiments/cs-ranking-binance-spot-archive-ptu-audit-resolution-v2/PREREGISTRATION.json",
+    "src/strategy_control/archive_audit.py",
+    "src/strategy_control/archive_universe.py",
+    "tests/test_archive_audit.py",
+    "tests/test_archive_universe.py"
+  ],
+  "required_decision": "Return one schema-valid complete DIRECTION_ACCEPTED or REVISION_REQUIRED verdict for exact draft 144d7957..., covering all sixteen prompt checks and enumerating every known material correction before freeze.",
+  "substantive_result_handling": "DIRECTION_ACCEPTED permits the parent to create a separate frozen preregistration checkpoint. REVISION_REQUIRED permits one bounded no-data incorporation pass but no fourth live direction invocation under current authority; the corrected draft would require a new explicit human-authorized review amendment before implementation.",
+  "timeout_handling": "A third timeout remains AUDIT_PENDING, exhausts the current direction-review attempt budget, and leaves route 4 preregistration blocked without a data or economic verdict. No fourth invocation is permitted without explicit new human authorization.",
+  "prohibited_actions": [
+    "use an interactive TTY for prompt delivery",
+    "modify any file",
+    "make any network request or browse",
+    "open the rejected v1 symbol manifest",
+    "access data/raw, external market data, or any holdout source",
+    "calculate returns, train a model, run a backtest, or infer profitability",
+    "authorize implementation, acquisition, holdout, credentials, orders, capital, GPU, or mining change"
+  ],
+  "fallback_used": false,
+  "fallback_permitted": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "implementation_authorized": false,
+  "acquisition_authorized": false,
+  "holdout_access_authorized": false
+}

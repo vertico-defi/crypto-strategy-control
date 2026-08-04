@@ -63,6 +63,17 @@
 
 - Retry authorization checkpoint: attempt 2/3 is bound by `21dc3a9e...`; the same Sol/xhigh model receives decomposed repository evidence and an external 1,200-second hard deadline. The rejected v1 manifest may be hashed but not opened.
 
+## 2026-08-04T18:22:52.922241387Z — attempt 2 input timeout; final noninteractive retry authorized
+
+- Current checkpoint: attempts 1 and 2 are `AUDIT_PENDING`; attempt 3/3 is authorized under `0aaab5b5...`.
+- What changed: attempt 2 exited 124 at the hard ceiling with zero Codex events. The likely shared cause is the one-write PTY EOF pattern, not a confirmed model/service failure. Final prompt `7cf733bb...` will use noninteractive redirected stdin and no TTY.
+- What was verified: exact clean attempt-2 source; external timeout worked; no model execution/result, fallback, file mutation, data, holdout, return, model training, backtest, repair, capital, or GPU action.
+- What failed: prompt EOF was not deterministically delivered, so no substantive review began.
+- Current best defensible result: draft remains unfrozen; no universe GO and no candidate.
+- Next experiment: commit the evidence/authorization and run final same-model read-only attempt 3 with ordinary stdin EOF and a JSONL thread-start requirement.
+- Current blocker: none; one attempt remains.
+- Exact resume state: direction attempts 2/3 used; implementation repairs 0/3; network requests/objects 0; holdout unresolved/unopened/unread; returns/models/backtests 0; capital/GPU zero; mining unchanged.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.
