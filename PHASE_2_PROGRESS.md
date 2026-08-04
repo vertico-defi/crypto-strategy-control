@@ -252,3 +252,14 @@
 - Next action: commit/push authorization, run live `gpt-5.6-sol`/`xhigh`, preserve its exact verdict, then route to volatility-management v2.
 - Current blocker: none.
 - Exact resume state: terminal audit attempt 1 authorized; holdout/data/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T14:59:36.247133473Z — route-2 terminal classification audit passes
+
+- Current checkpoint: live Sol/xhigh read-only audit `3872bbff...` returns `PASS_TERMINAL_CLASSIFICATION`; route 2 is durably terminal and route 3 is now the current Phase 2 experiment.
+- What changed: the audit independently reproduced every final repair failure and found an additional positive-value and retained-lookback identity-validation defect. Route-3 budgets are reset to 0/3 pre-run repairs used, 0/2 post-run repairs used, and no audit attempts.
+- What was verified: source commit `dd8a869...`, terminal validation `9efe0356...`, frozen wrapper `c20a1a28...`, effective contract `ee1c3246...`, final repair authorization `a7eeae5a...`, and all five source/test byte hashes match. Response `019fcd41...` used live `gpt-5.6-sol`/`xhigh` with no fallback or error.
+- What failed: incomplete oracle, unfrozen multiplicity registry, unenforced 150-session recovery, incomplete quarantine/gap precedence, unproved fold isolation, absent parity grid, absent full reconciliation, superficial tests, and the additional value/identity validation defect remain. No further route-2 repair is authorized.
+- Current best defensible result: exact route 2 is `IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT`; the family is economically unevaluated and unconsumed, so no profitability or unprofitability claim is permitted.
+- Next action: commit/push the audit checkpoint, publish the sanitized negative transition, then inspect Phase-1 volatility-management evidence and draft the route-3 preregistration without data access.
+- Current blocker: none.
+- Exact resume state: current experiment `btc-eth-volatility-managed-equal-weight-v2`; preregistration pending; market/holdout/returns false; every 2026 holdout sealed/unread; capital/GPU zero; mining unchanged.

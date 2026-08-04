@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "role": "phase_2_relative_value_v2_terminal_implementation_classification_auditor",
+  "requested_model": "gpt-5.6-sol",
+  "actual_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "invocation_interface": "codex_cli_0.146.0",
+  "started_at_utc": "2026-08-04T14:50:24.543000Z",
+  "ended_at_utc": "2026-08-04T14:59:36.247133473Z",
+  "duration_seconds": 551.704133473,
+  "response_identifier": "019fcd41-1d9f-7741-875c-8b81ef0e5778",
+  "invocation_result_sha256": "6256ccff0e0a73e808635eb1a6ae0d09212519055c7c3b94b1a805db04c7d040",
+  "usage": {
+    "input_tokens": 1682520,
+    "cached_input_tokens": 1547776,
+    "output_tokens": 18179,
+    "reasoning_output_tokens": 9928
+  },
+  "exit_code": 0,
+  "exact_error": null,
+  "fallback": null,
+  "outcome": "SUCCESS",
+  "audit_result": {
+    "verdict": "PASS_TERMINAL_CLASSIFICATION",
+    "audit_scope": "READ_ONLY_TERMINAL_IMPLEMENTATION_CLASSIFICATION_AUDIT",
+    "source_commit": "dd8a8697f4b0f0928c319d1e05b702c9c55e43e3",
+    "binding_verified": true,
+    "bound_hashes_recomputed": {
+      "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80",
+      "frozen_preregistration_canonical_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
+      "effective_contract_canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+      "final_repair_authorization_canonical_sha256": "a7eeae5a90429e43e11c4ff8c2b7c0c90a5a90bac846882345e86e1692c18a8f"
+    },
+    "bound_source_and_test_byte_hashes_match": true,
+    "terminal_failures_reproduced": [
+      "Independent oracle is incomplete and cannot recompute scoring, recovery, folds, bootstrap, DSR/PBO, multiplicity, regimes, nineteen gates, or the complete production trace.",
+      "MultiplicityRegistry accepts arbitrary caller-supplied slots and does not construct or transition the frozen 49-slot registry.",
+      "simulate_period does not gate decisions on recovery reaching 150 synchronized complete sessions.",
+      "Missing due vectors and unpriced exposed liquidation cannot be represented with the current quarantine and gap path.",
+      "The four-fold runner does not prove start-aware warmup and PnL isolation.",
+      "The exhaustive seven-trial target parity grid is absent.",
+      "Full production-versus-independent-oracle trace reconciliation is absent.",
+      "Multiple exact-named tests remain superficial and do not establish their named obligations."
+    ],
+    "additional_defect": "Observation and score_at do not require positive values or retained-lookback identity uniqueness; repeated identities and some negative price sequences can pass. This strengthens the blocked classification.",
+    "implementation_repairs_used": 3,
+    "implementation_repairs_remaining": 0,
+    "terminal_classification": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+    "exact_experiment_administratively_terminal": true,
+    "strategy_family_economically_evaluated": false,
+    "strategy_family_economically_consumed": false,
+    "formal_economic_attempt_consumed": false,
+    "economic_result_exists": false,
+    "data_no_go": false,
+    "historical_no_go": false,
+    "unprofitable_label_permitted": false,
+    "performance_claim_permitted": false,
+    "candidate_promoted": false,
+    "repository_evidence_supports_zero_market_data_return_holdout_capital_gpu_mining_credential_order_or_portfolio_access_by_final_repair": true,
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "capital_permitted": 0,
+    "route_3_may_begin": true,
+    "next_phase_2_route": "btc-eth-volatility-managed-equal-weight-v2",
+    "limitations": [
+      "The auditor did not inspect external source data or rerun pytest; the recorded PASS_40 and PASS_306 toolchain outcomes were hash-bound but not independently re-executed.",
+      "Committed evidence strongly supports zero prohibited access but cannot prove a universal negative about actions outside captured controller and model logs."
+    ],
+    "performance_claim_made": false
+  }
+}
