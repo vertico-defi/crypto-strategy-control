@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0",
+  "status": "FROZEN",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "phase": 2,
+  "frozen_at_utc": "2026-08-04T07:10:22.528235982Z",
+  "frozen_source_commit": "57265df7778e420f604bd014a33153dbc7bdf2bf",
+  "hash_rule": "The canonical SHA-256 of this complete wrapper uses sorted keys, compact separators, UTF-8, and is recorded externally in CURRENT_STATE.json and EXPERIMENT_LEDGER.jsonl; no self-referential hash field exists.",
+  "freezing_authority": "This wrapper freezes the complete effective contract and does not duplicate, override, or reinterpret it.",
+  "effective_contract": {
+    "path": "experiments/btc-eth-long-only-mean-reversion-v2/PREREGISTRATION_DRAFT.json",
+    "canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "byte_sha256": "1da897a3eff60a013181d6381fc20b9e7e1678cad6005dd6c9224fdb15385a77",
+    "status_inside_hashed_contract": "DRAFT_REVISED_NOT_FROZEN",
+    "complete": true,
+    "wrapper_is_freezing_authority": true
+  },
+  "original_draft": {
+    "canonical_sha256": "f92df417213361c09764953d3351006ea86d6429f3d6252ccfd1a7aedc7c0055",
+    "byte_sha256": "b94abed74a1008bdb302fd418aaf308462cb9e39cf7b36a950cf494b32e3bc5d",
+    "committed_source": "24638be6bc9af6d7bb677faa5bae2de586c73e69"
+  },
+  "direction_review": {
+    "verdict": "REVISION_REQUIRED",
+    "review_path": "experiments/btc-eth-long-only-mean-reversion-v2/DIRECTION_REVIEW.json",
+    "review_byte_sha256": "57b1f0201f9b23975d0b92ecb633fbebcb8b042c69d65ce1acd90d18a0806a95",
+    "invocation_result_sha256": "0b8abd49a308c0ed60b3dbb5b83e4980cffe1568bffbca2147afae5bf47e11b1",
+    "model_result_path": "experiments/btc-eth-long-only-mean-reversion-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
+    "model_result_payload_canonical_sha256": "794270a63eec2d3880b653bb7c66e69a96c0c05bf6b1316f4838544faee609aa",
+    "model_result_byte_sha256": "b20e5dbfd9ee48a089b9b609a0429125433a3b4ed4415849d4c52c475687ca6c",
+    "requested_model": "gpt-5.6-sol",
+    "actual_model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "invocation_mode": "live",
+    "fallback": null,
+    "exact_error": null
+  },
+  "revision_incorporation": {
+    "path": "experiments/btc-eth-long-only-mean-reversion-v2/REVISION_INCORPORATION.json",
+    "canonical_sha256": "34f89d3be5846f2f22ef7662c93c7a4c67a72362dc45baaa428dca28c5237c07",
+    "byte_sha256": "08afb5ee9faad0baac80f0c6e0d92d3f5099a669d095001fabdd93bcae75d9fd",
+    "required": 7,
+    "incorporated": 7,
+    "economic_definition_changed": false
+  },
+  "authorization": {
+    "path": "PHASE_2_AUTHORIZATION.json",
+    "byte_sha256": "2686b9caeda1e4d443132cdeafc6c86dfa8e296bde5a711a55f190219bd7c2db",
+    "program_state": "ACTIVE_RESEARCH_PHASE_2"
+  },
+  "data_identity": {
+    "reused_contract_path": "experiments/btc-eth-vol-targeted-trend-v1/DATA_CONTRACT.json",
+    "reused_contract_canonical_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+    "reused_contract_byte_sha256": "47dcf7e5bec24ec73be45cdeb200e25671807e7a28c3c1204499a4e20ae972b7",
+    "source_repository_commit_in_freeze_manifest": "d1d6066a6042b0c2e1c6af75047f5ebf935c739f",
+    "dataset_freeze_manifest_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+    "development_allowlist_count": 36,
+    "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd"
+  },
+  "phase_1_preserved_evidence": {
+    "phase_1_final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
+    "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
+    "mean_reversion_v1_terminal": "HISTORICAL_NO_GO_DEVELOPMENT/AUDIT_REJECTED",
+    "mean_reversion_v1_preregistration_sha256": "1a722dfa9450f26e20a748e09d50a990cc35ccae35cf94ffd70303d9fedfcd3b",
+    "mean_reversion_v1_development_result_sha256": "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23",
+    "mean_reversion_v1_audit_byte_sha256": "8f5899a1bc9115e7a9d532b3617ab6b542c953ee4a658d4cfbb66cf3fb2d59b7",
+    "v1_reported_result_treatment": "CONTAMINATED_PRIOR_COUNTED_FOR_MULTIPLICITY_NOT_PARAMETER_SELECTION",
+    "immutability": "No Phase 1 experiment, audit, commit, ledger entry, publication, or verdict is reopened, rewritten, softened, or relabeled."
+  },
+  "budget": {
+    "maximum_pre_run_implementation_repairs": 3,
+    "pre_run_implementation_repairs_used": 0,
+    "maximum_post_run_fidelity_repairs": 2,
+    "post_run_fidelity_repairs_used": 0,
+    "maximum_independent_audit_attempts_per_review_stage": 3,
+    "audit_attempts_used_by_stage": {},
+    "maximum_live_invocation_wall_seconds": 1200,
+    "maximum_local_evaluation_wall_seconds": 1800,
+    "bounded_cycles_per_controller_run": 1,
+    "max_gpu_seconds": 0,
+    "capital_permitted": 0
+  },
+  "pre_implementation_invariants": {
+    "exact_v1_economic_contract_preserved": true,
+    "exact_v1_gate_count": 19,
+    "exact_v1_trial_count": 7,
+    "required_pre_economic_test_count": 35,
+    "all_direction_revisions_incorporated": true,
+    "market_values_read_for_phase_2": false,
+    "returns_calculated_for_phase_2": false,
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "candidate_promoted": false,
+    "capital_permitted": 0,
+    "fixed_pair_compute": "CPU_ONLY",
+    "vertcoin_mining": "UNCHANGED",
+    "scheduled_continuation_enabled": false,
+    "active_owner_type": "interactive_goal",
+    "store_live": false
+  },
+  "implementation_authorization": {
+    "model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "initial_scope": "Pure implementation and synthetic tests only. No market file, source data repository, or 2026 path may be opened by the model invocation.",
+    "parent_validation": "The parent must prove all 35 named obligations and complete deterministic tooling before any production real-data integration.",
+    "production_scope_after_pure_validation": "Only then run the exact verified-buffer production path against the 36 allowlisted development files, record mechanical evidence without an aggregate economic claim, and obtain implementation-fidelity approval before formal evaluation."
+  },
+  "next_task": "implement_mean_reversion_v2_pure_and_production_fidelity_tests_pre_data"
+}
