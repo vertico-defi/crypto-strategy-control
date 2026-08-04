@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "validation_scope": "DIRECTION_REVIEW_CAPTURE_AND_NO_DATA_PREREGISTRATION_REVISION",
+  "source_parent_commit": "ab4817f057de3ed2d082cee634aad73a56286047",
+  "completed_at_utc": "2026-08-04T18:54:02.811216923Z",
+  "invocation_mode": "deterministic_local",
+  "checks": [
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -c <parse all tracked JSON and JSONL; validate model-result and current-state invariants>",
+      "exit_status": 0,
+      "result": "PASS: 488 JSON files parsed, four JSONL ledgers parsed, 17 review checks partitioned into 11 PASS and 6 FAIL, seven revisions present, all prohibited-action booleans false, direction-attempt counter 3, revised draft unfrozen."
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m ruff check .",
+      "exit_status": 0,
+      "result": "All checks passed."
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m mypy --strict --python-version 3.13 src",
+      "exit_status": 0,
+      "result": "Success: no issues found in 29 source files."
+    },
+    {
+      "command": "env PYTHONPATH=/home/vertico/crypto-strategy-control/src /home/vertico/ctrend-lab/.venv/bin/python -m pytest -q",
+      "exit_status": 0,
+      "result": "All 306 collected repository tests passed. These deterministic/controller tests are not evidence of trading profitability or data-contract acceptance."
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m compileall -q src tests",
+      "exit_status": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -c <compare captured model JSON with authoritative Codex task_complete last_agent_message>",
+      "exit_status": 0,
+      "result": "PASS exact session/model-result parsed-object equality."
+    }
+  ],
+  "nonblocking_tooling_diagnostic": {
+    "command": "/home/vertico/ctrend-lab/.venv/bin/python -c 'import jsonschema'",
+    "exit_status": 1,
+    "exact_error": "ModuleNotFoundError: No module named 'jsonschema'",
+    "effect": "No dependency was installed. The Codex API had already enforced the corrected output schema before returning the structured result; parent validation separately checked all closed fields, counts, enums, and verdict consistency."
+  },
+  "validated_artifacts": {
+    "model_result_byte_sha256": "b2a7fa3ca2e11f3e1bf2d4a72c85ddf6fdf85abe19b2d7e10cbbffd54d3678d7",
+    "model_result_canonical_sha256": "b79c0ea1b38b0d8654b73b8124a01af1539f56dc77b3b96be5f346dc21d49c74",
+    "direction_review_byte_sha256": "c3c65589426eb2c76dda80b9f0b54d0bd9ce7b5842eff1a1121b9fac2947c13f",
+    "direction_review_canonical_sha256": "faf19996f233f6f57a51ff71eff9d78ee89ae741bf410fe16b4ae99ba4be8234",
+    "revised_draft_byte_sha256": "756f0be8111f93062bb033b3bbeeeba14ab556a44f530724215f26dbfd6c5774",
+    "revised_draft_canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e",
+    "revision_incorporation_byte_sha256": "1d76e1b10b41c75d88938ed6ff3eba2684114296dc906a8b65c9faf5964900a6",
+    "revision_incorporation_canonical_sha256": "4697217c9b960f29a9e6bda044a5c3dd3fff3e10ae9b507c62484758a6d3c2c4"
+  },
+  "verdict": "PASS_NO_DATA_REVISION_CHECKPOINT_UNFROZEN",
+  "data_contract_go": false,
+  "economic_result_exists": false,
+  "performance_claim_made": false,
+  "implementation_authorized": false,
+  "acquisition_authorized": false,
+  "network_accessed": false,
+  "market_data_accessed": false,
+  "holdout_paths_resolved": false,
+  "holdout_accessed": false,
+  "strategy_returns_calculated": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0
+}

@@ -2,7 +2,7 @@
   "budgets": {
     "current_experiment": {
       "audit_attempts_used_by_stage": {
-        "route_4_no_data_direction_review": 2
+        "route_4_no_data_direction_review": 3
       },
       "prior_route_terminal_audit_attempts": {
         "route_3_terminal_direction_review_classification": 1
@@ -13,7 +13,7 @@
       "maximum_implementation_repairs": 3,
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
-        "direction_review_used": 2,
+        "direction_review_used": 3,
         "implementation_used": 0,
         "independent_audit_used": 0,
         "production_integration_used": 0
@@ -45,8 +45,8 @@
     "store_live": false
   },
   "current_experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
-  "data_contract_status": "ROUTE_4_PREREGISTRATION_DRAFT_NOT_FROZEN",
-  "development_status": "NO_DATA_DIRECTION_REVIEW_PENDING / NO_ECONOMIC_RESULT",
+  "data_contract_status": "ROUTE_4_REVISED_PREREGISTRATION_DRAFT_NOT_FROZEN / EXPLICIT_HUMAN_AUTHORIZED_REVIEW_AMENDMENT_REQUIRED",
+  "development_status": "NO_DATA_DIRECTION_REVIEW_REVISION_REQUIRED / NO_ECONOMIC_RESULT",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -68,7 +68,16 @@
   "direction_review_model_result": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
   "direction_review_model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
   "direction_review_model_result_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
-  "direction_review_status": "ATTEMPT_3_ABORTED_INVALID_SCHEMA_NONCONSUMING_REPAIR_1_AUTHORIZED",
+  "direction_review_status": "ATTEMPT_3_REVISION_REQUIRED / 3_OF_3_DIRECTION_ATTEMPTS_USED / REVISED_DRAFT_AWAITS_EXPLICIT_HUMAN_AUTHORIZED_REVIEW_AMENDMENT",
+  "route_4_direction_review_attempt_3": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3.json",
+  "route_4_direction_review_attempt_3_byte_sha256": "c3c65589426eb2c76dda80b9f0b54d0bd9ce7b5842eff1a1121b9fac2947c13f",
+  "route_4_direction_review_attempt_3_sha256": "faf19996f233f6f57a51ff71eff9d78ee89ae741bf410fe16b4ae99ba4be8234",
+  "route_4_direction_review_attempt_3_model_result": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_MODEL_RESULT.json",
+  "route_4_direction_review_attempt_3_model_result_byte_sha256": "b2a7fa3ca2e11f3e1bf2d4a72c85ddf6fdf85abe19b2d7e10cbbffd54d3678d7",
+  "route_4_direction_review_attempt_3_model_result_sha256": "b79c0ea1b38b0d8654b73b8124a01af1539f56dc77b3b96be5f346dc21d49c74",
+  "route_4_no_data_revision_validation": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/NO_DATA_REVISION_VALIDATION.json",
+  "route_4_no_data_revision_validation_byte_sha256": "d96b543911ab57d0b2febfc10f09134e17f24edc89d06fe5225c33dc0113dbc5",
+  "route_4_no_data_revision_validation_sha256": "0776dfc2593130ef6740b6f602ffb199eab8750fc13cffd7a94d97e33af3fbe3",
   "route_4_direction_review_attempt_3_aborted_invalid_schema": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_ABORTED_INVALID_SCHEMA.json",
   "route_4_direction_review_attempt_3_aborted_invalid_schema_byte_sha256": "7fa60e2e15ed53a142a4c043397789b7f9b0debd7db6ce3240d3eab3f217edf4",
   "route_4_direction_review_attempt_3_aborted_invalid_schema_sha256": "4e6070aa25ecc567bbb7f3fee73c9f125b5fc8c84e5fcf025000c193b407efb5",
@@ -123,7 +132,7 @@
   "implementation_model_result": null,
   "implementation_model_result_byte_sha256": null,
   "implementation_model_result_sha256": null,
-  "implementation_status": "NOT_STARTED",
+  "implementation_status": "NOT_STARTED / NOT_AUTHORIZED_PENDING_DIRECTION_ACCEPTANCE",
   "implementation_artifact_sha256": {},
   "implementation_validation": null,
   "implementation_validation_byte_sha256": null,
@@ -154,7 +163,7 @@
     "source_snapshot_commit": "5af05f34d1b401fb28f750c724fc32b22eaaeb92",
     "store_live": false
   },
-  "next_task": "commit_and_push_nonconsuming_attempt_3_schema_failure_and_repair_1_then_rerun_nominal_final_sol_xhigh_direction_attempt",
+  "next_task": "await_explicit_human_authorization_for_provenance_correct_fourth_no_data_sol_xhigh_direction_review_amendment",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -181,19 +190,19 @@
   "preregistration_byte_sha256": null,
   "preregistration_committed_source": null,
   "preregistration_draft": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
-  "preregistration_draft_byte_sha256": "437d87ceb355b030b8729fae2183547a939d7c10e41812f12e7c45e0cfefa1b6",
-  "preregistration_draft_sha256": "144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e",
+  "preregistration_draft_byte_sha256": "756f0be8111f93062bb033b3bbeeeba14ab556a44f530724215f26dbfd6c5774",
+  "preregistration_draft_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e",
   "preregistration_frozen_source_commit": null,
   "preregistration_original_draft_sha256": "144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e",
-  "preregistration_revision_incorporation": null,
-  "preregistration_revision_incorporation_byte_sha256": null,
-  "preregistration_revision_incorporation_sha256": null,
+  "preregistration_revision_incorporation": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_REVISION_INCORPORATION.json",
+  "preregistration_revision_incorporation_byte_sha256": "1d76e1b10b41c75d88938ed6ff3eba2684114296dc906a8b65c9faf5964900a6",
+  "preregistration_revision_incorporation_sha256": "4697217c9b960f29a9e6bda044a5c3dd3fff3e10ae9b507c62484758a6d3c2c4",
   "preregistration_sha256": null,
-  "preregistration_status": "DRAFT_NOT_FROZEN_PENDING_LIVE_DIRECTION_REVIEW",
+  "preregistration_status": "DRAFT_REVISED_NOT_FROZEN_PENDING_EXPLICIT_HUMAN_AUTHORIZED_REVIEW_AMENDMENT",
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
-  "program_blocker": null,
+  "program_blocker": "EXPLICIT_HUMAN_AUTHORIZATION_REQUIRED_FOR_FOURTH_NO_DATA_SOL_XHIGH_DIRECTION_REVIEW_AMENDMENT_BEFORE_ROUTE_4_FREEZE_OR_IMPLEMENTATION",
   "program_state": "ACTIVE_RESEARCH_PHASE_2",
   "final_mechanical_index_repair_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_AUTHORIZATION.json",
   "final_mechanical_index_repair_authorization_byte_sha256": "baa2a233880cc3896e55a5ddcb6bc6c4325209693c697ecdcb783f55f37e7d85",
@@ -316,5 +325,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T17:09:05Z"
+  "updated_at_utc": "2026-08-04T18:47:41.507750466Z"
 }

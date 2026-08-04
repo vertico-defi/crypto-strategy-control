@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "incorporated_at_utc": "2026-08-04T18:47:41.507750466Z",
+  "source_parent_commit": "ab4817f057de3ed2d082cee634aad73a56286047",
+  "incorporation_scope": "ONE_BOUNDED_NO_DATA_DIRECTION_REVISION_INCORPORATION",
+  "authority": "DIRECTION_REVIEW_ATTEMPT_3_AUTHORIZATION.json substantive_result_handling permits one bounded no-data incorporation after REVISION_REQUIRED but no fourth live direction invocation under current authority.",
+  "original_draft": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+    "byte_sha256": "437d87ceb355b030b8729fae2183547a939d7c10e41812f12e7c45e0cfefa1b6",
+    "canonical_sha256": "144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e"
+  },
+  "direction_review": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3.json",
+    "model_result_path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_MODEL_RESULT.json",
+    "model_result_byte_sha256": "b2a7fa3ca2e11f3e1bf2d4a72c85ddf6fdf85abe19b2d7e10cbbffd54d3678d7",
+    "model_result_canonical_sha256": "b79c0ea1b38b0d8654b73b8124a01af1539f56dc77b3b96be5f346dc21d49c74",
+    "verdict": "REVISION_REQUIRED",
+    "passed_checks": 11,
+    "failed_checks": 6
+  },
+  "incorporated_revisions": [
+    {
+      "id": "review-output-schema-chain-of-custody",
+      "change": "Preserve the mismatch as a failed review check, bind the corrected schema and exact substantive result in new append-only artifacts, and require a new explicit human-authorized review amendment before another review or freeze.",
+      "freeze_resolved": false,
+      "reason": "Only explicit human authority can cure the final-attempt authorization mismatch; repository edits cannot silently amend it."
+    },
+    {
+      "id": "identity-preserving-redirects",
+      "change": "Disable automatic redirects; validate every proposed hop; require exact listing path and decoded canonical query or exact listed object-key path; reject userinfo, fragment, nondefault port, added query, same-host wrong path, wrong query, or different object; retain received rejected bytes."
+    },
+    {
+      "id": "executable-csv-boundary",
+      "change": "Freeze strict UTF-8 and BOM handling, CSV dialect, line endings, terminal newline behavior, blank and embedded-record rejection, whitespace preservation, integer and Decimal lexical grammars, and an exact-zero ignore-field rule."
+    },
+    {
+      "id": "all-duplicate-object-keys-fail-closed",
+      "change": "Reject and retain evidence for every repeated decoded ObjectRecord key, including byte-identical metadata; forbid deduplication and last-write-wins."
+    },
+    {
+      "id": "exhaustive-count-partitions",
+      "change": "Define mutually exclusive exhaustive terminal states and exact additive equations for scheduled month slots, logical requests, listed object downloads, complete pairs, and checksum-verified row outcomes; separate HTTP attempts from logical requests."
+    },
+    {
+      "id": "request-attempt-and-resume-identity",
+      "change": "Freeze the canonical logical request tuple and serialization, request_id and attempt_id derivations, separate pagination and retry lineage, monotonic attempts, immutable terminal outcomes, and exact idempotent-resume conditions."
+    },
+    {
+      "id": "symbol-label-only-identity",
+      "change": "Remove notice-based identity acquisition; forbid cross-symbol merging; define exact blocking and nonblocking label statuses; make ordinary valid label-only episodes eligible without an unresolved-identity paradox; require separate future authorization for notices."
+    }
+  ],
+  "revised_draft": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+    "byte_sha256": "756f0be8111f93062bb033b3bbeeeba14ab556a44f530724215f26dbfd6c5774",
+    "canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e",
+    "status": "DRAFT_REVISED_NOT_FROZEN_PENDING_EXPLICIT_HUMAN_AUTHORIZED_REVIEW_AMENDMENT"
+  },
+  "budget_state": {
+    "direction_review_attempts_used": 3,
+    "direction_review_attempts_remaining": 0,
+    "pre_run_implementation_repairs_used": 1,
+    "pre_run_implementation_repairs_remaining": 2,
+    "incorporation_count": 1,
+    "further_incorporation_authorized": false
+  },
+  "zero_action_assertions": {
+    "network_requests_made": 0,
+    "archive_objects_discovered": 0,
+    "archive_objects_downloaded": 0,
+    "market_files_accessed": false,
+    "market_values_read": false,
+    "returns_calculated": false,
+    "models_trained": 0,
+    "backtests_run": 0,
+    "holdout_paths_resolved": false,
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "implementation_authorized": false,
+    "acquisition_authorized": false,
+    "capital_permitted": 0,
+    "gpu_seconds_used": 0,
+    "vertcoin_mining": "UNCHANGED"
+  },
+  "next_required_human_action": "Explicitly authorize a provenance-correct fourth no-data live Sol/xhigh direction review amendment binding the corrected output schema and revised draft. Until then, do not freeze, implement, acquire data, or proceed to the conditional cross-sectional tournament."
+}

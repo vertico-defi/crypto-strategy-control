@@ -414,3 +414,14 @@
 - Next action: commit/push the clean verified contract, then invoke live Sol/xhigh attempt 3.
 - Current blocker: none.
 - Exact resume state: direction review 2/3; implementation repairs 0/3; post-run repairs 0/2; market/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T18:47:41.507750466Z — route-4 draft revised; explicit review amendment required
+
+- Current checkpoint: live Sol/xhigh direction attempt 3 returned substantive `REVISION_REQUIRED`; all seven corrections are incorporated in unfrozen draft `48ff7c37...` and proof `4697217c...`.
+- What changed: exact redirect identity, CSV and numeric parsing, duplicate-key rejection, exhaustive count partitions, request/attempt/resume identities, and symbol-label-only episode rules are now explicit. The stale schema binding is preserved as a chain-of-custody failure.
+- What was verified: live read-only thread `019fce0c...` finished in 625.715 seconds; 11/17 checks passed; 6 failed; 7 revisions were enumerated. Exact model, xhigh reasoning, source commit, timestamps, token usage, and result hashes are retained. Validation `0776dfc2...` confirms exact session/result equality, 488 JSON files and four ledgers parse, Ruff, strict Mypy over 29 source files, compilation, diff checks, and all 306 repository tests pass. Those tests are not profitability evidence. The revised draft remains unfrozen.
+- What failed: attempt 3's authorization bound the invalid pre-repair output-schema hashes. The final review result therefore cannot authorize freeze even after correcting the substantive draft issues.
+- Current best defensible result: no route-4 data verdict and no Phase 2 economic result. No profitability claim exists.
+- Next experiment/action: no experiment may start. Await explicit human authorization for one provenance-correct fourth no-data Sol/xhigh review amendment binding the corrected schema and revised draft.
+- Current blocker: `EXPLICIT_HUMAN_AUTHORIZATION_REQUIRED_FOR_FOURTH_NO_DATA_SOL_XHIGH_DIRECTION_REVIEW_AMENDMENT`.
+- Exact resume state: direction review 3/3, zero remaining; implementation repair 1/3 used, 2 remaining; post-run repairs 0/2; implementation/acquisition unauthorized; network/data/object/return/holdout access zero; capital/GPU zero; mining unchanged.
