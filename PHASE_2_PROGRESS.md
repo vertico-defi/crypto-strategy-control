@@ -263,3 +263,14 @@
 - Next action: commit/push the audit checkpoint, publish the sanitized negative transition, then inspect Phase-1 volatility-management evidence and draft the route-3 preregistration without data access.
 - Current blocker: none.
 - Exact resume state: current experiment `btc-eth-volatility-managed-equal-weight-v2`; preregistration pending; market/holdout/returns false; every 2026 holdout sealed/unread; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T15:12:47.688556391Z — route-2 terminal transition published
+
+- Current checkpoint: source evidence `c48bb16...`, source snapshot `8b1b3fc...`, and portfolio `9a7dc72...` are public; validation run `30922894656` and Pages run `30922897352` passed.
+- What changed: the sanitized portfolio now reports route 2's audit-confirmed implementation-inconclusive result and route 3 as preregistration-only.
+- What was verified: publication-history gate pass, five tests, syntax/type checks, 22 static pages, zero API routes, `STORE_LIVE=false`, no secret-key/token pattern, HTTP 200, exact source commit, closed holdouts, no candidate, and capital zero.
+- What failed: nothing in publication. Route-2 implementation failures remain unchanged and are not described as trading profitability evidence.
+- Current best defensible result: no Phase 2 economic result exists; routes 1 and 2 are administratively terminal implementation-inconclusive.
+- Next action: inspect Phase-1 volatility-management evidence and create the route-3 authorization and no-data preregistration draft.
+- Current blocker: none.
+- Exact resume state: `btc-eth-volatility-managed-equal-weight-v2` current; budgets reset; market/holdout/returns false; capital/GPU zero; mining unchanged.

@@ -92,14 +92,14 @@
   "last_terminal_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
   "latest_publication": {
     "deployed_content_verified": true,
-    "evidence_commit": "485e420d620cb66af621075494f0db63d8ed29c1",
-    "pages_deployment_run_id": 30912389684,
+    "evidence_commit": "c48bb16ef950d1398dc62aa19134ad5121a00b12",
+    "pages_deployment_run_id": 30922897352,
     "pages_status": "SUCCESS_DEPLOYED_CONTENT_VERIFIED",
-    "portfolio_commit": "2143bc1e01ce59050428b7c03288aaf2363cb09e",
+    "portfolio_commit": "9a7dc72379186c8c6719a29e2979a5ffbafbee41",
     "portfolio_publication_gate": "PASS",
-    "portfolio_validation_run_id": 30912386690,
-    "source_checkpoint_commit": "485e420d620cb66af621075494f0db63d8ed29c1",
-    "source_snapshot_commit": "61b69c5ed5c5f06f8907a052ee166a7c01e994ad",
+    "portfolio_validation_run_id": 30922894656,
+    "source_checkpoint_commit": "c48bb16ef950d1398dc62aa19134ad5121a00b12",
+    "source_snapshot_commit": "8b1b3fc28b02c8c46755688f7b2216be343127bd",
     "store_live": false
   },
   "next_task": "commit_and_push_route_2_terminal_audit_then_publish_sanitized_transition_and_preregister_route_3",
@@ -226,5 +226,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T14:59:36.247133473Z"
+  "updated_at_utc": "2026-08-04T15:12:47.688556391Z"
 }
