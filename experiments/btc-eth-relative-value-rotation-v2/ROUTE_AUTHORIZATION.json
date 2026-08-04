@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T12:54:43.657811298Z",
+  "authority": "explicit_user_authorization_conditional_on_route_1_administrative_terminalization",
+  "condition_satisfied_by": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_PRODUCTION_VALIDATION_FAILURE.json",
+  "condition_satisfied_by_sha256": "a05531815bddfad5885a85f9bbee3cc84c1beebe42f7a18697dc0d9e6e571422",
+  "source_parent_commit": "fcb0a42abdf9326efc2b65be0d25ef035099d2a2",
+  "status": "AUTHORIZED_NOT_PREREGISTERED",
+  "objective": "Create an audit-faithful successor to btc-eth-relative-value-rotation-v1 using the existing verified BTCUSDT and ETHUSDT development data while preserving the original economic specification wherever possible.",
+  "required_fidelity_corrections": [
+    "cross-asset synchronization before fills",
+    "terminal-vector and terminal-fill selection",
+    "off-by-one execution-delay clock",
+    "DSR degeneracy handling",
+    "every additional discrepancy recorded by the v1 audit"
+  ],
+  "required_methods": [
+    "synchronized common information sets",
+    "exact next-session execution",
+    "deterministic trace reconciliation",
+    "independent return recomputation",
+    "strict fold isolation",
+    "doubled-cost stress",
+    "execution-delay stress",
+    "parameter-neighborhood analysis",
+    "regime analysis",
+    "baseline comparison",
+    "bootstrap uncertainty",
+    "DSR and PBO where applicable",
+    "independent fidelity and methodology audit"
+  ],
+  "multiplicity": {
+    "phase_1_reported_diagnostic_return": "+41.53%",
+    "treatment": "CONTAMINATED_PRIOR_COUNTED_TOWARD_MULTIPLICITY_NOT_PARAMETER_SELECTION",
+    "parameter_tuning_toward_prior_result_permitted": false
+  },
+  "budget": {
+    "maximum_pre_run_implementation_repairs": 3,
+    "pre_run_implementation_repairs_used": 0,
+    "maximum_post_run_fidelity_repairs": 2,
+    "post_run_fidelity_repairs_used": 0,
+    "maximum_independent_audit_attempts_per_review_stage": 3,
+    "maximum_live_invocation_wall_seconds": 1200,
+    "maximum_local_evaluation_wall_seconds": 1800,
+    "gpu_seconds_permitted": 0,
+    "capital_permitted": 0
+  },
+  "model_routing": {
+    "research_direction_and_audit": {"model": "gpt-5.6-sol", "reasoning_level": "xhigh"},
+    "implementation": {"model": "gpt-5.6-terra", "reasoning_level": "medium"},
+    "deterministic_validation": {"model": "gpt-5.6-luna", "reasoning_level": "low"},
+    "fallback_only_after_confirmed_quota_or_temporary_availability_error": true
+  },
+  "required_sequence": [
+    "fresh no-data preregistration",
+    "live independent direction review",
+    "hash and commit frozen preregistration",
+    "production implementation and integration tests",
+    "real allowlisted development production validation",
+    "live independent fidelity audit",
+    "formal development economic evaluation only after every pre-economic gate passes"
+  ],
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "holdout_path_resolution_permitted_before_candidate_freeze": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

@@ -87,3 +87,14 @@
 - Next experiment action: commit the exact candidate, then run only the 36 development partitions under the external 1,800-second hard timeout and `/usr/bin/time -v`.
 - Current blocker: none.
 - Exact resume state: formal economic attempt unauthorized/unconsumed; real production pending; holdout sealed/unread; capital zero; CPU only; GPU/mining unchanged.
+
+## 2026-08-04T12:54:43.657811298Z — route 1 terminal; route 2 authorized
+
+- Current checkpoint: mean-reversion v2 is terminal `IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT` under the user-defined final-repair stop.
+- What changed: the clean `fcb0a42...` candidate entered the hard-capped 36-file validation; partial stage evidence completed through canonical mechanical hashing, but complete artifact serialization failed; route 2 is now authorized.
+- What was verified: 36 entries and zero holdout entries; 790,558 rows and two missing minutes per asset; fold session counts 274/365/457/549; indexed fill counts 81/172/264/356; runtime 179.99 seconds; max RSS 2,086,120 KiB; zero process swaps; no timeout/OOM.
+- What failed: `json.dumps` rejected datetime values in `fold_evidence`; exit 1; no complete result artifact. No further route-1 code repair or rerun is permitted.
+- Current best defensible result: no economic result and no candidate. The partial counts diagnose successful internal stages only and are not profitability, a completed production-validation pass, or fidelity approval.
+- Next experiment: `btc-eth-relative-value-rotation-v2`, beginning with a fresh no-data preregistration and explicit multiplicity treatment of the contaminated +41.53% Phase 1 diagnostic result.
+- Current blocker: none.
+- Exact resume state: route 1 exact experiment terminal; route 2 authorized not preregistered with repairs 0/3, post-run repairs 0/2, and no audit attempts; every holdout sealed/unread; capital zero; CPU only; GPU/mining unchanged.
