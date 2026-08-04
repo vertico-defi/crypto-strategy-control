@@ -76,3 +76,14 @@
 - Next experiment action: live Terra/medium mechanical implementation, parent deterministic validation, hard-capped real production validation, then live read-only Sol/xhigh fidelity audit.
 - Current blocker: none.
 - Exact resume state: final exception 0/1 used and 1 remaining; original repairs 3/3 used; formal economic attempt unauthorized and unconsumed; holdout sealed/unread; capital zero; CPU only; GPU/mining unchanged.
+
+## 2026-08-04T12:48:08.666707109Z — final index repair passes deterministic validation
+
+- Current checkpoint: `PASS_DETERMINISTIC_FINAL_MECHANICAL_REPAIR_PRE_REAL_DATA`; final exception 1/1 is consumed and no further route-1 code repair is authorized.
+- What changed: immutable boundary-specific row/session maps replace repeated production scans; exact fills use mapping lookup; terminal selection consumes existing fills; a durable staged production validator was added.
+- What was verified: 12 focused tests, 266 full tests, Ruff, strict Mypy across 26 source files, compilation, diff and secret checks; four distinct fold indices; scan-reference equality; fail-closed missing/asynchronous paths; operation-count scaling; unchanged Phase 1 and frozen v2 hashes.
+- What failed: only intermediate coding/lint/type findings inside the same bounded live call; they are recorded in the model-result artifact and were resolved before parent acceptance.
+- Current best defensible result: deterministic mechanics pass; no real-production completion, independent audit, or economic result yet exists.
+- Next experiment action: commit the exact candidate, then run only the 36 development partitions under the external 1,800-second hard timeout and `/usr/bin/time -v`.
+- Current blocker: none.
+- Exact resume state: formal economic attempt unauthorized/unconsumed; real production pending; holdout sealed/unread; capital zero; CPU only; GPU/mining unchanged.

@@ -10,6 +10,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any
 
 from strategy_control.mean_reversion_v2 import (
@@ -18,7 +19,6 @@ from strategy_control.mean_reversion_v2 import (
     canonical_hash,
     causal_gap_segments,
     guard_development_relative_path,
-    strict_prefix,
 )
 
 REUSED_CONTRACT_CANONICAL_SHA256 = (
@@ -87,6 +87,16 @@ class MinuteRow:
                 "available_timestamp": self.available_timestamp,
             }
         )
+
+
+@dataclass(frozen=True)
+class ProductionRowIndex:
+    """Immutable exact row maps for one strict half-open production boundary."""
+
+    boundary: datetime
+    rows_by_asset: Mapping[str, Mapping[datetime, MinuteRow]]
+    session_rows_by_asset: Mapping[str, Mapping[datetime, Mapping[datetime, MinuteRow]]]
+    retained_row_count: int
 
 
 @dataclass(frozen=True)
@@ -361,17 +371,6 @@ def representative_row_hashes(rows: Sequence[MinuteRow]) -> tuple[str, ...]:
     return tuple(rows[index].identity for index in (0, len(rows) // 2, len(rows) - 1))
 
 
-def _validated_prefix(rows: Sequence[MinuteRow], boundary: datetime) -> list[MinuteRow]:
-    """Slice first, then validate only the frozen strict prefix."""
-    prefix = strict_prefix([(row.event_timestamp, row) for row in rows], boundary)
-    output: list[MinuteRow] = []
-    for _, payload in prefix:
-        if not isinstance(payload, MinuteRow):
-            raise ProductionIntegrationError("internal row identity mismatch")
-        output.append(_validate_row(payload))
-    return output
-
-
 def _session_for_bar_end(timestamp: datetime) -> datetime:
     """A bar ending at T belongs to the UTC date of T minus one minute."""
     minute_before_end = _utc(timestamp, "event timestamp") - timedelta(minutes=1)
@@ -380,16 +379,66 @@ def _session_for_bar_end(timestamp: datetime) -> datetime:
     )
 
 
-def build_joint_sessions(
-    rows_by_asset: Mapping[str, Sequence[MinuteRow]], *, end: datetime, recovery: int = 150
-) -> tuple[JointSession, ...]:
-    """Build exact UTC bar-end sessions from strict, order-validated row prefixes."""
+def build_production_row_index(
+    rows_by_asset: Mapping[str, Sequence[MinuteRow]], *, end: datetime
+) -> ProductionRowIndex:
+    """Index retained rows once, without examining any suffix at or beyond ``end``."""
     boundary = _utc(end, "fold end")
     if set(rows_by_asset) != set(ASSETS):
         raise ProductionIntegrationError("both frozen assets are required")
-    by_asset = {asset: _validated_prefix(rows_by_asset[asset], boundary) for asset in ASSETS}
+    exact_rows: dict[str, dict[datetime, MinuteRow]] = {}
+    session_rows: dict[str, dict[datetime, dict[datetime, MinuteRow]]] = {}
+    retained_count = 0
+    for asset in ASSETS:
+        exact: dict[datetime, MinuteRow] = {}
+        by_session: dict[datetime, dict[datetime, MinuteRow]] = {}
+        previous: datetime | None = None
+        for row in rows_by_asset[asset]:
+            if not isinstance(row, MinuteRow):
+                raise ProductionIntegrationError("malformed retained minute row")
+            try:
+                event = _utc(row.event_timestamp, "event timestamp")
+            except (AttributeError, TypeError) as error:
+                raise ProductionIntegrationError("malformed retained minute row") from error
+            if event >= boundary:
+                break
+            validated = _validate_row(row)
+            if previous is not None and event <= previous:
+                raise ProductionIntegrationError("duplicate or nonmonotonic retained row")
+            previous = event
+            exact[event] = validated
+            by_session.setdefault(_session_for_bar_end(event), {})[event] = validated
+            retained_count += 1
+        exact_rows[asset] = exact
+        session_rows[asset] = by_session
+    frozen_rows = MappingProxyType(
+        {asset: MappingProxyType(rows) for asset, rows in exact_rows.items()}
+    )
+    frozen_sessions = MappingProxyType(
+        {
+            asset: MappingProxyType(
+                {session: MappingProxyType(rows) for session, rows in sessions.items()}
+            )
+            for asset, sessions in session_rows.items()
+        }
+    )
+    return ProductionRowIndex(boundary, frozen_rows, frozen_sessions, retained_count)
+
+
+def _require_index_boundary(index: ProductionRowIndex, end: datetime, field: str) -> datetime:
+    boundary = _utc(end, field)
+    if boundary != index.boundary:
+        raise ProductionIntegrationError("row index boundary mismatch")
+    return boundary
+
+
+def build_joint_sessions(
+    index: ProductionRowIndex, *, end: datetime, recovery: int = 150
+) -> tuple[JointSession, ...]:
+    """Build exact UTC bar-end sessions from strict, order-validated row prefixes."""
+    _require_index_boundary(index, end, "fold end")
     observed_session_days = sorted(
-        {_session_for_bar_end(row.event_timestamp) for rows in by_asset.values() for row in rows}
+        {session for rows in index.session_rows_by_asset.values() for session in rows}
     )
     session_days: list[datetime] = []
     if observed_session_days:
@@ -402,10 +451,9 @@ def build_joint_sessions(
     raw: list[tuple[datetime, bool, datetime | None, Mapping[str, float]]] = []
     for session in session_days:
         expected = tuple(session + timedelta(minutes=index) for index in range(1, 1441))
-        selected: dict[str, dict[datetime, MinuteRow]] = {}
-        for asset, rows in by_asset.items():
-            matching = [row for row in rows if _session_for_bar_end(row.event_timestamp) == session]
-            selected[asset] = {row.event_timestamp: row for row in matching}
+        selected = {
+            asset: index.session_rows_by_asset[asset].get(session, {}) for asset in ASSETS
+        }
         complete = all(tuple(selected[asset]) == expected for asset in ASSETS)
         cutoff: datetime | None = None
         closes: Mapping[str, float] = {}
@@ -424,7 +472,7 @@ def build_joint_sessions(
 
 
 def _exact_execution_rows(
-    rows_by_asset: Mapping[str, Sequence[MinuteRow]], timestamp: datetime, boundary: datetime
+    index: ProductionRowIndex, timestamp: datetime, boundary: datetime
 ) -> dict[str, MinuteRow]:
     fill_timestamp = _utc(timestamp, "execution timestamp")
     strict_boundary = _utc(boundary, "execution boundary")
@@ -432,16 +480,12 @@ def _exact_execution_rows(
     if expected_event >= strict_boundary:
         raise ProductionIntegrationError("execution row is outside the strict half-open boundary")
     result: dict[str, MinuteRow] = {}
-    if set(rows_by_asset) != set(ASSETS):
-        raise ProductionIntegrationError("both frozen assets are required for execution")
     for asset in ASSETS:
-        rows = _validated_prefix(rows_by_asset[asset], strict_boundary)
-        matches = [row for row in rows if row.event_timestamp == expected_event]
-        if len(matches) != 1:
+        row = index.rows_by_asset[asset].get(expected_event)
+        if row is None:
             raise ProductionIntegrationError(
                 "missing exact ordinary execution row; forward scan prohibited"
             )
-        row = matches[0]
         if row.available_timestamp != row.event_timestamp:
             raise ProductionIntegrationError(
                 "asynchronous execution row; exact synchronized fill rejected"
@@ -452,19 +496,19 @@ def _exact_execution_rows(
 
 def fill_identities(
     sessions: Sequence[JointSession],
-    rows_by_asset: Mapping[str, Sequence[MinuteRow]],
+    index: ProductionRowIndex,
     *,
     end: datetime,
 ) -> tuple[FillIdentity, ...]:
     """Resolve each eligible base fill from the exact synchronized causal rows only."""
     ordered = list(sessions)
-    boundary = _utc(end, "fill boundary")
+    boundary = _require_index_boundary(index, end, "fill boundary")
     if any(
         ordered[index].session >= ordered[index + 1].session for index in range(len(ordered) - 1)
     ):
         raise ProductionIntegrationError("duplicate or nonmonotonic session")
     output: list[FillIdentity] = []
-    for index, session in enumerate(ordered):
+    for session_index, session in enumerate(ordered):
         if not session.complete or session.segment is None:
             continue
         if session.information_cutoff is None:
@@ -472,11 +516,11 @@ def fill_identities(
         base = session.information_cutoff.replace(second=0, microsecond=0) + timedelta(minutes=1)
         if base + timedelta(minutes=1) >= boundary:
             continue
-        base_rows = _exact_execution_rows(rows_by_asset, base, boundary)
+        base_rows = _exact_execution_rows(index, base, boundary)
         delayed: datetime | None = None
         delayed_rows: dict[str, MinuteRow] = {}
-        if index + 1 < len(ordered):
-            successor = ordered[index + 1]
+        if session_index + 1 < len(ordered):
+            successor = ordered[session_index + 1]
             if (
                 successor.complete
                 and successor.session == session.session + timedelta(days=1)
@@ -489,7 +533,7 @@ def fill_identities(
                 ) + timedelta(minutes=1)
                 if candidate + timedelta(minutes=1) < boundary:
                     delayed = candidate
-                    delayed_rows = _exact_execution_rows(rows_by_asset, delayed, boundary)
+                    delayed_rows = _exact_execution_rows(index, delayed, boundary)
         output.append(
             FillIdentity(
                 session.session,
@@ -508,13 +552,11 @@ def fill_identities(
 
 
 def terminal_fill_identity(
-    sessions: Sequence[JointSession],
-    rows_by_asset: Mapping[str, Sequence[MinuteRow]],
+    fills: Sequence[FillIdentity],
     *,
     end: datetime,
 ) -> FillIdentity:
-    """Predeclare the final exact synchronized ordinary fill strictly before ``end``."""
-    fills = fill_identities(sessions, rows_by_asset, end=end)
+    """Select the final already-constructed fill strictly before ``end``."""
     if not fills:
         raise ProductionIntegrationError("no exact terminal fill inside half-open boundary")
     terminal = fills[-1]

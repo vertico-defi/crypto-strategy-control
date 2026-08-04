@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "purpose": "phase_2_mean_reversion_v2_final_additional_mechanical_index_repair",
+  "role": "implementation_repair",
+  "requested_model": "gpt-5.6-terra",
+  "actual_model": "gpt-5.6-terra",
+  "reasoning_level": "medium",
+  "invocation_mode": "live",
+  "invocation_interface": "codex_cli",
+  "response_identifier": "019fccc4-68ec-7db0-8219-b500ddc398ab",
+  "started_at_utc": "2026-08-04T12:33:54.056707742Z",
+  "parent_observed_end_upper_bound_utc": "2026-08-04T12:39:21.418609723Z",
+  "parent_observed_duration_upper_bound_seconds": 327.361901981,
+  "fallback": null,
+  "exact_model_error": null,
+  "outcome": "IMPLEMENTATION_RECEIVED_PARENT_VALIDATION_IN_PROGRESS",
+  "authorization": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_AUTHORIZATION.json",
+  "authorization_sha256": "d4c8b770aa2d3ace37cbb3ba70a131f06776379a8a2f155edbda835e49f7d9f2",
+  "source_parent_commit": "e0dc7febaf5e87ae77ddb7b66c82aa8a8179b385",
+  "modified_files": [
+    "src/strategy_control/mean_reversion_v2_pipeline.py",
+    "tests/test_mean_reversion_v2_production.py"
+  ],
+  "model_reported_result": {
+    "production_row_index_added": true,
+    "boundary_bound_exact_lookup_added": true,
+    "terminal_selection_uses_preconstructed_fills": true,
+    "remaining_defect_identified": null,
+    "focused_pytest": "PASS_11",
+    "ruff": "PASS",
+    "strict_mypy": "PASS_2_FILES",
+    "python_bytecode_compilation": "PASS"
+  },
+  "intermediate_nonterminal_tool_failures_resolved_inside_same_bounded_round": [
+    "default interpreter lacked pytest; the existing project virtual environment was then used without installation",
+    "initial focused run failed three tests due a loop-variable shadowing defect and an empty terminal-selection fixture",
+    "subsequent lint runs found import order, quadratic fixture construction, and line-length findings",
+    "subsequent strict typing runs found test-only cast, export, mapping variance, and instrumentation wrapper findings"
+  ],
+  "parent_followup": {
+    "test_augmentation_after_model_completion": "A separate scan-based session and exact-execution reference comparison was added within the same authorized repair before final parent acceptance.",
+    "current_source_byte_sha256": "d2aabc92807907cb0b70301c2c43519f2ea2b91e167b2e89916150d313985bb9",
+    "current_test_byte_sha256": "23750a9ba9e99367b277117e6ea9a2a8abb0c36d95f65d1d1e7ce7c256dcf052"
+  },
+  "last_message_byte_sha256": "93214e5f2121f7208c9862d2b50f2e9c2cb5566735ab0ae421b026a2a10e5e7d",
+  "usage": {
+    "input_tokens": 1298280,
+    "cached_input_tokens": 1233408,
+    "output_tokens": 13348,
+    "reasoning_output_tokens": 4001
+  },
+  "source_data_repository_accessed": false,
+  "market_files_accessed": false,
+  "holdout_path_or_metadata_accessed": false,
+  "holdout_values_read": false,
+  "real_returns_calculated": false,
+  "aggregate_metrics_calculated": false,
+  "performance_claim_made": false,
+  "model_generated_research_claim": false,
+  "git_actions_by_model": false,
+  "gpu_used": false,
+  "mining_changed": false,
+  "capital_permitted": 0
+}

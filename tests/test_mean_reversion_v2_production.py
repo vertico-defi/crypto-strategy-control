@@ -3,21 +3,29 @@
 from __future__ import annotations
 
 import hashlib
+from collections.abc import Iterator, Mapping, Sequence
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from typing import cast
 
 import pytest
 
 import strategy_control.mean_reversion_v2_pipeline as pipeline
-from strategy_control.mean_reversion_v2 import MeanReversionV2Error, canonical_hash
+from strategy_control.mean_reversion_v2 import (
+    MeanReversionV2Error,
+    canonical_hash,
+    causal_gap_segments,
+)
 from strategy_control.mean_reversion_v2_pipeline import (
     ALLOWLIST_COUNT,
     AllowlistEntry,
     JointSession,
     MinuteRow,
     ProductionIntegrationError,
+    ProductionRowIndex,
     RepresentativeAccounting,
     build_joint_sessions,
+    build_production_row_index,
     canonical_mechanical_evidence,
     fill_identities,
     materialize_rows,
@@ -56,6 +64,94 @@ def minute(
 
 def full_day(day: int, asset: str) -> list[MinuteRow]:
     return [minute(day, offset, asset) for offset in range(1, 1441)]
+
+
+def indexed(rows: Mapping[str, Sequence[MinuteRow]], end: datetime) -> ProductionRowIndex:
+    return build_production_row_index(rows, end=end)
+
+
+def scan_reference_sessions(
+    rows: Mapping[str, Sequence[MinuteRow]], boundary: datetime
+) -> tuple[JointSession, ...]:
+    """Small-fixture reference that deliberately scans retained rows per session."""
+    retained = {
+        asset: [row for row in rows[asset] if row.event_timestamp < boundary]
+        for asset in ("BTCUSDT", "ETHUSDT")
+    }
+    observed = sorted(
+        {
+            pipeline._session_for_bar_end(row.event_timestamp)
+            for asset_rows in retained.values()
+            for row in asset_rows
+        }
+    )
+    if not observed:
+        return ()
+    days = [
+        observed[0] + timedelta(days=offset)
+        for offset in range((observed[-1] - observed[0]).days + 1)
+    ]
+    raw: list[JointSession] = []
+    for session in days:
+        expected = tuple(session + timedelta(minutes=offset) for offset in range(1, 1441))
+        selected = {
+            asset: {
+                row.event_timestamp: row
+                for row in retained[asset]
+                if pipeline._session_for_bar_end(row.event_timestamp) == session
+            }
+            for asset in ("BTCUSDT", "ETHUSDT")
+        }
+        complete = all(tuple(selected[asset]) == expected for asset in selected)
+        used = (
+            [selected[asset][stamp] for asset in selected for stamp in expected]
+            if complete
+            else []
+        )
+        raw.append(
+            JointSession(
+                session,
+                complete,
+                max(max(row.event_timestamp, row.available_timestamp) for row in used)
+                if used
+                else None,
+                {asset: selected[asset][expected[-1]].close for asset in selected}
+                if complete
+                else {},
+                None,
+            )
+        )
+    segments = causal_gap_segments([(item.session, item.complete) for item in raw])
+    return tuple(
+        JointSession(item.session, item.complete, item.information_cutoff, item.closes, segment)
+        for item, segment in zip(raw, segments, strict=True)
+    )
+
+
+def scan_reference_execution_rows(
+    rows: Mapping[str, Sequence[MinuteRow]], fill_timestamp: datetime, boundary: datetime
+) -> Mapping[str, MinuteRow]:
+    """Small-fixture exact-lookup reference; it never substitutes a later row."""
+    expected_event = fill_timestamp + timedelta(minutes=1)
+    if expected_event >= boundary:
+        raise ProductionIntegrationError("execution row is outside the strict half-open boundary")
+    selected: dict[str, MinuteRow] = {}
+    for asset in ("BTCUSDT", "ETHUSDT"):
+        matches = [
+            row
+            for row in rows[asset]
+            if row.event_timestamp < boundary and row.event_timestamp == expected_event
+        ]
+        if len(matches) != 1:
+            raise ProductionIntegrationError(
+                "missing exact ordinary execution row; forward scan prohibited"
+            )
+        if matches[0].available_timestamp != matches[0].event_timestamp:
+            raise ProductionIntegrationError(
+                "asynchronous execution row; exact synchronized fill rejected"
+            )
+        selected[asset] = matches[0]
+    return selected
 
 
 def entries() -> list[AllowlistEntry]:
@@ -213,18 +309,19 @@ def test_future_or_holdout_path_rejected_before_filesystem_access() -> None:
 
     with pytest.raises(MeanReversionV2Error, match="before access"):
         read_verified_entry(
-            NeverRoot(), AllowlistEntry(1, "2026-01", "canonical/year=2026/x", "a" * 64, "BTCUSDT")
-        )  # type: ignore[arg-type]
+            cast(Path, NeverRoot()),
+            AllowlistEntry(1, "2026-01", "canonical/year=2026/x", "a" * 64, "BTCUSDT"),
+        )
 
 
 def test_bar_end_sessions_order_validation_and_no_spurious_midnight_session() -> None:
     rows = {asset: full_day(0, asset) + full_day(1, asset) for asset in ("BTCUSDT", "ETHUSDT")}
-    sessions = build_joint_sessions(rows, end=stamp(2, 1))
+    sessions = build_joint_sessions(indexed(rows, stamp(2, 1)), end=stamp(2, 1))
     assert [item.session for item in sessions] == [stamp(0, 0), stamp(1, 0)]
     assert [item.complete for item in sessions] == [True, True]
     bad = {**rows, "BTCUSDT": [rows["BTCUSDT"][1], rows["BTCUSDT"][0], *rows["BTCUSDT"][2:]]}
     with pytest.raises(MeanReversionV2Error, match="nonmonotonic"):
-        build_joint_sessions(bad, end=stamp(1, 1))
+        build_joint_sessions(indexed(bad, stamp(1, 1)), end=stamp(1, 1))
     ignored_suffix = {
         **rows,
         "BTCUSDT": [
@@ -245,9 +342,9 @@ def test_bar_end_sessions_order_validation_and_no_spurious_midnight_session() ->
         ],
         "ETHUSDT": full_day(0, "ETHUSDT"),
     }
-    isolated = build_joint_sessions(ignored_suffix, end=stamp(1, 1))
+    isolated = build_joint_sessions(indexed(ignored_suffix, stamp(1, 1)), end=stamp(1, 1))
     assert isolated == build_joint_sessions(
-        {asset: full_day(0, asset) for asset in ("BTCUSDT", "ETHUSDT")},
+        indexed({asset: full_day(0, asset) for asset in ("BTCUSDT", "ETHUSDT")}, stamp(1, 1)),
         end=stamp(1, 1),
     )
 
@@ -257,7 +354,7 @@ def test_fully_missing_calendar_session_is_materialized_and_quarantined() -> Non
         asset: full_day(0, asset) + full_day(2, asset)
         for asset in ("BTCUSDT", "ETHUSDT")
     }
-    sessions = build_joint_sessions(rows, end=stamp(3, 1))
+    sessions = build_joint_sessions(indexed(rows, stamp(3, 1)), end=stamp(3, 1))
     assert [item.session for item in sessions] == [stamp(0, 0), stamp(1, 0), stamp(2, 0)]
     assert [item.complete for item in sessions] == [True, False, True]
     assert sessions[1].information_cutoff is None
@@ -276,7 +373,7 @@ def test_risky_gap_and_150_session_recovery_are_nonbridging() -> None:
         )
         for index in range(152)
     )
-    labels = pipeline.causal_gap_segments([(item.session, item.complete) for item in sessions])
+    labels = causal_gap_segments([(item.session, item.complete) for item in sessions])
     assert labels[0] is None and labels[1] is None and labels[150] is None and labels[151] == 1
     boundary = (
         JointSession(stamp(0, 0), True, stamp(1, 0), {"BTCUSDT": 1.0, "ETHUSDT": 1.0}, 0),
@@ -285,7 +382,7 @@ def test_risky_gap_and_150_session_recovery_are_nonbridging() -> None:
     execution_rows = {
         asset: [minute(1, 2, asset)] for asset in ("BTCUSDT", "ETHUSDT")
     }
-    fills = fill_identities(boundary, execution_rows, end=stamp(2, 0))
+    fills = fill_identities(boundary, indexed(execution_rows, stamp(2, 0)), end=stamp(2, 0))
     assert len(fills) == 1
     assert fills[0].delayed_timestamp is None
 
@@ -302,7 +399,8 @@ def test_exact_synchronized_execution_open_prices_no_forward_scan_and_terminal_b
         ]
         for asset in ("BTCUSDT", "ETHUSDT")
     }
-    identities = fill_identities(sessions, rows, end=stamp(3, 0))
+    index = indexed(rows, stamp(3, 0))
+    identities = fill_identities(sessions, index, end=stamp(3, 0))
     assert len(identities) == 2
     assert identities[0].base_prices == {"BTCUSDT": 101.0, "ETHUSDT": 202.0}
     assert identities[0].delayed_prices == {"BTCUSDT": 103.0, "ETHUSDT": 204.0}
@@ -312,18 +410,162 @@ def test_exact_synchronized_execution_open_prices_no_forward_scan_and_terminal_b
     assert identities[0].delayed_timestamp == stamp(2, 1)
     incomplete = {**rows, "ETHUSDT": [rows["ETHUSDT"][1]]}
     with pytest.raises(ProductionIntegrationError, match="forward scan prohibited"):
-        fill_identities(sessions, incomplete, end=stamp(3, 0))
+        fill_identities(sessions, indexed(incomplete, stamp(3, 0)), end=stamp(3, 0))
     asynchronous = {
         **rows,
         "ETHUSDT": [minute(1, 2, "ETHUSDT", opening=202.0, available_offset=1), rows["ETHUSDT"][1]],
     }
     with pytest.raises(ProductionIntegrationError, match="asynchronous"):
-        fill_identities(sessions, asynchronous, end=stamp(3, 0))
-    terminal = terminal_fill_identity(sessions, rows, end=stamp(3, 0))
+        fill_identities(sessions, indexed(asynchronous, stamp(3, 0)), end=stamp(3, 0))
+    terminal = terminal_fill_identity(identities, end=stamp(3, 0))
     assert terminal.base_timestamp == stamp(2, 1)
     assert terminal.delayed_timestamp is None
     with pytest.raises(ProductionIntegrationError, match="no exact terminal"):
-        terminal_fill_identity((sessions[1],), rows, end=stamp(2, 0))
+        terminal_fill_identity((), end=stamp(2, 0))
+
+
+def test_boundary_bound_index_rejects_retained_defects_and_ignores_invalid_suffix() -> None:
+    retained = {asset: full_day(0, asset) for asset in ("BTCUSDT", "ETHUSDT")}
+    boundary = stamp(1, 1)
+    duplicate = {
+        **retained,
+        "BTCUSDT": [retained["BTCUSDT"][0], retained["BTCUSDT"][0], *retained["BTCUSDT"][1:]],
+    }
+    with pytest.raises(ProductionIntegrationError, match="duplicate or nonmonotonic retained"):
+        indexed(duplicate, boundary)
+    malformed = {**retained, "ETHUSDT": [object(), *retained["ETHUSDT"]]}
+    with pytest.raises(ProductionIntegrationError, match="malformed retained"):
+        indexed(malformed, boundary)  # type: ignore[arg-type]
+    invalid_suffix = {
+        **retained,
+        "BTCUSDT": [
+            *retained["BTCUSDT"],
+            MinuteRow(
+                "year=2026/not-resolved.parquet",
+                "bad",
+                -1,
+                "",
+                boundary,
+                boundary,
+                float("nan"),
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+            ),
+        ],
+    }
+    clean_index = indexed(retained, boundary)
+    suffix_index = indexed(invalid_suffix, boundary)
+    assert suffix_index.rows_by_asset["BTCUSDT"] == clean_index.rows_by_asset["BTCUSDT"]
+    with pytest.raises(ProductionIntegrationError, match="boundary mismatch"):
+        build_joint_sessions(clean_index, end=stamp(2, 1))
+
+
+def test_four_fold_indices_are_distinct_and_match_scan_reference() -> None:
+    rows = {
+        asset: [row for day in range(4) for row in full_day(day, asset)]
+        for asset in ("BTCUSDT", "ETHUSDT")
+    }
+    boundaries = [stamp(day, 1) for day in range(1, 5)]
+    indices = [indexed(rows, boundary) for boundary in boundaries]
+    assert len({id(item) for item in indices}) == 4
+    assert [item.retained_row_count for item in indices] == [2880, 5760, 8640, 11520]
+    for boundary, index in zip(boundaries, indices, strict=True):
+        sessions = build_joint_sessions(index, end=boundary)
+        assert sessions == scan_reference_sessions(rows, boundary)
+
+
+def test_indexed_execution_rows_match_separate_scan_reference() -> None:
+    rows = {
+        asset: [
+            minute(1, 2, asset, opening=101.0 if asset == "BTCUSDT" else 202.0),
+            minute(2, 2, asset, opening=103.0 if asset == "BTCUSDT" else 204.0),
+        ]
+        for asset in ("BTCUSDT", "ETHUSDT")
+    }
+    boundary = stamp(3, 0)
+    index = indexed(rows, boundary)
+    for fill_timestamp in (stamp(1, 1), stamp(2, 1)):
+        indexed_rows = pipeline._exact_execution_rows(index, fill_timestamp, boundary)
+        scanned_rows = scan_reference_execution_rows(rows, fill_timestamp, boundary)
+        assert indexed_rows == scanned_rows
+        assert all(indexed_rows[asset] is scanned_rows[asset] for asset in scanned_rows)
+
+
+def test_index_reuse_avoids_rescanning_and_session_work_is_retained_plus_grid(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class OnePassRows(list[MinuteRow]):
+        iterations = 0
+
+        def __iter__(self):  # type: ignore[no-untyped-def]
+            self.iterations += 1
+            if self.iterations > 1:
+                raise AssertionError("raw rows rescanned after index construction")
+            return super().__iter__()
+
+    class CountingRows(Mapping[datetime, MinuteRow]):
+        def __init__(self, values: Mapping[datetime, MinuteRow]) -> None:
+            self.mapping = values
+            self.iterated = 0
+
+        def __getitem__(self, key: datetime) -> MinuteRow:
+            return self.mapping[key]
+
+        def __iter__(self) -> Iterator[datetime]:
+            for key in self.mapping:
+                self.iterated += 1
+                yield key
+
+        def __len__(self) -> int:
+            return len(self.mapping)
+
+    rows = {
+        asset: OnePassRows([row for day in range(3) for row in full_day(day, asset)])
+        for asset in ("BTCUSDT", "ETHUSDT")
+    }
+    calls = 0
+    original = pipeline._session_for_bar_end
+
+    def counted(timestamp: datetime) -> datetime:
+        nonlocal calls
+        calls += 1
+        return original(timestamp)
+
+    monkeypatch.setattr(pipeline, "_session_for_bar_end", counted)
+    boundary = stamp(3, 1)
+    index = indexed(rows, boundary)
+    assert calls == index.retained_row_count
+    counted_sessions = {
+        asset: {session: CountingRows(values) for session, values in per_session.items()}
+        for asset, per_session in index.session_rows_by_asset.items()
+    }
+    instrumented = ProductionRowIndex(
+        index.boundary, index.rows_by_asset, counted_sessions, index.retained_row_count
+    )
+    sessions = build_joint_sessions(instrumented, end=boundary)
+    assert calls == index.retained_row_count
+    retained_lookup_iterations = sum(
+        values.iterated
+        for per_session in counted_sessions.values()
+        for values in per_session.values()
+    )
+    expected_grid_rows = len(sessions) * 1440
+    assert retained_lookup_iterations + expected_grid_rows == 12960
+    assert fill_identities(sessions, instrumented, end=boundary) == ()
+    prepared = pipeline.FillIdentity(
+        stamp(0, 0), 0, stamp(1, 1), None,
+        {"BTCUSDT": 1.0, "ETHUSDT": 1.0},
+        {"BTCUSDT": "a", "ETHUSDT": "b"}, {}, {},
+    )
+    monkeypatch.setattr(
+        pipeline,
+        "fill_identities",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError()),
+    )
+    assert terminal_fill_identity((prepared,), end=boundary) is prepared
+    assert all(item.iterations == 1 for item in rows.values())
 
 
 def test_strict_fold_prefix_and_canonical_mechanical_evidence_reconcile() -> None:

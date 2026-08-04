@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "validated_at_utc": "2026-08-04T12:48:08.666707109Z",
+  "classification": "PASS_DETERMINISTIC_FINAL_MECHANICAL_REPAIR_PRE_REAL_DATA",
+  "stage": "FINAL_ADDITIONAL_MECHANICAL_INDEX_REPAIR_PARENT_VALIDATION",
+  "invocation_mode": "deterministic_local",
+  "authorization": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_AUTHORIZATION.json",
+  "authorization_sha256": "d4c8b770aa2d3ace37cbb3ba70a131f06776379a8a2f155edbda835e49f7d9f2",
+  "model_result": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_MODEL_RESULT.json",
+  "model_result_sha256": "bdbf5bd0fc0287f18e1b10e26c14eac5f5b5f94dcb2659d8b8050b140314a65b",
+  "original_implementation_repairs_used": 3,
+  "original_implementation_repairs_remaining": 0,
+  "additional_final_mechanical_index_repair_used": 1,
+  "additional_final_mechanical_index_repair_remaining": 0,
+  "validated_artifacts": {
+    "src/strategy_control/mean_reversion_v2_pipeline.py": "d2aabc92807907cb0b70301c2c43519f2ea2b91e167b2e89916150d313985bb9",
+    "tests/test_mean_reversion_v2_production.py": "23750a9ba9e99367b277117e6ea9a2a8abb0c36d95f65d1d1e7ce7c256dcf052",
+    "experiments/btc-eth-long-only-mean-reversion-v2/final_mechanical_production_validation.py": "7ee98e1ba4fbe1a89f720c3e56d974c79f7668309a32d70af2cbc9ff4cba7f68"
+  },
+  "mechanical_scope_review": {
+    "production_row_index_immutable_mapping_proxies": true,
+    "one_index_per_half_open_boundary": true,
+    "strict_prefix_only": true,
+    "exact_minute_row_objects_preserved": true,
+    "retained_duplicates_rejected": true,
+    "retained_nonmonotonic_rows_rejected": true,
+    "retained_malformed_rows_rejected": true,
+    "invalid_suffix_isolated": true,
+    "exact_timestamp_lookup": true,
+    "missing_row_fail_closed": true,
+    "one_asset_missing_fail_closed": true,
+    "no_forward_scan": true,
+    "asynchronous_availability_fail_closed": true,
+    "boundary_mismatch_rejected": true,
+    "terminal_fill_selection_uses_preconstructed_fills": true,
+    "economic_rule_change_found": false
+  },
+  "focused_test_coverage": [
+    "duplicate insertion and nonmonotonic retained rows",
+    "malformed retained rows and strict invalid-suffix isolation",
+    "boundary mismatch",
+    "missing exact execution row and one-asset-only missing row",
+    "no-forward-scan behavior",
+    "asynchronous availability",
+    "base and delayed exact execution lookup",
+    "gap boundaries and 150-session recovery",
+    "all four fold boundaries with distinct indices",
+    "terminal fill identity without fill reconstruction",
+    "index reuse without rescanning",
+    "indexed session and execution results versus separate scan-based references",
+    "operation-count scaling as retained rows plus expected-grid entries"
+  ],
+  "operation_instrumentation": {
+    "fixture_retained_rows": 8640,
+    "fixture_expected_grid_entries_per_asset": 4320,
+    "measured_total_mapping_iterations_plus_grid_entries": 12960,
+    "raw_input_iterations_per_asset": 1,
+    "session_derivation_calls_after_index_construction": 0,
+    "row_by_session_product_eliminated": true
+  },
+  "deterministic_tooling": {
+    "focused_production_pytest": "PASS_12",
+    "full_repository_pytest_with_preinstalled_research_dependencies": "PASS_266",
+    "ruff_all_repository_files": "PASS",
+    "strict_mypy_source_files": "PASS_26",
+    "python_bytecode_compilation": "PASS",
+    "git_diff_check": "PASS",
+    "strong_secret_pattern_scan": "PASS_NO_FINDING"
+  },
+  "preserved_frozen_v2_byte_identities": {
+    "preregistration_wrapper": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+    "effective_contract": "1da897a3eff60a013181d6381fc20b9e7e1678cad6005dd6c9224fdb15385a77"
+  },
+  "preserved_phase_1_byte_identities": {
+    "program_audit": "b8b1dfbaf675cc31e2938df1a17cff534722371a6a2a962ceecbfe3a1da8b750",
+    "mean_reversion_v1_preregistration": "f71ce339e2380b50e733ac20f713119f84fd4511d6083d6ee4f9d5efb27850c9",
+    "mean_reversion_v1_development_result": "258e8e2b04baeb81c4f074c01e8368b558a451482112f71417089defcfa4b38d",
+    "mean_reversion_v1_audit": "8f5899a1bc9115e7a9d532b3617ab6b542c953ee4a658d4cfbb66cf3fb2d59b7"
+  },
+  "remaining_pre_economic_obligations": [
+    "commit the exact deterministic implementation candidate",
+    "run the exact 36-partition development production path under the external 1800-second hard deadline and resource meter",
+    "record wall time maximum resident set page faults swap and exit status",
+    "obtain a fresh live read-only Sol/xhigh fidelity audit"
+  ],
+  "real_data_validation_started": false,
+  "economic_result_exists": false,
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_permitted": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

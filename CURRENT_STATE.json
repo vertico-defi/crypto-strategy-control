@@ -1,8 +1,8 @@
 {
   "budgets": {
     "current_experiment": {
-      "additional_final_mechanical_index_repair_remaining": 1,
-      "additional_final_mechanical_index_repair_used": 0,
+      "additional_final_mechanical_index_repair_remaining": 0,
+      "additional_final_mechanical_index_repair_used": 1,
       "additional_final_mechanical_index_repair_maximum": 1,
       "audit_attempts_used_by_stage": {
         "terminal_implementation_and_repair_budget_audit": 1
@@ -13,6 +13,7 @@
       "maximum_implementation_repairs": 3,
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
+        "additional_final_mechanical_index_repair_used": 1,
         "direction_review_used": 1,
         "implementation_used": 3,
         "independent_audit_used": 1,
@@ -51,17 +52,18 @@
   "direction_review_model_result_sha256": "0b8abd49a308c0ed60b3dbb5b83e4980cffe1568bffbca2147afae5bf47e11b1",
   "direction_review_status": "REVISION_REQUIRED_INCORPORATED_7_OF_7_FROZEN",
   "effective_contract_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
-  "implementation_artifact_sha256": {
-    "src/strategy_control/mean_reversion_v2.py": "dc8bb8f23716c6d9acbcdb3c50908103a40a21a5aee7a6f67b6c0ce9faed0f5d",
-    "src/strategy_control/mean_reversion_v2_pipeline.py": "1004918bc3783ccce5dc5301bc3d6320274784e5b6e1c4270a16e8249407d78c",
-    "tests/test_mean_reversion_v2.py": "65ab47559c603311b5edfcf5317e535e0dcdabb93cf7ebaf23ba0e5b7b551287",
-    "tests/test_mean_reversion_v2_production.py": "ae87697d01aa976ccc01e20107f029e0b76f50dca295dd9d9c99d02b48e7a6cc"
-  },
   "implementation_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_AUTHORIZATION.json",
   "implementation_evidence_commit": "d4fcfaec04e93efc2547d0c94af1934ef556d44d",
   "implementation_model_result": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_MODEL_RESULT.json",
   "implementation_model_result_sha256": "b15eb8f78615ac24a7290245597e65af7a791ec6324a7877128f1faae8f4452a",
-  "implementation_status": "FINAL_ADDITIONAL_MECHANICAL_INDEX_REPAIR_AUTHORIZED_NOT_STARTED",
+  "implementation_status": "PASS_DETERMINISTIC_FINAL_MECHANICAL_REPAIR_PRE_REAL_DATA",
+  "implementation_artifact_sha256": {
+    "experiments/btc-eth-long-only-mean-reversion-v2/final_mechanical_production_validation.py": "7ee98e1ba4fbe1a89f720c3e56d974c79f7668309a32d70af2cbc9ff4cba7f68",
+    "src/strategy_control/mean_reversion_v2.py": "dc8bb8f23716c6d9acbcdb3c50908103a40a21a5aee7a6f67b6c0ce9faed0f5d",
+    "src/strategy_control/mean_reversion_v2_pipeline.py": "d2aabc92807907cb0b70301c2c43519f2ea2b91e167b2e89916150d313985bb9",
+    "tests/test_mean_reversion_v2.py": "65ab47559c603311b5edfcf5317e535e0dcdabb93cf7ebaf23ba0e5b7b551287",
+    "tests/test_mean_reversion_v2_production.py": "23750a9ba9e99367b277117e6ea9a2a8abb0c36d95f65d1d1e7ce7c256dcf052"
+  },
   "implementation_validation": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_VALIDATION_REPAIR_1.json",
   "implementation_validation_byte_sha256": "997266c14b5dd155fee6f0b552299fb67266932f79786c09951968305313f73e",
   "implementation_validation_failure": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_VALIDATION_ATTEMPT_1_FAILURE.json",
@@ -81,7 +83,7 @@
     "source_snapshot_commit": "55b2cece8281257f3384ee65076569c4b4026e7e",
     "store_live": false
   },
-  "next_task": "execute_final_authorized_mean_reversion_v2_mechanical_index_repair",
+  "next_task": "commit_final_mechanical_repair_candidate_then_run_hard_capped_real_production_validation",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -120,6 +122,12 @@
   "final_mechanical_index_repair_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_AUTHORIZATION.json",
   "final_mechanical_index_repair_authorization_byte_sha256": "baa2a233880cc3896e55a5ddcb6bc6c4325209693c697ecdcb783f55f37e7d85",
   "final_mechanical_index_repair_authorization_sha256": "d4c8b770aa2d3ace37cbb3ba70a131f06776379a8a2f155edbda835e49f7d9f2",
+  "final_mechanical_index_repair_model_result": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_MODEL_RESULT.json",
+  "final_mechanical_index_repair_model_result_byte_sha256": "362742a1bbb5f933c58282db61283b2509f9984aeb43920ac224aaae93124859",
+  "final_mechanical_index_repair_model_result_sha256": "bdbf5bd0fc0287f18e1b10e26c14eac5f5b5f94dcb2659d8b8050b140314a65b",
+  "final_mechanical_index_repair_validation": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_DETERMINISTIC_VALIDATION.json",
+  "final_mechanical_index_repair_validation_byte_sha256": "1957a5a90e19b460385f785c6ac797a4ec9619cc66e06609d52f4c3420de6356",
+  "final_mechanical_index_repair_validation_sha256": "19d8b60679783f436587d830a1930df172d7888002db13572e53c7bd1a3ce7ff",
   "production_integration_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_AUTHORIZATION.json",
   "production_integration_authorization_byte_sha256": "f3e3c60de2ac562f77913cbef6890a3701d5b9e2256404ee6ab031b270d27671",
   "production_integration_authorization_sha256": "3b4dcb136512eb1012cc0b763e83d56fe846b0241ed1ef6e1a815b9d0815bcab",
@@ -155,5 +163,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T12:30:07.910620360Z"
+  "updated_at_utc": "2026-08-04T12:48:08.666707109Z"
 }
