@@ -1,0 +1,51 @@
+{
+  "verdict": "REVISION_REQUIRED",
+  "economic_definition_unchanged": true,
+  "phase_1_preserved": true,
+  "prior_result_used_for_tuning": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "raw_market_data_inspected": false,
+  "returns_calculated": false,
+  "performance_claim_made": false,
+  "capital_permitted": 0,
+  "strengths": [
+    "Pinned draft byte identity matches CURRENT_STATE; v1 preregistration and audit hashes match Phase 2 authorization.",
+    "The hypothesis, primary parameters, seven trials, weights, 14/28 bps costs, four folds, bootstrap seed, prospective thresholds, and exact 19-gate map are preserved.",
+    "Fill-before-decision ordering, base and delayed execution, five exposed intervals, causal quarantine segmentation, risky-gap failure, regime reset, and strict fold prefixes are explicitly covered.",
+    "Verified-buffer parsing, source identity, trace reconciliation, common-panel comparisons, production-real-data validation, repair limits, and sealed-holdout controls are substantially specified."
+  ],
+  "required_revisions": [
+    "No-data, economics-preserving: restore the bootstrap sample definition verbatim to the primary aggregate valid-return series; the draft currently says primary seven-trial common-panel count, whereas v1 specifies observed aggregate return count. Reserve seven-trial common panels for DSR and PBO and identical comparator panels for baseline superiority.",
+    "No-data, economics-preserving: remove the circular current-result hash dependency from the multiplicity registry. Bind current trials to preregistration, implementation, input-manifest, and trace hashes available before DSR computation; record the result-artifact hash only afterward.",
+    "No-data, economics-preserving: preregister append-only multiplicity counts for authorized post-run repairs and define holdout usage. The first completed v2 evaluation is N=49 with 35 observed and 14 unimputed; each invalidated seven-trial run must deterministically increase N and observed counts while leaving the 14 empty slots unimputed.",
+    "No-data, economics-preserving: make DSR and PBO degeneracies fully deterministic. Define the exact autocorrelation estimator and lag edge cases, and clarify that PBO's intentional positive/negative-infinity zero-volatility Sharpes remain rankable while nonfinite raw returns, undefined ranks, or unresolved ties fail with PBO one.",
+    "No-data, economics-preserving: clarify that a quarantine resets future signal/regime history but retains already finalized, valid pre-gap segment labels, entries, intervals, and PnL for aggregate regime evaluation; only boundary-crossing evidence is excluded.",
+    "No-data, economics-preserving: disambiguate failure precedence by separating pre-run implementation/parser/trace defects, reproducible source-data integrity failures, post-run audit-proven mechanical defects, audit interruptions, and repair-budget exhaustion exactly as authorized.",
+    "No-data, economics-preserving: define the referenced pre-holdout robustness audit as a concrete stage with timing, scope, committed evidence, pass verdict, retry accounting, and relationship to the independent development audit and HOLDOUT_OPEN_APPROVED review."
+  ],
+  "fidelity_risks": [
+    "The bootstrap panel wording can produce a gate computation different from frozen v1.",
+    "A self-referential current-result hash is not implementable as a prerequisite to its own DSR result.",
+    "Unspecified multiplicity evolution permits inconsistent penalties after repair or at holdout.",
+    "PBO infinity handling and DSR autocorrelation details permit divergent conforming implementations.",
+    "Regime-reset and failure-precedence ambiguities can change included evidence or terminal classification.",
+    "The holdout open rule depends on an undefined robustness-audit artifact."
+  ],
+  "multiplicity_assessment": [
+    "The declared initial registry is arithmetically consistent: 49 ordered slots, 35 observed after the first completed v2 run, and 14 unobserved slots with no imputation.",
+    "The 28 historical observed Sharpes plus seven current Sharpes and use of N=49 only in expected-maximum SR0 are explicitly stated.",
+    "The registry is not yet freeze-safe because its current-result binding is circular and its counts are not preregistered for post-run repair or holdout transitions."
+  ],
+  "production_validation_assessment": [
+    "The draft correctly requires all 36 exact development files through the production loader, verified-byte parsing, representative real rows, causal grid/fill construction, strict prefixes, complete trace reconciliation, and derived integrity claims before economic evaluation.",
+    "Validation is appropriately restricted to mechanical evidence and forbids aggregate performance interpretation before fidelity approval.",
+    "No implementation or production-validation artifact exists yet; CURRENT_STATE correctly remains NOT_STARTED, which does not itself prevent preregistration after the listed specification revisions."
+  ],
+  "rationale": [
+    "Core strategy economics and Phase 1 records are unchanged and remain immutable.",
+    "The draft directly repairs all four deviations identified by the v1 audit without parameter selection from prior performance.",
+    "Freeze is blocked only by deterministic specification and governance defects that could change statistical inputs, multiplicity penalties, regime evidence, or failure classification.",
+    "Every requested correction can be completed from frozen metadata and contract text without market-data access, return calculation, holdout access, or strategy-economic changes."
+  ]
+}
