@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "authorized_at_utc": "2026-08-04T07:14:38.047368091Z",
+  "authorization_stage": "PURE_IMPLEMENTATION_AND_SYNTHETIC_TESTS_PRE_DATA",
+  "frozen_preregistration_commit": "c9ab6ce5fad5a8a52bc91c046b384ecfa608cdae",
+  "preregistration_sha256": "5f4d41bbd9f3fc34b29e86da271d324a442520c87bacece160627c6051cd13b6",
+  "effective_contract_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+  "required_pre_economic_test_count": 35,
+  "model_route": {
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "maximum_initial_invocations": 1,
+    "fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits fallback; code or test failure never does."
+  },
+  "allowed_repository_mutations": [
+    "create src/strategy_control/mean_reversion_v2.py",
+    "create tests/test_mean_reversion_v2.py",
+    "create additional pure v2 helper or test files only when required by the frozen contract"
+  ],
+  "prohibited_repository_mutations": [
+    "modify any Phase 1 experiment artifact, audit, result, rejection, ledger row, or publication claim",
+    "modify the frozen v2 preregistration, effective contract, direction review, or revision incorporation",
+    "modify CURRENT_STATE.json or any ledger",
+    "run git add, commit, push, reset, checkout, or history rewrite"
+  ],
+  "data_and_runtime_scope": {
+    "market_file_access": false,
+    "source_data_repository_access": false,
+    "2026_path_resolution_stat_footer_schema_metadata_or_value_access": false,
+    "return_calculation": false,
+    "performance_claim": false,
+    "network_data_acquisition": false,
+    "test_scope": "synthetic deterministic fixtures only",
+    "production_interface_design_permitted": true,
+    "production_real_data_execution_permitted": false
+  },
+  "implementation_requirements": [
+    "do not import or mutate the v1 evaluator as the production v2 path",
+    "preserve the exact frozen signal, seven trials, costs, folds, seed, and 19 gates",
+    "implement fill-before-later-decision ordering without executed-fill suppression",
+    "implement exact base, delayed, and five-exposed-interval clocks",
+    "implement causal expected-grid gaps, nonbridging cash quarantine, risky-gap failure, and 150-session recovery",
+    "implement strict fold prefix isolation and finalized pre-gap regime retention with future-history reset",
+    "implement canonical input, decision, target, fill, disposition, cost, and return trace schemas and reconciliation",
+    "implement deterministic DSR and PBO degeneracies and append-only multiplicity helpers",
+    "implement derived integrity and exact 19-gate aggregation",
+    "name tests so every applicable frozen required_pre_economic_tests obligation is mechanically discoverable"
+  ],
+  "parent_validation_after_call": {
+    "required": true,
+    "formal_economic_attempt_authorized": false,
+    "real_data_integration_authorized": false,
+    "repair_accounting": "Any coding or test defect is IMPLEMENTATION_BLOCKED_PRE_RUN and consumes a repair round only when a repository change is required after validation."
+  },
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED",
+  "holdout_opened": false,
+  "holdout_values_read": false
+}
