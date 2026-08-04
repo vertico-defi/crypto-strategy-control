@@ -13,6 +13,17 @@
 
 - Terminal audit checkpoint: source `3b7a232...` is pushed and clean; authorization `66f08ce3...` permits one separate read-only Sol/xhigh terminal-classification audit. This does not reopen the exhausted direction-review stage.
 
+## 2026-08-04T16:57:47.380546690Z — route 3 audited terminal; route 4 selected
+
+- Current checkpoint: Sol/xhigh audit `c10df658...` passed the exact route-3 terminal triple; Phase 2 selects `cs-ranking-binance-spot-archive-ptu-acquisition-v3`.
+- What changed: administrative transition is independently authorized; route 4 has no technical dependency on route-3 output and still requires fresh authorization/preregistration.
+- What was verified: every bound hash; 3/3 substantive direction attempts; one non-consuming mismatch invocation; zero implementation/repairs/economic result/data/holdout/return/capital/GPU/mining actions; Phase 1 and v1 unchanged.
+- What failed: route 3 remains blocked by three finite no-data contract defects and cannot receive a fourth direction review under existing authority.
+- Current best defensible result: no candidate. Route 3 is neither economically evaluated nor economically consumed.
+- Next experiment: create and commit a fresh no-data authorization and preregistration for route 4 before any official-archive network or acquisition action.
+- Current blocker: none.
+- Exact resume state: current route 4 selected/not started; repairs 0/3; audits 0/3 for its first stage; no route-4 network/data acquisition; holdouts sealed/unread; capital/GPU zero; mining unchanged.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.

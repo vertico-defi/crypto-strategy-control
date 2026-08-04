@@ -2,8 +2,9 @@
   "budgets": {
     "current_experiment": {
       "audit_attempts_used_by_stage": {
-        "direction_review": 3,
-        "terminal_direction_review_classification": 0
+      },
+      "prior_route_terminal_audit_attempts": {
+        "route_3_terminal_direction_review_classification": 1
       },
       "implementation_repairs_remaining": 3,
       "implementation_repairs_used": 0,
@@ -11,7 +12,7 @@
       "maximum_implementation_repairs": 3,
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
-        "direction_review_used": 3,
+        "direction_review_used": 0,
         "implementation_used": 0,
         "independent_audit_used": 0,
         "production_integration_used": 0
@@ -42,9 +43,9 @@
     "scheduled_enabled": false,
     "store_live": false
   },
-  "current_experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
-  "data_contract_status": "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PASS_PHASE_1_EVIDENCE",
-  "development_status": "PREREGISTRATION_BLOCKED_DIRECTION_REVIEW_BUDGET_EXHAUSTED / METHODOLOGY_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+  "current_experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "data_contract_status": "ROUTE_4_V3_NOT_STARTED",
+  "development_status": "ROUTE_AUTHORIZATION_PENDING / NO_ECONOMIC_RESULT",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -67,7 +68,7 @@
   "direction_review_model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
   "direction_review_model_result_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
   "direction_review_status": "ATTEMPT_3_REVISION_REQUIRED_BUDGET_EXHAUSTED",
-  "effective_contract_sha256": "a0bd8f8a27c04b8df6188a823c62c1bbff1180f61a14e8b15dbc6c0fcc5b690e",
+  "effective_contract_sha256": null,
   "implementation_authorization": null,
   "implementation_authorization_byte_sha256": null,
   "implementation_authorization_sha256": null,
@@ -110,8 +111,8 @@
   "implementation_validation_failure_byte_sha256": "c477090b311f998dc9bd7976853b518c20c663946e52c7f6d0776d6ab205051a",
   "implementation_validation_failure_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80",
   "implementation_validation_sha256": null,
-  "last_terminal_experiment_id": "btc-eth-relative-value-rotation-v2",
-  "last_terminal_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+  "last_terminal_experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
+  "last_terminal_verdict": "PREREGISTRATION_BLOCKED_DIRECTION_REVIEW_BUDGET_EXHAUSTED / METHODOLOGY_INCONCLUSIVE / NO_ECONOMIC_RESULT",
   "latest_publication": {
     "deployed_content_verified": true,
     "evidence_commit": "c48bb16ef950d1398dc62aa19134ad5121a00b12",
@@ -124,7 +125,7 @@
     "source_snapshot_commit": "8b1b3fc28b02c8c46755688f7b2216be343127bd",
     "store_live": false
   },
-  "next_task": "commit_and_push_route_3_terminal_audit_authorization_then_run_live_read_only_sol_xhigh_terminal_classification_audit",
+  "next_task": "commit_push_and_publish_audited_route_3_terminal_transition_then_create_fresh_route_4_authorization_and_no_data_preregistration",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -147,16 +148,16 @@
   "preregistration": null,
   "preregistration_byte_sha256": null,
   "preregistration_committed_source": null,
-  "preregistration_draft": "experiments/btc-eth-volatility-managed-equal-weight-v2/PREREGISTRATION_DRAFT.json",
-  "preregistration_draft_byte_sha256": "e378b6a9f21515f9a69c91197f2c573917773237f389f3c40fb63c5f151ff4fe",
-  "preregistration_draft_sha256": "a2c19ef1fca485a3a2565cb43cff345c92918cc95af3f6d540e92891a6216401",
+  "preregistration_draft": null,
+  "preregistration_draft_byte_sha256": null,
+  "preregistration_draft_sha256": null,
   "preregistration_frozen_source_commit": null,
-  "preregistration_original_draft_sha256": "cc2030dcc1b599ef6beb37bae1134746e1e870d5325cda4cb816a3978088fbdd",
-  "preregistration_revision_incorporation": "experiments/btc-eth-volatility-managed-equal-weight-v2/REVISION_INCORPORATION.json",
-  "preregistration_revision_incorporation_byte_sha256": "aa87f2cc277d164d37dc8a9a5634e507cb6b3b4b45a118218dd7382635c21889",
-  "preregistration_revision_incorporation_sha256": "c35593d1d89ff5aba777d7901e6b5be610619b92dca1ee9ec1ce52c4ba0ce2e4",
+  "preregistration_original_draft_sha256": null,
+  "preregistration_revision_incorporation": null,
+  "preregistration_revision_incorporation_byte_sha256": null,
+  "preregistration_revision_incorporation_sha256": null,
   "preregistration_sha256": null,
-  "preregistration_status": "TERMINAL_UNFROZEN_DIRECTION_REVIEW_BUDGET_EXHAUSTED",
+  "preregistration_status": "ROUTE_4_NOT_STARTED_PENDING_FRESH_AUTHORIZATION",
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
@@ -224,6 +225,12 @@
   "route_3_terminal_audit_authorization": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_AUDIT_AUTHORIZATION.json",
   "route_3_terminal_audit_authorization_byte_sha256": "cead7d47943511638ac7c562697c66f24949ff43a3f5429f7d85ca6dfdd93e41",
   "route_3_terminal_audit_authorization_sha256": "66f08ce3780ff23986917c1adb90984e23f14f7ac3469255e0feb0637490eaa9",
+  "route_3_terminal_audit": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_AUDIT.json",
+  "route_3_terminal_audit_byte_sha256": "2fa69cd240cf1fa9dd65d351c0383b6c5531b4b6e9fc95a3551b4a9e239826c0",
+  "route_3_terminal_audit_sha256": "c10df658ea4387e2df8a7e18c779fdeb049fda8d45ad71d71b92a56d2549c774",
+  "route_3_terminal_audit_model_result": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_AUDIT_MODEL_RESULT.json",
+  "route_3_terminal_audit_model_result_byte_sha256": "0ea8d79960c01ef76c7b165a318a3e9a3c2cce709eb13607c88cdebfe0e2d80f",
+  "route_3_terminal_audit_model_result_sha256": "bd31539da1f3a022f56bde5a9d614cdd63d6f5c5e18e755b6c1961e26e747635",
   "route_3_terminal": {
     "exact_experiment_terminal": true,
     "administrative_queue_terminal": true,
@@ -236,8 +243,11 @@
     "strategy_family_economically_consumed": false,
     "holdout_opened": false,
     "holdout_values_read": false,
-    "terminal_audit_confirmed": false,
-    "queue_routing": "PENDING_TERMINAL_CLASSIFICATION_AUDIT_THEN_BEGIN_BINANCE_ARCHIVE_ACQUISITION_V3"
+    "terminal_audit_confirmed": true,
+    "terminal_audit_verdict": "PASS_TERMINAL_CLASSIFICATION",
+    "terminal_audit": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_AUDIT.json",
+    "terminal_audit_sha256": "c10df658ea4387e2df8a7e18c779fdeb049fda8d45ad71d71b92a56d2549c774",
+    "queue_routing": "BEGIN_BINANCE_ARCHIVE_ACQUISITION_V3"
   },
   "production_integration_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_AUTHORIZATION.json",
   "production_integration_authorization_byte_sha256": "f3e3c60de2ac562f77913cbef6890a3701d5b9e2256404ee6ab031b270d27671",
@@ -274,5 +284,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T16:51:21.980120072Z"
+  "updated_at_utc": "2026-08-04T16:57:47.380546690Z"
 }

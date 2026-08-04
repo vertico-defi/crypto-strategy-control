@@ -1,0 +1,165 @@
+{
+  "verdict": "PASS_TERMINAL_CLASSIFICATION",
+  "audit_stage": "TERMINAL_DIRECTION_REVIEW_CLASSIFICATION",
+  "audit_attempt": 1,
+  "source": {
+    "required_commit": "a8eb4ecb44c812bf846d9688faf71b37999eb16c",
+    "head_at_start": "a8eb4ecb44c812bf846d9688faf71b37999eb16c",
+    "head_at_end": "a8eb4ecb44c812bf846d9688faf71b37999eb16c",
+    "source_parent_commit": "3b7a23282ef58068003a2538862166353f1096e2",
+    "clean_at_start": true,
+    "clean_at_end": true,
+    "read_only": true
+  },
+  "recomputed_hashes": {
+    "canonicalization": "UTF-8 JSON with recursively sorted keys, compact separators, no trailing newline",
+    "all_authorization_bindings_match": true,
+    "audit_authorization": {
+      "byte_sha256": "cead7d47943511638ac7c562697c66f24949ff43a3f5429f7d85ca6dfdd93e41",
+      "canonical_sha256": "66f08ce3780ff23986917c1adb90984e23f14f7ac3469255e0feb0637490eaa9"
+    },
+    "terminal_direction_review_validation": {
+      "path": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_VALIDATION.json",
+      "declared_byte_sha256": "4ba9c2725126810d0fcff1fe39748700c097a18df8e40fd9db98139373cc715e",
+      "recomputed_byte_sha256": "4ba9c2725126810d0fcff1fe39748700c097a18df8e40fd9db98139373cc715e",
+      "declared_canonical_sha256": "0f84e9aafdd7d99bf6ad909136d606f9cad27f4302be6c94b11aa16aa045d67f",
+      "recomputed_canonical_sha256": "0f84e9aafdd7d99bf6ad909136d606f9cad27f4302be6c94b11aa16aa045d67f",
+      "match": true
+    },
+    "final_direction_review": {
+      "path": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_3.json",
+      "declared_byte_sha256": "9057dda4d29fa2fa961fd19382096b87e605cfc620cd25a4d037fb90b229b846",
+      "recomputed_byte_sha256": "9057dda4d29fa2fa961fd19382096b87e605cfc620cd25a4d037fb90b229b846",
+      "declared_canonical_sha256": "ebc2c8d7790b9fe6610d47efd8e3cc6b8d5ad7b2a73bc52f42a06f323ca5d393",
+      "recomputed_canonical_sha256": "ebc2c8d7790b9fe6610d47efd8e3cc6b8d5ad7b2a73bc52f42a06f323ca5d393",
+      "match": true
+    },
+    "final_direction_review_model_result": {
+      "path": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_3_MODEL_RESULT.json",
+      "declared_byte_sha256": "dee740ee334b0ee2e3c5ca26f5284e21e8a6687432958d876a9a7be5727e676c",
+      "recomputed_byte_sha256": "dee740ee334b0ee2e3c5ca26f5284e21e8a6687432958d876a9a7be5727e676c",
+      "declared_canonical_sha256": "5a5781edd7838b0a00c3ffbde42c49c185eb62ba717b2a659d1a39720aa75fd0",
+      "recomputed_canonical_sha256": "5a5781edd7838b0a00c3ffbde42c49c185eb62ba717b2a659d1a39720aa75fd0",
+      "match": true
+    }
+  },
+  "attempt_accounting": {
+    "maximum_substantive_direction_review_attempts": 3,
+    "substantive_attempts_used": 3,
+    "substantive_attempts_remaining": 0,
+    "substantive_verdicts": [
+      {
+        "attempt": 1,
+        "stage": "NO_DATA_DIRECTION_REVIEW",
+        "source_commit": "d3b4a05ce0a0eba6aff98609f489162e16f20c40",
+        "verdict": "REVISION_REQUIRED"
+      },
+      {
+        "attempt": 2,
+        "stage": "NO_DATA_DIRECTION_ACCEPTANCE",
+        "source_commit": "b1599b4025f0284be224ea386cadc09a46b38a72",
+        "verdict": "REVISION_REQUIRED"
+      },
+      {
+        "attempt": 3,
+        "stage": "NO_DATA_DIRECTION_ACCEPTANCE",
+        "source_commit": "abed769ff38ca8af7e238371461a913b80ac67fe",
+        "verdict": "REVISION_REQUIRED"
+      }
+    ],
+    "input_commit_mismatch_invocation": {
+      "classification": "INVOCATION_ABORTED_INPUT_COMMIT_MISMATCH",
+      "model_result_received": false,
+      "substantive_attempt_consumed": false
+    },
+    "attempt_3_completion": {
+      "substantive_attempt_consumed": true,
+      "verdict": "REVISION_REQUIRED",
+      "exit_code": 0,
+      "timeout_reached": false,
+      "context_exhaustion": false,
+      "temporary_service_failure": false,
+      "fallback": null,
+      "exact_error": null
+    },
+    "fourth_direction_acceptance_invocation_authorized": false,
+    "additional_attempt_requires_separate_human_authorized_contract_amendment": true,
+    "this_terminal_classification_audit_consumed_direction_attempt": false
+  },
+  "classification_findings": {
+    "remaining_defects_are_finite_no_data_contract_defects": true,
+    "remaining_defects": [
+      "Ordinary disposition rows are not pairwise exclusive for a due-vector-induced quarantine event.",
+      "The complete pre-economic artifact lacks an exact top-level per-field JSON type, nullability, constant, or source-binding map.",
+      "The target/disposition/fill count invariant uses equality instead of exact additive arithmetic."
+    ],
+    "remaining_defects_are_economic_rejections": false,
+    "remaining_defects_are_data_failures": false,
+    "remaining_defects_are_implementation_failures": false,
+    "implementation_started": false,
+    "implementation_repairs_used": 0,
+    "formal_economic_evaluation_authorized": false,
+    "formal_economic_evaluation_consumed": false,
+    "strategy_result_exists": false,
+    "economic_result_exists": false,
+    "strategy_family_economically_evaluated": false,
+    "strategy_family_economically_consumed": false,
+    "terminal_triple": "PREREGISTRATION_BLOCKED_DIRECTION_REVIEW_BUDGET_EXHAUSTED / METHODOLOGY_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+    "terminal_triple_supported": true,
+    "phase_1_relabelled": false,
+    "phase_1_result_preserved": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
+    "route_3_v1_relabelled": false,
+    "route_3_v1_result_preserved": "DEVELOPMENT_PIPELINE_FAILURE / AUDIT_REJECTED / NO_ECONOMIC_RESULT",
+    "prior_evidence_relabelled": false,
+    "unprofitable_label_permitted": false,
+    "data_no_go": false,
+    "historical_no_go": false
+  },
+  "route_transition_finding": {
+    "phase_2_queue_order_verified": true,
+    "current_route": "btc-eth-volatility-managed-equal-weight-v2",
+    "next_route": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+    "next_route_follows_current_route": true,
+    "administrative_transition_permitted_after_this_pass": true,
+    "technical_dependency_on_route_3_output": false,
+    "route_3_strategy_output_required": false,
+    "fresh_route_authorization_and_preregistration_required": true,
+    "route_4_implementation_authorized_by_this_audit": false
+  },
+  "access_flags": {
+    "committed_repository_governance_and_route_evidence_only": true,
+    "external_market_data_file_accessed": false,
+    "external_market_data_identity_resolved": false,
+    "external_market_data_filesystem_listed": false,
+    "external_market_data_file_statted": false,
+    "external_market_data_file_hashed": false,
+    "external_market_data_file_parsed": false,
+    "source_data_repository_accessed": false,
+    "january_june_2026_market_or_holdout_path_accessed_or_inferred": false,
+    "external_market_data_footer_accessed": false,
+    "external_market_data_schema_accessed": false,
+    "external_market_data_metadata_accessed": false,
+    "external_market_data_row_accessed": false,
+    "external_market_data_value_accessed": false,
+    "returns_calculated": false,
+    "performance_claim_made": false,
+    "controller_tests_used_as_profitability_evidence": false,
+    "controller_tests_invoked": false,
+    "implementation_authorized": false,
+    "capital_action": false,
+    "credential_access": false,
+    "order_action": false,
+    "gpu_action": false,
+    "mining_action": false,
+    "network_action": false,
+    "git_write": false,
+    "file_write": false,
+    "another_auditor_invoked": false
+  },
+  "unresolved_caveats": [
+    "The three finite no-data contract defects remain unresolved and cannot be repaired within the exhausted direction-review stage.",
+    "Claims about historical actions outside committed repository evidence were not independently probed because external systems and data were prohibited.",
+    "Authorization of the next route is administrative queue advancement only; that route still requires its own fresh authorization and preregistration."
+  ],
+  "next_route_authorized": true
+}
