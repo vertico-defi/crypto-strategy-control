@@ -65,3 +65,14 @@
 
 - Publication checkpoint: evidence `94422a5f...`, sanitized source snapshot `55b2cece...`, and portfolio `1eaac5af...` are pushed; validation run `30898044381` and Pages run `30898044376` passed; deployed content was fetched and verified at HTTP 200.
 - Publication safety: `PASS`; five tests; syntax/type checks; 22 static pages; zero API routes; `STORE_LIVE=false`; no exchange, wallet, server, credential, order, or capital-execution functionality.
+
+## 2026-08-04T12:30:07.910620360Z — final additional mechanical repair authorized
+
+- Current checkpoint: clean synchronized source `dde9d28...`; the prior `IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED` audit and original 3/3 repair consumption remain preserved.
+- What changed: explicit user authority was registered as a separate 1/1 final exception limited to indexing and exact lookup mechanics; no implementation has started.
+- What was verified: source and remote match; interactive Goal owns the repository; scheduled continuation is recorded disabled; Phase 1 remains final; the frozen v2 preregistration hash is unchanged.
+- What failed: nothing in this new bounded attempt yet. The preceding real production run remains the preserved 1,800-second timeout.
+- Current best defensible result: no mean-reversion v2 economic result exists; real file identity/parser evidence passed, while full production mechanics remain incomplete.
+- Next experiment action: live Terra/medium mechanical implementation, parent deterministic validation, hard-capped real production validation, then live read-only Sol/xhigh fidelity audit.
+- Current blocker: none.
+- Exact resume state: final exception 0/1 used and 1 remaining; original repairs 3/3 used; formal economic attempt unauthorized and unconsumed; holdout sealed/unread; capital zero; CPU only; GPU/mining unchanged.

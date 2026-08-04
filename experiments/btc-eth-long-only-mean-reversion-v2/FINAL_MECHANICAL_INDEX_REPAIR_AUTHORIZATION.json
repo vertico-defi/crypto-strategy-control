@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T12:30:07.910620360Z",
+  "source_parent_commit": "dde9d28b604af0300b1a09c6bb4260319a52eeb2",
+  "authority": "explicit_user_authorization_after_completed_forensic_report",
+  "authorization_kind": "ONE_ADDITIONAL_AND_FINAL_BOUNDED_MECHANICAL_REPAIR",
+  "preserved_original_budget": {
+    "maximum_pre_run_implementation_repairs": 3,
+    "pre_run_implementation_repairs_used": 3,
+    "pre_run_implementation_repairs_remaining": 0
+  },
+  "additional_exception_budget": {
+    "maximum_repairs": 1,
+    "repairs_used": 0,
+    "repairs_remaining": 1,
+    "no_further_route_1_code_repair_if_this_attempt_fails": true
+  },
+  "implementation_routing": {
+    "invocation_mode": "live",
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "fallback": "only_after_confirmed_quota_rate_limit_throttling_or_temporary_model_unavailability"
+  },
+  "permitted_scope": [
+    "indexed session construction",
+    "indexed exact execution-row lookup",
+    "elimination of repeated full-list scans during session construction exact fill lookup and terminal fill selection",
+    "tests instrumentation and evidence required to validate that mechanical change"
+  ],
+  "required_index_properties": [
+    "constructed once per half-open fold or validation boundary",
+    "contains only rows strictly before its boundary",
+    "preserves exact MinuteRow object identities",
+    "rejects duplicate timestamps",
+    "rejects nonmonotonic or malformed retained rows",
+    "provides exact timestamp lookup",
+    "fails closed without forward scanning when an exact execution row is absent",
+    "requires synchronized BTCUSDT and ETHUSDT execution rows",
+    "isolates every strict prefix from malformed duplicate holdout-labelled or invalid suffix rows",
+    "uses a distinct boundary-bound index for each fold"
+  ],
+  "frozen_economics_unchanged": true,
+  "frozen_preregistration_sha256": "5f4d41bbd9f3fc34b29e86da271d324a442520c87bacece160627c6051cd13b6",
+  "effective_contract_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+  "formal_economic_evaluation_authorized_before_fidelity_audit_pass": false,
+  "development_market_access_permitted_for_production_validation": true,
+  "development_allowlist_count": 36,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "holdout_path_resolution_permitted": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED",
+  "runtime_validation": {
+    "cpu_only": true,
+    "hard_timeout_seconds": 1800,
+    "timeout_command_required": "/usr/bin/timeout --signal=INT --kill-after=5s 1800s",
+    "resource_command_required": "/usr/bin/time -v",
+    "partial_result_promotion_permitted": false
+  },
+  "required_post_validation_audit": {
+    "invocation_mode": "live",
+    "requested_model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "read_only": true
+  },
+  "success_route": "After all mechanical tests, real-data validation, runtime and memory boundaries, and independent fidelity audit pass, commit and push the mechanical checkpoint and run the frozen development-only economic evaluation; stop for human review before opening the final holdout if every development and audit gate passes.",
+  "failure_route": {
+    "no_further_route_1_code_repairs": true,
+    "terminal_classifications": [
+      "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
+      "IMPLEMENTATION_INCONCLUSIVE",
+      "NO_ECONOMIC_RESULT"
+    ],
+    "prohibited_classifications": [
+      "UNPROFITABLE",
+      "HISTORICAL_NO_GO",
+      "DATA_NO_GO"
+    ],
+    "next_route_authorized": "btc-eth-relative-value-rotation-v2"
+  }
+}
