@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T14:36:39.261734770Z",
+  "authorization_stage": "FINAL_PRE_RUN_IMPLEMENTATION_REPAIR_3_OF_3_NO_DATA",
+  "source_parent_commit": "54cab296ddd6a3a655cce6d13c61ef3eece86854",
+  "frozen_preregistration_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
+  "effective_contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "failure_artifact": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_VALIDATION_REPAIR_2_FAILURE.json",
+  "failure_artifact_sha256": "fa987a108973be57c9bf3da2354320460d7f66cb649b9e92e46b31a1aa11d054",
+  "budget": {
+    "pre_run_implementation_repairs_used_including_this_round": 3,
+    "pre_run_implementation_repairs_remaining_after_this_round": 0,
+    "maximum_live_invocation_wall_seconds": 1200,
+    "cpu_only": true,
+    "gpu_seconds_permitted": 0,
+    "capital_permitted": 0
+  },
+  "failure_policy": {
+    "additional_pre_run_code_repair_after_this_round": false,
+    "terminal_classification_if_any_required_behavior_or_validation_fails": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+    "economic_rejection_forbidden": true,
+    "formal_economic_attempt_consumed_on_failure": false
+  },
+  "model_route": {
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "maximum_invocations_for_this_repair": 1,
+    "fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits fallback; code, test, data, or methodology failure never does."
+  },
+  "allowed_mutations": [
+    "modify src/strategy_control/relative_value_v2.py",
+    "modify src/strategy_control/relative_value_v2_pipeline.py",
+    "modify src/strategy_control/relative_value_v2_oracle.py",
+    "modify tests/test_relative_value_v2.py",
+    "modify tests/test_relative_value_v2_production.py",
+    "create narrowly related pure v2 helper or deterministic test files only when mechanically required"
+  ],
+  "mandatory_implementation": [
+    "Replace or supersede the external-target run_clock production API with one internally driven period simulator. Each decision must be calculated from the simulator's own post-due-fill actual state and immutable pending state; callers may supply observations and exact canonical vectors but may not supply desired targets.",
+    "Return one canonical trace schema retaining trial, fold or period, decision session, due session, full per-asset score input identities, raw returns, volatility, scores, true maximum information cutoff, exact fill timestamp and both row identities, actual and pending before and after, disposition, held and target weights, asset price relatives, gross attribution, turnover, one-way cost, interval net return, wealth, quarantine segment, recovery count, regime, and terminal cash evidence.",
+    "Accrue every synthetic fixture interval from the exact prior and current canonical vector prices using the frozen self-financing accounting and 14-bps or 28-bps trial cost. Initial entry and terminal liquidation costs must be included. No trace field may remain a default placeholder.",
+    "Implement ordered quarantine transitions inside the simulator: cash segment break with no synthetic bridge; exposed liquidation at the earliest exact synchronized priced vector or DATA_INTEGRITY failure when it cannot be priced; cancellation or replacement of pending risk before any new decision; signal/regime reset; and eligibility only after 150 newly observed consecutive synchronized complete sessions.",
+    "Require BTC and ETH observation inputs to have the same exact session identity at each index, strict daily continuity inside eligible score lookbacks, finite positive closes, unique nonempty input identities, causal availability, and one common maximum cutoff. Any mismatch or missing observation must fail closed or explicitly enter quarantine according to the frozen precedence.",
+    "Implement an aggregate and exact four-development-fold runner. Each fold must construct an independent half-open prefix, initialize cash and empty pending state, use only pre-boundary observations and vectors, preserve warmup without PnL carry, run all seven trials and base/doubled-cost/delayed stresses with distinct state, and materialize fold-scoped trace/result records without calculating any market return in this no-data stage.",
+    "Instantiate the exact append-only 49-prior-slot registry from the frozen preregistration records, including names, artifact paths, byte SHA-256 values, JSON pointers, observed versus unimputed disposition, annualized-to-daily conversion, and order. Verify the first complete development transition is exactly 56 total, 35 observed finite, and 21 unimputed; do not invent missing values.",
+    "Complete a separate standard-library oracle with its own score formulas, decision rules, information cutoff, exact vector lookup, base and delayed clocks, quarantine/recovery/fold state, self-financing accounting, stationary bootstrap, DSR/PBO inputs, registry extraction, regime assignment, nineteen-gate evaluation, and terminal reconciliation. It may share only immutable input dataclasses or serialized fixture values, never production calculation helpers.",
+    "Replace every superficial exact-named test with behavioral evidence. The 36-entry allowlist test must verify the committed development source identity and all 36 allowlisted identities without opening market files; the recovery test must prove 149 is ineligible and the 150th newly complete session is eligible; the fold test must exercise all four exact boundaries and invalid suffix isolation; the seven-trial test must execute independent state and stresses; DSR must compare exact independently recomputed components; bootstrap must call and compare the stationary bootstrap; governance tests must derive and fail closed on prohibited state rather than assert constants.",
+    "Add an exhaustive decision-parity grid comparing production and independent copied-v1 oracle across actual positions, all seven trials, score orderings and ties, lead below/equal/above gap, raw-median negative/zero/positive, one/multiple ineligible assets, and nonfinite/malformed inputs. Expected exceptions or fail-closed cash dispositions must match exactly.",
+    "Add full production-versus-oracle fixture reconciliation for base and delayed modes across at least entry, hold, rotate, cash exit, pending target, gap while cash, gap while exposed, priced liquidation, 149 and 150 recovery sessions, final ordinary fill, and terminal replacement. Compare every canonical trace field at exact categorical or finite 1e-12 tolerance.",
+    "Delete or stop using legacy scaffolding that lets a passing test bypass the internally driven simulator, registry, quarantine/recovery runner, complete oracle, or derived governance evidence. Report any remaining placeholder or unresolved obligation as failure."
+  ],
+  "prohibited": [
+    "change any frozen strategy asset, trial, order, signal formula, parameter, threshold, cost, fold, gate, seed, clock, accounting, holdout, or multiplicity rule",
+    "modify any Phase 1 file or any frozen Phase 2 contract, authorization, state, ledger, log, lock, Git state, or portfolio file",
+    "open, resolve, list, stat, hash, or read any market-data repository, market file, external data source, network endpoint, or January-June 2026 path, footer, schema, metadata, row, or value",
+    "calculate a strategy return or performance metric from market data, make a performance claim, or run formal economic evaluation",
+    "install packages, purchase data/compute/credits, use GPU, change mining, use credentials, connect wallets/exchanges, place orders, or authorize capital"
+  ],
+  "required_validation_by_model": [
+    "all 37 exact required test names remain and each behaviorally proves its named obligation",
+    "the focused suite includes substantive new exhaustive decision-parity, full trace, quarantine/recovery, four-fold, registry, bootstrap, governance, and oracle comparisons",
+    "all repository tests with the already installed research dependencies",
+    "repository-wide Ruff",
+    "strict Mypy for all source files",
+    "bytecode compilation",
+    "explicit source diff limited to authorized files",
+    "explicit zero-unresolved-defect or failure report; a partial result cannot pass"
+  ],
+  "parent_validation_required": true,
+  "real_data_production_validation_authorized": false,
+  "formal_economic_attempt_authorized": false,
+  "holdout_paths_resolved": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "capital_permitted": 0
+}
