@@ -98,3 +98,14 @@
 - Next experiment: `btc-eth-relative-value-rotation-v2`, beginning with a fresh no-data preregistration and explicit multiplicity treatment of the contaminated +41.53% Phase 1 diagnostic result.
 - Current blocker: none.
 - Exact resume state: route 1 exact experiment terminal; route 2 authorized not preregistered with repairs 0/3, post-run repairs 0/2, and no audit attempts; every holdout sealed/unread; capital zero; CPU only; GPU/mining unchanged.
+
+## 2026-08-04T13:09:51Z — route 1 terminal publication verified
+
+- Current checkpoint: the route-1 terminal evidence is publicly synchronized; route 2 remains authorized and not yet preregistered.
+- What changed: source snapshot commit `61b69c5e...` and portfolio commit `2143bc1e...` publish exact evidence commit `485e420d...` without a performance claim.
+- What was verified: portfolio validation run `30912386690` and Pages run `30912389684` passed; the deployed page returned HTTP 200; `STORE_LIVE=false`; no API, exchange, wallet, capital, or execution functionality is present.
+- What failed: nothing in publication. The route-1 artifact-serialization failure remains unchanged and is the terminal experimental evidence.
+- Current best defensible result: route 1 has no economic result; tests, traces, and partial reconciliation are explicitly not profitability evidence.
+- Next experiment: fresh no-data preregistration for `btc-eth-relative-value-rotation-v2`.
+- Current blocker: none.
+- Exact resume state: route 2 authorized/not preregistered; repairs 0/3, post-run repairs 0/2, audit attempts 0; every holdout sealed/unread; capital zero; CPU only; GPU/mining unchanged.

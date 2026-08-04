@@ -73,14 +73,14 @@
   "last_terminal_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
   "latest_publication": {
     "deployed_content_verified": true,
-    "evidence_commit": "94422a5f6ed02e797171f1a71bda370e0be7156a",
-    "pages_deployment_run_id": 30898044376,
+    "evidence_commit": "485e420d620cb66af621075494f0db63d8ed29c1",
+    "pages_deployment_run_id": 30912389684,
     "pages_status": "SUCCESS_DEPLOYED_CONTENT_VERIFIED",
-    "portfolio_commit": "1eaac5afab7441943c9afb05569a82a6b993763f",
+    "portfolio_commit": "2143bc1e01ce59050428b7c03288aaf2363cb09e",
     "portfolio_publication_gate": "PASS",
-    "portfolio_validation_run_id": 30898044381,
-    "source_checkpoint_commit": "94422a5f6ed02e797171f1a71bda370e0be7156a",
-    "source_snapshot_commit": "55b2cece8281257f3384ee65076569c4b4026e7e",
+    "portfolio_validation_run_id": 30912386690,
+    "source_checkpoint_commit": "485e420d620cb66af621075494f0db63d8ed29c1",
+    "source_snapshot_commit": "61b69c5ed5c5f06f8907a052ee166a7c01e994ad",
     "store_live": false
   },
   "next_task": "draft_fresh_btc_eth_relative_value_rotation_v2_preregistration",
@@ -181,5 +181,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T12:54:43.657811298Z"
+  "updated_at_utc": "2026-08-04T13:09:51Z"
 }
