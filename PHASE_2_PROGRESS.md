@@ -109,3 +109,14 @@
 - Next experiment: fresh no-data preregistration for `btc-eth-relative-value-rotation-v2`.
 - Current blocker: none.
 - Exact resume state: route 2 authorized/not preregistered; repairs 0/3, post-run repairs 0/2, audit attempts 0; every holdout sealed/unread; capital zero; CPU only; GPU/mining unchanged.
+
+## 2026-08-04T13:17:27Z — relative-value rotation v2 no-data draft complete
+
+- Current checkpoint: route 2 draft `2da4f8f9...` is ready for a clean commit and live Sol/xhigh direction review; it is not frozen and implementation is not authorized.
+- What changed: exact hashes bind all 14 substantive v1 clauses; the seven trials, primary, thresholds, costs, folds, seed, and 19 gates remain exact. Four audit defects receive mechanical amendments for full cross-asset cutoffs/synchronized vectors, actual terminal-vector selection, one exact base/delay clock, and DSR degeneracy.
+- What was verified: all 14 base-clause hashes match v1; trial order and 19-gate map compare exactly; the Phase 2 registry uses N=56/35 observed/21 unimputed on the first complete run; 37 pre-economic tests are declared.
+- What failed: nothing. Direction review is intentionally pending.
+- Current best defensible result: no route-2 result exists. The v1 +41.53% remains contaminated prior evidence and is not a parameter-selection input or performance claim.
+- Next action: commit the no-data draft, then obtain a fresh live read-only gpt-5.6-sol/xhigh review before any freeze or implementation.
+- Current blocker: none.
+- Exact resume state: no market file/value or holdout path/footer/value accessed; returns false; repairs 0/3; post-run repairs 0/2; audit attempts 0; capital/GPU zero; mining unchanged.

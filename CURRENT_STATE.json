@@ -1,23 +1,17 @@
 {
   "budgets": {
     "current_experiment": {
-      "additional_final_mechanical_index_repair_remaining": 0,
-      "additional_final_mechanical_index_repair_used": 1,
-      "additional_final_mechanical_index_repair_maximum": 1,
-      "audit_attempts_used_by_stage": {
-        "terminal_implementation_and_repair_budget_audit": 1
-      },
-      "implementation_repairs_remaining": 0,
-      "implementation_repairs_used": 3,
+      "audit_attempts_used_by_stage": {},
+      "implementation_repairs_remaining": 3,
+      "implementation_repairs_used": 0,
       "maximum_audit_attempts_per_review_stage": 3,
       "maximum_implementation_repairs": 3,
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
-        "additional_final_mechanical_index_repair_used": 1,
-        "direction_review_used": 1,
-        "implementation_used": 3,
-        "independent_audit_used": 1,
-        "production_integration_used": 2
+        "direction_review_used": 0,
+        "implementation_used": 0,
+        "independent_audit_used": 0,
+        "production_integration_used": 0
       },
       "post_run_fidelity_repairs_remaining": 2,
       "post_run_fidelity_repairs_used": 0
@@ -45,18 +39,18 @@
     "scheduled_enabled": false,
     "store_live": false
   },
-  "current_experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "current_experiment_id": "btc-eth-relative-value-rotation-v2",
   "data_contract_status": "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PASS_PHASE_1_EVIDENCE",
-  "development_status": "NO_ECONOMIC_RESULT",
-  "direction_review_artifact": "experiments/btc-eth-long-only-mean-reversion-v2/DIRECTION_REVIEW.json",
-  "direction_review_model_result_sha256": "0b8abd49a308c0ed60b3dbb5b83e4980cffe1568bffbca2147afae5bf47e11b1",
-  "direction_review_status": "REVISION_REQUIRED_INCORPORATED_7_OF_7_FROZEN",
-  "effective_contract_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
-  "implementation_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_AUTHORIZATION.json",
+  "development_status": "NOT_STARTED",
+  "direction_review_artifact": null,
+  "direction_review_model_result_sha256": null,
+  "direction_review_status": "PENDING_LIVE_SOL_XHIGH",
+  "effective_contract_sha256": null,
+  "implementation_authorization": null,
   "implementation_evidence_commit": "d4fcfaec04e93efc2547d0c94af1934ef556d44d",
   "implementation_model_result": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_MODEL_RESULT.json",
   "implementation_model_result_sha256": "b15eb8f78615ac24a7290245597e65af7a791ec6324a7877128f1faae8f4452a",
-  "implementation_status": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+  "implementation_status": "NOT_STARTED_ROUTE_2",
   "implementation_artifact_sha256": {
     "experiments/btc-eth-long-only-mean-reversion-v2/final_mechanical_production_validation.py": "7ee98e1ba4fbe1a89f720c3e56d974c79f7668309a32d70af2cbc9ff4cba7f68",
     "src/strategy_control/mean_reversion_v2.py": "dc8bb8f23716c6d9acbcdb3c50908103a40a21a5aee7a6f67b6c0ce9faed0f5d",
@@ -83,7 +77,7 @@
     "source_snapshot_commit": "61b69c5ed5c5f06f8907a052ee166a7c01e994ad",
     "store_live": false
   },
-  "next_task": "draft_fresh_btc_eth_relative_value_rotation_v2_preregistration",
+  "next_task": "commit_route_2_no_data_draft_then_run_live_sol_xhigh_direction_review",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -103,17 +97,17 @@
     "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
     "cross-sectional-baseline-and-ml-tournament-conditional-on-v3-audit-pass"
   ],
-  "preregistration": "experiments/btc-eth-long-only-mean-reversion-v2/PREREGISTRATION.json",
-  "preregistration_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
-  "preregistration_committed_source": "c9ab6ce5fad5a8a52bc91c046b384ecfa608cdae",
-  "preregistration_draft": "experiments/btc-eth-long-only-mean-reversion-v2/PREREGISTRATION_DRAFT.json",
-  "preregistration_draft_byte_sha256": "1da897a3eff60a013181d6381fc20b9e7e1678cad6005dd6c9224fdb15385a77",
-  "preregistration_draft_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
-  "preregistration_frozen_source_commit": "57265df7778e420f604bd014a33153dbc7bdf2bf",
-  "preregistration_original_draft_sha256": "f92df417213361c09764953d3351006ea86d6429f3d6252ccfd1a7aedc7c0055",
-  "preregistration_revision_incorporation_sha256": "34f89d3be5846f2f22ef7662c93c7a4c67a72362dc45baaa428dca28c5237c07",
-  "preregistration_sha256": "5f4d41bbd9f3fc34b29e86da271d324a442520c87bacece160627c6051cd13b6",
-  "preregistration_status": "FROZEN_COMMITTED",
+  "preregistration": null,
+  "preregistration_byte_sha256": null,
+  "preregistration_committed_source": null,
+  "preregistration_draft": "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION_DRAFT.json",
+  "preregistration_draft_byte_sha256": "80b8144f57f2edd59d8c458bd315ae3c445c5d400adc76a10ca26a0c194cd7f7",
+  "preregistration_draft_sha256": "2da4f8f95c523d41ded3213faf1ad853fb9561332a04adfe7ceef24c79105521",
+  "preregistration_frozen_source_commit": null,
+  "preregistration_original_draft_sha256": "2da4f8f95c523d41ded3213faf1ad853fb9561332a04adfe7ceef24c79105521",
+  "preregistration_revision_incorporation_sha256": null,
+  "preregistration_sha256": null,
+  "preregistration_status": "DRAFT_PENDING_CLEAN_COMMIT_AND_LIVE_DIRECTION_REVIEW",
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
@@ -181,5 +175,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T13:09:51Z"
+  "updated_at_utc": "2026-08-04T13:17:27Z"
 }
