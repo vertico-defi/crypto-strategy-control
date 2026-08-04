@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
+  "stage": "NO_DATA_DIRECTION_REVISION_INCORPORATION",
+  "at_utc": "2026-08-04T15:46:57.163158325Z",
+  "revision_parent_commit": "e85ecf625c62d8e3d373dbdc8fddffc3581589f4",
+  "original_draft_canonical_sha256": "cc2030dcc1b599ef6beb37bae1134746e1e870d5325cda4cb816a3978088fbdd",
+  "original_draft_byte_sha256": "f0ed45c6bfb36aaa11cb5c2d1399f80f0219f7c59d2d7c578a186398b90cc736",
+  "direction_review_canonical_sha256": "94d180dbef3822036abf3702943c3c03254543ed34c60b8611c0cc452585779f",
+  "direction_review_byte_sha256": "d4a912b3665843b5a6ed698c0378b272a8a4ec1788fcaddadf077d5584a51278",
+  "direction_model_result_canonical_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
+  "revised_draft_canonical_sha256": "bdf2aa7e2d1373598593f6172acf93790cb420a5017a118a4840ad1c1e7b121f",
+  "revised_draft_byte_sha256": "cab8cc73a4661581865e4f0b34f290526e7acda9061e460a7ae31d04cced5035",
+  "resolved_composite_canonical_sha256": "75bb39e156fdb580e4fd49db101c208c257a2d085291632cc3845f44ddaf65dc",
+  "required_revision_count": 7,
+  "incorporated_revision_count": 7,
+  "completion_token": "DIRECTION_REVIEW_REVISIONS_INCORPORATED_PENDING_ACCEPTANCE",
+  "revisions": [
+    {
+      "number": 1,
+      "status": "INCORPORATED",
+      "review_clause": "effective_contract_resolution.resolver and unlisted_clause_rule",
+      "changed_paths": [
+        "/effective_contract_resolution/metadata_removal_manifest",
+        "/effective_contract_resolution/metadata_removal_rule",
+        "/effective_contract_resolution/authoritative_phase_2_section_manifest",
+        "/effective_contract_resolution/resolver",
+        "/effective_contract_resolution/resolved_composite_canonical_sha256",
+        "/effective_contract_resolution/unlisted_clause_rule",
+        "/phase_2_identity_and_authority"
+      ],
+      "evidence": "Ten exact stale-v1 metadata pointers are removed; nine exact absent target/source additions are attached; six existing amendments remain exact; conflicts, missing paths, aliases, and unlisted mutation fail closed; one 92,467-byte canonical composite hashes to 75bb39e1...."
+    },
+    {
+      "number": 2,
+      "status": "INCORPORATED",
+      "review_clause": "phase_2_multiplicity_registry",
+      "changed_paths": [
+        "/phase_2_multiplicity_registry/ordered_prior_slots",
+        "/phase_2_multiplicity_registry/ordered_current_slots_predeclared",
+        "/phase_2_multiplicity_registry/observed_slot_extraction_rule",
+        "/phase_2_multiplicity_registry/current_run_pre_result_binding",
+        "/phase_2_multiplicity_registry/development_complete_run_transitions",
+        "/phase_2_multiplicity_registry/predeclared_invalidated_attempt_slot_names",
+        "/phase_2_multiplicity_registry/holdout_complete_run_transitions",
+        "/phase_2_multiplicity_registry/predeclared_holdout_slot_names"
+      ],
+      "evidence": "Route-2 slots 1-49 are embedded exactly; route-2 no-result names occupy 50-56 and bind both terminal validation 9efe0356... and terminal audit 3872bbff...; current slots 57-63 and every future invalidated-attempt or holdout branch name are fixed; first-run arithmetic remains N=63, observed=35, unimputed=28."
+    },
+    {
+      "number": 3,
+      "status": "INCORPORATED",
+      "review_clause": "target_fill_reconciliation, serialization, and production_path_validation_before_formal_evaluation",
+      "changed_paths": [
+        "/implementation_fidelity_corrections/target_fill_reconciliation",
+        "/implementation_fidelity_corrections/serialization",
+        "/production_path_validation_before_formal_evaluation/full_reconciliation",
+        "/production_path_validation_before_formal_evaluation/deterministic_representative_selectors",
+        "/production_path_validation_before_formal_evaluation/oracle_independence",
+        "/production_path_validation_before_formal_evaluation/equality_and_tolerance_table",
+        "/production_path_validation_before_formal_evaluation/committed_hashes_before_fidelity_review"
+      ],
+      "evidence": "Closed override-target, disposition, and complete-artifact schemas are fixed; all paths require full oracle reconciliation; representative selectors, exact/tolerant fields, NaN/infinity rules, source/dependency/input/trace/output hashes, and fail-closed conditions are explicit."
+    },
+    {
+      "number": 4,
+      "status": "INCORPORATED",
+      "review_clause": "common_panel_benchmarks and drawdown_path",
+      "changed_paths": [
+        "/implementation_fidelity_corrections/common_panel_benchmarks",
+        "/implementation_fidelity_corrections/drawdown_path"
+      ],
+      "evidence": "The sorted shared endpoint intersection, exactly-one-day intervals, maximal segments, event-slice boundaries, identical three-path identity lists, chronological stitching without gap observations, event order, formula, and full-path/reset/zero-fill rejection are frozen."
+    },
+    {
+      "number": 5,
+      "status": "INCORPORATED",
+      "review_clause": "derived_integrity_evidence",
+      "changed_paths": [
+        "/implementation_fidelity_corrections/derived_integrity_evidence"
+      ],
+      "evidence": "Leakage, survivorship, gate inheritance, source identity, terminal cash, panel equality, and trace closure each have exact recomputation inputs, identities, equations, hash/count requirements, and fail-closed outcomes; constant/controller-only assertions are prohibited."
+    },
+    {
+      "number": 6,
+      "status": "INCORPORATED",
+      "review_clause": "failure_precedence and repair_and_resource_budget",
+      "changed_paths": [
+        "/independent_audit_stages/common/interruption_exhaustion",
+        "/failure_precedence/3/effect",
+        "/failure_precedence/4/effect",
+        "/failure_precedence/5/effect",
+        "/failure_precedence/6",
+        "/failure_precedence/7",
+        "/repair_and_resource_budget/pre_run_repair_consumption_rule",
+        "/repair_and_resource_budget/post_run_repair_consumption_rule",
+        "/repair_and_resource_budget/mechanically_repairable_exhaustion",
+        "/repair_and_resource_budget/hypothesis_change_exhaustion"
+      ],
+      "evidence": "A third service interruption remains AUDIT_PENDING with no retries and blocks downstream work; any code/schema/oracle/executable-evidence change consumes the applicable repair; mechanically repairable unauthorized work and material hypothesis-change exhaustion are distinct and neither creates an economic label."
+    },
+    {
+      "number": 7,
+      "status": "INCORPORATED",
+      "review_clause": "data_contract.pre_holdout_guard",
+      "changed_paths": [
+        "/data_contract/pre_holdout_guard"
+      ],
+      "evidence": "The guard now rejects only candidate 2026 market-data filesystem, partition, URI, object-key, manifest, and discovery identities before access; it permits the 2026-01-01 in-memory development endpoint only as a comparison value; the exact hash-bound post-approval latch remains the sole no-discovery exception."
+    }
+  ],
+  "deterministic_proofs": {
+    "v1_clause_hashes_matching": 15,
+    "v1_clause_hashes_total": 15,
+    "metadata_removal_pointer_count": 10,
+    "metadata_removal_pointers_unique": true,
+    "metadata_removal_targets_exist": true,
+    "amendment_pointer_count": 6,
+    "amendment_pointers_unique": true,
+    "amendment_targets_exist": true,
+    "authoritative_phase_2_section_count": 9,
+    "authoritative_phase_2_sources_exist": true,
+    "authoritative_phase_2_targets_absent_before_attachment": true,
+    "v1_trial_order_exact": true,
+    "v1_trial_count": 7,
+    "v1_gate_map_exact": true,
+    "v1_gate_count": 25,
+    "first_49_slots_exactly_equal_route_2_registry": true,
+    "prior_slot_count": 56,
+    "prior_slot_numbers_contiguous": true,
+    "prior_slot_names_unique": true,
+    "observed_prior_slot_count": 28,
+    "observed_slot_paths_resolve_to_finite_numbers": true,
+    "unimputed_prior_slot_count": 28,
+    "current_predeclared_slot_count": 7,
+    "current_slot_numbers_57_through_63": true,
+    "required_pre_economic_test_count": 58,
+    "holdout_opened": false,
+    "holdout_paths_resolved": false,
+    "holdout_values_read": false,
+    "market_files_accessed": false,
+    "market_values_read": false,
+    "returns_calculated": false,
+    "performance_claim_made": false
+  },
+  "economic_definition_unchanged": true,
+  "prior_result_used_for_tuning": false,
+  "implementation_authorized": false,
+  "implementation_repairs_consumed": 0,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

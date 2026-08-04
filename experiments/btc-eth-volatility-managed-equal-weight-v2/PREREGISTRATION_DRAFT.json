@@ -1,10 +1,14 @@
 {
   "schema_version": "1.0",
-  "status": "DRAFT_NOT_FROZEN",
+  "status": "DRAFT_REVISED_NOT_FROZEN",
   "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
   "phase": 2,
   "created_at_utc": "2026-08-04T15:15:46.760779970Z",
   "source_parent_commit": "36ee5ce01f61dee146476d7be603049ee81b26e3",
+  "revised_at_utc": "2026-08-04T15:46:57.163158325Z",
+  "revision_parent_commit": "e85ecf625c62d8e3d373dbdc8fddffc3581589f4",
+  "original_draft_canonical_sha256": "cc2030dcc1b599ef6beb37bae1134746e1e870d5325cda4cb816a3978088fbdd",
+  "original_draft_byte_sha256": "f0ed45c6bfb36aaa11cb5c2d1399f80f0219f7c59d2d7c578a186398b90cc736",
   "purpose": "Audit-faithful successor to btc-eth-volatility-managed-equal-weight-v1. The purpose is implementation and production-path fidelity correction, not economic strategy improvement.",
   "objective": "Evaluate the unchanged fixed-pair long-only equal-weight portfolio-volatility-management hypothesis only after the corrected implementation passes deterministic, real-production-data, reconciliation, and independent-fidelity gates.",
   "capital_permitted": 0,
@@ -16,6 +20,42 @@
   "market_values_read_at_draft": false,
   "returns_calculated_at_draft": false,
   "candidate_promoted": false,
+  "direction_review": {
+    "verdict": "REVISION_REQUIRED",
+    "required_revision_count": 7,
+    "all_required_revisions_incorporated": true,
+    "completion_token_pending_acceptance": "DIRECTION_REVIEW_REVISIONS_INCORPORATED_PENDING_ACCEPTANCE",
+    "review_path": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_REVIEW.json",
+    "review_canonical_sha256": "94d180dbef3822036abf3702943c3c03254543ed34c60b8611c0cc452585779f",
+    "review_byte_sha256": "d4a912b3665843b5a6ed698c0378b272a8a4ec1788fcaddadf077d5584a51278",
+    "model_result_path": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
+    "model_result_canonical_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
+    "model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc"
+  },
+  "phase_2_identity_and_authority": {
+    "schema_version": "1.0",
+    "status": "DRAFT_REVISED_NOT_FROZEN",
+    "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
+    "phase": 2,
+    "created_at_utc": "2026-08-04T15:15:46.760779970Z",
+    "revised_at_utc": "2026-08-04T15:46:57.163158325Z",
+    "revision_parent_commit": "e85ecf625c62d8e3d373dbdc8fddffc3581589f4",
+    "phase_2_authorization_byte_sha256": "2686b9caeda1e4d443132cdeafc6c86dfa8e296bde5a711a55f190219bd7c2db",
+    "route_authorization_canonical_sha256": "7698550b1c4aa785e3fc0ae9f71525548a0007ce63b94c4db5c6e65580f916d2",
+    "direction_review_canonical_sha256": "94d180dbef3822036abf3702943c3c03254543ed34c60b8611c0cc452585779f",
+    "phase_1_final_result_preserved": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
+    "v1_terminal_preserved": "DEVELOPMENT_PIPELINE_FAILURE / AUDIT_REJECTED / NO_ECONOMIC_RESULT",
+    "capital_permitted": 0,
+    "gpu_seconds_permitted": 0,
+    "implementation_authorized": false,
+    "formal_economic_attempt_authorized": false,
+    "market_files_accessed": false,
+    "market_values_read": false,
+    "returns_calculated": false,
+    "holdout_paths_resolved": false,
+    "holdout_opened": false,
+    "holdout_values_read": false
+  },
   "phase_1_preservation": {
     "phase_1_final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
     "v1_terminal_state": "DEVELOPMENT_PIPELINE_FAILURE / AUDIT_REJECTED / NO_ECONOMIC_RESULT",
@@ -43,7 +83,7 @@
     "preceding_route_terminal_audit_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"
   },
   "effective_contract_resolution": {
-    "base": "The exact frozen v1 effective contract is inherited. Its schema/status/experiment/timestamp/source/direction/model/budget metadata is replaced by this Phase 2 wrapper. Every substantive economic, execution, statistical, robustness, gate, holdout, and prospective clause remains exact unless an explicit JSON-pointer replacement below is applied. Added implementation-fidelity and evidence requirements constrain proof of the same contract and do not change its economics.",
+    "base": "The exact frozen v1 effective contract is inherited. The exact metadata-removal manifest below removes stale v1 governance metadata before exact amendments and additive Phase 2 sections are applied. Every substantive economic, execution, statistical, robustness, gate, holdout, and prospective clause remains exact unless an explicit JSON-pointer replacement below is applied. Added implementation-fidelity and evidence requirements constrain proof of the same contract and do not change its economics.",
     "base_path": "experiments/btc-eth-volatility-managed-equal-weight-v1/PREREGISTRATION_REVISED_DRAFT.json",
     "base_canonical_sha256": "d47659466a2e55e72eef47051cba3b6c2cb551d036e41269bdbf0d7a9f19d8ad",
     "base_byte_sha256": "f983562d54339cbb8f4221e6f44a81725946e120d6c68ea9de200fa2a2374a30",
@@ -64,6 +104,19 @@
       "prospective": "5b7b376ff14e8e36a04370bfffa5ff35626c09b31bf917df799f384a00ac34af",
       "prohibitions": "ebd57edbcd41567d52ac452fff56a54272c23b64b22e65d041cf2408d4159d79"
     },
+    "metadata_removal_manifest": [
+      "/status",
+      "/created_at_utc",
+      "/revised_at_utc",
+      "/source_parent_commit",
+      "/draft_sha256",
+      "/draft_hash_rule",
+      "/original_draft_sha256",
+      "/direction_review",
+      "/model_routing",
+      "/budget"
+    ],
+    "metadata_removal_rule": "Resolve each listed RFC 6901 pointer against the exact base object, require it to exist exactly once at the top level, and remove it. No unlisted base field may be removed. Stale v1 metadata has no operative force after removal.",
     "amendment_manifest": [
       {
         "operation": "replace",
@@ -102,9 +155,20 @@
         "reason": "Phase 2 requires substantive proof of all inherited behavior plus the v1 audit corrections."
       }
     ],
-    "resolver": "Verify every base clause hash, resolve each RFC 6901 pointer against the exact base object, require the current value to exist, apply replacements in listed order, reject duplicate pointers or unlisted mutation, then canonicalize the resolved composite with sorted keys, compact separators, UTF-8, and SHA-256. Direction review and final freeze bind the resolved composite hash.",
-    "resolved_composite_canonical_sha256": "281f1817e93eaec46b9d24f8e587970007816b7834de7e52ea2bb2a4e40d4368",
-    "unlisted_clause_rule": "Every unlisted value remains exact. No implementation may reinterpret an unchanged clause through a new default or omission."
+    "authoritative_phase_2_section_manifest": [
+      {"target_pointer": "/phase_2_identity_and_authority", "source_pointer": "#/phase_2_identity_and_authority"},
+      {"target_pointer": "/phase_2_data_guard", "source_pointer": "#/data_contract"},
+      {"target_pointer": "/implementation_fidelity_corrections", "source_pointer": "#/implementation_fidelity_corrections"},
+      {"target_pointer": "/production_path_validation_before_formal_evaluation", "source_pointer": "#/production_path_validation_before_formal_evaluation"},
+      {"target_pointer": "/independent_audit_stages", "source_pointer": "#/independent_audit_stages"},
+      {"target_pointer": "/failure_precedence", "source_pointer": "#/failure_precedence"},
+      {"target_pointer": "/repair_and_resource_budget", "source_pointer": "#/repair_and_resource_budget"},
+      {"target_pointer": "/phase_2_model_routing", "source_pointer": "#/model_routing"},
+      {"target_pointer": "/phase_2_prohibitions", "source_pointer": "#/prohibitions"}
+    ],
+    "resolver": "Parse the exact base bytes and verify the base self-excluding canonical hash and every declared root-clause hash. Remove every and only metadata_removal_manifest pointer in listed order. Apply every and only amendment_manifest replacement in listed order, requiring each target to exist and every pointer to be unique. Copy every authoritative_phase_2_section_manifest source value verbatim to its absent target pointer, requiring every source to exist and rejecting a pre-existing target. Reject unknown operations, duplicate targets, missing paths, unlisted removal or mutation, source-target aliasing, or any conflict. Canonicalize the resulting single composite with sorted keys, compact separators, UTF-8, and SHA-256. Direction acceptance and final freeze bind that composite hash.",
+    "resolved_composite_canonical_sha256": "75bb39e156fdb580e4fd49db101c208c257a2d085291632cc3845f44ddaf65dc",
+    "unlisted_clause_rule": "Every unremoved, unreplaced, and unshadowed base value remains byte-semantically exact. The only authoritative Phase 2 additions are the nine target/source mappings enumerated above. No prose elsewhere, implementation default, omission, stale v1 metadata, or unlisted conflict may reinterpret the composite."
   },
   "unchanged_frozen_economics": {
     "strategy_family": "FIXED_PAIR_LONG_ONLY_EQUAL_WEIGHT_PORTFOLIO_VOLATILITY_MANAGEMENT",
@@ -161,7 +225,7 @@
     "development_rows_expected_per_asset": 790558,
     "known_missing_minute_count_per_asset": 2,
     "expected_joint_session_grid": 549,
-    "pre_holdout_guard": "Reject every 2026 label or path token before resolution, stat, footer, schema, metadata, dataset construction, or value access.",
+    "pre_holdout_guard": "At every development, validation, audit, freeze, and pre-HOLDOUT_OPEN_APPROVED entry point, inspect only candidate market-data filesystem identities: relative path components, partition year/month fields, URI/object keys, manifest entries, and dataset-discovery predicates. Reject any identity selecting year 2026 before path resolution, stat, footer, schema, metadata, dataset construction, or value access. The in-memory half-open development boundary timestamp 2026-01-01T00:00:00Z is permitted solely as a comparison value and may never be converted into, joined with, globbed into, or used to discover a market-data identity. The sole post-approval exception is the separately latched entry point accepting only the exact hash-bound holdout entries already frozen in the reused contract; it permits no directory or dataset discovery.",
     "opened_bytes_rule": "Before parse, match exact relative path, byte count, and SHA-256; rehash the exact opened bytes; parse only that verified immutable buffer."
   },
   "implementation_fidelity_corrections": {
@@ -170,12 +234,111 @@
     "causal_gap_detection": "Build the expected calendar grid from each half-open boundary before matching rows. Determine invalid and missing-row triggers only from boundary-prefix event and availability timestamps under the inherited causal-detection clause. A later session-completeness summary may not retroactively change target or recovery eligibility.",
     "quarantine": "Implement the inherited ordered trigger, pending-target cancellation, history clearing, exposed-state retention, earliest-later-valid safety liquidation, exact-cash behavior, and 90-session recovery. Unavailable ordinary fills never scan forward.",
     "failure_precedence": "Emit the inherited distinct DATA_INTEGRITY_FAILURE, NUMERICAL_DEGENERACY_FAILURE, HISTORICAL_NO_GO, and DEVELOPMENT_GO states. Parser, trace, serialization, code, or incomplete validation failures are IMPLEMENTATION_BLOCKED before economic interpretation and cannot be collapsed into an economic verdict.",
-    "target_fill_reconciliation": "Every materialized target has exactly one terminal disposition: exact fill, causal cancellation with reason, safety override, or terminal override. Every fill binds one immutable parent target hash; orphan target hashes, reused benchmark hashes, and extra fills fail closed. Independently reconstruct signals, targets, fills, costs, interval returns, dispositions, and terminal cash.",
-    "common_panel_benchmarks": "Recompute primary and both equal-weight benchmark net return, annualized Sharpe, and event-level maximum drawdown only on the exact baseline-comparison endpoint intersection and corresponding event slices. A full-path drawdown or different panel may not substitute.",
-    "drawdown_path": "Derive drawdown from initial wealth plus every valid synchronized mark, fill, cost, safety liquidation, and terminal liquidation in causal order. Never fabricate a mark inside a gap; the first later valid mark carries the entire exposed move.",
-    "derived_integrity_evidence": "Leakage, survivorship, gate inheritance, source identity, terminal cash, panel equality, and trace closure must be recomputed from production artifacts and hashes. Constants, booleans, controller-only tests, and assertions about intended behavior are not evidence.",
+    "target_fill_reconciliation": {
+      "canonical_rule": "Every materialized target, including a safety or terminal override target, has exactly one canonical disposition record. Every executed fill binds exactly one pre-materialized parent target. The ordinary target displaced by a safety or terminal override is causally cancelled; the separately pre-materialized override target is exactly filled. Orphan, duplicate, multiply disposed, reused, late-created, or extra identities fail closed.",
+      "disposition_keys_exact_order_independent": [
+        "schema_version",
+        "experiment_id",
+        "path_kind",
+        "trial_or_benchmark",
+        "boundary_start",
+        "boundary_end",
+        "decision_session_end",
+        "parent_target_sha256",
+        "disposition_kind",
+        "disposition_event_timestamp",
+        "disposition_available_timestamp",
+        "execution_vector_sha256",
+        "fill_sha256",
+        "override_target_sha256",
+        "cancellation_reason",
+        "status"
+      ],
+      "disposition_kinds": ["exact_fill", "causal_cancellation", "safety_override", "terminal_override"],
+      "nullable_keys_are_present": ["execution_vector_sha256", "fill_sha256", "override_target_sha256", "cancellation_reason"],
+      "override_target_keys_exact_order_independent": [
+        "schema_version",
+        "experiment_id",
+        "path_kind",
+        "trial_or_benchmark",
+        "boundary_start",
+        "boundary_end",
+        "override_kind",
+        "trigger_event_timestamp",
+        "trigger_available_timestamp",
+        "intended_execution_event_timestamp",
+        "weights_BTC_ETH_cash",
+        "ordered_trigger_record_ids",
+        "ordered_trigger_record_hashes",
+        "session_input_manifest_sha256",
+        "status"
+      ],
+      "override_rule": "Create and hash the safety or terminal override target before its fill. Safety weights and terminal weights are exact cash [0,0,1]. The fill parent_target_sha256 equals the override target hash, never the cancelled ordinary target hash. The ordinary target disposition records override_target_sha256 and the causal cancellation reason; the override target receives its own exact-fill disposition.",
+      "full_reconciliation_scope": "The independent oracle must reconcile every signal, target, override target, disposition, exact execution vector, fill, mark, cost, interval return, contribution, benchmark event, and terminal cash record across aggregate and all four folds, all seven trials, base cost, doubled cost, delayed execution, both equal-weight benchmarks, and both asset diagnostics. Representative subsets are additional human-audit views and cannot substitute for full record reconciliation."
+    },
+    "common_panel_benchmarks": {
+      "endpoint_intersection": "Sort the exact intersection of finite valid 23:59 UTC endpoint identities for all seven trials, equal_weight_weekly_fully_invested, and equal_weight_buy_and_hold. Identity includes timestamp and both exact retained row hashes; a timestamp with unequal identities is excluded and fails panel-identity evidence.",
+      "eligible_intervals": "An interval [t0,t1] is eligible only when t0 and t1 are adjacent entries in the sorted intersection and t1-t0 equals exactly one calendar day. No interval spans a missing day. Partition eligible intervals into maximal consecutive segments where each later interval starts at the preceding interval end.",
+      "event_slice_boundaries": "For each eligible [t0,t1], include the state immediately after all causal events at t0 and every valid synchronized mark, target fill, exact currency cost, safety liquidation, and terminal liquidation with event timestamp strictly greater than t0 and less than or equal to t1. Include each event once in causal trace order; exclude events outside eligible slices.",
+      "identical_path_rule": "For the primary and both equal-weight benchmarks, select the exact same ordered endpoint, interval, segment, and event-slice identity lists before reading any metric. Rebuild each comparison wealth path from wealth one using only its own economic changes on those identical slices.",
+      "segment_rule": "Stitch maximal segments in chronological order: carry the terminal comparison wealth of one eligible segment unchanged to the first included event of the next segment, but insert no mark, zero return, price change, cost, or PnL for the excluded gap. The carried scalar is bookkeeping for compounding selected slices, not a fabricated gap observation. Resetting wealth at a later segment is prohibited.",
+      "metrics": "Recompute net return, annualized Sharpe, and event-level maximum drawdown independently for the primary and both equal-weight benchmarks on their stitched comparison wealth paths. Full-path metrics, different panels, different event slices, segment resets, gap bridging, and zero-filled gaps may not substitute."
+    },
+    "drawdown_path": {
+      "formula": "For each reconstructed comparison path beginning at wealth one, maximum drawdown is max_t(1-W_t/max_{u<=t}W_u) over the exact ordered stitched event wealth sequence.",
+      "event_order": "Preserve the inherited causal event order and include initial wealth, every selected valid synchronized mark, execution, exact cost, safety liquidation, terminal liquidation, and post-event wealth. Multiple events at one timestamp remain in trace order and cannot be netted away.",
+      "gap_rule": "Never fabricate a mark inside an excluded gap. Because the comparison path contains only eligible event slices, the excluded gap contributes no observation or return. The first selected event after the gap applies only its eligible-slice economic change from that slice's exact start state; no hidden full-path wealth value may enter.",
+      "fail_closed": "Any missing event identity, nonpositive/nonfinite wealth, different event-slice list, or substitution of full-path drawdown is IMPLEMENTATION_BLOCKED."
+    },
+    "derived_integrity_evidence": {
+      "constant_assertions_prohibited": true,
+      "leakage": "For every target and fill derive and persist ordered source identities and prove max(event_timestamp,available_timestamp) over all estimator inputs equals I_s; B_s is the first whole-minute boundary strictly greater than I_s; the exact execution event is B_s+one minute; delayed execution uses the inherited one-additional-completed-session clock; every row and session identity lies strictly before its boundary end. Every inequality and hash must recompute true.",
+      "survivorship": "Prove the exact fixed asset tuple [BTCUSDT,ETHUSDT], exact 36-entry development allowlist hash, exact opened-byte hashes and counts, zero extra manifest entries, zero discovery results, and zero current-exchangeInfo, future-survival, market-cap, rename, or universe-selection input. Any extra, missing, or reordered identity fails.",
+      "gate_inheritance": "Canonicalize the exact inherited 25-entry development_gates_all_required object and require SHA-256 69df09c2b34f7f223419498d3eacb6507148a4ba05ac55635aa00de70f167956, exact key set, exact values, and no implementation-only substitute.",
+      "source_identity": "Recompute the data contract, dataset-freeze manifest, ordered 36-entry allowlist, per-file byte length and SHA-256, opened immutable-buffer SHA-256, session-input manifest, selected identity, and full production trace hashes. Every declared identity must match before its dependent stage runs.",
+      "terminal_cash": "For every aggregate, fold, trial, stress, benchmark, and diagnostic path, derive zero BTC units, zero ETH units, zero risky weights, cash weight one, no pending target, exactly one terminal override target and fill when required, and post-liquidation cash equal to independently reconciled terminal wealth after exact cost.",
+      "panel_equality": "Canonicalize and compare the ordered endpoint identities, eligible interval identities, maximal segment boundaries, and event-slice identity lists for primary and both equal-weight benchmark comparisons. All four hashes and all element counts must match exactly across the three paths.",
+      "trace_closure": "Require target count equals disposition count; every target hash appears once; every fill hash appears once; every fill has one parent target; every safety/terminal fill parent is its pre-materialized override target; cancelled targets have no fill; W_post equals W_pre plus gross quote-currency PnL minus exact currency cost at each event; and BTC plus ETH plus zero cash contribution reconciles to terminal wealth minus initial wealth within inherited 1e-10 relative tolerance.",
+      "failure_rule": "A missing derivation, missing source field, false predicate, nonfinite value, count mismatch, hash mismatch, or constant/controller-only assertion is IMPLEMENTATION_BLOCKED and cannot be promoted as integrity evidence."
+    },
     "strict_fold_boundaries": "For each aggregate or fold path, construct a separate immutable row/session index from only rows strictly before its half-open end. Start economic state in cash at fold start; earlier allowed rows may warm only estimators and recovery and cannot create positions, pending targets, or PnL.",
-    "serialization": "The full production evidence object must canonicalize and serialize successfully. Partial in-memory rows, traces, metrics, stage logs, or reconciliation are never promoted."
+    "serialization": {
+      "canonical_rule": "Every artifact object is strict JSON with no datetime, custom class, bytes, tuple, set, NaN, or unpermitted infinity. Canonicalize using sorted keys, compact separators, UTF-8, and SHA-256; then atomically serialize and reread the complete artifact before promotion. Partial in-memory rows, traces, metrics, stage logs, or reconciliation are never promoted.",
+      "complete_pre_economic_artifact_keys_exact_order_independent": [
+        "schema_version",
+        "experiment_id",
+        "stage",
+        "status",
+        "source_commit",
+        "frozen_preregistration_sha256",
+        "effective_contract_sha256",
+        "environment_sha256",
+        "data_contract_sha256",
+        "dataset_manifest_sha256",
+        "development_allowlist_sha256",
+        "opened_input_manifest_sha256",
+        "production_source_sha256",
+        "oracle_source_sha256",
+        "dependency_graph_sha256",
+        "trace_schema_sha256",
+        "selected_identity_sha256",
+        "production_trace_sha256",
+        "oracle_trace_sha256",
+        "reconciliation_sha256",
+        "resource_measurement",
+        "stage_timestamps",
+        "input_counts",
+        "session_counts",
+        "target_disposition_fill_counts",
+        "derived_integrity_predicates",
+        "reconciliation_summary",
+        "holdout_access",
+        "economic_fields_absent",
+        "complete",
+        "canonical_sha256"
+      ],
+      "closed_schema_rule": "Every listed key is required exactly once and no extra top-level key is permitted. Nested schemas for resource measurement, stage timestamps, counts, derived predicates, and reconciliation are frozen in implementation fixtures before real-data validation. Any missing, extra, duplicate, nonserializable, or mismatched record is IMPLEMENTATION_BLOCKED."
+    }
   },
   "phase_2_multiplicity_registry": {
     "first_completed_v2_development_slot_count_N": 63,
@@ -185,16 +348,67 @@
     "current_trial_slot_count": 7,
     "first_completed_v2_observed_nonannualized_sharpe_count": 35,
     "first_completed_v2_unimputed_no_return_slot_count": 28,
-    "prior_groups_in_order": [
-      {"experiment_id": "btc-eth-vol-targeted-trend-v1", "slots": 7, "returns": "observed_hash_bound"},
-      {"experiment_id": "btc-eth-long-only-mean-reversion-v1", "slots": 7, "returns": "observed_hash_bound_contaminated_diagnostic"},
-      {"experiment_id": "btc-eth-relative-value-rotation-v1", "slots": 7, "returns": "observed_hash_bound_contaminated_diagnostic"},
-      {"experiment_id": "btc-eth-intraday-calendar-seasonality-v1", "slots": 7, "returns": "no_return_slots_never_imputed"},
-      {"experiment_id": "btc-eth-causal-volatility-parity-rebalancing-v1", "slots": 7, "returns": "observed_attempts_with_terminal_audit_rejection"},
-      {"experiment_id": "btc-eth-volatility-managed-equal-weight-v1", "slots": 7, "returns": "no_return_slots_never_imputed"},
-      {"experiment_id": "btc-eth-long-only-mean-reversion-v2", "slots": 7, "returns": "no_return_slots_never_imputed"},
-      {"experiment_id": "btc-eth-relative-value-rotation-v2", "slots": 7, "returns": "no_return_slots_never_imputed"}
+    "ordered_prior_slots": [
+      {"slot": 1, "name": "btc-eth-vol-targeted-trend-v1:primary_combined", "status": "observed", "artifact_canonical_sha256": "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703", "json_pointer": "/variants/primary_combined/annualized_sharpe"},
+      {"slot": 2, "name": "btc-eth-vol-targeted-trend-v1:donchian_only", "status": "observed", "artifact_canonical_sha256": "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703", "json_pointer": "/variants/donchian_only/annualized_sharpe"},
+      {"slot": 3, "name": "btc-eth-vol-targeted-trend-v1:time_series_momentum_only", "status": "observed", "artifact_canonical_sha256": "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703", "json_pointer": "/variants/time_series_momentum_only/annualized_sharpe"},
+      {"slot": 4, "name": "btc-eth-vol-targeted-trend-v1:shorter_horizons", "status": "observed", "artifact_canonical_sha256": "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703", "json_pointer": "/variants/shorter_horizons/annualized_sharpe"},
+      {"slot": 5, "name": "btc-eth-vol-targeted-trend-v1:longer_horizons", "status": "observed", "artifact_canonical_sha256": "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703", "json_pointer": "/variants/longer_horizons/annualized_sharpe"},
+      {"slot": 6, "name": "btc-eth-vol-targeted-trend-v1:lower_volatility_target", "status": "observed", "artifact_canonical_sha256": "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703", "json_pointer": "/variants/lower_volatility_target/annualized_sharpe"},
+      {"slot": 7, "name": "btc-eth-vol-targeted-trend-v1:higher_volatility_target", "status": "observed", "artifact_canonical_sha256": "d21faab707543a5123aba12fd2849c204eaaf93513bc528574661ce72c79e703", "json_pointer": "/variants/higher_volatility_target/annualized_sharpe"},
+      {"slot": 8, "name": "btc-eth-long-only-mean-reversion-v1:primary_standardized_shock", "status": "observed", "artifact_canonical_sha256": "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23", "json_pointer": "/variants/primary_standardized_shock/annualized_sharpe"},
+      {"slot": 9, "name": "btc-eth-long-only-mean-reversion-v1:raw_three_session_drawdown_baseline", "status": "observed", "artifact_canonical_sha256": "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23", "json_pointer": "/variants/raw_three_session_drawdown_baseline/annualized_sharpe"},
+      {"slot": 10, "name": "btc-eth-long-only-mean-reversion-v1:shorter_two_session_shock", "status": "observed", "artifact_canonical_sha256": "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23", "json_pointer": "/variants/shorter_two_session_shock/annualized_sharpe"},
+      {"slot": 11, "name": "btc-eth-long-only-mean-reversion-v1:longer_five_session_shock", "status": "observed", "artifact_canonical_sha256": "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23", "json_pointer": "/variants/longer_five_session_shock/annualized_sharpe"},
+      {"slot": 12, "name": "btc-eth-long-only-mean-reversion-v1:shallower_entry", "status": "observed", "artifact_canonical_sha256": "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23", "json_pointer": "/variants/shallower_entry/annualized_sharpe"},
+      {"slot": 13, "name": "btc-eth-long-only-mean-reversion-v1:deeper_entry", "status": "observed", "artifact_canonical_sha256": "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23", "json_pointer": "/variants/deeper_entry/annualized_sharpe"},
+      {"slot": 14, "name": "btc-eth-long-only-mean-reversion-v1:slower_volatility_estimator", "status": "observed", "artifact_canonical_sha256": "0a5a783d886dbabb4807619557429d4b3abcc00ee6c9a968f6f75501d6de3e23", "json_pointer": "/variants/slower_volatility_estimator/annualized_sharpe"},
+      {"slot": 15, "name": "btc-eth-relative-value-rotation-v1:primary_risk_adjusted_20_60_120", "status": "observed", "artifact_canonical_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e", "json_pointer": "/variants/primary_risk_adjusted_20_60_120/annualized_sharpe"},
+      {"slot": 16, "name": "btc-eth-relative-value-rotation-v1:raw_60_session_relative_strength_rotation", "status": "observed", "artifact_canonical_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e", "json_pointer": "/variants/raw_60_session_relative_strength_rotation/annualized_sharpe"},
+      {"slot": 17, "name": "btc-eth-relative-value-rotation-v1:short_10_30_60_horizons", "status": "observed", "artifact_canonical_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e", "json_pointer": "/variants/short_10_30_60_horizons/annualized_sharpe"},
+      {"slot": 18, "name": "btc-eth-relative-value-rotation-v1:long_60_120_180_horizons", "status": "observed", "artifact_canonical_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e", "json_pointer": "/variants/long_60_120_180_horizons/annualized_sharpe"},
+      {"slot": 19, "name": "btc-eth-relative-value-rotation-v1:raw_unadjusted_20_60_120", "status": "observed", "artifact_canonical_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e", "json_pointer": "/variants/raw_unadjusted_20_60_120/annualized_sharpe"},
+      {"slot": 20, "name": "btc-eth-relative-value-rotation-v1:wide_0_50_rotation_gap", "status": "observed", "artifact_canonical_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e", "json_pointer": "/variants/wide_0_50_rotation_gap/annualized_sharpe"},
+      {"slot": 21, "name": "btc-eth-relative-value-rotation-v1:always_in_higher_score_no_cash_filter", "status": "observed", "artifact_canonical_sha256": "e03d5fc44598a4c3e4b0f34b87b3f0a37427af44248b45ee78dd4154e45a3d4e", "json_pointer": "/variants/always_in_higher_score_no_cash_filter/annualized_sharpe"},
+      {"slot": 22, "name": "btc-eth-intraday-calendar-seasonality-v1:primary_26_week_split_trimmed_holm_0_05", "status": "unimputed_no_return", "evidence_canonical_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0"},
+      {"slot": 23, "name": "btc-eth-intraday-calendar-seasonality-v1:simple_26_week_hour_only_untrimmed_mean_above_H", "status": "unimputed_no_return", "evidence_canonical_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0"},
+      {"slot": 24, "name": "btc-eth-intraday-calendar-seasonality-v1:short_13_week_split_trimmed_holm_0_05", "status": "unimputed_no_return", "evidence_canonical_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0"},
+      {"slot": 25, "name": "btc-eth-intraday-calendar-seasonality-v1:long_39_week_split_trimmed_holm_0_05", "status": "unimputed_no_return", "evidence_canonical_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0"},
+      {"slot": 26, "name": "btc-eth-intraday-calendar-seasonality-v1:liberal_26_week_split_trimmed_holm_0_10", "status": "unimputed_no_return", "evidence_canonical_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0"},
+      {"slot": 27, "name": "btc-eth-intraday-calendar-seasonality-v1:strict_26_week_split_trimmed_holm_0_025", "status": "unimputed_no_return", "evidence_canonical_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0"},
+      {"slot": 28, "name": "btc-eth-intraday-calendar-seasonality-v1:untrimmed_26_week_split_holm_0_05", "status": "unimputed_no_return", "evidence_canonical_sha256": "23350d4765cea3b8b983bf5540d396adfaaf3560d48a7a9e5308108aa2b2b9f0"},
+      {"slot": 29, "name": "btc-eth-causal-volatility-parity-rebalancing-v1:primary_60d_bounds_20_80_weekly", "status": "observed", "artifact_canonical_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1", "json_pointer": "/trials/primary_60d_bounds_20_80_weekly/annualized_sharpe"},
+      {"slot": 30, "name": "btc-eth-causal-volatility-parity-rebalancing-v1:short_30d_bounds_20_80_weekly", "status": "observed", "artifact_canonical_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1", "json_pointer": "/trials/short_30d_bounds_20_80_weekly/annualized_sharpe"},
+      {"slot": 31, "name": "btc-eth-causal-volatility-parity-rebalancing-v1:long_90d_bounds_20_80_weekly", "status": "observed", "artifact_canonical_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1", "json_pointer": "/trials/long_90d_bounds_20_80_weekly/annualized_sharpe"},
+      {"slot": 32, "name": "btc-eth-causal-volatility-parity-rebalancing-v1:tight_bounds_30_70_60d_weekly", "status": "observed", "artifact_canonical_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1", "json_pointer": "/trials/tight_bounds_30_70_60d_weekly/annualized_sharpe"},
+      {"slot": 33, "name": "btc-eth-causal-volatility-parity-rebalancing-v1:wide_bounds_10_90_60d_weekly", "status": "observed", "artifact_canonical_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1", "json_pointer": "/trials/wide_bounds_10_90_60d_weekly/annualized_sharpe"},
+      {"slot": 34, "name": "btc-eth-causal-volatility-parity-rebalancing-v1:biweekly_60d_bounds_20_80", "status": "observed", "artifact_canonical_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1", "json_pointer": "/trials/biweekly_60d_bounds_20_80/annualized_sharpe"},
+      {"slot": 35, "name": "btc-eth-causal-volatility-parity-rebalancing-v1:equal_weight_weekly_rebalanced", "status": "observed", "artifact_canonical_sha256": "983ad070a4470c8494ee47a6f48ae146a3bb0014e228e96ca7e97cc8eddd72b1", "json_pointer": "/trials/equal_weight_weekly_rebalanced/annualized_sharpe"},
+      {"slot": 36, "name": "btc-eth-volatility-managed-equal-weight-v1:primary_target40_lookback60_weekly", "status": "unimputed_no_return", "evidence_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78"},
+      {"slot": 37, "name": "btc-eth-volatility-managed-equal-weight-v1:neighbor_target30_lookback60_weekly", "status": "unimputed_no_return", "evidence_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78"},
+      {"slot": 38, "name": "btc-eth-volatility-managed-equal-weight-v1:neighbor_target50_lookback60_weekly", "status": "unimputed_no_return", "evidence_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78"},
+      {"slot": 39, "name": "btc-eth-volatility-managed-equal-weight-v1:neighbor_target40_lookback30_weekly", "status": "unimputed_no_return", "evidence_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78"},
+      {"slot": 40, "name": "btc-eth-volatility-managed-equal-weight-v1:neighbor_target40_lookback90_weekly", "status": "unimputed_no_return", "evidence_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78"},
+      {"slot": 41, "name": "btc-eth-volatility-managed-equal-weight-v1:target60_lookback60_weekly", "status": "unimputed_no_return", "evidence_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78"},
+      {"slot": 42, "name": "btc-eth-volatility-managed-equal-weight-v1:target40_lookback60_biweekly", "status": "unimputed_no_return", "evidence_canonical_sha256": "120471fcf76cbd082bf70968695184bc47842a7edee07330f2d1922936c6ae78"},
+      {"slot": 43, "name": "btc-eth-long-only-mean-reversion-v2:primary_standardized_shock", "status": "unimputed_no_return", "evidence_canonical_sha256": "a05531815bddfad5885a85f9bbee3cc84c1beebe42f7a18697dc0d9e6e571422"},
+      {"slot": 44, "name": "btc-eth-long-only-mean-reversion-v2:raw_three_session_drawdown_baseline", "status": "unimputed_no_return", "evidence_canonical_sha256": "a05531815bddfad5885a85f9bbee3cc84c1beebe42f7a18697dc0d9e6e571422"},
+      {"slot": 45, "name": "btc-eth-long-only-mean-reversion-v2:shorter_two_session_shock", "status": "unimputed_no_return", "evidence_canonical_sha256": "a05531815bddfad5885a85f9bbee3cc84c1beebe42f7a18697dc0d9e6e571422"},
+      {"slot": 46, "name": "btc-eth-long-only-mean-reversion-v2:longer_five_session_shock", "status": "unimputed_no_return", "evidence_canonical_sha256": "a05531815bddfad5885a85f9bbee3cc84c1beebe42f7a18697dc0d9e6e571422"},
+      {"slot": 47, "name": "btc-eth-long-only-mean-reversion-v2:shallower_entry", "status": "unimputed_no_return", "evidence_canonical_sha256": "a05531815bddfad5885a85f9bbee3cc84c1beebe42f7a18697dc0d9e6e571422"},
+      {"slot": 48, "name": "btc-eth-long-only-mean-reversion-v2:deeper_entry", "status": "unimputed_no_return", "evidence_canonical_sha256": "a05531815bddfad5885a85f9bbee3cc84c1beebe42f7a18697dc0d9e6e571422"},
+      {"slot": 49, "name": "btc-eth-long-only-mean-reversion-v2:slower_volatility_estimator", "status": "unimputed_no_return", "evidence_canonical_sha256": "a05531815bddfad5885a85f9bbee3cc84c1beebe42f7a18697dc0d9e6e571422"},
+      {"slot": 50, "name": "btc-eth-relative-value-rotation-v2:primary_risk_adjusted_20_60_120", "status": "unimputed_no_return", "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80", "terminal_audit_canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"},
+      {"slot": 51, "name": "btc-eth-relative-value-rotation-v2:raw_60_session_relative_strength_rotation", "status": "unimputed_no_return", "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80", "terminal_audit_canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"},
+      {"slot": 52, "name": "btc-eth-relative-value-rotation-v2:short_10_30_60_horizons", "status": "unimputed_no_return", "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80", "terminal_audit_canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"},
+      {"slot": 53, "name": "btc-eth-relative-value-rotation-v2:long_60_120_180_horizons", "status": "unimputed_no_return", "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80", "terminal_audit_canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"},
+      {"slot": 54, "name": "btc-eth-relative-value-rotation-v2:raw_unadjusted_20_60_120", "status": "unimputed_no_return", "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80", "terminal_audit_canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"},
+      {"slot": 55, "name": "btc-eth-relative-value-rotation-v2:wide_0_50_rotation_gap", "status": "unimputed_no_return", "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80", "terminal_audit_canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"},
+      {"slot": 56, "name": "btc-eth-relative-value-rotation-v2:always_in_higher_score_no_cash_filter", "status": "unimputed_no_return", "terminal_validation_canonical_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80", "terminal_audit_canonical_sha256": "3872bbff3dfa4624f69067067860883cd445690a06e30e3e334db19e6a449e57"}
     ],
+    "observed_slot_extraction_rule": "For every status=observed slot, verify the entire artifact canonical hash, resolve exactly its declared JSON Pointer, require a finite JSON number, and divide annualized_sharpe by sqrt(365) to obtain nonannualized daily Sharpe. No recomputation, fallback path, alternate frequency, rounding, clipping, or value substitution is permitted. Any hash, path, type, or finiteness mismatch makes DSR probability zero.",
+    "unimputed_slot_rule": "Every status=unimputed_no_return slot has no Sharpe value, contributes to N only, is excluded from sigma_SR, and can never be assigned zero, negative infinity, a family proxy, or another attempt's result.",
+    "before_current_v2_result": {"N": 56, "observed_finite_sharpes": 28, "unobserved_unimputed_slots": 28},
     "current_group": {
       "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
       "names": [
@@ -208,8 +422,79 @@
       ],
       "returns": "current_observed_only_after_complete_fidelity_approved_run"
     },
-    "append_after_invalidated_complete_attempt": "Append seven named slots. Preserve finite durably serialized Sharpes only; keep missing slots unimputed. Increment N by seven and never overwrite an earlier attempt.",
-    "append_after_holdout": "Append seven named holdout slots under the same observed-or-unimputed rule.",
+    "ordered_current_slots_predeclared": [
+      {"slot": 57, "name": "btc-eth-volatility-managed-equal-weight-v2:development_attempt_1:primary_target40_lookback60_weekly", "status": "pending_pre_result_binding"},
+      {"slot": 58, "name": "btc-eth-volatility-managed-equal-weight-v2:development_attempt_1:neighbor_target30_lookback60_weekly", "status": "pending_pre_result_binding"},
+      {"slot": 59, "name": "btc-eth-volatility-managed-equal-weight-v2:development_attempt_1:neighbor_target50_lookback60_weekly", "status": "pending_pre_result_binding"},
+      {"slot": 60, "name": "btc-eth-volatility-managed-equal-weight-v2:development_attempt_1:neighbor_target40_lookback30_weekly", "status": "pending_pre_result_binding"},
+      {"slot": 61, "name": "btc-eth-volatility-managed-equal-weight-v2:development_attempt_1:neighbor_target40_lookback90_weekly", "status": "pending_pre_result_binding"},
+      {"slot": 62, "name": "btc-eth-volatility-managed-equal-weight-v2:development_attempt_1:target60_lookback60_weekly", "status": "pending_pre_result_binding"},
+      {"slot": 63, "name": "btc-eth-volatility-managed-equal-weight-v2:development_attempt_1:target40_lookback60_biweekly", "status": "pending_pre_result_binding"}
+    ],
+    "current_run_pre_result_binding": "Before any formal return calculation, commit slots 57 through 63 in the exact declared order with the frozen preregistration and composite hashes, implementation commit and byte hashes, exact source/data-contract/36-entry allowlist/opened-input-manifest hashes, production and independent-oracle source/dependency hashes, every closed trace-schema hash, environment hash, bootstrap seeds, and formal invocation identifier. No result-dependent identity is allowed. Only after complete atomic serialization append result canonical and byte hashes; result hashes are evidence and are never prerequisites to themselves.",
+    "development_complete_run_transitions": [
+      {"accepted_or_invalidated_attempt_number": 1, "N": 63, "observed_finite_sharpes": 35, "unobserved_unimputed_slots": 28},
+      {"accepted_or_invalidated_attempt_number": 2, "N": 70, "observed_finite_sharpes": 42, "unobserved_unimputed_slots": 28},
+      {"accepted_or_invalidated_attempt_number": 3, "N": 77, "observed_finite_sharpes": 49, "unobserved_unimputed_slots": 28}
+    ],
+    "predeclared_invalidated_attempt_slot_names": {
+      "development_attempt_2_slots_64_70": [
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_2:primary_target40_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_2:neighbor_target30_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_2:neighbor_target50_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_2:neighbor_target40_lookback30_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_2:neighbor_target40_lookback90_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_2:target60_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_2:target40_lookback60_biweekly"
+      ],
+      "development_attempt_3_slots_71_77": [
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_3:primary_target40_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_3:neighbor_target30_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_3:neighbor_target50_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_3:neighbor_target40_lookback30_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_3:neighbor_target40_lookback90_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_3:target60_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:development_attempt_3:target40_lookback60_biweekly"
+      ]
+    },
+    "holdout_complete_run_transitions": [
+      {"accepted_development_attempt_number": 1, "slot_range": "64-70", "N": 70, "observed_finite_sharpes": 42, "unobserved_unimputed_slots": 28},
+      {"accepted_development_attempt_number": 2, "slot_range": "71-77", "N": 77, "observed_finite_sharpes": 49, "unobserved_unimputed_slots": 28},
+      {"accepted_development_attempt_number": 3, "slot_range": "78-84", "N": 84, "observed_finite_sharpes": 56, "unobserved_unimputed_slots": 28}
+    ],
+    "predeclared_holdout_slot_names": {
+      "after_development_attempt_1_slots_64_70": [
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_1:primary_target40_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_1:neighbor_target30_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_1:neighbor_target50_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_1:neighbor_target40_lookback30_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_1:neighbor_target40_lookback90_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_1:target60_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_1:target40_lookback60_biweekly"
+      ],
+      "after_development_attempt_2_slots_71_77": [
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_2:primary_target40_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_2:neighbor_target30_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_2:neighbor_target50_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_2:neighbor_target40_lookback30_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_2:neighbor_target40_lookback90_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_2:target60_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_2:target40_lookback60_biweekly"
+      ],
+      "after_development_attempt_3_slots_78_84": [
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_3:primary_target40_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_3:neighbor_target30_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_3:neighbor_target50_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_3:neighbor_target40_lookback30_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_3:neighbor_target40_lookback90_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_3:target60_lookback60_weekly",
+        "btc-eth-volatility-managed-equal-weight-v2:holdout_after_development_attempt_3:target40_lookback60_biweekly"
+      ]
+    },
+    "partial_attempt_rule": "A formal development attempt that fails before all seven Sharpes are durably produced still appends its exact seven predeclared names. Include only durably serialized finite Sharpes in sigma_SR and leave every other slot unimputed. The attempt cannot yield an economic verdict.",
+    "partial_holdout_rule": "The one-shot invocation always appends the exact seven branch-specific predeclared holdout names. Include only finite Sharpes durably serialized before failure; every remaining slot is unimputed. The result is HOLDOUT_EVALUATION_FAILURE, no candidate is promoted, and no repair, rerun, alternative extraction, or slot replacement is permitted.",
+    "pre_run_repair_rule": "A repair before formal trial-return computation adds no current-result slots.",
+    "append_only_rule": "Never overwrite, delete, rename, merge, reorder, or replace an earlier slot. A completed invalidated attempt remains in the registry before the next attempt; a holdout branch begins only after one accepted development attempt and uses its predeclared nonconflicting range.",
     "no_invented_returns": true
   },
   "production_path_validation_before_formal_evaluation": {
@@ -230,6 +515,40 @@
     "real_data_integration_is_economic_attempt": false,
     "real_data_integration_may_interpret_profitability": false,
     "performance_fields_in_pre_economic_artifact": "Only mechanical representative calculations needed for exact reconciliation may exist; no aggregate return, Sharpe, gate, trial ranking, or performance characterization may be computed or promoted.",
+    "full_reconciliation": "Before fidelity approval the independent oracle compares every production record across aggregate and all four folds, seven trials, base cost, doubled cost, delayed execution, two equal-weight benchmarks, and two asset diagnostics. Representative selectors provide additional inspectable cases only and never reduce full coverage.",
+    "deterministic_representative_selectors": {
+      "per_file": "For n>0 retained rows in original file order, select zero-based indices 0, floor((n-1)/2), and n-1; deduplicate identical indices while preserving selector order.",
+      "known_gaps": "For each expected missing minute bound by the frozen contract, select the exact expected missing timestamp and the nearest retained row immediately before and immediately after it for each asset. Do not search beyond those neighbors or select by observed signal or return.",
+      "fold_boundaries": "For each 2025 fold start and end, select the last retained synchronized vector strictly before the boundary and first retained synchronized vector at or after it only when both identities remain within the development allowlist. For the 2026-01-01 development endpoint select only the last retained development vector strictly before it and do not construct or resolve a suffix market-data identity.",
+      "targets": "After deterministic trace construction, select the first two target records in chronological trace order for every aggregate/fold, trial/benchmark, cost, and execution-clock path when present, irrespective of target value, later disposition, or return.",
+      "overrides": "For every aggregate/fold and applicable path, select the first safety override target and its displaced ordinary target when present, plus the unique terminal override target; no outcome-based substitution is permitted.",
+      "terminal": "Select each path's exact terminal target, disposition, execution vector, fill, and terminal cash record plus the immediately preceding canonical event when present.",
+      "identity_tuple": "Record each selected identity once as selector name, boundary id, path kind, trial or benchmark, cost mode, execution mode, session id, asset, event timestamp, availability timestamp, relative path, row group, row offset, and record SHA-256."
+    },
+    "oracle_independence": "The oracle may use Python standard library, Decimal, NumPy/SciPy primitives, PyArrow for its own verified-buffer parsing, and frozen JSON contracts. It may not import, call, copy at runtime, monkeypatch, dispatch to, or share mutable state with any production volatility-management loader, signal, session, gap, quarantine, clock, target, disposition, fill, mark, cost, return, contribution, benchmark, statistic, or gate helper. Its module dependency graph and source hash are committed and audited separately.",
+    "equality_and_tolerance_table": {
+      "paths_hashes_assets_timestamps_session_ids_row_ids_target_ids_disposition_ids_fill_ids_statuses_reasons_gate_names_booleans_integer_counts": "Exact equality; timestamps are timezone-aware UTC strings and record identities are byte-for-byte equal.",
+      "raw_integer_decimal_and_rational_weight_fields": "Exact equality before floating conversion.",
+      "prices_weights_volatility_turnover_cost_currency_pnl_returns_wealth_contributions_and_finite_statistics": "Both values must be finite and math.isclose with relative tolerance 1e-12 and absolute tolerance 1e-12; comparison is symmetric and no rounding or clipping is allowed.",
+      "inherited_contribution_terminal_equation": "In addition to field comparison, the inherited BTC plus ETH contribution reconciliation uses its exact 1e-10 relative tolerance.",
+      "zero": "Positive and negative floating zero compare equal only where the frozen formula permits zero; target and terminal rational weight vectors are exact before floating accounting.",
+      "NaN": "Always a mismatch and IMPLEMENTATION_BLOCKED.",
+      "infinity": "Always a mismatch except the exact inherited PBO finite-raw-return zero-volatility rank mapping, where sign and provenance must match exactly.",
+      "collections": "Length, order, key set, and every element must match; no unordered or aggregate tolerance comparison is permitted."
+    },
+    "committed_hashes_before_fidelity_review": [
+      "frozen preregistration wrapper and effective composite",
+      "implementation commit and environment",
+      "data contract, dataset freeze manifest, exact ordered 36-entry allowlist, and opened immutable-buffer manifest",
+      "production source and complete dependency graph",
+      "independent oracle source and complete dependency graph",
+      "target, override-target, disposition, fill, event, and complete artifact schemas",
+      "deterministically selected identity list",
+      "complete production trace",
+      "complete oracle trace",
+      "every mismatch record and reconciliation summary",
+      "complete serialized pre-economic artifact"
+    ],
     "runtime_boundary": "/usr/bin/timeout --signal=INT --kill-after=5s 1800s with an installed verbose resource wrapper recording wall time, maximum RSS, page faults, swap, and exit status.",
     "partial_result_rule": "Any timeout, exception, serialization failure, unsafe memory pressure, incomplete stage, or missing evidence is IMPLEMENTATION_BLOCKED. No fallback or partial promotion."
   },
@@ -275,7 +594,23 @@
     "complete_artifact_serializes_canonically_without_datetime_or_custom_type_failure",
     "holdout_minima_are_150_days_20_total_8_per_fold_2_of_2",
     "fixed_latch_preexistence_mismatch_or_post_arm_error_is_terminal",
-    "prospective_new_sunday_counts_even_if_weights_repeat_but_duplicate_key_does_not"
+    "prospective_new_sunday_counts_even_if_weights_repeat_but_duplicate_key_does_not",
+    "resolver_removes_exact_stale_v1_metadata_and_attaches_all_nine_phase_2_sections",
+    "multiplicity_slots_1_through_63_are_contiguous_unique_and_evidence_bound",
+    "route_2_slots_50_through_56_bind_terminal_validation_and_audit",
+    "future_invalidated_attempt_and_holdout_slot_names_are_exact_and_branch_specific",
+    "safety_and_terminal_fills_bind_pre_materialized_override_targets",
+    "disposition_schema_is_closed_and_every_target_has_exactly_one_disposition",
+    "full_production_oracle_reconciles_every_path_not_only_representatives",
+    "oracle_dependency_graph_cannot_import_production_calculation_helpers",
+    "representative_selectors_and_exact_tolerance_table_are_frozen",
+    "common_panel_event_drawdown_stitches_only_exact_eligible_event_slices",
+    "full_path_drawdown_segment_reset_and_gap_zero_fill_are_rejected",
+    "all_seven_derived_integrity_predicates_recompute_from_production_evidence",
+    "three_audit_interruptions_remain_audit_pending_with_no_retries",
+    "post_run_schema_oracle_or_executable_evidence_change_consumes_repair",
+    "repair_exhaustion_branches_do_not_create_economic_labels",
+    "in_memory_2026_development_boundary_is_allowed_but_2026_market_identity_is_rejected"
   ],
   "independent_audit_stages": {
     "common": {
@@ -286,6 +621,7 @@
       "maximum_attempts_per_stage": 3,
       "retry_only_after": ["timeout", "context_exhaustion", "temporary_service_failure"],
       "interruption_classification": "AUDIT_PENDING",
+      "interruption_exhaustion": "After a third service-only interruption, preserve AUDIT_PENDING with zero retries remaining and block every downstream stage. Do not convert it to pass, rejection, implementation failure, family exhaustion, or economic result. Further audit authority requires explicit human authorization or a separately recorded restoration of unavailable service under the governing Goal.",
       "required_record": "Actual model, reasoning, invocation mode, timestamps, response identifier, exact error, fallback, usage, input commit and hashes, output hashes, verdict, and stage-local attempt number."
     },
     "direction_review": {
@@ -337,40 +673,46 @@
       "priority": 4,
       "condition": "Independent reproduction and Sol/xhigh audit prove exact authorized source bytes cannot support the unchanged hypothesis.",
       "classification": "DATA_NO_GO",
-      "effect": "Terminal authorized-data no-go, not unprofitable."
+      "effect": "Terminal authorized-data no-go for this exact data contract, not unprofitable. Preserve independent minimal-reader and audit evidence; do not infer implementation failure from source failure or source failure from implementation failure."
     },
     {
       "priority": 5,
       "condition": "Audit ends only through timeout, context exhaustion, or temporary service failure.",
       "classification": "AUDIT_PENDING",
-      "effect": "Retry only that audit stage within its three-attempt cap."
+      "effect": "Retry only that audit stage after attempts one or two. After the third interruption, remain AUDIT_PENDING with zero retries and block downstream work; do not convert the interruption into any substantive or economic verdict."
     },
     {
       "priority": 6,
       "condition": "A complete development run is invalidated by a mechanical audit defect.",
       "classification": "POST_RUN_IMPLEMENTATION_BLOCKED",
-      "effect": "Preserve output as invalid, append observed/unimputed multiplicity slots, and use one post-run fidelity repair only if code changes."
+      "effect": "Invalidate every economic verdict, preserve the output, append the exact seven observed/unimputed multiplicity slots, and consume one post-run fidelity repair whenever repository code, closed schema, independent oracle, or executable validation evidence changes. Before rerun, repeat every pre-economic deterministic, real-production, serialization, reconciliation, resource, and fidelity gate."
     },
     {
       "priority": 7,
-      "condition": "All authorized repair authority is exhausted while a material implementation or evidence defect remains.",
+      "condition": "All authorized repair authority is exhausted while a remaining defect is mechanically repairable without changing the frozen economic hypothesis, but further work is not currently authorized.",
       "classification": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
-      "effect": "Exact experiment becomes administratively terminal. Do not call the family profitable, unprofitable, economically evaluated, HISTORICAL_NO_GO, or DATA_NO_GO."
+      "effect": "Exact experiment becomes administratively terminal under current authority, but the strategy family is not economically evaluated or consumed. Do not call it profitable, unprofitable, HISTORICAL_NO_GO, or DATA_NO_GO. A new repair requires explicit human authorization."
     },
     {
       "priority": 8,
+      "condition": "All authorized repair authority is exhausted and the remaining defect cannot be resolved without materially changing a signal, parameter, trial, cost, clock, fold, gate, statistic, holdout rule, prospective rule, or other frozen economic hypothesis clause.",
+      "classification": "IMPLEMENTATION_INCONCLUSIVE_HYPOTHESIS_CHANGE_REQUIRED / NO_ECONOMIC_RESULT",
+      "effect": "The exact authorized Phase 2 contract is terminally consumed under the Phase 2 repair policy, but its economics are not disproven and no profitability label is permitted. Any changed hypothesis requires separate human authorization and a fresh preregistration with append-only multiplicity."
+    },
+    {
+      "priority": 9,
       "condition": "A complete contract-faithful fidelity-approved development run and methodology audit fail any gate.",
       "classification": "HISTORICAL_NO_GO",
       "effect": "Terminal economic no-go; holdout remains sealed."
     },
     {
-      "priority": 9,
+      "priority": 10,
       "condition": "A complete contract-faithful development run passes all gates and methodology audit.",
       "classification": "DEVELOPMENT_GO",
       "effect": "Proceed only to pre-holdout robustness audit."
     },
     {
-      "priority": 10,
+      "priority": 11,
       "condition": "Evidence is incomplete, partial, synthetic, controller-only, unaudited, trace-only, or reconciliation-only.",
       "classification": "NO_ECONOMIC_RESULT",
       "effect": "No profitability label or candidate promotion."
@@ -384,6 +726,10 @@
     "maximum_audit_attempts_per_stage": 3,
     "maximum_live_invocation_wall_seconds": 1200,
     "maximum_local_evaluation_wall_seconds": 1800,
+    "pre_run_repair_consumption_rule": "Consume one pre-run repair whenever repository code, closed schema, independent oracle, or executable validation evidence must change before a completed formal economic run. Documentation that only records already complete unchanged evidence does not consume a repair.",
+    "post_run_repair_consumption_rule": "Consume one post-run repair whenever an audit-invalidated completed run requires any repository code, closed schema, independent oracle, or executable validation evidence change before rerun; preserving or classifying the invalid artifact alone does not consume another repair.",
+    "mechanically_repairable_exhaustion": "If repair authority is exhausted but the frozen hypothesis could remain unchanged, classify the exact experiment administratively blocked and implementation-inconclusive; the family remains economically unevaluated and unconsumed until separately authorized work succeeds or another terminal condition applies.",
+    "hypothesis_change_exhaustion": "If repair authority is exhausted and the remaining defect requires a material frozen-hypothesis change, terminally consume only the exact authorized Phase 2 contract under the Phase 2 policy. No economic label is allowed; a successor requires separate authorization, a fresh preregistration, and append-only multiplicity.",
     "CPU_only": true,
     "GPU_or_mining_change_permitted": false,
     "capital_permitted": 0

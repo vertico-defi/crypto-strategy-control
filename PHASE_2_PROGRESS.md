@@ -296,3 +296,14 @@
 - Next action: incorporate all seven corrections without market access, recompute every affected identity, commit the revised contract, and obtain direction acceptance before freeze or implementation.
 - Current blocker: none.
 - Exact resume state: direction review attempts 1/3; repairs 0/3; post-run repairs 0/2; market/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T15:46:57.163158325Z — all seven route-3 direction revisions incorporated
+
+- Current checkpoint: revised draft `bdf2aa7e...`, single resolved composite `75bb39e1...`, and 7/7 proof `731072aa...` are ready for a clean commit and direction acceptance.
+- What changed: exact stale-v1 metadata removal and Phase 2 overlays; slots 1-63 plus future branch names; closed target/override/disposition/artifact schemas; full independent oracle; deterministic selectors/tolerances; stitched common-panel event drawdown; derived evidence predicates; audit/repair exhaustion; filesystem-scoped holdout guard.
+- What was verified: 15/15 base-clause hashes; exact six amendment targets; exact ten removal and nine additive mappings; route-2 slot equality; 63 unique contiguous slots with 28 observed and 28 prior unimputed; finite observed extraction paths; 58 unique pre-economic test names; priorities 1-11; composite reconstruction.
+- What failed: nothing in deterministic incorporation. Direction acceptance remains pending.
+- Current best defensible result: no route-3 or Phase 2 economic result exists; these are preregistration and evidence controls only.
+- Next action: commit/push the revised contract and run a fresh live read-only Sol/xhigh acceptance review before freeze or implementation.
+- Current blocker: none.
+- Exact resume state: direction review attempts 1/3; repairs 0/3; post-run repairs 0/2; market/holdout/returns false; capital/GPU zero; mining unchanged.
