@@ -2,7 +2,8 @@
   "budgets": {
     "current_experiment": {
       "audit_attempts_used_by_stage": {
-        "direction_review": 3
+        "direction_review": 3,
+        "terminal_direction_review_classification": 0
       },
       "implementation_repairs_remaining": 3,
       "implementation_repairs_used": 0,
@@ -123,7 +124,7 @@
     "source_snapshot_commit": "8b1b3fc28b02c8c46755688f7b2216be343127bd",
     "store_live": false
   },
-  "next_task": "commit_and_push_route_3_terminal_direction_review_evidence_then_run_separate_read_only_terminal_classification_audit",
+  "next_task": "commit_and_push_route_3_terminal_audit_authorization_then_run_live_read_only_sol_xhigh_terminal_classification_audit",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -220,6 +221,9 @@
   "route_3_terminal_validation": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_VALIDATION.json",
   "route_3_terminal_validation_byte_sha256": "4ba9c2725126810d0fcff1fe39748700c097a18df8e40fd9db98139373cc715e",
   "route_3_terminal_validation_sha256": "0f84e9aafdd7d99bf6ad909136d606f9cad27f4302be6c94b11aa16aa045d67f",
+  "route_3_terminal_audit_authorization": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_AUDIT_AUTHORIZATION.json",
+  "route_3_terminal_audit_authorization_byte_sha256": "cead7d47943511638ac7c562697c66f24949ff43a3f5429f7d85ca6dfdd93e41",
+  "route_3_terminal_audit_authorization_sha256": "66f08ce3780ff23986917c1adb90984e23f14f7ac3469255e0feb0637490eaa9",
   "route_3_terminal": {
     "exact_experiment_terminal": true,
     "administrative_queue_terminal": true,
@@ -270,5 +274,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T16:45:39.128747376Z"
+  "updated_at_utc": "2026-08-04T16:51:21.980120072Z"
 }

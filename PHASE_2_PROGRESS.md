@@ -11,6 +11,8 @@
 - Current blocker: none for administrative terminal audit or the authorized queue transition; a fourth direction-acceptance attempt itself would require new human authority and will not be run.
 - Exact resume state: direction attempts 3/3 used; implementation 0; repairs 0/3; formal evaluation unauthorized/unconsumed; route-3 holdout unresolved/unread; capital/GPU zero; mining unchanged; Phase 2 active.
 
+- Terminal audit checkpoint: source `3b7a232...` is pushed and clean; authorization `66f08ce3...` permits one separate read-only Sol/xhigh terminal-classification audit. This does not reopen the exhausted direction-review stage.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.

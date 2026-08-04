@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T16:51:21.980120072Z",
+  "audit_stage": "TERMINAL_DIRECTION_REVIEW_CLASSIFICATION",
+  "audit_attempt": 1,
+  "maximum_attempts_for_this_stage": 3,
+  "source_parent_commit": "3b7a23282ef58068003a2538862166353f1096e2",
+  "required_source_clean": true,
+  "requested_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "permission": "read_only",
+  "bound_terminal_validation": {
+    "path": "experiments/btc-eth-volatility-managed-equal-weight-v2/TERMINAL_DIRECTION_REVIEW_VALIDATION.json",
+    "canonical_sha256": "0f84e9aafdd7d99bf6ad909136d606f9cad27f4302be6c94b11aa16aa045d67f",
+    "byte_sha256": "4ba9c2725126810d0fcff1fe39748700c097a18df8e40fd9db98139373cc715e"
+  },
+  "bound_final_direction_review": {
+    "path": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_3.json",
+    "canonical_sha256": "ebc2c8d7790b9fe6610d47efd8e3cc6b8d5ad7b2a73bc52f42a06f323ca5d393",
+    "byte_sha256": "9057dda4d29fa2fa961fd19382096b87e605cfc620cd25a4d037fb90b229b846"
+  },
+  "bound_model_result": {
+    "path": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_3_MODEL_RESULT.json",
+    "canonical_sha256": "5a5781edd7838b0a00c3ffbde42c49c185eb62ba717b2a659d1a39720aa75fd0",
+    "byte_sha256": "dee740ee334b0ee2e3c5ca26f5284e21e8a6687432958d876a9a7be5727e676c"
+  },
+  "required_decision": "Determine whether the exact route is defensibly administratively terminal because the preregistration never passed a mandatory three-attempt direction-review stage, while preserving that no economic, data, or implementation verdict exists and permitting the Phase 2 queue to continue to route 4.",
+  "allowed_verdicts": [
+    "PASS_TERMINAL_CLASSIFICATION",
+    "REJECT_TERMINAL_CLASSIFICATION"
+  ],
+  "required_checks": [
+    "recompute every bound byte and canonical hash from the committed source",
+    "verify all three substantive direction-review attempts and the non-consuming aborted commit-mismatch invocation",
+    "verify attempt three was substantive REVISION_REQUIRED and not a service interruption",
+    "verify the applicable stage ceiling is three and a fourth direction-review invocation lacks authority",
+    "verify remaining issues are finite no-data contract defects rather than economic, data, or implementation findings",
+    "verify no implementation or implementation repair began",
+    "verify the formal economic attempt was neither authorized nor consumed",
+    "verify the strategy family remains economically unevaluated and unconsumed",
+    "verify the exact terminal triple does not relabel v1 or Phase 1",
+    "verify route 4 follows route 3 in the authorized Phase 2 queue and has no technical dependency on a route-3 result",
+    "verify zero market, holdout, return, performance, capital, GPU, mining, credential, order, Git-write, and file-write action during audit"
+  ],
+  "prohibited_actions": [
+    "modify any file",
+    "invoke a fourth direction-acceptance audit",
+    "incorporate or repair the remaining route-3 draft",
+    "access, resolve, list, stat, hash, or parse external market data or any holdout source",
+    "calculate returns or make a performance claim",
+    "authorize implementation or formal evaluation",
+    "treat deterministic tests as profitability evidence",
+    "use Git write or network capability"
+  ],
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "mining_change_permitted": false,
+  "formal_economic_attempt_authorized": false,
+  "implementation_authorized": false,
+  "holdout_access_authorized": false
+}
