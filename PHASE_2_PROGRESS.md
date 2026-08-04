@@ -61,6 +61,8 @@
 - Current blocker: none; two eligible service-retry attempts remain.
 - Exact resume state: direction attempts 1/3 used; repairs 0/3; network requests and objects 0; holdout unresolved/unopened/unread; returns/models/backtests 0; capital/GPU zero; mining unchanged.
 
+- Retry authorization checkpoint: attempt 2/3 is bound by `21dc3a9e...`; the same Sol/xhigh model receives decomposed repository evidence and an external 1,200-second hard deadline. The rejected v1 manifest may be hashed but not opened.
+
 - Current checkpoint: initial live Terra implementation is `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair round 1/3 is required, with two pre-run repairs remaining.
 - What changed: Terra created the two authorized v2 files at hashes `600397a5...` and `bfbdedfc...`; its exact model result is `b15eb8f7...`; failure evidence is `35d91d2f...`.
 - What was verified: live model/scope/timestamps, exactly two untracked files, no frozen-file mutation, 36 focused tests pass, no data/holdout/Git/GPU/mining/return/capital action. Ruff fails 106 and mypy fails six; parent found material clock, leakage, panel, multiplicity, accounting, trace, and placeholder-test defects.

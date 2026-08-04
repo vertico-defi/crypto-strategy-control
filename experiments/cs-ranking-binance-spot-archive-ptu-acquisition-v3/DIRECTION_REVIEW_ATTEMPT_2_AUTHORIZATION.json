@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T17:58:53.746981904Z",
+  "audit_stage": "NO_DATA_DIRECTION_REVIEW",
+  "audit_attempt": 2,
+  "maximum_attempts_for_this_stage": 3,
+  "retry_basis": "Attempt 1 ended AUDIT_PENDING after no model event or verdict before timeout.",
+  "source_parent_commit": "6cc80f66fe223fefd6ee9c9e7246d94eebab5bc0",
+  "required_source_clean": true,
+  "requested_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "permission": "read_only",
+  "maximum_wall_seconds": 1200,
+  "external_timeout_command_prefix": [
+    "/usr/bin/timeout",
+    "--signal=INT",
+    "--kill-after=5s",
+    "1200s"
+  ],
+  "bound_attempt_1_timeout": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_1_TIMEOUT.json",
+    "byte_sha256": "4b78ae2104e5b23bd72c132e37989fb885433b1581217da431421cc547c9a134",
+    "canonical_sha256": "7d56dd253d7672df62eb9ffead69763bec61ded27c46d8724efe27474ce332dc"
+  },
+  "bound_draft": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+    "byte_sha256": "437d87ceb355b030b8729fae2183547a939d7c10e41812f12e7c45e0cfefa1b6",
+    "canonical_sha256": "144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e"
+  },
+  "output_schema": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+    "byte_sha256": "a9683091dcb09434d5c510294b29e7dccc9d2d0b7fd1d4b008df27bcfe5562f8",
+    "canonical_sha256": "f77b845da9a1331023da5a12a29b33722594d33db040c957923bf4b4ce03c17e"
+  },
+  "evidence_decomposition": {
+    "open_exactly": [
+      "AGENTS.md",
+      "PHASE_2_AUTHORIZATION.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_2_AUTHORIZATION.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-audit-resolution-v2/MODEL_RESULT.json"
+    ],
+    "hash_without_opening": [
+      "experiments/cs-ranking-ptu-data-audit-v1/AUDIT.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/AUDIT.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/PREREGISTRATION.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-audit-v1/SYMBOL_MANIFEST.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-audit-resolution-v2/AUDIT.json",
+      "experiments/cs-ranking-binance-spot-archive-ptu-audit-resolution-v2/PREREGISTRATION.json",
+      "src/strategy_control/archive_audit.py",
+      "src/strategy_control/archive_universe.py",
+      "tests/test_archive_audit.py",
+      "tests/test_archive_universe.py"
+    ],
+    "rule": "Do not open the large rejected v1 symbol manifest or inspect any embedded symbol, month, object, timestamp, hash, path, row, or value. The v2 model result is the authoritative substantive summary of why v1/v2 failed; byte hashes establish preserved file identity only."
+  },
+  "required_decision": "Return one complete DIRECTION_ACCEPTED or REVISION_REQUIRED verdict for the same exact draft. Review its provenance, request grammar, reconstruction, causal universe, artifacts, sufficiency, resource, failure, audit, and zero-performance rules using the decomposed evidence set.",
+  "required_checks_by_section": {
+    "provenance_and_preservation": [
+      "prior verdicts immutable and rejected v1 manifest ineligible",
+      "new bytes required for every v3 observation",
+      "raw responses bind decoded listing and object metadata"
+    ],
+    "request_and_holdout_guard": [
+      "root delimiter request cannot admit nested Contents",
+      "101 exact month queries end at 2025-12",
+      "transport and identity guard reject full-symbol and 2026 object queries"
+    ],
+    "object_and_row_reconstruction": [
+      "object key ETag size last-modified ZIP checksum and hash bindings",
+      "timestamp header Decimal OHLCV duplicate revision and ZIP safety rules",
+      "raw-only independent reconstruction and cross-artifact arithmetic"
+    ],
+    "causality": [
+      "gap episodes identity uncertainty and fresh buffers",
+      "strictly lagged liquidity and last-bar non-use",
+      "exact next-bar delay synchronization delisting and terminal fail-closed rules"
+    ],
+    "governance_and_resources": [
+      "ex-ante sufficiency and completeness limitation",
+      "bounded requests bytes cycles memory retries and resume",
+      "failure precedence repair audit and terminal classifications",
+      "DATA_CONTRACT_GO cannot imply performance or holdout permission"
+    ]
+  },
+  "prohibited_actions": [
+    "modify any file",
+    "make any network request or browse",
+    "open the rejected v1 symbol manifest",
+    "access data/raw, external market data, or any holdout source",
+    "calculate returns, train a model, run a backtest, or infer profitability",
+    "authorize implementation, acquisition, holdout, credentials, orders, capital, GPU, or mining change"
+  ],
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "implementation_authorized": false,
+  "acquisition_authorized": false,
+  "holdout_access_authorized": false
+}
