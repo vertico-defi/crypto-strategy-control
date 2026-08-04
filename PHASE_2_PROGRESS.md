@@ -318,3 +318,14 @@
 - Next action: incorporate only the two finite no-data contract edits, refresh hashes and proofs, commit cleanly, then use final direction-review attempt 3 before freeze or implementation.
 - Current blocker: none.
 - Exact resume state: direction review 2/3; implementation repairs 0/3; post-run repairs 0/2; market/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T16:25:42.641881925Z — route-3 attempt-2 revisions incorporated
+
+- Current checkpoint: draft `a2c19ef1...`, resolved composite `a0bd8f8a...`, incorporation proof `c35593d1...`; final direction acceptance pending.
+- What changed: seven-state disposition closure, exhaustive nested artifact schemas and hash bindings, and strict no-fourth-audit rule.
+- What was verified: only attempt-2 revisions 3 and 6 changed; all 15 inherited clause hashes, composite reconstruction, inherited economics, multiplicity, and 59 unique pre-economic test names pass. All repository tests pass with the preinstalled research interpreter and explicit repository source path; Ruff, strict Mypy across 29 source files, and compilation pass.
+- What failed: the project-local interpreter lacks NumPy and the research interpreter initially lacked the repository source path; both tooling diagnostics were resolved without a dependency install or repository change. Independent final acceptance remains required.
+- Current best defensible result: no economic result.
+- Next action: commit/push the clean verified contract, then invoke live Sol/xhigh attempt 3.
+- Current blocker: none.
+- Exact resume state: direction review 2/3; implementation repairs 0/3; post-run repairs 0/2; market/holdout/returns false; capital/GPU zero; mining unchanged.

@@ -167,7 +167,7 @@
       {"target_pointer": "/phase_2_prohibitions", "source_pointer": "#/prohibitions"}
     ],
     "resolver": "Parse the exact base bytes and verify the base self-excluding canonical hash and every declared root-clause hash. Remove every and only metadata_removal_manifest pointer in listed order. Apply every and only amendment_manifest replacement in listed order, requiring each target to exist and every pointer to be unique. Copy every authoritative_phase_2_section_manifest source value verbatim to its absent target pointer, requiring every source to exist and rejecting a pre-existing target. Reject unknown operations, duplicate targets, missing paths, unlisted removal or mutation, source-target aliasing, or any conflict. Canonicalize the resulting single composite with sorted keys, compact separators, UTF-8, and SHA-256. Direction acceptance and final freeze bind that composite hash.",
-    "resolved_composite_canonical_sha256": "75bb39e156fdb580e4fd49db101c208c257a2d085291632cc3845f44ddaf65dc",
+    "resolved_composite_canonical_sha256": "a0bd8f8a27c04b8df6188a823c62c1bbff1180f61a14e8b15dbc6c0fcc5b690e",
     "unlisted_clause_rule": "Every unremoved, unreplaced, and unshadowed base value remains byte-semantically exact. The only authoritative Phase 2 additions are the nine target/source mappings enumerated above. No prose elsewhere, implementation default, omission, stale v1 metadata, or unlisted conflict may reinterpret the composite."
   },
   "unchanged_frozen_economics": {
@@ -254,8 +254,112 @@
         "cancellation_reason",
         "status"
       ],
-      "disposition_kinds": ["exact_fill", "causal_cancellation", "safety_override", "terminal_override"],
+      "disposition_kinds": ["exact_fill", "causal_cancellation"],
       "nullable_keys_are_present": ["execution_vector_sha256", "fill_sha256", "override_target_sha256", "cancellation_reason"],
+      "field_schema_exact": {
+        "schema_version": "string exactly 1.0",
+        "experiment_id": "string exactly btc-eth-volatility-managed-equal-weight-v2",
+        "path_kind": "string equal to the parent target path_kind",
+        "trial_or_benchmark": "string equal to the parent target trial_or_benchmark",
+        "boundary_start": "UTC RFC3339 string equal to the parent target half-open boundary start",
+        "boundary_end": "UTC RFC3339 string equal to the parent target half-open boundary end",
+        "decision_session_end": "UTC RFC3339 string equal to the parent target decision_session_end",
+        "parent_target_sha256": "lowercase 64-hex SHA-256 of exactly one pre-materialized ordinary or override target",
+        "disposition_kind": "enum exact_fill or causal_cancellation",
+        "disposition_event_timestamp": "non-null UTC RFC3339 string from the state-table source",
+        "disposition_available_timestamp": "non-null UTC RFC3339 string from the state-table source and not earlier than disposition_event_timestamp",
+        "execution_vector_sha256": "nullable lowercase 64-hex SHA-256",
+        "fill_sha256": "nullable lowercase 64-hex SHA-256",
+        "override_target_sha256": "nullable lowercase 64-hex SHA-256",
+        "cancellation_reason": "nullable exact cancellation-reason enum",
+        "status": "enum filled or cancelled"
+      },
+      "cancellation_reasons_exact": [
+        "missing_or_invalid_exact_execution_vector",
+        "incomplete_session_quarantine_before_execution",
+        "superseded_by_safety_override",
+        "superseded_by_terminal_override"
+      ],
+      "disposition_state_table_exact": [
+        {
+          "parent_target_record_class": "ordinary_target",
+          "condition": "The frozen exact execution vector exists and is eligible before any higher-precedence quarantine, safety, or terminal event.",
+          "disposition_kind": "exact_fill",
+          "status": "filled",
+          "timestamp_source": "execution vector event_timestamp and available_timestamp",
+          "execution_vector_sha256": "required_nonnull_exact_execution_vector_hash",
+          "fill_sha256": "required_nonnull_fill_hash_whose_parent_target_sha256_matches",
+          "override_target_sha256": null,
+          "cancellation_reason": null
+        },
+        {
+          "parent_target_record_class": "ordinary_target",
+          "condition": "Its frozen exact execution vector is missing, invalid, asynchronous, partial, or nonfinite.",
+          "disposition_kind": "causal_cancellation",
+          "status": "cancelled",
+          "timestamp_source": "the persisted causal missing-or-invalid-row trigger event_timestamp and available_timestamp",
+          "execution_vector_sha256": null,
+          "fill_sha256": null,
+          "override_target_sha256": null,
+          "cancellation_reason": "missing_or_invalid_exact_execution_vector"
+        },
+        {
+          "parent_target_record_class": "ordinary_target",
+          "condition": "An independently detected incomplete-session quarantine trigger occurs while the target is pending and before exact execution, without a same-event pre-materialized override target displacing it.",
+          "disposition_kind": "causal_cancellation",
+          "status": "cancelled",
+          "timestamp_source": "the persisted incomplete-session trigger event_timestamp and causal detection available_timestamp",
+          "execution_vector_sha256": null,
+          "fill_sha256": null,
+          "override_target_sha256": null,
+          "cancellation_reason": "incomplete_session_quarantine_before_execution"
+        },
+        {
+          "parent_target_record_class": "ordinary_target",
+          "condition": "A pre-materialized safety override target causally displaces the still-pending ordinary target.",
+          "disposition_kind": "causal_cancellation",
+          "status": "cancelled",
+          "timestamp_source": "the safety override target trigger_event_timestamp and trigger_available_timestamp",
+          "execution_vector_sha256": null,
+          "fill_sha256": null,
+          "override_target_sha256": "required_nonnull_hash_of_the_pre_materialized_safety_override_target",
+          "cancellation_reason": "superseded_by_safety_override"
+        },
+        {
+          "parent_target_record_class": "ordinary_target",
+          "condition": "The pre-materialized terminal override target causally displaces the still-pending ordinary target.",
+          "disposition_kind": "causal_cancellation",
+          "status": "cancelled",
+          "timestamp_source": "the terminal override target trigger_event_timestamp and trigger_available_timestamp",
+          "execution_vector_sha256": null,
+          "fill_sha256": null,
+          "override_target_sha256": "required_nonnull_hash_of_the_pre_materialized_terminal_override_target",
+          "cancellation_reason": "superseded_by_terminal_override"
+        },
+        {
+          "parent_target_record_class": "safety_override_target",
+          "condition": "The earliest later finite valid synchronized safety execution vector required by the frozen quarantine rule exists.",
+          "disposition_kind": "exact_fill",
+          "status": "filled",
+          "timestamp_source": "that exact safety execution vector event_timestamp and available_timestamp",
+          "execution_vector_sha256": "required_nonnull_exact_safety_vector_hash",
+          "fill_sha256": "required_nonnull_safety_fill_hash_whose_parent_target_sha256_matches",
+          "override_target_sha256": null,
+          "cancellation_reason": null
+        },
+        {
+          "parent_target_record_class": "terminal_override_target",
+          "condition": "The exact predeclared terminal synchronized vector T_E exists and is valid.",
+          "disposition_kind": "exact_fill",
+          "status": "filled",
+          "timestamp_source": "the exact terminal execution vector event_timestamp and available_timestamp",
+          "execution_vector_sha256": "required_nonnull_exact_terminal_vector_hash",
+          "fill_sha256": "required_nonnull_terminal_fill_hash_whose_parent_target_sha256_matches",
+          "override_target_sha256": null,
+          "cancellation_reason": null
+        }
+      ],
+      "state_table_exhaustion_rule": "Every pre-materialized target hash resolves to exactly one parent_target_record_class and exactly one state-table row. No other disposition kind, cancellation reason, nullability pattern, timestamp source, status, or transition is permitted. A required safety or terminal vector that does not exist follows the inherited DATA_INTEGRITY_FAILURE precedence and cannot create a substitute disposition or fill.",
       "override_target_keys_exact_order_independent": [
         "schema_version",
         "experiment_id",
@@ -319,8 +423,18 @@
         "opened_input_manifest_sha256",
         "production_source_sha256",
         "oracle_source_sha256",
-        "dependency_graph_sha256",
-        "trace_schema_sha256",
+        "production_dependency_graph_sha256",
+        "oracle_dependency_graph_sha256",
+        "target_schema_sha256",
+        "override_target_schema_sha256",
+        "disposition_schema_sha256",
+        "execution_vector_schema_sha256",
+        "fill_schema_sha256",
+        "event_schema_sha256",
+        "selected_identity_schema_sha256",
+        "production_trace_schema_sha256",
+        "oracle_trace_schema_sha256",
+        "complete_artifact_schema_sha256",
         "selected_identity_sha256",
         "production_trace_sha256",
         "oracle_trace_sha256",
@@ -337,7 +451,60 @@
         "complete",
         "canonical_sha256"
       ],
-      "closed_schema_rule": "Every listed key is required exactly once and no extra top-level key is permitted. Nested schemas for resource measurement, stage timestamps, counts, derived predicates, and reconciliation are frozen in implementation fixtures before real-data validation. Any missing, extra, duplicate, nonserializable, or mismatched record is IMPLEMENTATION_BLOCKED."
+      "scalar_types": {
+        "sha256": "lowercase string matching exactly ^[0-9a-f]{64}$",
+        "utc_timestamp": "string parseable as timezone-aware UTC RFC3339 with trailing Z",
+        "nonnegative_integer": "JSON integer >=0, boolean prohibited",
+        "positive_integer": "JSON integer >0, boolean prohibited",
+        "finite_nonnegative_number": "finite JSON integer or float >=0, boolean, NaN, and infinity prohibited",
+        "boolean": "JSON true or false only"
+      },
+      "resource_measurement_schema": {
+        "keys_exact_order_independent": ["command_argv", "timeout_seconds", "wall_clock_seconds", "maximum_resident_set_kib", "major_page_faults", "minor_page_faults", "swap_kib", "exit_status", "timed_out", "unsafe_memory_pressure"],
+        "types": {"command_argv": "nonempty array of nonempty strings equal to the externally executed argv", "timeout_seconds": "positive_integer exactly 1800", "wall_clock_seconds": "finite_nonnegative_number <=1800", "maximum_resident_set_kib": "nonnegative_integer", "major_page_faults": "nonnegative_integer", "minor_page_faults": "nonnegative_integer", "swap_kib": "nonnegative_integer", "exit_status": "nonnegative_integer exactly 0", "timed_out": "boolean exactly false", "unsafe_memory_pressure": "boolean exactly false"}
+      },
+      "stage_timestamps_schema": {
+        "container": "array with cardinality exactly 11 in the declared order",
+        "declared_stage_order": ["preholdout_guard", "contract_identity", "opened_input_verification", "parse_and_row_materialization", "expected_grid_and_sessions", "target_fill_and_accounting_trace", "independent_oracle_trace", "full_reconciliation", "derived_integrity", "resource_completion", "serialization_reread"],
+        "record_keys_exact_order_independent": ["stage", "started_at_utc", "ended_at_utc", "duration_seconds", "status"],
+        "record_types": {"stage": "one exact declared stage name occurring once", "started_at_utc": "utc_timestamp", "ended_at_utc": "utc_timestamp not earlier than started_at_utc", "duration_seconds": "finite_nonnegative_number equal to the timestamp difference within 1e-6 seconds", "status": "string exactly PASS"},
+        "invariants": "Records are nonoverlapping and chronological; every declared stage occurs once; the first start and last end lie within the measured command interval. Missing, duplicate, reordered, failed, or overlapping stages fail closed."
+      },
+      "input_counts_schema": {
+        "keys_exact_order_independent": ["allowlisted_file_count", "opened_file_count", "extra_file_count", "BTCUSDT_row_count", "ETHUSDT_row_count", "BTCUSDT_missing_minute_count", "ETHUSDT_missing_minute_count", "malformed_row_count", "duplicate_row_count", "nonmonotonic_row_count", "holdout_candidate_identity_count"],
+        "types": "Every value is nonnegative_integer.",
+        "invariants": {"allowlisted_file_count": 36, "opened_file_count": 36, "extra_file_count": 0, "BTCUSDT_row_count": 790558, "ETHUSDT_row_count": 790558, "BTCUSDT_missing_minute_count": 2, "ETHUSDT_missing_minute_count": 2, "malformed_row_count": 0, "duplicate_row_count": 0, "nonmonotonic_row_count": 0, "holdout_candidate_identity_count": 0}
+      },
+      "session_counts_schema": {
+        "keys_exact_order_independent": ["expected_joint_session_count", "complete_joint_session_count", "incomplete_joint_session_count", "quarantine_trigger_count", "recovery_suppressed_session_count", "eligible_decision_session_count", "base_execution_vector_count", "delayed_execution_vector_count", "terminal_execution_vector_count"],
+        "types": "Every value is nonnegative_integer.",
+        "invariants": "expected_joint_session_count equals 549; complete_joint_session_count plus incomplete_joint_session_count equals 549; every remaining count is independently derived from the canonical session and trace identities, not a constant assertion."
+      },
+      "target_disposition_fill_counts_schema": {
+        "keys_exact_order_independent": ["ordinary_target_count", "safety_override_target_count", "terminal_override_target_count", "total_target_count", "exact_fill_disposition_count", "causal_cancellation_disposition_count", "total_disposition_count", "ordinary_fill_count", "safety_fill_count", "terminal_fill_count", "total_fill_count"],
+        "types": "Every value is nonnegative_integer.",
+        "invariants": "total_target_count equals the three target-class counts and equals total_disposition_count; total_disposition_count equals both disposition-kind counts; total_fill_count equals the three fill-class counts and equals exact_fill_disposition_count; causal_cancellation_disposition_count targets have no fill."
+      },
+      "derived_integrity_predicates_schema": {
+        "keys_exact_order_independent": ["leakage", "survivorship", "gate_inheritance", "source_identity", "terminal_cash", "panel_equality", "trace_closure"],
+        "types_and_invariant": "Every value is boolean exactly true and is produced by the corresponding preregistered recomputation; a missing, false, constant-only, or controller-only value fails closed."
+      },
+      "reconciliation_summary_schema": {
+        "keys_exact_order_independent": ["record_types_exact", "production_record_count", "oracle_record_count", "exact_field_comparison_count", "tolerant_field_comparison_count", "mismatch_count", "maximum_absolute_error", "maximum_relative_error", "all_required_paths_present", "production_trace_sha256", "oracle_trace_sha256", "reconciliation_sha256"],
+        "record_types_exact_value": ["signal", "ordinary_target", "override_target", "disposition", "execution_vector", "fill", "mark", "cost", "interval_return", "asset_contribution", "benchmark_event", "terminal_cash"],
+        "types": {"record_types_exact": "array exactly equal to record_types_exact_value", "production_record_count": "nonnegative_integer", "oracle_record_count": "nonnegative_integer", "exact_field_comparison_count": "nonnegative_integer", "tolerant_field_comparison_count": "nonnegative_integer", "mismatch_count": "nonnegative_integer exactly 0", "maximum_absolute_error": "finite_nonnegative_number within the field tolerance table", "maximum_relative_error": "finite_nonnegative_number within the field tolerance table", "all_required_paths_present": "boolean exactly true", "production_trace_sha256": "sha256 equal to the top-level production_trace_sha256", "oracle_trace_sha256": "sha256 equal to the top-level oracle_trace_sha256", "reconciliation_sha256": "sha256 equal to the top-level reconciliation_sha256"},
+        "invariants": "production_record_count equals oracle_record_count; their ordered identities match; exact plus tolerant comparison counts equal the preregistered compared-field count; every aggregate, four-fold, seven-trial, stress, clock, benchmark, and diagnostic path is present."
+      },
+      "holdout_access_schema": {
+        "keys_exact_order_independent": ["guard_invoked", "in_memory_boundary_literal_used", "candidate_identity_count", "resolved_path_count", "stat_count", "footer_count", "schema_count", "metadata_count", "row_count", "value_count", "opened"],
+        "exact_values": {"guard_invoked": true, "in_memory_boundary_literal_used": true, "candidate_identity_count": 0, "resolved_path_count": 0, "stat_count": 0, "footer_count": 0, "schema_count": 0, "metadata_count": 0, "row_count": 0, "value_count": 0, "opened": false}
+      },
+      "economic_fields_absent_schema": {
+        "keys_exact_order_independent": ["aggregate_return", "sharpe", "drawdown", "bootstrap_interval", "DSR", "PBO", "gate_verdict", "trial_ranking", "development_verdict", "performance_claim"],
+        "types_and_invariant": "Every value is boolean exactly true, meaning the named economic output field is absent from the complete pre-economic artifact and all nested objects."
+      },
+      "hash_binding_rule": "production_dependency_graph_sha256 and oracle_dependency_graph_sha256 bind separate sorted complete module-dependency manifests and must differ in source ownership; the oracle manifest may not contain a production calculation helper. Each named schema SHA-256 binds the canonical exact schema before trace construction. selected_identity_sha256, production_trace_sha256, oracle_trace_sha256, and reconciliation_sha256 bind their complete canonical outputs. canonical_sha256 is the SHA-256 of the complete artifact after removing only canonical_sha256 itself; after insertion, atomic serialization and reread must reproduce every field and hash.",
+      "closed_schema_rule": "Every listed top-level and nested key is required exactly once and no extra key is permitted. Arrays have the declared cardinality and order; objects use the exact key sets, types, nullability, constants, and invariants above. No schema may be deferred to implementation, a fixture, runtime discovery, or real-data observation. Any missing, extra, duplicate, nonserializable, mistyped, nullability-violating, cardinality-violating, hash-mismatched, or invariant-violating record is IMPLEMENTATION_BLOCKED."
     }
   },
   "phase_2_multiplicity_registry": {
@@ -592,6 +759,7 @@
     "regime_prior_only_equalities_gap_reset_and_cost_assignment",
     "derived_integrity_and_gate_evidence_recomputed_not_constant",
     "complete_artifact_serializes_canonically_without_datetime_or_custom_type_failure",
+    "complete_artifact_nested_schemas_dependency_bindings_and_self_hash_are_exact",
     "holdout_minima_are_150_days_20_total_8_per_fold_2_of_2",
     "fixed_latch_preexistence_mismatch_or_post_arm_error_is_terminal",
     "prospective_new_sunday_counts_even_if_weights_repeat_but_duplicate_key_does_not",
@@ -621,7 +789,7 @@
       "maximum_attempts_per_stage": 3,
       "retry_only_after": ["timeout", "context_exhaustion", "temporary_service_failure"],
       "interruption_classification": "AUDIT_PENDING",
-      "interruption_exhaustion": "After a third service-only interruption, preserve AUDIT_PENDING with zero retries remaining and block every downstream stage. Do not convert it to pass, rejection, implementation failure, family exhaustion, or economic result. Further audit authority requires explicit human authorization or a separately recorded restoration of unavailable service under the governing Goal.",
+      "interruption_exhaustion": "After a third service-only interruption, preserve AUDIT_PENDING with zero retries remaining, block every downstream stage, and permit no fourth invocation. Service restoration alone grants no attempt and cannot reset or increase the fixed three-attempt ceiling. Any fourth invocation or budget increase requires explicit human authorization recorded as a separate contract amendment before invocation. Do not convert the pending stage to pass, rejection, implementation failure, family exhaustion, or economic result.",
       "required_record": "Actual model, reasoning, invocation mode, timestamps, response identifier, exact error, fallback, usage, input commit and hashes, output hashes, verdict, and stage-local attempt number."
     },
     "direction_review": {

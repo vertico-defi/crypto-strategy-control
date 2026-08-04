@@ -2,19 +2,25 @@
   "schema_version": "1.0",
   "experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
   "stage": "NO_DATA_DIRECTION_REVISION_INCORPORATION",
-  "at_utc": "2026-08-04T15:46:57.163158325Z",
-  "revision_parent_commit": "e85ecf625c62d8e3d373dbdc8fddffc3581589f4",
+  "at_utc": "2026-08-04T16:25:42.641881925Z",
+  "revision_parent_commit": "90b260b0525ce2f426ab9a61797ca997bb6ca9f7",
   "original_draft_canonical_sha256": "cc2030dcc1b599ef6beb37bae1134746e1e870d5325cda4cb816a3978088fbdd",
   "original_draft_byte_sha256": "f0ed45c6bfb36aaa11cb5c2d1399f80f0219f7c59d2d7c578a186398b90cc736",
   "direction_review_canonical_sha256": "94d180dbef3822036abf3702943c3c03254543ed34c60b8611c0cc452585779f",
   "direction_review_byte_sha256": "d4a912b3665843b5a6ed698c0378b272a8a4ec1788fcaddadf077d5584a51278",
   "direction_model_result_canonical_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
-  "revised_draft_canonical_sha256": "bdf2aa7e2d1373598593f6172acf93790cb420a5017a118a4840ad1c1e7b121f",
-  "revised_draft_byte_sha256": "cab8cc73a4661581865e4f0b34f290526e7acda9061e460a7ae31d04cced5035",
-  "resolved_composite_canonical_sha256": "75bb39e156fdb580e4fd49db101c208c257a2d085291632cc3845f44ddaf65dc",
+  "direction_acceptance_review_2_canonical_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
+  "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
+  "direction_acceptance_model_result_2_canonical_sha256": "142fd2258c37f85145b8c2e216d7cdc58c90435f7e66647d38b80f25560dee7f",
+  "direction_acceptance_model_result_2_byte_sha256": "52f0d86715800b3b543852f1ae9c852f443fc0f88060b44b1b8a41dbb4212fef",
+  "revised_draft_canonical_sha256": "a2c19ef1fca485a3a2565cb43cff345c92918cc95af3f6d540e92891a6216401",
+  "revised_draft_byte_sha256": "e378b6a9f21515f9a69c91197f2c573917773237f389f3c40fb63c5f151ff4fe",
+  "resolved_composite_canonical_sha256": "a0bd8f8a27c04b8df6188a823c62c1bbff1180f61a14e8b15dbc6c0fcc5b690e",
   "required_revision_count": 7,
   "incorporated_revision_count": 7,
-  "completion_token": "DIRECTION_REVIEW_REVISIONS_INCORPORATED_PENDING_ACCEPTANCE",
+  "acceptance_review_2_required_change_count": 2,
+  "acceptance_review_2_incorporated_change_count": 2,
+  "completion_token": "DIRECTION_REVIEW_AND_ACCEPTANCE_2_REVISIONS_INCORPORATED_PENDING_FINAL_ACCEPTANCE",
   "revisions": [
     {
       "number": 1,
@@ -29,7 +35,7 @@
         "/effective_contract_resolution/unlisted_clause_rule",
         "/phase_2_identity_and_authority"
       ],
-      "evidence": "Ten exact stale-v1 metadata pointers are removed; nine exact absent target/source additions are attached; six existing amendments remain exact; conflicts, missing paths, aliases, and unlisted mutation fail closed; one 92,467-byte canonical composite hashes to 75bb39e1...."
+      "evidence": "Ten exact stale-v1 metadata pointers are removed; nine exact absent target/source additions are attached; six existing amendments remain exact; conflicts, missing paths, aliases, and unlisted mutation fail closed; one 106,554-byte canonical composite hashes to a0bd8f8a...."
     },
     {
       "number": 2,
@@ -60,7 +66,7 @@
         "/production_path_validation_before_formal_evaluation/equality_and_tolerance_table",
         "/production_path_validation_before_formal_evaluation/committed_hashes_before_fidelity_review"
       ],
-      "evidence": "Closed override-target, disposition, and complete-artifact schemas are fixed; all paths require full oracle reconciliation; representative selectors, exact/tolerant fields, NaN/infinity rules, source/dependency/input/trace/output hashes, and fail-closed conditions are explicit."
+      "evidence": "The acceptance-review correction removes inconsistent override disposition kinds; freezes seven exhaustive ordinary/safety/terminal target-disposition states with exact field sources, nullability, cancellation reasons, and failure precedence; freezes every nested resource, stage, count, integrity, reconciliation, holdout-access, and economic-absence schema; and binds production and oracle dependencies and all schemas/traces/outputs separately. Nothing is deferred to implementation fixtures."
     },
     {
       "number": 4,
@@ -97,7 +103,7 @@
         "/repair_and_resource_budget/mechanically_repairable_exhaustion",
         "/repair_and_resource_budget/hypothesis_change_exhaustion"
       ],
-      "evidence": "A third service interruption remains AUDIT_PENDING with no retries and blocks downstream work; any code/schema/oracle/executable-evidence change consumes the applicable repair; mechanically repairable unauthorized work and material hypothesis-change exhaustion are distinct and neither creates an economic label."
+      "evidence": "A third service interruption remains AUDIT_PENDING with zero retries, blocks downstream work, and permits no fourth invocation. Service restoration grants no attempt. Only an explicit human-authorized separate contract amendment may change the three-attempt ceiling; repair consumption and non-economic exhaustion branches remain distinct."
     },
     {
       "number": 7,
@@ -134,7 +140,7 @@
     "unimputed_prior_slot_count": 28,
     "current_predeclared_slot_count": 7,
     "current_slot_numbers_57_through_63": true,
-    "required_pre_economic_test_count": 58,
+    "required_pre_economic_test_count": 59,
     "holdout_opened": false,
     "holdout_paths_resolved": false,
     "holdout_values_read": false,
