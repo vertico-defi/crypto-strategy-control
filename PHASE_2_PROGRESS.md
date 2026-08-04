@@ -175,3 +175,14 @@
 - Next action: commit/push this exact failed attempt and evidence, then authorize bounded repair 1 to complete the no-data contract and all 37 named tests.
 - Current blocker: none; two pre-run repairs remain after the first required repair was charged.
 - Exact resume state: implementation call 1; repairs 1/3 used; post-run repairs 0/2; formal evaluation unauthorized/unconsumed; market/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T14:07:04.497191481Z — route-2 implementation repair 1 authorized
+
+- Current checkpoint: exact failed-attempt commit `faf7bba5...` is pushed and synchronized; no-data repair authorization `0fab45b4...` awaits a clean commit.
+- What changed: one Terra/medium repair call is bounded to the four v2 files plus a separate independent-oracle module/test if needed. It must materially implement all missing frozen mechanics and all 37 exact tests.
+- What was verified: the authorization binds frozen preregistration `c20a1a28...`, effective contract `ee1c3246...`, failure evidence `61d947ad...`, and source `faf7bba5...`; repair accounting remains 1/3 used and 2 remaining.
+- What failed: no new failure. The initial implementation defects remain the repair target.
+- Current best defensible result: no economic result; this authorization cannot access data or produce a performance claim.
+- Next action: commit/push the repair authorization, then run its one live Terra/medium invocation and independently validate all semantics.
+- Current blocker: none.
+- Exact resume state: repair 1 authorized/not invoked; formal evaluation false; source data/holdout/returns false; capital/GPU zero; mining unchanged.

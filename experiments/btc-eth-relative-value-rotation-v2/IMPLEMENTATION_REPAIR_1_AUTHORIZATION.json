@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-04T14:07:04.497191481Z",
+  "authorization_stage": "PRE_RUN_IMPLEMENTATION_REPAIR_1_OF_3_NO_DATA",
+  "source_parent_commit": "faf7bba5dcfc188b4093feac6f1f4d37ce47a11c",
+  "frozen_preregistration_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
+  "effective_contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "failure_artifact": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_VALIDATION_ATTEMPT_1_FAILURE.json",
+  "failure_artifact_sha256": "61d947ad4119630e2ca5a0e60d1a83b49328ba9428450d3eb9e6899d4f9778e1",
+  "budget": {
+    "pre_run_implementation_repairs_used_including_this_round": 1,
+    "pre_run_implementation_repairs_remaining_after_this_round": 2,
+    "maximum_live_invocation_wall_seconds": 1200,
+    "cpu_only": true,
+    "gpu_seconds_permitted": 0,
+    "capital_permitted": 0
+  },
+  "model_route": {
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "maximum_invocations_for_this_repair": 1,
+    "fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits fallback; code, test, data, or methodology failure never does."
+  },
+  "allowed_mutations": [
+    "modify src/strategy_control/relative_value_v2.py",
+    "modify src/strategy_control/relative_value_v2_pipeline.py",
+    "modify tests/test_relative_value_v2.py",
+    "modify tests/test_relative_value_v2_production.py",
+    "create src/strategy_control/relative_value_v2_oracle.py and narrowly related deterministic tests when required for a genuinely independent oracle"
+  ],
+  "required_repair": [
+    "Read and resolve the full frozen composite contract and every material failure in the bound failure artifact; do not treat passing existing tests as completion.",
+    "Implement exact inherited trial objects, order, horizons, risk adjustment, cash filters, gaps, signal/score/decision rules, costs, folds, quarantine, recovery, accounting, bootstrap seed/procedure, all nineteen gates, and every other frozen economic/statistical constant without changing them.",
+    "Implement a strict immutable boundary-specific in-memory index that rejects malformed, duplicate, nonmonotonic, invalid, or boundary-mismatched retained rows; suffix rows at or after a boundary must be isolated before validation; exact lookups must fail closed and preserve original row identities.",
+    "Implement full required-lookback information-set identities and maximum availability cutoff, earliest exact synchronized BTC/ETH vector after the cutoff, no per-asset independent selection, and explicit no-forward-substitution for a named due vector.",
+    "Implement independent base and delayed state machines exactly: decisions are computed at the frozen point from resulting state, pending targets are immutable, quarantine safety has precedence, terminal delayed cash replaces rather than transiently executes the due risky target, and traces carry decision-session, due-session, cutoff, exact row identities, dispositions, targets, turnover, costs, returns, attribution, wealth, and terminal invariants.",
+    "Implement cash quarantine segmentation, exposed priced liquidation or DATA_INTEGRITY failure, no zero-fill/bridge invention, 150 new synchronized complete-session recovery, independent aggregate/four-fold/trial/stress state, and future suffix/gap/regime isolation.",
+    "Implement exact hash-bound 49 prior-slot extraction and 56/35/21 first-run registry checks, the valid T=3 primitive DSR, Phase 2 lag/VIF/T_eff/moment formula, exact stationary bootstrap, and eight-block numpy.array_split-equivalent PBO with intentional-infinity and NaN rules.",
+    "Implement finite fail-closed nineteen-gate comparisons and derived no-performance-evidence plus holdout/capital/GPU/mining safety records.",
+    "Implement a genuinely independent oracle in a separate module that does not import or call production signal, session, cutoff, clock, fill, cost, return, attribution, regime, statistic, or gate helpers. It must independently reconcile representative synthetic identities, signals, targets, vectors, fills, costs, returns, attribution, dispositions, terminal wealth, and gates.",
+    "Add all thirty-seven exact test function names from required_pre_economic_tests. Each must test its named behavior materially; aliases, combined differently named tests, placeholder assertions, controller tests, and source-text presence checks are insufficient.",
+    "Correct the measured failures: reject nonmonotonic strict-prefix inputs, match numpy.array_split block assignment exactly, and reject nonfinite numerical gate inputs."
+  ],
+  "prohibited": [
+    "change any frozen strategy, parameter, cost, fold, gate, seed, clock, holdout, or multiplicity rule",
+    "modify any Phase 1 file or any frozen Phase 2 contract, authorization, state, ledger, log, lock, Git state, or portfolio file",
+    "open, resolve, list, stat, hash, or read any market-data repository, market file, external data source, network endpoint, or January-June 2026 path, footer, schema, metadata, row, or value",
+    "calculate a strategy return or performance metric from market data, make a performance claim, or run formal economic evaluation",
+    "install packages, purchase data/compute/credits, use GPU, change mining, use credentials, connect wallets/exchanges, place orders, or authorize capital"
+  ],
+  "required_validation_by_model": [
+    "all 37 exact named tests collected and passed using only synthetic or committed fixed-fixture inputs",
+    "all repository tests with the already installed research dependencies",
+    "repository-wide Ruff",
+    "strict Mypy for all source files",
+    "bytecode compilation",
+    "explicit unresolved-defect report and exact command outcomes"
+  ],
+  "parent_validation_required": true,
+  "real_data_production_validation_authorized": false,
+  "formal_economic_attempt_authorized": false,
+  "holdout_paths_resolved": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "capital_permitted": 0
+}
