@@ -186,3 +186,14 @@
 - Next action: commit/push the repair authorization, then run its one live Terra/medium invocation and independently validate all semantics.
 - Current blocker: none.
 - Exact resume state: repair 1 authorized/not invoked; formal evaluation false; source data/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T14:19:51.916532205Z — route-2 repair 1 fails parent fidelity validation
+
+- Current checkpoint: live Terra/medium repair 1 completed and its tooling claims were reproducible, but parent semantic validation rejects it as `IMPLEMENTATION_BLOCKED_PRE_RUN`; repair 2/3 is now required, leaving one pre-run repair after that charged correction.
+- What changed: the repair added broader execution, accounting, gate, PBO/DSR, boundary-index, trial, and independent-oracle scaffolding plus all 37 exact test names. No market data, holdout, return, portfolio, GPU, mining, or capital capability was used.
+- What was verified: 39 focused tests, all 305 repository tests using the installed research dependencies, Ruff, strict Mypy across 29 source files, bytecode compilation, and diff checks pass. The live invocation used `gpt-5.6-terra`/`medium`, thread `019fcd1b...`, with no fallback or model error.
+- What failed: the index validates malformed suffix rows before isolating the earlier half-open boundary; a same-input v1/v2 probe changes `CASH` to `ETHUSDT`; no actual signal scorer, quarantine/recovery/fold runner, exact stationary bootstrap, hash-bound multiplicity extractor, complete trace/accounting simulation, or complete independent recomputation exists. Several exact-named tests assert constants, lengths, identities, defaults, or unrelated helpers instead of their named obligations.
+- Current best defensible result: no route-2 economic result. The old v1 +41.53% remains contaminated prior evidence only, and passing controller tests is not performance evidence.
+- Next action: commit and push the exact failed repair/evidence, then issue one narrowly specified no-data repair-2 authorization bound to the measured semantic failures.
+- Current blocker: none. One pre-run repair will remain after repair 2 is charged.
+- Exact resume state: implementation invocations 2; repairs 2/3 used; post-run repairs 0/2; formal evaluation unauthorized/unconsumed; market/holdout/returns false; capital/GPU zero; mining unchanged.

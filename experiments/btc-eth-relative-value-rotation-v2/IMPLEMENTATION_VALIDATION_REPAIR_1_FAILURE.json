@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 2,
+  "validated_at_utc": "2026-08-04T14:19:51.916532205Z",
+  "classification": "IMPLEMENTATION_BLOCKED_PRE_RUN",
+  "invocation_mode": "deterministic_local",
+  "source_parent_commit": "f1ce8f9e0038c2e51438f6a9dd6550e9f29e1faf",
+  "frozen_preregistration_sha256": "c20a1a28a4812e33593c97a1a30f8a7dc93180b85b9cfc404b02803e98a0e7db",
+  "effective_contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "repair_model_result": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_REPAIR_1_MODEL_RESULT.json",
+  "generated_file_byte_sha256": {
+    "src/strategy_control/relative_value_v2.py": "b4bef135c0a512667a748de4bef2298549666991d986a65ad54380098fbad91e",
+    "src/strategy_control/relative_value_v2_pipeline.py": "ba90df84a42365b457aa3de27dad3f08711f752ae4396d1859a861798cde2e20",
+    "src/strategy_control/relative_value_v2_oracle.py": "b155c4905ebcafaf7800356a4d0039a366ed37ccd056aa7b65ff1a9d28ce2e90",
+    "tests/test_relative_value_v2.py": "afcc8a34779fc00dfe090e6aa405f58ff9908ac46e5d09439223b33e28ac6424",
+    "tests/test_relative_value_v2_production.py": "beed8a2cbcec2f0e4a4e9e7be0ac1e0ba59a4973c4d39ccfc63315de3b4d2101"
+  },
+  "deterministic_results": {
+    "exact_required_test_names_present": 37,
+    "focused_pytest": "PASS_39",
+    "full_repository_pytest_with_preinstalled_research_dependencies": "PASS_305",
+    "ruff_repository": "PASS",
+    "strict_mypy": "PASS_29_SOURCE_FILES",
+    "bytecode_compilation": "PASS",
+    "diff_check": "PASS"
+  },
+  "measured_semantic_failures": {
+    "boundary_suffix_isolation": {
+      "fixture": "valid synchronized prefix followed only by two nonmonotonic BTC rows strictly after the boundary",
+      "observed": "BoundaryIndex raises duplicate or nonmonotonic minute rows",
+      "required": "isolate the strict suffix before validating retained rows so an invalid suffix cannot enter or invalidate the earlier boundary"
+    },
+    "unchanged_v1_decision_rule": {
+      "fixture": "actual BTC, BTC raw median negative, ETH score lead and raw median positive",
+      "v1_observed": "CASH",
+      "v2_observed": "ETHUSDT",
+      "required": "unchanged v1 actual-asset cash-filter precedence"
+    },
+    "missing_required_production_symbols": {
+      "score_at": false,
+      "stationary_bootstrap": false,
+      "MultiplicityRegistry": false,
+      "quarantine_action": false,
+      "build_period_run": false,
+      "DEVELOPMENT_FOLDS": false
+    }
+  },
+  "material_failures": [
+    "BoundaryIndex validates every supplied row before half-open filtering, directly violating the frozen requirement that malformed or duplicate suffix rows remain isolated from an earlier boundary.",
+    "The strategy decision function changes the inherited cash-filter precedence. A deterministic same-input comparison returned CASH in preserved v1 and ETHUSDT in v2.",
+    "No score or signal calculation exists. decision_for_scores accepts externally supplied scores and information_cutoff still cannot prove a complete trial-specific lookback identity set.",
+    "run_clock accepts externally supplied desired targets, does not compute the delayed decision from state after its due fill, records cutoff equal to the vector timestamp, and leaves interval return and wealth at dataclass defaults. It is not an execution/accounting trace.",
+    "No quarantine state machine, cash segment construction, priced safety liquidation, recovery counter, regime reset, fold state, or end-to-end aggregate/four-fold period runner exists.",
+    "The 150-session recovery test checks only a constant and vector count. The four-fold test checks one boundary. The quarantine tests exercise missing vectors, terminal cash, or an invalid return rather than the named quarantine state transitions.",
+    "The exact stationary bootstrap is absent; the exact-named bootstrap test calls PBO instead. The v1 T=3 test checks only a boolean predicate rather than the primitive probability formula.",
+    "No hash-bound 49-slot multiplicity registry or artifact/JSON-pointer extraction exists; the registry test passes an anonymous caller-created list.",
+    "The exact-named 36-entry allowlist/source-commit test checks seven trial names and one in-memory vector, not the committed source, 36 identities, byte counts, or hashes.",
+    "The oracle imports no production helper, but it has no independent score, quarantine, recovery, fold, bootstrap, DSR/PBO, regime, full clock/accounting trace, or nineteen-gate recomputation. Tests use only its target and one rebalance calculation.",
+    "The exact-named no-performance-evidence test merely observes default wealth one; the holdout/capital/GPU/mining test checks cash target weights and the fee constant. Neither derives its named governance evidence.",
+    "The all-seven-trials-and-stresses test checks distinct TrialSpec object identities, not independent state or stress simulations. Passing exact test names therefore does not establish material coverage."
+  ],
+  "repair_required": true,
+  "repair_round_required": 2,
+  "implementation_repairs_used_after_classification": 2,
+  "implementation_repairs_remaining": 1,
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "economic_result_exists": false,
+  "strategy_family_economically_evaluated": false,
+  "market_files_accessed": false,
+  "source_data_repository_accessed": false,
+  "holdout_paths_resolved": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "returns_calculated": false,
+  "performance_claim_permitted": false,
+  "gpu_used": false,
+  "mining_changed": false,
+  "capital_permitted": 0
+}
