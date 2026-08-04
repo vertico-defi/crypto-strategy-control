@@ -8,7 +8,7 @@
       "maximum_implementation_repairs": 3,
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
-        "direction_review_used": 0,
+        "direction_review_used": 1,
         "implementation_used": 0,
         "independent_audit_used": 0,
         "production_integration_used": 0
@@ -42,9 +42,9 @@
   "current_experiment_id": "btc-eth-relative-value-rotation-v2",
   "data_contract_status": "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PASS_PHASE_1_EVIDENCE",
   "development_status": "NOT_STARTED",
-  "direction_review_artifact": null,
-  "direction_review_model_result_sha256": null,
-  "direction_review_status": "PENDING_LIVE_SOL_XHIGH",
+  "direction_review_artifact": "experiments/btc-eth-relative-value-rotation-v2/DIRECTION_REVIEW.json",
+  "direction_review_model_result_sha256": "cd2b54fad4f74bba76a413ae14061216ecbdaaecadf1897fad6146a14675172c",
+  "direction_review_status": "REVISION_REQUIRED_7_PENDING_INCORPORATION",
   "effective_contract_sha256": null,
   "implementation_authorization": null,
   "implementation_evidence_commit": "d4fcfaec04e93efc2547d0c94af1934ef556d44d",
@@ -77,7 +77,7 @@
     "source_snapshot_commit": "61b69c5ed5c5f06f8907a052ee166a7c01e994ad",
     "store_live": false
   },
-  "next_task": "commit_route_2_no_data_draft_then_run_live_sol_xhigh_direction_review",
+  "next_task": "incorporate_all_7_no_data_direction_revisions_then_freeze_route_2_preregistration",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -175,5 +175,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T13:17:27Z"
+  "updated_at_utc": "2026-08-04T13:33:30.168012251Z"
 }

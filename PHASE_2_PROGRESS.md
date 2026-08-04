@@ -120,3 +120,14 @@
 - Next action: commit the no-data draft, then obtain a fresh live read-only gpt-5.6-sol/xhigh review before any freeze or implementation.
 - Current blocker: none.
 - Exact resume state: no market file/value or holdout path/footer/value accessed; returns false; repairs 0/3; post-run repairs 0/2; audit attempts 0; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T13:33:30.168012251Z — live route-2 direction review requires seven revisions
+
+- Current checkpoint: live `gpt-5.6-sol`/`xhigh` review `f11acdd7...` returned `REVISION_REQUIRED`; no implementation or repair budget was consumed.
+- What changed: nothing in the draft yet. The exact model payload `cd2b54fa...` is preserved before incorporation.
+- What was verified: all 14 inherited clause hashes, seven trials, 19 gates, four folds, costs, seed, data identity, Phase 1 immutability, non-tuning, and closed holdout/capital/GPU boundaries.
+- What failed: seven specification details remain: JSON-pointer amendment resolution; exact base/delay/terminal pseudocode; slot-level registry/extraction/holdout counts; ordered failure precedence; lifecycle-scoped holdout guard; frozen representative selectors/tolerances/independent oracle; exact audit-stage tokens/evidence.
+- Current best defensible result: still no route-2 economic result. The review is a methodology verdict only.
+- Next action: incorporate all seven revisions without data access, prove 7/7 incorporation and exact v1 economics, then freeze and commit the preregistration.
+- Current blocker: none.
+- Exact resume state: direction call 1 complete with no fallback/error; repairs 0/3; post-run repairs 0/2; no economic/audit attempt; holdout unresolved/unread; capital/GPU zero; mining unchanged.
