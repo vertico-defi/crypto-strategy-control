@@ -17,3 +17,12 @@
 - Next experiment: after the clean source checkpoint, authorize and implement the bounded mean-reversion v2 production integration, then run it on only the allowlisted 2025 development bytes before a read-only fidelity audit.
 - Current blocker: none.
 - Exact resume state: program `ACTIVE_RESEARCH_PHASE_2`; implementation call 1; repair 1/3 completed with 2 remaining; post-run repairs 0/2; formal economic attempt unconsumed and unauthorized; market files and source-data repository unaccessed in Phase 2; January-June 2026 holdout sealed/unread; capital zero; CPU-only; mining unchanged.
+
+- Current checkpoint: pure implementation is clean and public at `d4fcfaec...`; bounded production integration is authorized, pending its own clean commit.
+- What changed: authorization `3b4dcb13...` separates model code generation from parent-only real-development-data validation and permits representative mechanical reconciliation without aggregate strategy evaluation.
+- What was verified: source checkpoint equals `origin/main`; authorization binds the frozen preregistration, repaired pure validation, exact 36-file development allowlist, source commit, holdout guard, Terra/medium route, and later Sol/xhigh read-only fidelity gate.
+- What failed: nothing at this checkpoint.
+- Current best defensible result: `PASS_PURE_PRE_DATA`; still no Phase 2 economic evidence or candidate.
+- Next experiment: commit and push the production authorization, then invoke live Terra/medium to implement the production loader and integration tests without opening market data.
+- Current blocker: none.
+- Exact resume state: program active; pure commit `d4fcfaec...`; implementation repair 1/3 used; production model invocation not yet used; production market access not yet performed; formal evaluation and holdout closed; capital zero; CPU-only; mining unchanged.

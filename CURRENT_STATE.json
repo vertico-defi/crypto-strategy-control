@@ -49,10 +49,10 @@
     "tests/test_mean_reversion_v2.py": "65ab47559c603311b5edfcf5317e535e0dcdabb93cf7ebaf23ba0e5b7b551287"
   },
   "implementation_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_AUTHORIZATION.json",
-  "implementation_evidence_commit": null,
+  "implementation_evidence_commit": "d4fcfaec04e93efc2547d0c94af1934ef556d44d",
   "implementation_model_result": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_MODEL_RESULT.json",
   "implementation_model_result_sha256": "b15eb8f78615ac24a7290245597e65af7a791ec6324a7877128f1faae8f4452a",
-  "implementation_status": "PASS_PURE_PRE_DATA_PENDING_CLEAN_COMMIT",
+  "implementation_status": "PASS_PURE_PRE_DATA_COMMITTED",
   "implementation_validation": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_VALIDATION_REPAIR_1.json",
   "implementation_validation_byte_sha256": "997266c14b5dd155fee6f0b552299fb67266932f79786c09951968305313f73e",
   "implementation_validation_failure": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_VALIDATION_ATTEMPT_1_FAILURE.json",
@@ -60,7 +60,7 @@
   "implementation_validation_sha256": "719b73d291a8e19064b5fd457e965f8add7a5db8b8e48171d055bde596e41cad",
   "last_terminal_experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
   "last_terminal_verdict": "AUDIT_REJECTED",
-  "next_task": "commit_clean_pure_validation_checkpoint_then_authorize_production_integration",
+  "next_task": "commit_production_integration_authorization_then_invoke_live_terra",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -95,7 +95,10 @@
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
   "program_state": "ACTIVE_RESEARCH_PHASE_2",
+  "production_integration_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_AUTHORIZATION.json",
+  "production_integration_authorization_byte_sha256": "f3e3c60de2ac562f77913cbef6890a3701d5b9e2256404ee6ab031b270d27671",
+  "production_integration_authorization_sha256": "3b4dcb136512eb1012cc0b763e83d56fe846b0241ed1ef6e1a815b9d0815bcab",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T07:54:12.020276Z"
+  "updated_at_utc": "2026-08-04T08:00:53.990633Z"
 }

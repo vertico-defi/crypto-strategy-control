@@ -3021,15 +3021,36 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
         if git["clean"] and isinstance(git.get("head"), str)
         else terminal.get("source_commit")
     )
-    limitation = (
-        "Development-only historical rejection: the final holdout remained closed, no "
-        "candidate was promoted, and no prospective or deployable performance conclusion "
-        "is permitted."
-        if terminal.get("performance_scope") == "DEVELOPMENT_ONLY_NOT_A_CANDIDATE"
-        else "Data-contract result only: no holdout was opened, no returns were calculated, "
-        "no candidate was promoted, capital remains zero, and no profitability conclusion "
-        "is permitted."
-    )
+    if state["program_state"] == "ACTIVE_RESEARCH_PHASE_2":
+        phase_1_result = state.get("phase_1_terminal", {}).get(
+            "final_result", "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED"
+        )
+        limitation = (
+            f"Phase 1 remains preserved with final result {phase_1_result}. The user-approved "
+            "and durably registered Phase 1 zero-cost research space was exhausted without a "
+            "prospectively validated candidate. Both Phase 1 point-in-time universe routes "
+            "were terminal, so its ordered cross-sectional queue remained economically "
+            "unevaluated. Some Phase 1 fixed-pair experiments retained diagnostic historical "
+            "no-go results, while calendar seasonality and equal-weight volatility management "
+            "were consumed without economic results. This did not claim that every conceivable "
+            "public dataset or crypto strategy was impossible. Phase 2 is now active under a "
+            f"new authorization; its current status is {terminal.get('classification')}. This "
+            "is implementation evidence only: no Phase 2 economic result exists, every final "
+            "holdout remains closed and unread, no candidate is promoted, capital remains zero, "
+            "and no profitability conclusion is permitted."
+        )
+    elif terminal.get("performance_scope") == "DEVELOPMENT_ONLY_NOT_A_CANDIDATE":
+        limitation = (
+            "Development-only historical rejection: the final holdout remained closed, no "
+            "candidate was promoted, and no prospective or deployable performance conclusion "
+            "is permitted."
+        )
+    else:
+        limitation = (
+            "Data-contract result only: no holdout was opened, no returns were calculated, "
+            "no candidate was promoted, capital remains zero, and no profitability conclusion "
+            "is permitted."
+        )
     snapshot = {
         "schema_version": "1.0",
         "generated_at_utc": _now(),
@@ -3038,7 +3059,8 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
         "experiment_id": terminal.get("experiment_id"),
         "classification": terminal.get("classification"),
         "source_commit": publication_source_commit,
-        "preregistration_sha256": terminal.get("preregistration_sha256"),
+        "preregistration_sha256": terminal.get("preregistration_sha256")
+        or state.get("preregistration_sha256"),
         "limitation": limitation,
     }
     if set(snapshot) - {"schema_version", "generated_at_utc", *public_fields}:

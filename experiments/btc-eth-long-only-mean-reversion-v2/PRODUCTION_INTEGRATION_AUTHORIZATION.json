@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "authorized_at_utc": "2026-08-04T08:00:53.990633Z",
+  "authorization_stage": "PRODUCTION_PATH_INTEGRATION_AND_REAL_DEVELOPMENT_IDENTITY_VALIDATION_PRE_ECONOMIC",
+  "pure_implementation_commit": "d4fcfaec04e93efc2547d0c94af1934ef556d44d",
+  "pure_validation_artifact": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_VALIDATION_REPAIR_1.json",
+  "pure_validation_sha256": "719b73d291a8e19064b5fd457e965f8add7a5db8b8e48171d055bde596e41cad",
+  "effective_contract_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+  "preregistration_sha256": "5f4d41bbd9f3fc34b29e86da271d324a442520c87bacece160627c6051cd13b6",
+  "model_route": {
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_level": "medium",
+    "invocation_mode": "live",
+    "maximum_initial_invocations": 1,
+    "fallback": "Only a confirmed quota, rate-limit, throttling, or temporary model-unavailable error permits fallback; coding, test, data, or audit failure never does."
+  },
+  "model_mutation_scope": {
+    "allowed": [
+      "create src/strategy_control/mean_reversion_v2_pipeline.py",
+      "create tests/test_mean_reversion_v2_production.py",
+      "modify the two pure v2 files only if required to expose an already frozen mechanic without changing economics",
+      "create additional v2-only pure helper or test files when required by the frozen production contract"
+    ],
+    "prohibited": [
+      "modify any Phase 1 artifact, audit, result, rejection, ledger row, commit, or publication statement",
+      "modify the frozen v2 preregistration, direction review, revision incorporation, or either implementation validation artifact",
+      "modify CURRENT_STATE.json, any ledger, publication file, Git state, GPU state, or mining state",
+      "read the source-data repository, any market file, any 2026 path, or any holdout metadata or value",
+      "calculate a real-data strategy return, aggregate metric, gate result, or performance conclusion"
+    ]
+  },
+  "parent_real_data_validation_scope": {
+    "source_repository": "the local repository identified by the reused frozen fixed-pair data contract",
+    "required_source_commit": "d1d6066a6042b0c2e1c6af75047f5ebf935c739f",
+    "allowed_market_scope": "exactly the 36 hash-bound BTCUSDT and ETHUSDT 2025 development files selected by the frozen allowlist",
+    "holdout_guard": "Every 2026 path must be rejected before resolution, stat, footer, schema, metadata, byte, or value access.",
+    "file_identity_order": "Verify contract hashes, source commit, freeze manifest, canonical inventory, allowlist count/hash, relative path, regular-file status, byte count, and SHA-256 before parsing from the same verified byte buffer.",
+    "parser": "Use the real PyArrow production path with list-valued columns and validate schema and types before conversion.",
+    "representative_mechanical_reconciliation_permitted": true,
+    "representative_scope": "Materialize rows from all 36 allowlisted files and reconcile bounded representative signals, targets, fills, costs, and interval returns only as mechanical integrity evidence.",
+    "aggregate_strategy_returns_permitted": false,
+    "sharpe_drawdown_bootstrap_dsr_pbo_or_gate_calculation_permitted": false,
+    "performance_interpretation_permitted": false
+  },
+  "required_end_to_end_evidence": [
+    "source_contract_and_36_entry_allowlist_hash_mismatch_rejected_before_resolution",
+    "source_commit_byte_count_and_sha256_verified_before_parse",
+    "verified_buffer_parse_uses_list_valued_pyarrow_columns",
+    "representative_real_rows_materialize_from_all_allowlisted_files",
+    "future_or_holdout_path_rejected_before_stat_footer_schema_or_value_access",
+    "real causal expected-minute grids and jointly complete daily sessions",
+    "duplicate, nonmonotonic, invalid, and asynchronous row failure paths",
+    "exact base and delayed synchronized fill identities without forward scanning",
+    "cash quarantine, risky-gap failure, 150-session recovery, and nonbridging segments",
+    "strict fold-prefix, gap, regime, terminal-boundary, and execution-clock evidence",
+    "canonical row, decision, target, fill, disposition, cost, and representative-return hashes",
+    "independent representative units, cost, return, and terminal-wealth reconciliation",
+    "exact input manifest hashes and a derived closed-holdout latch"
+  ],
+  "implementation_fidelity_review_after_validation": {
+    "required": true,
+    "model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "invocation_mode": "live",
+    "permissions": "read_only",
+    "pass_verdict": "IMPLEMENTATION_FIDELITY_APPROVED_FOR_FORMAL_DEVELOPMENT_EVALUATION",
+    "timeout_or_temporary_service_failure": "AUDIT_PENDING",
+    "mechanical_rejection": "IMPLEMENTATION_BLOCKED_PRE_RUN"
+  },
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED",
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "aggregate_returns_calculated": false,
+  "performance_claim_permitted": false
+}

@@ -598,3 +598,63 @@ def test_public_snapshot_labels_development_rejection_without_candidate_claim(
     snapshot = json.loads((tmp_path / result["path"]).read_text())
     assert "final holdout remained closed" in snapshot["limitation"]
     assert "no candidate was promoted" in snapshot["limitation"]
+
+
+def test_public_snapshot_preserves_phase_1_while_reporting_phase_2(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = tmp_path / "CURRENT_STATE.json"
+    ledger = tmp_path / "EXPERIMENT_LEDGER.jsonl"
+    manifest = tmp_path / "PUBLICATION_MANIFEST.json"
+    state.write_text(
+        json.dumps(
+            {
+                "schema_version": "2.0",
+                "program_state": "ACTIVE_RESEARCH_PHASE_2",
+                "capital_permitted": 0,
+                "next_task": "production integration",
+                "budgets": {},
+                "preregistration_sha256": "frozen-v2-preregistration",
+                "phase_1_terminal": {
+                    "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED"
+                },
+            }
+        )
+    )
+    ledger.write_text(
+        json.dumps(
+            {
+                "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+                "classification": "PASS_PURE_PRE_DATA",
+            }
+        )
+        + "\n"
+    )
+    manifest.write_text(
+        json.dumps(
+            {
+                "public_fields": [
+                    "program_state",
+                    "capital_permitted",
+                    "experiment_id",
+                    "classification",
+                    "source_commit",
+                    "preregistration_sha256",
+                    "limitation",
+                ],
+                "prohibited_fields": ["credentials", "tokens", "absolute_paths"],
+            }
+        )
+    )
+    monkeypatch.setattr(orchestrator, "ROOT", tmp_path)
+    monkeypatch.setattr(orchestrator, "STATE", state)
+    monkeypatch.setattr(orchestrator, "LEDGER", ledger)
+    monkeypatch.setattr(orchestrator, "PUBLICATION_LOG", tmp_path / "publication.jsonl")
+    result = orchestrator.public_snapshot(dry_run=False)
+    snapshot = json.loads((tmp_path / result["path"]).read_text())
+    assert snapshot["program_state"] == "ACTIVE_RESEARCH_PHASE_2"
+    assert snapshot["classification"] == "PASS_PURE_PRE_DATA"
+    assert snapshot["preregistration_sha256"] == "frozen-v2-preregistration"
+    assert "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED" in snapshot["limitation"]
+    assert "implementation evidence only" in snapshot["limitation"]
+    assert "no Phase 2 economic result exists" in snapshot["limitation"]
