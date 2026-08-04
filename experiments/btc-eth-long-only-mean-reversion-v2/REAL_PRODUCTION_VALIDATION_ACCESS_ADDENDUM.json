@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "recorded_at_utc": "2026-08-04T09:37:12.044745Z",
+  "classification": "CONSERVATIVE_ACCESS_ACCOUNTING_ADDENDUM",
+  "parent_timeout_artifact": "experiments/btc-eth-long-only-mean-reversion-v2/REAL_PRODUCTION_VALIDATION_TIMEOUT.json",
+  "parent_timeout_artifact_sha256": "28d5403d289e02dfc65940259c4bd5a1b6beef63a3578a2c1d90aa6b2fca0af5",
+  "development_market_files_accessed": true,
+  "development_market_values_read": true,
+  "all_36_files_completed_inside_timed_out_attempt_claimed": false,
+  "reason_for_conservative_accounting": "The timed-out driver was authorized to read and materialize the 36 development buffers before full-grid construction. Because it emitted no internal progress marker, the controller conservatively records development market access while making no completion claim for that attempt. The separate completed file-validation artifact proves all 36 file/parser checks.",
+  "raw_market_values_persisted": false,
+  "aggregate_strategy_returns_calculated": false,
+  "economic_result_exists": false,
+  "performance_claim_permitted": false,
+  "formal_economic_attempt_consumed": false,
+  "holdout_path_resolved": false,
+  "holdout_parquet_footer_or_value_read": false,
+  "holdout_opened": false,
+  "capital_permitted": 0
+}

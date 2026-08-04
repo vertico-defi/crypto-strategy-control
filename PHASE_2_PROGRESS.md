@@ -51,3 +51,14 @@
 - Next experiment: none; remain on `btc-eth-long-only-mean-reversion-v2`, commit the clean production checkpoint, then run bounded parent-only non-economic validation on the exact frozen development allowlist.
 - Current blocker: none.
 - Exact resume state: program `ACTIVE_RESEARCH_PHASE_2`; implementation calls 3; production live invocations 2; repairs 3/3 used and 0 remaining; post-run repairs 0/2; formal economic attempt unconsumed and unauthorized; source-data and market files still unaccessed in Phase 2; January-June 2026 holdout sealed/unread; capital zero; CPU-only; mining unchanged.
+
+## 2026-08-04T09:37:12Z — real production timeout independently audited
+
+- Current checkpoint: `IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED`; the exact experiment is nonterminal and requires additional human repair authorization.
+- What changed: source checkpoint `5818f562...` is public; full-grid validation timed out at `28d5403d...` with exit 130; conservative market-access clarification is `c0190b9c...`; decomposed 36-file validation passed at `3acc5326...`; live Sol/xhigh audit is `85ada669...` with invocation result `312d5072...`.
+- What was verified: global identities before path resolution; all 36 exact sizes and hashes; real PyArrow parsing; 108 representative-row hashes; 790,558 rows per asset; exactly two missing minutes per asset; zero selected/resolved 2026 paths; no raw values persisted; no aggregate metric or economic result; audit completed without fallback/error.
+- What failed: the full real session-grid/fill/trace/reconciliation path did not finish. Static audit confirms repeated all-row scans per session and per execution lookup. The 1,800-second ceiling was enforced up to 107.094 seconds late and that control failure is preserved.
+- Current best defensible result: no economic result and no candidate. File identity/parser/gap evidence passes; production fidelity does not. The family is neither economically evaluated nor consumed, and neither data nor historical no-go applies.
+- Next experiment: none authorized. Route 2 may not begin while route 1 remains nonterminal.
+- Current blocker: explicit human authorization is required for one additional bounded mechanical indexing repair; the authorized 3/3 pre-run repair budget is exhausted.
+- Exact resume state: authorize only indexed session construction and indexed exact execution-row lookup, preserving every frozen economic rule; rerun focused/full tests and the exact 36-file production path under a strictly enforced 1,800-second ceiling; then repeat live read-only Sol/xhigh fidelity audit. Formal economic attempt unconsumed/unauthorized; holdout sealed/unread; capital zero; CPU-only; GPU/mining unchanged.

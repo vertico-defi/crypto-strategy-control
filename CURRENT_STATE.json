@@ -1,7 +1,9 @@
 {
   "budgets": {
     "current_experiment": {
-      "audit_attempts_used_by_stage": {},
+      "audit_attempts_used_by_stage": {
+        "terminal_implementation_and_repair_budget_audit": 1
+      },
       "implementation_repairs_remaining": 0,
       "implementation_repairs_used": 3,
       "maximum_audit_attempts_per_review_stage": 3,
@@ -10,6 +12,7 @@
       "model_invocations": {
         "direction_review_used": 1,
         "implementation_used": 3,
+        "independent_audit_used": 1,
         "production_integration_used": 2
       },
       "post_run_fidelity_repairs_remaining": 2,
@@ -55,7 +58,7 @@
   "implementation_evidence_commit": "d4fcfaec04e93efc2547d0c94af1934ef556d44d",
   "implementation_model_result": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_MODEL_RESULT.json",
   "implementation_model_result_sha256": "b15eb8f78615ac24a7290245597e65af7a791ec6324a7877128f1faae8f4452a",
-  "implementation_status": "PASS_SYNTHETIC_PRODUCTION_PRE_REAL_DATA",
+  "implementation_status": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED_NONTERMINAL_HUMAN_AUTHORIZATION_REQUIRED",
   "implementation_validation": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_VALIDATION_REPAIR_1.json",
   "implementation_validation_byte_sha256": "997266c14b5dd155fee6f0b552299fb67266932f79786c09951968305313f73e",
   "implementation_validation_failure": "experiments/btc-eth-long-only-mean-reversion-v2/IMPLEMENTATION_VALIDATION_ATTEMPT_1_FAILURE.json",
@@ -73,7 +76,7 @@
     "source_snapshot_commit": "ca12b529da75d3f6d726477c09e2f5322e19e8fc",
     "store_live": false
   },
-  "next_task": "commit_clean_production_adapter_checkpoint_then_verify_frozen_real_development_identity_and_run_bounded_non_economic_production_integration",
+  "next_task": "await_explicit_human_authorization_for_one_additional_mechanical_indexing_repair_before_route_2",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -107,6 +110,13 @@
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
+  "program_blocker": {
+    "classification": "ADDITIONAL_HUMAN_REPAIR_AUTHORIZATION_REQUIRED",
+    "economic_result_exists": false,
+    "exact_experiment_terminal": false,
+    "reason": "All three pre-run implementation repairs are consumed, but the independent Sol/xhigh audit finds the remaining full-grid indexing defect mechanically repairable without changing the economic hypothesis. The explicit Phase 2 consumption predicate is not met and route 2 is not authorized while route 1 remains nonterminal.",
+    "requested_authority": "Authorize one additional bounded mechanical repair limited to indexed session construction and indexed exact execution-row lookup, with unchanged frozen economics and a strict 1800-second real production validation ceiling."
+  },
   "program_state": "ACTIVE_RESEARCH_PHASE_2",
   "production_integration_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_AUTHORIZATION.json",
   "production_integration_authorization_byte_sha256": "f3e3c60de2ac562f77913cbef6890a3701d5b9e2256404ee6ab031b270d27671",
@@ -128,7 +138,20 @@
   "production_integration_validation_repair_2_failure": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_VALIDATION_REPAIR_2_FAILURE.json",
   "production_integration_validation_repair_2_failure_byte_sha256": "35557f08725769b12573a468d68f0ae67d156d766897d813c17e19e864044197",
   "production_integration_validation_repair_2_failure_sha256": "883417fc146512a9271af4b9de3cd3172e21ada4c71109e873fa459609775b12",
+  "real_file_validation": "experiments/btc-eth-long-only-mean-reversion-v2/REAL_FILE_VALIDATION.json",
+  "real_file_validation_byte_sha256": "5f51d250891eeac63fc69729042aefe4c78396bf912ee402fafa5bf8c680a6aa",
+  "real_file_validation_sha256": "3acc5326a2f906266a48437f423a6537354344e827dad0d874e5acc84edfa67f",
+  "real_production_validation_timeout": "experiments/btc-eth-long-only-mean-reversion-v2/REAL_PRODUCTION_VALIDATION_TIMEOUT.json",
+  "real_production_validation_timeout_byte_sha256": "89065def98ed56d5d74f4dc0297111eda01e075f7e9966d0cec8acd4f03ba080",
+  "real_production_validation_timeout_sha256": "28d5403d289e02dfc65940259c4bd5a1b6beef63a3578a2c1d90aa6b2fca0af5",
+  "real_production_validation_access_addendum": "experiments/btc-eth-long-only-mean-reversion-v2/REAL_PRODUCTION_VALIDATION_ACCESS_ADDENDUM.json",
+  "real_production_validation_access_addendum_byte_sha256": "de311501045df86a6af29522fb5ca93e8d46647e40374068e3d6842bae384ac4",
+  "real_production_validation_access_addendum_sha256": "c0190b9c16b894191877cc6da0ecebbf65c4dbfb365d8436b5f4f77a8842e206",
+  "terminal_implementation_audit": "experiments/btc-eth-long-only-mean-reversion-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+  "terminal_implementation_audit_byte_sha256": "49aa1118e79d3916c3744ea3bc3df403e17c398d2140f3c0ca2a017b00bf4633",
+  "terminal_implementation_audit_sha256": "85ada669bcfb1ba9606b0540540a1ee6981aa96ff351aff23a67394a2222f9ff",
+  "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T08:45:46.127578181Z"
+  "updated_at_utc": "2026-08-04T09:37:12.044745Z"
 }

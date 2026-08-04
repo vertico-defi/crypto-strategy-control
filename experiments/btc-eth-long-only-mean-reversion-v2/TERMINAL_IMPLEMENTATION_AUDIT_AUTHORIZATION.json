@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "authorized_at_utc": "2026-08-04T09:29:37.252467276Z",
+  "stage": "INDEPENDENT_TERMINAL_IMPLEMENTATION_AND_REPAIR_BUDGET_AUDIT",
+  "audit_attempt": 1,
+  "maximum_audit_attempts_for_service_timeout_or_temporary_failure": 3,
+  "requested_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "permissions": "READ_ONLY",
+  "source_checkpoint": "5818f562ae83e0d1cf931d3f2a9ab6f861d23f79",
+  "synthetic_production_validation_sha256": "c2e106de5c0e90bcf8b40c2676aac00f4870aeb8be1fd3a22cd59257ac31d0e7",
+  "real_file_validation_sha256": "3acc5326a2f906266a48437f423a6537354344e827dad0d874e5acc84edfa67f",
+  "real_production_timeout_sha256": "28d5403d289e02dfc65940259c4bd5a1b6beef63a3578a2c1d90aa6b2fca0af5",
+  "required_determinations": [
+    "whether the decomposed 36-file identity, parser, representative-row, and known-gap evidence is defensible",
+    "whether the full-grid timeout is reproducibly attributable to the production session-to-row implementation rather than the source data route",
+    "whether every preregistered pre-economic production obligation is complete",
+    "whether implementation fidelity can be approved for a formal development evaluation",
+    "whether the exact v2 experiment is terminally implementation-blocked after consuming all three pre-run repairs",
+    "whether the mean-reversion family has been economically evaluated or consumed under the explicit Phase 2 policy",
+    "whether route 2 may begin under the ordered queue or additional human repair authorization is required"
+  ],
+  "allowed_verdicts": [
+    "IMPLEMENTATION_FIDELITY_APPROVED_FOR_FORMAL_DEVELOPMENT_EVALUATION",
+    "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
+    "AUDIT_PENDING"
+  ],
+  "prohibited": [
+    "edit any file or Git state",
+    "read the source-data repository, any market value, or any 2026 path or holdout metadata",
+    "calculate or state a strategy return, Sharpe, drawdown, gate, ranking, or economic conclusion",
+    "reinterpret the v1 result or use it for tuning",
+    "infer DATA_NO_GO, HISTORICAL_NO_GO, candidate status, or family unprofitability from an implementation timeout",
+    "use credentials, orders, wallets, capital, leverage, GPU, or alter mining"
+  ],
+  "formal_economic_attempt_authorized": false,
+  "holdout_opened": false,
+  "capital_permitted": 0
+}

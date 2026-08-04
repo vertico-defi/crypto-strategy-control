@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "classification": "PASS_REAL_FILE_IDENTITY_PARSER_AND_REPRESENTATIVE_ROWS",
+  "stage": "DECOMPOSED_36_PARTITION_IDENTITY_PARSER_AND_REPRESENTATIVE_ROW_VALIDATION",
+  "invocation_mode": "deterministic_local",
+  "started_at_utc": "2026-08-04T09:28:35.415507Z",
+  "ended_at_utc": "2026-08-04T09:29:10.965704Z",
+  "duration_seconds": 35.550197,
+  "parent_driver_byte_sha256": "fe81665f8d882a81091a6bc9df7eb8460a40d6127b786ab12df64f34b9b5e4fe",
+  "identity_verified_before_market_path_resolution": true,
+  "source_checkpoint": "5818f562ae83e0d1cf931d3f2a9ab6f861d23f79",
+  "source_repository_head_observed": "a4b0770e73951b4a148284d2d42097bfdbec312c",
+  "source_commit_in_freeze_manifest": "d1d6066a6042b0c2e1c6af75047f5ebf935c739f",
+  "contract_byte_sha256": "47dcf7e5bec24ec73be45cdeb200e25671807e7a28c3c1204499a4e20ae972b7",
+  "contract_canonical_sha256": "d2a02bca439359ca93bcb503bc5888fe4d6297b6f2115ac17c09d8da78f89183",
+  "freeze_manifest_byte_sha256": "243d875979df2991ef3c941d06e13d608c30e44df0eab512afdbb3fb6b0a07ad",
+  "canonical_inventory_sha256": "1a5d5eaab533892b17b296750a2750514e51455d503456285b31b1845e63cc2f",
+  "development_allowlist_count": 36,
+  "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd",
+  "exact_partition_byte_and_sha256_checks_passed": 36,
+  "real_pyarrow_schema_and_type_checks_passed": 36,
+  "representative_first_midpoint_last_row_hashes_materialized": 108,
+  "partition_and_representative_row_manifest_sha256": "566873eeaa98af0f89564fef8739b574bca3909d5f8bd4a21b8b846042b49741",
+  "row_counts": {
+    "BTCUSDT": 790558,
+    "ETHUSDT": 790558
+  },
+  "missing_minute_counts": {
+    "BTCUSDT": 2,
+    "ETHUSDT": 2
+  },
+  "gap_neighbor_hashes": {
+    "BTCUSDT": [
+      "2507803ab4cfa668e549feaef9229b87326e00038d2355c48a64b78ae19c20b0",
+      "7251c2239fde655552beb0d7d9f749f86b2e6c7217a4632327b62a4a3ef18f10"
+    ],
+    "ETHUSDT": [
+      "980dc73594824e77002738f916ae8352aa6de0ba472316244ea45411d982975a",
+      "44470b6bb1ff0c6d7e37014c8b1d5be8f60351c2d32b73eea217beb518919f86"
+    ]
+  },
+  "parser_runtime": {
+    "python": "3.13.2",
+    "pandas": "2.3.3",
+    "pyarrow": "22.0.0",
+    "list_valued_column_selector": true,
+    "same_verified_buffer_parsed": true
+  },
+  "full_session_grid_fill_trace_and_accounting_validation": "TIMEOUT_SEPARATELY_PRESERVED",
+  "raw_market_values_persisted": false,
+  "aggregate_strategy_returns_calculated": false,
+  "economic_result_exists": false,
+  "performance_claim_permitted": false,
+  "formal_economic_attempt_authorized": false,
+  "formal_economic_attempt_consumed": false,
+  "holdout_entry_count_selected": 0,
+  "holdout_path_resolved": false,
+  "holdout_parquet_footer_or_value_read": false,
+  "holdout_opened": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

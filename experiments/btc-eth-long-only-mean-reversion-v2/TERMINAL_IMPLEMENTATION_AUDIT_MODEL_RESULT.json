@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "role": "phase_2_mean_reversion_v2_terminal_implementation_auditor",
+  "requested_model": "gpt-5.6-sol",
+  "actual_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "invocation_interface": "codex_cli",
+  "started_at_utc": "2026-08-04T09:32:11.373449Z",
+  "ended_at_utc": "2026-08-04T09:37:12.044745Z",
+  "duration_seconds": 300.671296,
+  "response_identifier": "019fcc1d-c78f-7631-8fa1-a4b13fbdbf3a",
+  "invocation_result_sha256": "312d5072bf7a0e35f703384eb7921a7702ba14cb8327ae3f709e45e19518b5ea",
+  "exit_code": 0,
+  "exact_error": null,
+  "fallback": null,
+  "outcome": "SUCCESS",
+  "audit_result": {
+    "verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
+    "audit_scope": "READ_ONLY_PRE_ECONOMIC_IMPLEMENTATION_FIDELITY_AND_PHASE_2_POLICY_AUDIT",
+    "real_file_validation": {
+      "defensible": true,
+      "scope": "DECOMPOSED_36_FILE_BYTE_IDENTITY_PARSER_FIRST_MIDPOINT_LAST_ROW_AND_KNOWN_GAP_EVIDENCE_ONLY",
+      "sufficient_for_full_pre_economic_validation": false
+    },
+    "timeout_cause": {
+      "classification": "PRODUCTION_IMPLEMENTATION_COMPLEXITY",
+      "supported": true,
+      "basis": "build_joint_sessions repeatedly scans all rows per session and execution-row resolution repeatedly validates and scans full prefixes",
+      "data_failure_observed": false,
+      "stage_fully_localized": false
+    },
+    "pre_economic_obligations_complete": false,
+    "formal_evaluation_authorized": false,
+    "exact_experiment_terminal": false,
+    "strategy_family_economically_evaluated": false,
+    "strategy_family_economically_consumed": false,
+    "data_no_go": false,
+    "historical_no_go": false,
+    "holdout_opened": false,
+    "candidate_promoted": false,
+    "capital_permitted": 0,
+    "queue_routing": "ROUTE_2_NOT_AUTHORIZED_ADDITIONAL_HUMAN_REPAIR_AUTHORIZATION_REQUIRED",
+    "critical_findings": [
+      "The decomposed evidence supports all 36 partition byte/parser checks, 108 representative row identities, and bounded known-gap evidence, but it does not establish the complete production session, target, fill, cost, return, terminal, fold, regime, and trace-reconciliation path.",
+      "The timeout is consistent with statically confirmed repeated full-row scans and is not evidence of a source-data-route failure or DATA_NO_GO.",
+      "Target-linked and fold-boundary representative evidence, complete mechanical trace binding to the pure reconciler, full-grid completion, and live implementation-fidelity approval remain absent.",
+      "All three pre-run repair rounds are consumed, so another repair is not automatically authorized. The remaining indexing/performance defect appears mechanically repairable without changing the economic hypothesis; therefore the explicit terminal-consumption predicate is not established.",
+      "A timeout and implementation blockage are evidence of neither profitability nor unprofitability."
+    ],
+    "limitations": [
+      "The source-data repository, raw values, 2026 paths, and holdout metadata or values were not inspected by the auditor.",
+      "The hash-identified parent validation driver was not among the authorized files, so its execution was not independently reconstructed; the artifact also records a repository HEAD different from the frozen provenance commit, although exact partition hashes support file-byte identity.",
+      "No return, Sharpe, drawdown, gate, ranking, or economic conclusion was calculated, and the contaminated v1 result was not used for tuning."
+    ],
+    "performance_claim_made": false
+  }
+}
