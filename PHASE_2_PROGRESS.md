@@ -208,3 +208,14 @@
 - Next action: commit/push the authorization, invoke its single live Terra/medium repair, then perform independent parent semantic validation before any data access.
 - Current blocker: none. Repair accounting is 2/3 used, 1 remaining.
 - Exact resume state: repair 2 authorized/not invoked; formal evaluation false; market/holdout/returns false; capital/GPU zero; mining unchanged.
+
+## 2026-08-04T14:31:53.638233311Z — route-2 repair 2 is partial and remains blocked
+
+- Current checkpoint: live Terra/medium repair 2 and parent validation both classify the result as partial `IMPLEMENTATION_BLOCKED_PRE_RUN`; correction requires the third and final pre-run repair.
+- What changed: suffix isolation and the measured v1 decision discrepancy are fixed. Score identities, exact bootstrap, registry, fold constants, quarantine action, governance evidence, and an internal period-decision entry point were added.
+- What was verified: 40 focused tests, all 306 repository tests, Ruff, strict Mypy across 29 source files, compilation, and diff checks pass. Live thread `019fcd2c...` used no fallback, data, holdout, return, Git, GPU, mining, or capital capability.
+- What failed: the legacy clock still consumes injected targets and emits default returns/wealth; the new period entry point discards score identities/cutoffs and never performs return accounting; quarantine/recovery/regime/fold execution is absent; the oracle and frozen multiplicity extraction remain incomplete; most exact-named tests remain superficial. The model itself reported these defects.
+- Current best defensible result: no route-2 economic result and no performance claim.
+- Next action: commit and push the exact partial repair and failure evidence, then separately authorize repair 3/3 against only the remaining bound defects.
+- Current blocker: none. The final pre-run repair is required; no repair remains after it.
+- Exact resume state: implementation invocations 3; repairs 3/3 used including the required final correction; post-run repairs 0/2; formal evaluation unauthorized/unconsumed; market/holdout/returns false; capital/GPU zero; mining unchanged.

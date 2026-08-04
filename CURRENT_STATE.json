@@ -4,14 +4,14 @@
       "audit_attempts_used_by_stage": {
         "direction_review": 1
       },
-      "implementation_repairs_remaining": 1,
-      "implementation_repairs_used": 2,
+      "implementation_repairs_remaining": 0,
+      "implementation_repairs_used": 3,
       "maximum_audit_attempts_per_review_stage": 3,
       "maximum_implementation_repairs": 3,
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
         "direction_review_used": 1,
-        "implementation_used": 2,
+        "implementation_used": 3,
         "independent_audit_used": 0,
         "production_integration_used": 0
       },
@@ -43,7 +43,7 @@
   },
   "current_experiment_id": "btc-eth-relative-value-rotation-v2",
   "data_contract_status": "FROZEN_REUSED_FIXED_PAIR_CONTRACT_PASS_PHASE_1_EVIDENCE",
-  "development_status": "IMPLEMENTATION_BLOCKED_PRE_RUN_REPAIR_2_REQUIRED",
+  "development_status": "IMPLEMENTATION_BLOCKED_PRE_RUN_REPAIR_3_REQUIRED",
   "direction_review_artifact": "experiments/btc-eth-relative-value-rotation-v2/DIRECTION_REVIEW.json",
   "direction_review_model_result_sha256": "cd2b54fad4f74bba76a413ae14061216ecbdaaecadf1897fad6146a14675172c",
   "direction_review_status": "REVISION_REQUIRED_INCORPORATED_7_OF_7_FROZEN",
@@ -60,26 +60,32 @@
   "implementation_repair_2_authorization": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_REPAIR_2_AUTHORIZATION.json",
   "implementation_repair_2_authorization_byte_sha256": "3c54104adf2cf46cc1984d24e122466e6b4641d9fc715fd5b8133cd277e3b7d0",
   "implementation_repair_2_authorization_sha256": "87d131ecfaa45af9f5160b4fc3cf0d9f312005a64f0cd4e443eecd9628a627b2",
+  "implementation_repair_2_model_result": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_REPAIR_2_MODEL_RESULT.json",
+  "implementation_repair_2_model_result_byte_sha256": "32eb38a16d635fbcde75c871221489eeb846ad57cb5b60350e307d20a692acfb",
+  "implementation_repair_2_model_result_sha256": "963b0e5ed0091706bbe9d87630dc1af87c015ab38370adee9b8ca72c6a3b7bd8",
   "implementation_evidence_commit": null,
   "implementation_model_result": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_MODEL_RESULT.json",
   "implementation_model_result_byte_sha256": "9af73a57339668448480c12d453474ff69d07629ff745dc9e6c1d393af72e54e",
   "implementation_model_result_sha256": "9b8120254ad699423d77068c1ada94f577f154a5e175e31dce3e7a3d324a10e7",
-  "implementation_status": "IMPLEMENTATION_REPAIR_2_AUTHORIZED_PENDING_CLEAN_COMMIT",
+  "implementation_status": "IMPLEMENTATION_REPAIR_2_PARTIAL_PARENT_FIDELITY_FAILED_REPAIR_3_REQUIRED",
   "implementation_artifact_sha256": {
-    "src/strategy_control/relative_value_v2.py": "b4bef135c0a512667a748de4bef2298549666991d986a65ad54380098fbad91e",
-    "src/strategy_control/relative_value_v2_pipeline.py": "ba90df84a42365b457aa3de27dad3f08711f752ae4396d1859a861798cde2e20",
-    "src/strategy_control/relative_value_v2_oracle.py": "b155c4905ebcafaf7800356a4d0039a366ed37ccd056aa7b65ff1a9d28ce2e90",
-    "tests/test_relative_value_v2.py": "afcc8a34779fc00dfe090e6aa405f58ff9908ac46e5d09439223b33e28ac6424",
-    "tests/test_relative_value_v2_production.py": "beed8a2cbcec2f0e4a4e9e7be0ac1e0ba59a4973c4d39ccfc63315de3b4d2101"
+    "src/strategy_control/relative_value_v2.py": "2e51b45bdb04036740e65dd2dcf38df9ebfbc43ae6548dd143f249811afe74f5",
+    "src/strategy_control/relative_value_v2_pipeline.py": "987b5416c4b745e9172c934f11c1eca78fd1cd56ab403dd9c92672d10424c71e",
+    "src/strategy_control/relative_value_v2_oracle.py": "c32b68daed6f043b2a1a894e82162c4b32302a5beb9cd6c3b363f7e65f65c3c5",
+    "tests/test_relative_value_v2.py": "f5f0d70be6aba5230de79ed63f7ed58a37cf0581de707c7f2f2446fa9de35b9f",
+    "tests/test_relative_value_v2_production.py": "75c9d04f8087c264c0e5ed1c55694e72f50b345551b48fd21e4b873b7ec6bcb0"
   },
   "implementation_validation": null,
   "implementation_validation_byte_sha256": null,
   "initial_implementation_validation_failure": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_VALIDATION_ATTEMPT_1_FAILURE.json",
   "initial_implementation_validation_failure_byte_sha256": "d77231469eb7b504d16c3a0b4b733a4a06a77f457b5b95895346c2d06e481b0f",
   "initial_implementation_validation_failure_sha256": "61d947ad4119630e2ca5a0e60d1a83b49328ba9428450d3eb9e6899d4f9778e1",
-  "implementation_validation_failure": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_VALIDATION_REPAIR_1_FAILURE.json",
-  "implementation_validation_failure_byte_sha256": "a1b728d29c80c041a490f70aa11782f281980102b2fb0e6bdf50bf553506e93d",
-  "implementation_validation_failure_sha256": "14210a168bb40027b5e7cd0b5ba24c742315cf3045d3972b51463da1bc354084",
+  "implementation_repair_1_validation_failure": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_VALIDATION_REPAIR_1_FAILURE.json",
+  "implementation_repair_1_validation_failure_byte_sha256": "a1b728d29c80c041a490f70aa11782f281980102b2fb0e6bdf50bf553506e93d",
+  "implementation_repair_1_validation_failure_sha256": "14210a168bb40027b5e7cd0b5ba24c742315cf3045d3972b51463da1bc354084",
+  "implementation_validation_failure": "experiments/btc-eth-relative-value-rotation-v2/IMPLEMENTATION_VALIDATION_REPAIR_2_FAILURE.json",
+  "implementation_validation_failure_byte_sha256": "cc7ba10056db9f29ef5e58f0586752acc789889d87463f5d594fdb70dfd72987",
+  "implementation_validation_failure_sha256": "fa987a108973be57c9bf3da2354320460d7f66cb649b9e92e46b31a1aa11d054",
   "implementation_validation_sha256": null,
   "last_terminal_experiment_id": "btc-eth-long-only-mean-reversion-v2",
   "last_terminal_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
@@ -95,7 +101,7 @@
     "source_snapshot_commit": "61b69c5ed5c5f06f8907a052ee166a7c01e994ad",
     "store_live": false
   },
-  "next_task": "commit_route_2_repair_2_authorization_then_invoke_live_terra_medium",
+  "next_task": "commit_route_2_repair_2_failure_then_authorize_final_bounded_repair_3",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -193,5 +199,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T14:24:51.284487872Z"
+  "updated_at_utc": "2026-08-04T14:31:53.638233311Z"
 }

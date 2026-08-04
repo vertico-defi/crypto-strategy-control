@@ -7,12 +7,14 @@ buffers only after its separately authorised stage.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from itertools import combinations
-from statistics import NormalDist, mean, stdev
+from statistics import NormalDist, mean, median, stdev
 
 SYMBOLS = ("BTCUSDT", "ETHUSDT")
 CASH = "CASH"
@@ -29,6 +31,12 @@ V2_BOOTSTRAP_SEED = 4689472421920140622
 ONE_WAY_COST = 0.0014
 DOUBLE_ONE_WAY_COST = 0.0028
 RECOVERY_SESSIONS = 150
+DEVELOPMENT_FOLDS = (
+    (datetime(2025, 1, 1, tzinfo=UTC), datetime(2025, 4, 1, tzinfo=UTC)),
+    (datetime(2025, 4, 1, tzinfo=UTC), datetime(2025, 7, 1, tzinfo=UTC)),
+    (datetime(2025, 7, 1, tzinfo=UTC), datetime(2025, 10, 1, tzinfo=UTC)),
+    (datetime(2025, 10, 1, tzinfo=UTC), datetime(2026, 1, 1, tzinfo=UTC)),
+)
 
 
 class RelativeValueV2Error(ValueError):
@@ -73,6 +81,7 @@ class Observation:
     event_at: datetime
     available_at: datetime
     value: float
+    identity: str = ""
 
     def __post_init__(self) -> None:
         if self.asset not in SYMBOLS:
@@ -127,8 +136,10 @@ class BoundaryIndex:
         boundary = _utc(end)
         previous: dict[str, datetime] = {}
         seen: set[tuple[str, datetime]] = set()
-        # Validate stream order before filtering so disorder can never be sorted away.
-        for row in rows:
+        # The boundary is a security boundary: never inspect an unretained suffix.
+        # In particular, a corrupt future row cannot invalidate a finished fold.
+        retained = tuple(row for row in rows if _utc(row.timestamp) < boundary)
+        for row in retained:
             stamp = _utc(row.timestamp)
             if row.asset in previous and stamp <= previous[row.asset]:
                 raise RelativeValueV2Error("duplicate or nonmonotonic minute rows")
@@ -137,7 +148,6 @@ class BoundaryIndex:
                 raise RelativeValueV2Error("duplicate minute row")
             previous[row.asset] = stamp
             seen.add(key)
-        retained = tuple(row for row in rows if _utc(row.timestamp) < boundary)
         grouped: dict[datetime, dict[str, MinuteRow]] = {}
         for row in retained:
             grouped.setdefault(_utc(row.timestamp), {})[row.asset] = row
@@ -218,6 +228,8 @@ def decision_for_scores(
     spec = TRIAL_SPECS.get(trial)
     if spec is None or actual not in {CASH, *SYMBOLS} or set(scores) != set(SYMBOLS):
         raise RelativeValueV2Error("invalid frozen decision inputs")
+    # Missing/nonfinite is ineligible, but malformed supplied raw input is never
+    # silently ignored.  This is a copied-formula implementation of v1 decide().
     eligible = {
         asset: value
         for asset, value in scores.items()
@@ -225,6 +237,8 @@ def decision_for_scores(
     }
     if not eligible:
         return CASH
+    if set(raw_returns) != set(SYMBOLS):
+        raise RelativeValueV2Error("invalid raw-return lookback")
     for asset, values in raw_returns.items():
         if (
             asset not in SYMBOLS
@@ -237,16 +251,116 @@ def decision_for_scores(
     if len(eligible) != 2:
         return actual if actual in eligible else CASH
     btc, eth = eligible[SYMBOLS[0]], eligible[SYMBOLS[1]]
+    # This precedes winner selection in the preserved evaluator.  It is material:
+    # held BTC with a nonpositive median exits even if ETH has the higher score.
+    if actual in SYMBOLS and spec.cash_filter and median(raw_returns[actual]) <= 0:
+        return CASH
     if btc == eth:
         return SYMBOLS[0] if actual == CASH and spec.tie_from_cash_btc else actual
     winner = SYMBOLS[0] if btc > eth else SYMBOLS[1]
     loser = SYMBOLS[1] if winner == SYMBOLS[0] else SYMBOLS[0]
-    passes_cash = not spec.cash_filter or sorted(raw_returns[winner])[len(spec.horizons) // 2] > 0
+    passes_cash = not spec.cash_filter or median(raw_returns[winner]) > 0
     if actual == CASH:
         return winner if eligible[winner] - eligible[loser] >= spec.gap and passes_cash else CASH
     if actual == winner:
         return winner if passes_cash else CASH
     return winner if eligible[winner] - eligible[actual] >= spec.gap and passes_cash else actual
+
+
+@dataclass(frozen=True)
+class ScoreRecord:
+    """Auditable score evidence; identities are retained rather than summarized away."""
+
+    raw_returns: tuple[float, ...]
+    volatility: float | None
+    score: float
+    cutoff: datetime
+    identities: tuple[str, ...]
+    observation_count: int
+
+
+def score_at(
+    trial: str, observations: Mapping[str, Sequence[Observation]], index: int
+) -> Mapping[str, ScoreRecord] | None:
+    """Compute both scores from complete named close observations only.
+
+    Each asset series is chronological completed-session closes.  The 20 simple
+    returns and every horizon close are included in the retained identity set.
+    """
+    spec = TRIAL_SPECS.get(trial)
+    if spec is None or set(observations) != set(SYMBOLS) or index < max(max(spec.horizons), 20):
+        return None
+    output: dict[str, ScoreRecord] = {}
+    for asset in SYMBOLS:
+        values = observations[asset]
+        if index >= len(values):
+            return None
+        required = list(range(index - max(max(spec.horizons), 20), index + 1))
+        if any(i < 0 for i in required):
+            return None
+        window = [values[i] for i in required]
+        if any(
+            item.asset != asset or not math.isfinite(item.value) or not item.identity
+            for item in window
+        ):
+            return None
+        stamps = [_utc(item.event_at) for item in window]
+        if any(stamps[i] <= stamps[i - 1] for i in range(1, len(stamps))):
+            return None
+        close = [item.value for item in values]
+        raw = tuple(math.log(close[index] / close[index - h]) for h in spec.horizons)
+        simple = [close[i] / close[i - 1] - 1.0 for i in range(index - 19, index + 1)]
+        avg = sum(simple) / 20
+        volatility = math.sqrt(sum((x - avg) ** 2 for x in simple) / 19)
+        if any(not math.isfinite(x) for x in (*raw, volatility)) or (
+            spec.risk_adjusted and volatility <= 0
+        ):
+            return None
+        components = (
+            tuple(x / (volatility * math.sqrt(h)) for x, h in zip(raw, spec.horizons, strict=True))
+            if spec.risk_adjusted
+            else raw
+        )
+        value = sum(components) / len(components)
+        if not math.isfinite(value):
+            return None
+        cutoff = information_cutoff(window)
+        output[asset] = ScoreRecord(
+            raw,
+            volatility if spec.risk_adjusted else None,
+            value,
+            cutoff,
+            tuple(x.identity for x in window),
+            len(window),
+        )
+    return output
+
+
+def decision_at(
+    trial: str, observations: Mapping[str, Sequence[Observation]], index: int, actual: str
+) -> tuple[str, Mapping[str, ScoreRecord]]:
+    records = score_at(trial, observations, index)
+    if records is None:
+        return CASH, {}
+    return decision_for_scores(
+        trial,
+        {a: records[a].score for a in SYMBOLS},
+        {a: records[a].raw_returns for a in SYMBOLS},
+        actual,
+    ), records
+
+
+@dataclass(frozen=True)
+class QuarantineAction:
+    target: str
+    cancel_pending: bool
+    requires_priced_liquidation: bool
+
+
+def quarantine_action(actual: str, pending: str | None) -> QuarantineAction:
+    if actual not in {CASH, *SYMBOLS} or pending not in {None, CASH, *SYMBOLS}:
+        raise RelativeValueV2Error("invalid quarantine state")
+    return QuarantineAction(CASH, pending is not None, actual != CASH)
 
 
 @dataclass(frozen=True)
@@ -437,3 +551,113 @@ def pbo_cscv(panel: Sequence[Sequence[float]]) -> float:
             return 1.0
         overfit += logit <= 0
     return overfit / 70
+
+
+def stationary_bootstrap(
+    values: Sequence[float], *, resamples: int = 2000, block_length: int = 20
+) -> Mapping[str, float | int]:
+    """Frozen Politis--Romano circular stationary bootstrap (PCG64 seed)."""
+    if (
+        len(values) < 2
+        or resamples < 1
+        or block_length < 1
+        or any(not math.isfinite(x) for x in values)
+    ):
+        raise RelativeValueV2Error("invalid frozen bootstrap input")
+    try:
+        import numpy as np
+    except ImportError as exc:  # pragma: no cover - validated installed dependency
+        raise RelativeValueV2Error("numpy required for exact bootstrap") from exc
+    rng = np.random.Generator(np.random.PCG64(V2_BOOTSTRAP_SEED))
+    n, means, restart = len(values), [], 1.0 / block_length
+    for _ in range(resamples):
+        cursor, sample = int(rng.integers(n)), []
+        for _ in range(n):
+            sample.append(values[cursor])
+            cursor = int(rng.integers(n)) if float(rng.random()) < restart else (cursor + 1) % n
+        means.append(sum(sample) / n)
+    means.sort()
+
+    def percentile(q: float) -> float:
+        position = (len(means) - 1) * q
+        lo, hi = math.floor(position), math.ceil(position)
+        return means[lo] if lo == hi else means[lo] + (means[hi] - means[lo]) * (position - lo)
+
+    return {
+        "seed": V2_BOOTSTRAP_SEED,
+        "mean": sum(values) / n,
+        "lower_95": percentile(0.025),
+        "upper_95": percentile(0.975),
+        "resamples": resamples,
+    }
+
+
+def _json_pointer(document: object, pointer: str) -> object:
+    if not pointer.startswith("/"):
+        raise RelativeValueV2Error("invalid JSON pointer")
+    value = document
+    for token in pointer[1:].split("/"):
+        token = token.replace("~1", "/").replace("~0", "~")
+        if isinstance(value, Mapping):
+            value = value[token]
+        elif isinstance(value, list):
+            value = value[int(token)]
+        else:
+            raise RelativeValueV2Error("JSON pointer does not resolve")
+    return value
+
+
+@dataclass(frozen=True)
+class MultiplicitySlot:
+    name: str
+    artifact_sha256: str | None
+    pointer: str | None
+    observed: bool
+
+
+class MultiplicityRegistry:
+    """Hash-bound, ordered 49-slot registry; never reads an artifact itself."""
+
+    def __init__(self, slots: Sequence[MultiplicitySlot]) -> None:
+        if len(slots) != 49 or len({slot.name for slot in slots}) != 49:
+            raise RelativeValueV2Error("exact 49-slot multiplicity registry required")
+        if sum(slot.observed for slot in slots) != 28:
+            raise RelativeValueV2Error("registry must contain 28 observed and 21 absent slots")
+        if any(
+            slot.observed != (slot.artifact_sha256 is not None and slot.pointer is not None)
+            for slot in slots
+        ):
+            raise RelativeValueV2Error("malformed multiplicity slot")
+        self.slots = tuple(slots)
+
+    def extract(
+        self, artifacts: Mapping[str, bytes | str | Mapping[str, object]]
+    ) -> tuple[float | None, ...]:
+        result: list[float | None] = []
+        for slot in self.slots:
+            if not slot.observed:
+                result.append(None)
+                continue
+            assert slot.artifact_sha256 is not None and slot.pointer is not None
+            artifact = artifacts.get(slot.name)
+            if artifact is None:
+                raise RelativeValueV2Error("missing named multiplicity artifact")
+            raw = (
+                artifact.encode()
+                if isinstance(artifact, str)
+                else artifact
+                if isinstance(artifact, bytes)
+                else json.dumps(artifact, sort_keys=True, separators=(",", ":")).encode()
+            )
+            if hashlib.sha256(raw).hexdigest() != slot.artifact_sha256:
+                raise RelativeValueV2Error("multiplicity artifact hash mismatch")
+            doc = json.loads(raw) if isinstance(artifact, (str, bytes)) else artifact
+            value = _json_pointer(doc, slot.pointer)
+            if (
+                not isinstance(value, (int, float))
+                or isinstance(value, bool)
+                or not math.isfinite(value)
+            ):
+                raise RelativeValueV2Error("nonfinite multiplicity value")
+            result.append(float(value) / math.sqrt(365))
+        return tuple(result)

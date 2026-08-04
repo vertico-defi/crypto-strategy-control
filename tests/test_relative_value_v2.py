@@ -252,6 +252,18 @@ def test_DSR_primitive_accepts_valid_T_equal_3_and_rejects_T_below_3():
     assert primitive_dsr_valid((0.01, 0.02, 0.03)) and not primitive_dsr_valid((0.01, 0.02))
 
 
+def test_v1_held_asset_cash_filter_precedes_higher_other_asset_score():
+    assert (
+        decision_for_scores(
+            TRIAL_ORDER[0],
+            {"BTCUSDT": 0.1, "ETHUSDT": 1.0},
+            {"BTCUSDT": (-0.1, -0.1, -0.1), "ETHUSDT": (0.1, 0.1, 0.1)},
+            "BTCUSDT",
+        )
+        == CASH
+    )
+
+
 def test_phase_2_DSR_registry_is_56_total_35_observed_21_unimputed_on_first_run():
     registry = [0.1 + i * 0.01 for i in range(35)] + [None] * 21
     assert not phase2_dsr_degenerate([0.01 * (-1) ** i for i in range(30)], registry, slots=56)

@@ -10,6 +10,7 @@ import math
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from statistics import median
 
 ASSETS = ("BTCUSDT", "ETHUSDT")
 CASH = "CASH"
@@ -53,7 +54,8 @@ def oracle_vector_after(
     prior: dict[str, datetime] = {}
     grouped: dict[datetime, dict[str, OracleRow]] = {}
     boundary = _utc(end)
-    for row in rows:
+    # Future suffix is deliberately invisible before any validation.
+    for row in (row for row in rows if _utc(row.timestamp) < boundary):
         stamp = _utc(row.timestamp)
         if (
             row.asset not in ASSETS
@@ -65,10 +67,9 @@ def oracle_vector_after(
         if row.asset in prior and stamp <= prior[row.asset]:
             raise OracleError("unordered row")
         prior[row.asset] = stamp
-        if stamp < boundary:
-            if row.asset in grouped.setdefault(stamp, {}):
-                raise OracleError("duplicate")
-            grouped[stamp][row.asset] = row
+        if row.asset in grouped.setdefault(stamp, {}):
+            raise OracleError("duplicate")
+        grouped[stamp][row.asset] = row
     exact = [
         stamp
         for stamp, pair in grouped.items()
@@ -127,11 +128,17 @@ def oracle_target(
         math.isfinite(value) for value in (btc_score, eth_score, *btc_raw, *eth_raw)
     ):
         raise OracleError("decision input")
+    if (
+        cash_filter
+        and actual in ASSETS
+        and median(btc_raw if actual == ASSETS[0] else eth_raw) <= 0
+    ):
+        return CASH
     if btc_score == eth_score:
         return actual
     winner = ASSETS[0] if btc_score > eth_score else ASSETS[1]
     winner_raw = btc_raw if winner == ASSETS[0] else eth_raw
-    if cash_filter and sorted(winner_raw)[len(winner_raw) // 2] <= 0:
+    if cash_filter and median(winner_raw) <= 0:
         return CASH if actual == CASH else actual
     winner_score = btc_score if winner == ASSETS[0] else eth_score
     loser_score = eth_score if winner == ASSETS[0] else btc_score

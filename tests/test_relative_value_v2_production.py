@@ -1,15 +1,15 @@
 from datetime import UTC, datetime, timedelta
 
-import pytest
-
-from strategy_control.relative_value_v2 import RelativeValueV2Error
 from strategy_control.relative_value_v2_pipeline import GATE_NAMES, gate_map, strict_prefix
 
 
-def test_strict_prefix_rejects_nonmonotonic_before_filtering():
+def test_strict_prefix_isolates_nonmonotonic_suffix_before_validation():
     end = datetime(2025, 1, 2, tzinfo=UTC)
-    with pytest.raises(RelativeValueV2Error):
-        strict_prefix((1, 2), (end + timedelta(days=1), end - timedelta(days=1)), end)
+    clean = strict_prefix((1,), (end - timedelta(days=1),), end)
+    corrupt_suffix = strict_prefix(
+        (1, 2, 3), (end - timedelta(days=1), end + timedelta(days=2), end + timedelta(days=1)), end
+    )
+    assert clean == corrupt_suffix == (1,)
 
 
 def test_nonfinite_numerical_gates_fail_closed():

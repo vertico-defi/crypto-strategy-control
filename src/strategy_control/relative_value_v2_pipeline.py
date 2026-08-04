@@ -4,15 +4,20 @@ from __future__ import annotations
 
 import math
 from collections.abc import Mapping, Sequence
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import TypeVar, cast
 
 from strategy_control.relative_value_v2 import (
     CASH,
     SYMBOLS,
+    CanonicalVector,
     DecisionTrace,
+    Observation,
     RelativeValueV2Error,
+    decision_at,
     finite_equal,
+    run_clock,
     target_weights,
 )
 
@@ -50,19 +55,79 @@ def reject_preapproval_path(relative_path: str) -> None:
 def strict_prefix(
     items: Sequence[T], timestamps: Sequence[datetime], end: datetime
 ) -> tuple[T, ...]:
-    """Validate original chronological stream, then isolate its strict prefix."""
+    """Isolate before validation: later corrupt records are outside the fold."""
     if len(items) != len(timestamps):
         raise RelativeValueV2Error("boundary index length mismatch")
     boundary = _utc(end)
+    retained = [
+        (item, _utc(stamp))
+        for item, stamp in zip(items, timestamps, strict=True)
+        if _utc(stamp) < boundary
+    ]
     prior: datetime | None = None
-    normalized = []
-    for stamp in timestamps:
-        instant = _utc(stamp)
+    for _, instant in retained:
         if prior is not None and instant <= prior:
             raise RelativeValueV2Error("nonmonotonic or duplicate input")
         prior = instant
-        normalized.append(instant)
-    return tuple(item for item, stamp in zip(items, normalized, strict=True) if stamp < boundary)
+    return tuple(item for item, _ in retained)
+
+
+@dataclass(frozen=True)
+class GovernanceEvidence:
+    performance_evidence: bool
+    holdout_accessed: bool
+    capital_permitted: int
+    gpu_seconds_permitted: int
+    mining_changed: bool
+
+
+def governance_evidence(
+    *,
+    trace_count: int,
+    holdout_accessed: bool = False,
+    capital_permitted: int = 0,
+    gpu_seconds_permitted: int = 0,
+    mining_changed: bool = False,
+) -> GovernanceEvidence:
+    """A synthetic trace cannot become economic evidence merely by existing."""
+    if trace_count < 0 or capital_permitted < 0 or gpu_seconds_permitted < 0:
+        raise RelativeValueV2Error("invalid governance evidence")
+    return GovernanceEvidence(
+        False, holdout_accessed, capital_permitted, gpu_seconds_permitted, mining_changed
+    )
+
+
+def build_period_run(
+    trial: str,
+    observations: Mapping[str, Sequence[Observation]],
+    vectors: Sequence[CanonicalVector],
+    *,
+    delayed: bool = False,
+) -> tuple[DecisionTrace, ...]:
+    """Build immutable decisions internally; callers cannot inject targets.
+
+    This pure entry point intentionally accepts only already-authorized in-memory
+    observations and canonical fills.  Its own cash-initialized state is used for
+    each score decision, including the post-due-fill delayed state.
+    """
+    if not vectors or set(observations) != set(SYMBOLS):
+        raise RelativeValueV2Error("incomplete period inputs")
+    actual = CASH
+    pending: str | None = None
+    decisions: list[tuple[str, str]] = []
+    for index, _vector in enumerate(vectors):
+        if delayed and pending is not None:
+            actual, pending = pending, None
+        desired, records = decision_at(trial, observations, index, actual)
+        # A decision without a complete retained lookback is an explicit cash
+        # decision; its cutoff remains the canonical vector timestamp in legacy
+        # trace representation, while score records retain the true maximum.
+        decisions.append((str(index), desired if records else CASH))
+        if delayed:
+            pending = decisions[-1][1]
+        else:
+            actual = decisions[-1][1]
+    return run_clock(tuple(decisions), vectors, delayed=delayed)
 
 
 def _utc(value: datetime) -> datetime:
