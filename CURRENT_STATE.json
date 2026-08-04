@@ -60,6 +60,16 @@
   "implementation_validation_sha256": "719b73d291a8e19064b5fd457e965f8add7a5db8b8e48171d055bde596e41cad",
   "last_terminal_experiment_id": "btc-eth-volatility-managed-equal-weight-v1",
   "last_terminal_verdict": "AUDIT_REJECTED",
+  "latest_publication": {
+    "pages_deployment_run_id": 30890939218,
+    "pages_status": "SUCCESS_DEPLOYED_CONTENT_VERIFIED",
+    "portfolio_commit": "dc6431f0494315e797b4a12a49e132f5e90bb910",
+    "portfolio_publication_gate": "PASS",
+    "portfolio_validation_run_id": 30890937423,
+    "source_checkpoint_commit": "a4cc2684e78f012b7a9cba240c076bb84369ab71",
+    "source_snapshot_commit": "ca12b529da75d3f6d726477c09e2f5322e19e8fc",
+    "store_live": false
+  },
   "next_task": "commit_production_integration_authorization_then_invoke_live_terra",
   "phase": 2,
   "phase_1_terminal": {
@@ -100,5 +110,5 @@
   "production_integration_authorization_sha256": "3b4dcb136512eb1012cc0b763e83d56fe846b0241ed1ef6e1a815b9d0815bcab",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T08:00:53.990633Z"
+  "updated_at_utc": "2026-08-04T08:13:28.214581Z"
 }

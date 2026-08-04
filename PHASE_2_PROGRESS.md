@@ -26,3 +26,7 @@
 - Next experiment: commit and push the production authorization, then invoke live Terra/medium to implement the production loader and integration tests without opening market data.
 - Current blocker: none.
 - Exact resume state: program active; pure commit `d4fcfaec...`; implementation repair 1/3 used; production model invocation not yet used; production market access not yet performed; formal evaluation and holdout closed; capital zero; CPU-only; mining unchanged.
+
+- Publication checkpoint: source snapshot `ca12b529...` and portfolio `dc6431f...` are pushed; CI `30890937423` and Pages `30890939218` passed, and deployed content was fetched and verified.
+- Publication safety: gate `PASS`; `STORE_LIVE=false`; zero API routes; no strong-secret, private-path, prohibited tracked path, oversized tracked file, server, exchange, wallet, or capital-execution publication finding.
+- Public interpretation: Phase 1 remains exactly `APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED`; Phase 2 is `PASS_PURE_PRE_DATA` with no economic result or candidate; holdouts closed; capital zero.
