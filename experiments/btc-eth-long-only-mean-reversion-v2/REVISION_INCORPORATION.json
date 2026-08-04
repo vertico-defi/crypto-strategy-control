@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "direction_review_invocation_result_sha256": "0b8abd49a308c0ed60b3dbb5b83e4980cffe1568bffbca2147afae5bf47e11b1",
+  "original_draft_sha256": "f92df417213361c09764953d3351006ea86d6429f3d6252ccfd1a7aedc7c0055",
+  "required_revision_count": 7,
+  "incorporated_revision_count": 7,
+  "all_incorporated": true,
+  "incorporations": [
+    {"revision": 1, "summary": "Restore the bootstrap sample to the primary aggregate valid-return series and reserve distinct panels for DSR/PBO and baseline comparisons.", "contract_paths": ["benchmarks_and_variants.primary_aggregate_panel", "benchmarks_and_variants.seven_trial_common_panel", "benchmarks_and_variants.comparator_common_panels", "statistical_contract.bootstrap.sample_length", "statistical_contract.bootstrap.panel_exclusions"]},
+    {"revision": 2, "summary": "Replace the circular current-result prerequisite with pre-result frozen identity and post-result evidence binding.", "contract_paths": ["multiplicity_registry.groups_in_order[6].pre_result_binding", "multiplicity_registry.groups_in_order[6].result_artifact_binding"]},
+    {"revision": 3, "summary": "Make completed repair attempts append-only and freeze the corresponding development and holdout registry counts.", "contract_paths": ["multiplicity_registry.counts_for_first_completed_v2_development_run", "multiplicity_registry.append_only_repair_evolution", "multiplicity_registry.holdout_evolution"]},
+    {"revision": 4, "summary": "Define exact DSR autocorrelation lag arithmetic and deterministic PBO intentional-infinity ranking and degeneracies.", "contract_paths": ["statistical_contract.deflated_sharpe_ratio", "statistical_contract.probability_of_backtest_overfitting"]},
+    {"revision": 5, "summary": "Retain finalized valid pre-gap regime evidence while clearing only histories used for future labels.", "contract_paths": ["regime_contract.gap_reset"]},
+    {"revision": 6, "summary": "Separate pre-run mechanics, source data, post-run mechanics, audit interruption, budget exhaustion, and complete economic classifications.", "contract_paths": ["missing_data_and_quarantine_contract.failure_precedence"]},
+    {"revision": 7, "summary": "Define development methodology, pre-holdout robustness, and holdout-open audits as distinct bounded committed stages.", "contract_paths": ["independent_audit_stages", "formal_evaluation_and_audit_sequence.independent_audit", "holdout_contract.open_rule"]}
+  ],
+  "market_values_read": false,
+  "returns_calculated": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "economic_definition_changed": false,
+  "capital_permitted": 0
+}
