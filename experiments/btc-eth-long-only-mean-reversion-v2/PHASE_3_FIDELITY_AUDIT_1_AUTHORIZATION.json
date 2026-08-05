@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "phase": 3,
+  "stage": "POST_MECHANICAL_COMPLETION_PRE_ECONOMIC_FIDELITY_AUDIT",
+  "audit_attempt": 1,
+  "authorized_at_utc": "2026-08-05T14:22:09.954458920Z",
+  "requested_model": "gpt-5.6-sol",
+  "reasoning_level": "high",
+  "invocation_mode": "live",
+  "permissions": "READ_ONLY",
+  "substantive_audit_attempts_authorized": 2,
+  "substantive_audit_attempts_used_before_invocation": 0,
+  "identical_service_failure_retries_consume_substantive_attempt": false,
+  "evidence_checkpoint_commit": "2ea59cc1b777824b0a5ccf327dbe1b88e8b7dc0b",
+  "evidence_implementation_commit": "9eee066e0a72cb2d7941bce98489678f58a11655",
+  "bindings": {
+    "phase_3_authorization_byte_sha256": "1df130cad8a7f3834e8355e7b8435ecee9eaefb03d5a7e8a291a4f0addbbc7cf",
+    "frozen_preregistration_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+    "effective_contract_byte_sha256": "1da897a3eff60a013181d6381fc20b9e7e1678cad6005dd6c9224fdb15385a77",
+    "effective_contract_canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "pre_repair_production_evidence_byte_sha256": "266eab19cca8b2442b0e46134160950dffd28fde91762548d46d4ca68b38c3e7",
+    "round_1_authorization_byte_sha256": "248fbfd0ba746a15cba7a837a04354bd1275a46d7c1279989e1555815731f19f",
+    "correctly_bound_production_artifact_byte_sha256": "9dff22992972f5eaed4630e4b098c6a7a79a7bcb1fec4fffea65b8d2c5e3f0af",
+    "correctly_bound_stage_log_byte_sha256": "e612eeced1c9dbe31e7090c57874110a4b60e20c062a6e507c3f93005b38f8b4",
+    "parent_validation_byte_sha256": "2e8a0dc9fa6ed688558d3ab340c40412d59b63457b3ccd2414eba1a244475cd2",
+    "aborted_binding_mismatch_byte_sha256": "1c62642b6b219c8bf76c97731fb641a5a1d107dfc5fef9255e3a70316aac2e38",
+    "prompt_byte_sha256": "1756986eef33883b01286777fcf47246fce24c60c82acb7f4a1e9309555cbc98",
+    "output_schema_byte_sha256": "52d31d66ec476748021ab9b0a42fc4759f918fb8e52a3edb46ae891d3b520e3a"
+  },
+  "allowed_verdicts": [
+    "PASS_FIDELITY_APPROVED_FOR_FORMAL_DEVELOPMENT_EVALUATION",
+    "REVISION_REQUIRED_MECHANICAL_FIDELITY_DEFECT",
+    "AUDIT_INCONCLUSIVE"
+  ],
+  "prohibited": [
+    "modify any repository file or Git state",
+    "open the source-data repository or any market-data file",
+    "resolve or access a 2026 or final-holdout path, footer, metadata, or value",
+    "calculate aggregate strategy returns or any performance, robustness, or gate metric",
+    "change or reinterpret the frozen economic or statistical contract",
+    "use the contaminated Phase 1 result for parameter selection",
+    "place orders, use credentials, wallets, capital, leverage, GPU, or alter mining"
+  ],
+  "formal_economic_attempt_authorized_by_this_artifact": false,
+  "holdout_access_permitted": false,
+  "capital_permitted": 0
+}

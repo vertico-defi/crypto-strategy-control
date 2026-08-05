@@ -280,6 +280,8 @@
   "phase_3_mean_reversion_mechanical_completion_round_1_validation_byte_sha256": "2e8a0dc9fa6ed688558d3ab340c40412d59b63457b3ccd2414eba1a244475cd2",
   "phase_3_mean_reversion_aborted_commit_binding_mismatch": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_PRODUCTION_INVOCATION_ABORTED_COMMIT_BINDING_MISMATCH.json",
   "phase_3_mean_reversion_aborted_commit_binding_mismatch_byte_sha256": "1c62642b6b219c8bf76c97731fb641a5a1d107dfc5fef9255e3a70316aac2e38",
+  "phase_3_mean_reversion_fidelity_audit_1_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_FIDELITY_AUDIT_1_AUTHORIZATION.json",
+  "phase_3_mean_reversion_fidelity_audit_1_authorization_byte_sha256": "7cc3ab3876d37ff23cf15cc25f3e5fd6357febf1713375b876a55b25b2674a2a",
   "route_4_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
   "route_4_authorization_byte_sha256": "c517a6979133676aa470ded8a33d1a71fc3bf07cf84d91d6e908cf8033e9e8ce",
   "route_4_authorization_sha256": "f71a9a59fb13f7eb6af1ed60bcc645e2d40a230040e2729c27003546cf5bcd66",
@@ -458,5 +460,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_3_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-05T14:17:24.591620184Z"
+  "updated_at_utc": "2026-08-05T14:22:09.954458920Z"
 }
