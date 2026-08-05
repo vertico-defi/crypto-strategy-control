@@ -468,3 +468,14 @@
 - Next action: await separate explicit human authorization for any Route 4 revision and any fifth direction review. Do not freeze or acquire.
 - Current blocker: `DIRECTION_REVISION_REQUIRES_HUMAN_AUTHORIZATION`.
 - Exact resume state: attempt 4 substantive and preserved; retry closed; no fifth review; implementation repair 1/3 used, acquisition attempts zero; all data/return/holdout counters zero; capital/GPU zero; mining unchanged.
+
+## 2026-08-05T11:40:03.017516404Z — final bounded Route 4 provenance correction in progress
+
+- Current checkpoint: versioned draft v2, reusable delta-review schema, immutable ATTEMPT/TERMINAL schema, deterministic validator, and no-data fixtures are implemented locally; not frozen.
+- What changed: only the authorized check-1, check-8, and check-9 provenance architecture. Draft and review schema are independently canonicalizable; exact binding is deferred to a separate bundle; every issued attempt and one terminal outcome per logical request are append-only.
+- What was verified: focused Route 4 tests, Ruff, and strict Mypy pass; deterministic fixtures cover response/no-response outcomes, retries, raw-only reconstruction, and fail-closed corruption cases. Repository-wide validation is being completed before the content checkpoint.
+- What failed: no substantive check has failed in this correction stage. The local project venv still lacks NumPy for repository-wide Mypy, so the existing preinstalled research interpreter is used exactly as prior validated checkpoints used it; no dependency was installed.
+- Current best defensible result: no data result and no economic result. These tests are not evidence of a valid data contract or trading profitability.
+- Next action: complete deterministic preflight, commit exact content, create the immutable pre-review bundle, then run the one authorized live read-only Sol/xhigh narrow delta review.
+- Current blocker: none.
+- Exact resume state: draft not frozen; acquisition/implementation prohibited; network/data/training/backtest/return/holdout counters zero; capital/GPU zero; mining unchanged.

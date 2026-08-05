@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "authorization_type": "final_bounded_route_4_provenance_architecture_correction_and_narrow_delta_review",
+  "authorized_at_utc": "2026-08-05T11:24:26.358230422Z",
+  "source_parent_commit": "c858e2c78df45ce67a6f8bf7ba4f7ec1f41826bb",
+  "historical_evidence_immutability": {
+    "direction_review_attempts_1_through_4_immutable": true,
+    "prior_drafts_and_schemas_immutable": true,
+    "prior_authorizations_results_validations_hashes_ledgers_state_transitions_and_commits_immutable": true
+  },
+  "authorized_corrections": [
+    "versioned_non_circular_provenance_binding_for_attempt_4_check_1",
+    "versioned_append_only_response_and_no_response_attempt_evidence_for_attempt_4_check_8",
+    "versioned_immutable_terminal_outcome_and_raw_only_reconstruction_for_attempt_4_check_9",
+    "route_specific_deterministic_semantic_preflight_and_fixtures",
+    "one_live_read_only_gpt_5_6_sol_xhigh_narrow_delta_review",
+    "deterministic_freeze_manifest_only_after_pass",
+    "clean_source_and_sanitized_portfolio_checkpoints"
+  ],
+  "review_policy": {
+    "substantive_delta_reviews_authorized": 1,
+    "identical_service_failure_retries_authorized": 1,
+    "retry_only_without_substantive_verdict": true,
+    "sixth_direction_review_authorized": false,
+    "substantive_revision_required_stops_route": true
+  },
+  "prohibited_actions": [
+    "network_or_archive_acquisition",
+    "binance_access",
+    "archive_listing_or_object_download",
+    "market_data_access",
+    "production_acquisition_engine_implementation",
+    "strategy_implementation",
+    "model_training",
+    "backtesting",
+    "returns_calculation",
+    "holdout_path_resolution_or_access",
+    "economic_rule_change",
+    "resource_limit_change",
+    "acceptance_threshold_change"
+  ],
+  "hard_stop_states": {
+    "substantive_failure": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
+    "service_failure_after_retry": "DIRECTION_REVIEW_PENDING_SERVICE_RECOVERY"
+  },
+  "starting_state": {
+    "economic_status": "NO_ECONOMIC_RESULT",
+    "data_status": "NO_DATA_RESULT",
+    "direction_design_status": "REVISION_REQUIRED_NOT_FROZEN",
+    "implementation_status": "IMPLEMENTATION_NOT_STARTED",
+    "acquisition_status": "ACQUISITION_NOT_STARTED",
+    "holdout_status": "HOLDOUT_SEALED_UNOPENED_UNREAD"
+  },
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0
+}

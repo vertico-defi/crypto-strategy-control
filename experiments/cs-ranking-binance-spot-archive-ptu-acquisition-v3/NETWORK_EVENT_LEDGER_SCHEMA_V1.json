@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:crypto-strategy-control:route4:network-event-ledger:1.0",
+  "title": "Route 4 append-only network event ledger",
+  "description": "A versioned union of immutable ATTEMPT and TERMINAL records. It is a no-data contract schema and authorizes no network action.",
+  "oneOf": [
+    {"$ref": "#/$defs/attempt"},
+    {"$ref": "#/$defs/terminal"}
+  ],
+  "$defs": {
+    "nullable_string": {"type": ["string", "null"]},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullable_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "transport_observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dns_resolution", "connection_establishment", "tls_handshake", "request_transmission", "response_wait"],
+      "properties": {
+        "dns_resolution": {"type": "string", "enum": ["SUCCEEDED", "FAILED", "UNKNOWN"]},
+        "connection_establishment": {"type": "string", "enum": ["SUCCEEDED", "FAILED", "UNKNOWN"]},
+        "tls_handshake": {"type": "string", "enum": ["SUCCEEDED", "FAILED", "UNKNOWN"]},
+        "request_transmission": {"type": "string", "enum": ["SUCCEEDED", "FAILED", "UNKNOWN"]},
+        "response_wait": {"type": "string", "enum": ["SUCCEEDED", "FAILED", "UNKNOWN"]}
+      }
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "experiment_id", "record_type", "attempt_id", "acquisition_run_id", "logical_request_id",
+        "pagination_parent_request_id", "deterministic_request_identity", "request_kind", "request_url", "object_key",
+        "method", "attempt_ordinal", "prior_attempt_id", "started_at_utc", "ended_at_utc", "configured_timeout_seconds",
+        "response_received", "http_status", "final_url", "response_headers", "body_byte_count", "response_body_sha256",
+        "retained_blob_reference", "observable_outcome", "observable_exception_category", "transport_observations",
+        "retryable_under_frozen_policy", "next_action", "evidence_references", "canonical_record_sha256"
+      ],
+      "properties": {
+        "schema_version": {"type": "string", "const": "1.0"},
+        "experiment_id": {"type": "string", "const": "cs-ranking-binance-spot-archive-ptu-acquisition-v3"},
+        "record_type": {"type": "string", "const": "ATTEMPT"},
+        "attempt_id": {"$ref": "#/$defs/sha256"},
+        "acquisition_run_id": {"$ref": "#/$defs/sha256"},
+        "logical_request_id": {"$ref": "#/$defs/sha256"},
+        "pagination_parent_request_id": {"$ref": "#/$defs/nullable_sha256"},
+        "deterministic_request_identity": {"$ref": "#/$defs/sha256"},
+        "request_kind": {"type": "string", "enum": ["root_listing", "development_month_listing", "zip_object", "checksum_object"]},
+        "request_url": {"type": "string"},
+        "object_key": {"$ref": "#/$defs/nullable_string"},
+        "method": {"type": "string", "const": "GET"},
+        "attempt_ordinal": {"type": "integer", "minimum": 1, "maximum": 3},
+        "prior_attempt_id": {"$ref": "#/$defs/nullable_sha256"},
+        "started_at_utc": {"type": "string"},
+        "ended_at_utc": {"type": "string"},
+        "configured_timeout_seconds": {"type": "integer", "minimum": 1},
+        "response_received": {"type": "boolean"},
+        "http_status": {"type": ["integer", "null"]},
+        "final_url": {"$ref": "#/$defs/nullable_string"},
+        "response_headers": {"type": ["object", "null"]},
+        "body_byte_count": {"type": ["integer", "null"], "minimum": 0},
+        "response_body_sha256": {"$ref": "#/$defs/nullable_sha256"},
+        "retained_blob_reference": {"$ref": "#/$defs/nullable_string"},
+        "observable_outcome": {"type": "string", "enum": ["SUCCESS_HTTP", "HTTP_ERROR_RESPONSE", "TIMEOUT_NO_RESPONSE", "DNS_FAILURE", "CONNECTION_ESTABLISHMENT_FAILURE", "TLS_FAILURE", "CONNECTION_RESET_BEFORE_RESPONSE", "UNKNOWN_TRANSPORT_FAILURE"]},
+        "observable_exception_category": {"$ref": "#/$defs/nullable_string"},
+        "transport_observations": {"$ref": "#/$defs/transport_observations"},
+        "retryable_under_frozen_policy": {"type": "boolean"},
+        "next_action": {"type": "string", "enum": ["ACCEPT_RESPONSE", "RETRY", "TERMINATE_NONRETRYABLE", "TERMINATE_RETRIES_EXHAUSTED"]},
+        "evidence_references": {"type": "array", "items": {"type": "string"}},
+        "canonical_record_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "experiment_id", "record_type", "terminal_record_id", "acquisition_run_id", "logical_request_id",
+        "ordered_attempt_ids", "ordered_attempt_ids_sha256", "terminal_attempt_id", "terminal_state", "terminal_reason_code",
+        "terminal_at_utc", "frozen_decision_rule", "any_response_received", "bytes_obtained", "checksum_verification_occurred",
+        "parsing_occurred", "disposition", "retained_evidence_references", "evidence_hashes", "ledger_prefix_sha256",
+        "canonical_record_sha256"
+      ],
+      "properties": {
+        "schema_version": {"type": "string", "const": "1.0"},
+        "experiment_id": {"type": "string", "const": "cs-ranking-binance-spot-archive-ptu-acquisition-v3"},
+        "record_type": {"type": "string", "const": "TERMINAL"},
+        "terminal_record_id": {"$ref": "#/$defs/sha256"},
+        "acquisition_run_id": {"$ref": "#/$defs/sha256"},
+        "logical_request_id": {"$ref": "#/$defs/sha256"},
+        "ordered_attempt_ids": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"$ref": "#/$defs/sha256"}},
+        "ordered_attempt_ids_sha256": {"$ref": "#/$defs/sha256"},
+        "terminal_attempt_id": {"$ref": "#/$defs/sha256"},
+        "terminal_state": {"type": "string", "enum": ["SUCCEEDED", "NONRETRYABLE_FAILED", "RETRIES_EXHAUSTED"]},
+        "terminal_reason_code": {"type": "string"},
+        "terminal_at_utc": {"type": "string"},
+        "frozen_decision_rule": {"type": "string", "const": "route4_retry_and_terminal_policy_v1"},
+        "any_response_received": {"type": "boolean"},
+        "bytes_obtained": {"type": "boolean"},
+        "checksum_verification_occurred": {"type": "boolean"},
+        "parsing_occurred": {"type": "boolean"},
+        "disposition": {"type": "string", "enum": ["ACCEPTED", "EXCLUDED", "QUARANTINED", "UNAVAILABLE", "FAILED"]},
+        "retained_evidence_references": {"type": "array", "items": {"type": "string"}},
+        "evidence_hashes": {"type": "array", "items": {"$ref": "#/$defs/sha256"}},
+        "ledger_prefix_sha256": {"$ref": "#/$defs/sha256"},
+        "canonical_record_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

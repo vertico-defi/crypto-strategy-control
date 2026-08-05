@@ -1,0 +1,105 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "review_kind",
+    "verdict",
+    "source_commit",
+    "source_content_commit",
+    "pre_review_bundle_sha256",
+    "draft_byte_sha256",
+    "draft_canonical_sha256",
+    "output_schema_byte_sha256",
+    "output_schema_canonical_sha256",
+    "scope",
+    "delta_checks",
+    "regression_checks",
+    "findings",
+    "required_revisions",
+    "limitations",
+    "reviewed_content_unchanged",
+    "non_circular_binding_passed",
+    "raw_only_reconstruction_passed",
+    "previous_sixteen_checks_unaltered",
+    "network_accessed",
+    "market_data_accessed",
+    "model_training_performed",
+    "backtest_performed",
+    "strategy_returns_calculated",
+    "holdout_accessed",
+    "performance_claim_made",
+    "implementation_authorized",
+    "acquisition_authorized"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "enum": ["2.0"]},
+    "experiment_id": {"type": "string", "enum": ["cs-ranking-binance-spot-archive-ptu-acquisition-v3"]},
+    "review_kind": {"type": "string", "enum": ["FINAL_NARROW_PROVENANCE_ARCHITECTURE_DELTA_REVIEW"]},
+    "verdict": {"type": "string", "enum": ["PASS", "REVISION_REQUIRED", "REVIEW_INCONCLUSIVE"]},
+    "source_commit": {"type": "string"},
+    "source_content_commit": {"type": "string"},
+    "pre_review_bundle_sha256": {"type": "string"},
+    "draft_byte_sha256": {"type": "string"},
+    "draft_canonical_sha256": {"type": "string"},
+    "output_schema_byte_sha256": {"type": "string"},
+    "output_schema_canonical_sha256": {"type": "string"},
+    "scope": {"type": "string"},
+    "delta_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check", "status", "finding"],
+        "properties": {
+          "check": {"type": "integer", "enum": [1, 8, 9]},
+          "status": {"type": "string", "enum": ["PASS", "FAIL", "LIMITATION"]},
+          "finding": {"type": "string"}
+        }
+      }
+    },
+    "regression_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check", "status", "finding"],
+        "properties": {
+          "check": {"type": "integer"},
+          "status": {"type": "string", "enum": ["UNCHANGED", "STRENGTHENED", "INVALIDATED"]},
+          "finding": {"type": "string"}
+        }
+      }
+    },
+    "findings": {"type": "array", "items": {"type": "string"}},
+    "required_revisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["category", "problem", "required_change", "scope_effect"],
+        "properties": {
+          "category": {"type": "string", "enum": ["local_provenance_failure", "schema_failure", "reconstructability_failure", "new_nonlocal_methodological_defect"]},
+          "problem": {"type": "string"},
+          "required_change": {"type": "string"},
+          "scope_effect": {"type": "string"}
+        }
+      }
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "reviewed_content_unchanged": {"type": "boolean"},
+    "non_circular_binding_passed": {"type": "boolean"},
+    "raw_only_reconstruction_passed": {"type": "boolean"},
+    "previous_sixteen_checks_unaltered": {"type": "boolean"},
+    "network_accessed": {"type": "boolean", "enum": [false]},
+    "market_data_accessed": {"type": "boolean", "enum": [false]},
+    "model_training_performed": {"type": "boolean", "enum": [false]},
+    "backtest_performed": {"type": "boolean", "enum": [false]},
+    "strategy_returns_calculated": {"type": "boolean", "enum": [false]},
+    "holdout_accessed": {"type": "boolean", "enum": [false]},
+    "performance_claim_made": {"type": "boolean", "enum": [false]},
+    "implementation_authorized": {"type": "boolean", "enum": [false]},
+    "acquisition_authorized": {"type": "boolean", "enum": [false]}
+  }
+}

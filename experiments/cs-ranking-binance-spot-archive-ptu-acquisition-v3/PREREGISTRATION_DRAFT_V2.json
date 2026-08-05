@@ -1,0 +1,161 @@
+{
+  "schema_version": "2.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "status": "DRAFT_V2_PROVENANCE_CORRECTED_NOT_FROZEN_PENDING_NARROW_DELTA_REVIEW",
+  "artifact_role": "INDEPENDENTLY_CANONICALIZABLE_VERSIONED_PREREGISTRATION_CONTENT",
+  "authorization": "FINAL_PROVENANCE_ARCHITECTURE_CORRECTION_AUTHORIZATION.json",
+  "predecessor": {
+    "path": "PREREGISTRATION_DRAFT.json",
+    "byte_sha256": "756f0be8111f93062bb033b3bbeeeba14ab556a44f530724215f26dbfd6c5774",
+    "canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e"
+  },
+  "canonicalization_specification": {
+    "name": "route4_canonical_json_v1",
+    "algorithm": "Parse exactly one JSON value; serialize UTF-8 with recursively sorted object keys, compact separators comma and colon, ensure_ascii false, allow_nan false, and no terminal newline; hash the resulting bytes with SHA-256 lowercase hexadecimal.",
+    "byte_hash": "SHA-256 of the exact tracked file bytes without transformation."
+  },
+  "resolution_contract": {
+    "algorithm": "Resolve predecessor JSON, independently verify both predecessor hashes, then apply operations in exact array order using RFC 6901 JSON Pointer decoding and only add, remove, or replace. Do not mutate the predecessor artifact.",
+    "closed_operation_paths": true,
+    "no_reciprocal_content_hashes": true,
+    "output_schema_hash_embedded": false,
+    "binding_rule": "This content artifact does not bind a review output schema. The deterministic pre-review bundle binds independently canonicalized content artifacts after the content commit exists."
+  },
+  "operations": [
+    {
+      "op": "replace",
+      "path": "/status",
+      "value": "DRAFT_V2_PROVENANCE_CORRECTED_NOT_FROZEN_PENDING_NARROW_DELTA_REVIEW"
+    },
+    {
+      "op": "replace",
+      "path": "/raw_evidence_retention_contract/write_protocol",
+      "value": "For every issued request attempt, durably append and fsync exactly one canonical ATTEMPT record, including response_received=false attempts, before any retry or terminal decision. For response bytes, stream to a same-filesystem temporary file, enforce the response-size ceiling while hashing, fsync, verify byte count and SHA-256, atomically rename to the content-addressed path, and fsync the parent directory before the ATTEMPT record may reference it. After the final disposition is known, append and fsync exactly one TERMINAL record. Never mark a logical request complete before all referenced content, its ordered attempts, and its terminal record are durable."
+    },
+    {
+      "op": "replace",
+      "path": "/raw_evidence_retention_contract/logical_request_identity_contract",
+      "value": {
+        "deterministic_request_identity": "Lowercase SHA-256 of canonical compact JSON [schema_version,experiment_id,request_kind,method,canonical_request_url,object_key]. schema_version is 1.0, experiment_id is exact, method is GET, canonical_request_url contains the exact frozen serialized listing query or exact object-key path, and object_key is exact or null.",
+        "acquisition_run_id": "A lowercase SHA-256 identity declared once before a separately authorized acquisition starts and retained unchanged across every resume of that run.",
+        "logical_request_id": "Lowercase SHA-256 of canonical compact JSON [experiment_id,acquisition_run_id,deterministic_request_identity]. All attempts for that logical request share this identity.",
+        "attempt_id": "Lowercase SHA-256 of canonical compact JSON [experiment_id,acquisition_run_id,logical_request_id,attempt_ordinal], where attempt_ordinal is 1, 2, or 3.",
+        "pagination_lineage": "pagination_parent_request_id is null for a chain's first page and otherwise the exact logical_request_id of the immediately preceding retained listing page.",
+        "retry_lineage": "prior_attempt_id is null for attempt 1 and otherwise the exact attempt_id for attempt_ordinal minus one of the same logical_request_id. Attempts are strictly monotonic and may not branch, skip, overwrite, deduplicate, or reuse an ordinal.",
+        "terminal_outcome": "Exactly one append-only TERMINAL record follows the final ATTEMPT for every attempted logical request and binds its ordered attempt IDs, final decision, evidence, and ledger prefix. Prior attempts remain immutable and no-response failures remain distinct from HTTP responses.",
+        "idempotent_completion": "A logical request is reusable only when raw-ledger reconstruction validates its exact ATTEMPT sequence, unique TERMINAL record, ledger prefix, and every referenced retained blob byte count and SHA-256. ACQUISITION_STATE.json is a nonauthoritative derived cache and cannot establish completion. Otherwise fail closed."
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/raw_evidence_retention_contract/raw_evidence_index_record_schema"
+    },
+    {
+      "op": "add",
+      "path": "/raw_evidence_retention_contract/network_event_ledger_contract",
+      "value": {
+        "schema_path": "NETWORK_EVENT_LEDGER_SCHEMA_V1.json",
+        "record_types": ["ATTEMPT", "TERMINAL"],
+        "authoritative_source": "The append-only ordered network-event ledger and its retained content-addressed blobs are the sole authority for issued-attempt history and terminal outcomes.",
+        "attempt_rule": "Every issued attempt produces one distinct immutable ATTEMPT record. response_received=false requires every response-only field to be explicit JSON null. Observable transport stages are SUCCEEDED, FAILED, or UNKNOWN; UNKNOWN is retained whenever the wrapper did not observe the fact.",
+        "retry_rule": "The frozen maximum remains three attempts. HTTP 408, 429, 500, 502, 503, and 504 and observed timeout, DNS failure, TLS failure, or connection reset before a response are retryable. Other HTTP errors, connection-establishment failure without a frozen temporary classification, and unknown transport failure terminate nonretryably. No attempt is deleted or overwritten.",
+        "terminal_rule": "Exactly one immutable TERMINAL record is valid for every attempted logical request after its final disposition. It binds the ordered attempts, terminal attempt, decision rule, response/byte/checksum/parse facts, disposition, evidence, and ledger prefix.",
+        "raw_only_reconstruction": "Ignoring or deleting ACQUISITION_STATE.json must not affect exact reconstruction. Missing, truncated, reordered, mutated, duplicated, unterminated, multiply terminated, or blob-inconsistent evidence fails closed.",
+        "mutable_state_rule": "ACQUISITION_STATE.json may exist only as a derived resumability cache regenerated from validated immutable evidence. It is never authoritative."
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/production_artifact_contract/local_untracked_artifacts/RAW_EVIDENCE_INDEX.jsonl"
+    },
+    {
+      "op": "add",
+      "path": "/production_artifact_contract/local_untracked_artifacts/NETWORK_EVENT_LEDGER_V1.jsonl",
+      "value": "Append-only canonical ATTEMPT and TERMINAL records using NETWORK_EVENT_LEDGER_SCHEMA_V1.json. Every issued attempt is retained; terminal outcomes are reconstructable without mutable state."
+    },
+    {
+      "op": "replace",
+      "path": "/production_artifact_contract/local_untracked_artifacts/ACQUISITION_STATE.json",
+      "value": "Optional atomic derived cache only. Resume first validates the immutable ledger prefix, unique terminal records, attempt lineage, and every referenced blob, reconstructs state from those records, then requires the cache to match exactly or regenerates it. The cache is never terminal-outcome authority."
+    },
+    {
+      "op": "replace",
+      "path": "/production_artifact_contract/cross_artifact_invariants/2",
+      "value": "logical_requests_scheduled equals logical_requests_succeeded plus logical_requests_nonretryable_failed plus logical_requests_retries_exhausted plus logical_requests_not_reached; http_attempts_total equals the exact number of immutable ATTEMPT records, including response_received=false attempts, and is never substituted for logical requests"
+    },
+    {
+      "op": "replace",
+      "path": "/production_artifact_contract/cross_artifact_invariants/3",
+      "value": "every attempted logical request has its complete ordered immutable ATTEMPT sequence and exactly one immutable TERMINAL record; every response-bearing listing attempt additionally binds its retained raw bytes and decoded record to the same raw hash"
+    },
+    {
+      "op": "replace",
+      "path": "/real_production_path_requirements/independent_reconstruction",
+      "value": "A separate deterministic command reads only the immutable NETWORK_EVENT_LEDGER_V1.jsonl and retained content-addressed blobs, ignores or deletes mutable acquisition state, validates record and prefix hashes, reconstructs every attempt order and unique terminal outcome, re-decodes every response-bearing listing, re-verifies every object pair and row hash, rebuilds every gap, episode, count, and sanitized artifact from an empty output directory, and requires exact declared terminal states and byte-identical canonical outputs."
+    },
+    {
+      "op": "replace",
+      "path": "/independent_audit_contract/required_input_bindings/3",
+      "value": "immutable network-event-ledger schema hash, exact ledger byte hash, validated ledger prefix hash, unique terminal records, and retained blob hashes"
+    },
+    {
+      "op": "add",
+      "path": "/required_tests_before_production_acquisition/41",
+      "value": "response_and_no_response_attempt_union_serialization"
+    },
+    {
+      "op": "add",
+      "path": "/required_tests_before_production_acquisition/42",
+      "value": "issued_attempt_count_order_lineage_and_duplicate_rejection"
+    },
+    {
+      "op": "add",
+      "path": "/required_tests_before_production_acquisition/43",
+      "value": "unique_terminal_outcome_and_missing_attempt_evidence_rejection"
+    },
+    {
+      "op": "add",
+      "path": "/required_tests_before_production_acquisition/44",
+      "value": "raw_only_terminal_reconstruction_without_mutable_acquisition_state"
+    },
+    {
+      "op": "add",
+      "path": "/required_tests_before_production_acquisition/45",
+      "value": "ledger_truncation_reordering_and_existing_record_mutation_rejection"
+    },
+    {
+      "op": "add",
+      "path": "/provenance_architecture_v2",
+      "value": {
+        "sequence": [
+          "PHASE_2_AUTHORIZATION.json",
+          "ROUTE_AUTHORIZATION.json",
+          "PREREGISTRATION_DRAFT_V2.json",
+          "DIRECTION_DELTA_REVIEW_OUTPUT_SCHEMA_V2.json",
+          "FINAL_PROVENANCE_PREFLIGHT.json",
+          "FINAL_PROVENANCE_PRE_REVIEW_BUNDLE.json",
+          "FINAL_NARROW_DELTA_REVIEW.json",
+          "FINAL_PROVENANCE_FREEZE_MANIFEST.json"
+        ],
+        "content_rule": "The draft and review output-schema files are independently canonicalizable content artifacts and contain no reciprocal content hashes.",
+        "pre_review_rule": "The deterministic pre-review bundle binds exact draft and schema byte and canonical hashes, canonicalization specification, preflight result, source content commit, predecessor evidence, scope, and timestamp. Any later content change invalidates review authorization with PRE_REVIEW_CONTENT_MUTATION.",
+        "freeze_rule": "Only after a substantive PASS, a deterministic immutable freeze manifest binds the unchanged reviewed draft and schema hashes, pre-review bundle, review-result artifact, validation report, source content commit, freeze authority, timestamp, and predecessor chain.",
+        "superseded_compatibility_rule": "No current output schema or freeze artifact may claim compatibility with a superseded draft or schema. Historical predecessor hashes may appear only as labeled immutable lineage evidence."
+      }
+    }
+  ],
+  "unchanged_contract": {
+    "methodological_scope": "Every predecessor clause not targeted by the closed operations remains byte-derived from the verified predecessor and semantically unchanged.",
+    "other_attempt_4_checks": "Checks 2-7 and 10-18 remain unchanged or are strengthened only by fail-closed provenance evidence.",
+    "economic_rules_changed": false,
+    "statistical_rules_changed": false,
+    "universe_methodology_changed": false,
+    "causality_rules_changed": false,
+    "resource_limits_changed": false,
+    "acceptance_thresholds_changed": false,
+    "acquisition_authorized": false,
+    "implementation_authorized": false,
+    "market_data_authorized": false,
+    "holdout_access_authorized": false
+  }
+}
