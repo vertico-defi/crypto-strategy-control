@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "phase-3-successor-completion-authority-v1",
+  "authorized_at_utc": "2026-08-05T20:59:29.810Z",
+  "phase": 3,
+  "program_state": "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO",
+  "objective": "ONE_CLEAN_DEVELOPMENT_ECONOMIC_RESULT",
+  "source_parent_commit": "fa227d7123623c673b9168d3b8dd694423dc5edb",
+  "predecessors": {
+    "phase_3_authorization": {
+      "path": "PHASE_3_AUTHORIZATION.json",
+      "byte_sha256": "1df130cad8a7f3834e8355e7b8435ecee9eaefb03d5a7e8a291a4f0addbbc7cf"
+    },
+    "mean_reversion_v2_terminal": {
+      "path": "experiments/btc-eth-long-only-mean-reversion-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+      "byte_sha256": "49aa1118e79d3916c3744ea3bc3df403e17c398d2140f3c0ca2a017b00bf4633",
+      "contract_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1"
+    },
+    "relative_value_v2_terminal": {
+      "path": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_TERMINAL_IMPLEMENTATION_RESULT.json",
+      "byte_sha256": "bea0435d41b9129211db8063f1eb3bfdc4bb549f30d3fbc8dc47a666a849c2ae",
+      "contract_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9"
+    }
+  },
+  "successors": {
+    "btc-eth-long-only-mean-reversion-v3-completion": {
+      "state": "READY",
+      "priority": 1,
+      "predecessor": "btc-eth-long-only-mean-reversion-v2"
+    },
+    "btc-eth-relative-value-rotation-v3-completion": {
+      "state": "BLOCKED_ON_MEAN_REVERSION_V3_TERMINAL",
+      "priority": 2,
+      "predecessor": "btc-eth-relative-value-rotation-v2",
+      "unblock_on": ["NO_GO", "IMPLEMENTATION_INCONCLUSIVE", "NONCANDIDATE_TERMINAL"]
+    }
+  },
+  "budgets": {
+    "production_completion_preflights": 1,
+    "mechanical_completion_rounds": 1,
+    "formal_development_evaluations": 1,
+    "substantive_sol_xhigh_audits": 1,
+    "identical_service_failure_audit_retries": 1
+  },
+  "frozen_economics_unchanged": true,
+  "development_data_only": true,
+  "cpu_only": true,
+  "holdout": "SEALED_UNOPENED_UNREAD",
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "route_4": "DEFERRED_DIRECTION_DESIGN_INCONCLUSIVE",
+  "funding_wait": {
+    "state": "WAITING_EXTERNAL",
+    "next_eligible_timestamp": "2026-08-07T14:00:10Z",
+    "blocks_ready_tasks": false,
+    "action": "read_only_day_7_funding_availability_checkpoint"
+  }
+}

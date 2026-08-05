@@ -114,3 +114,9 @@
 - Source evidence commit: `ce2434269ee42c63d56814cd4d21dcc6e20d9ece`; sanitized source-snapshot commit: `8cc68881615c0f736bcad86eed47b205b94d9765`; portfolio commit: `3ed2dc629ed88188583ee80edb0f69c21e5be7ab`.
 - Publication verification: fail-closed publication scan passed, all five portfolio tests passed, syntax/type checks and static build passed with `STORE_LIVE=false`, validation run `31025754501` succeeded, Pages run `31025754421` succeeded, and the deployed HTTP-200 page was checked for the exact Phase 3 status, source commit, observation count, no-result boundary, sealed holdouts, and capital-zero statement.
 - Interpretation boundary: this publication records collection health and two implementation-inconclusive routes; it makes no strategy-performance or profitability claim.
+
+## 2026-08-05 — successor completion authority
+
+- Created `PHASE_3_SUCCESSOR_AUTHORIZATION.json` binding the unchanged v2 terminal evidence and frozen contract hashes to the new v3 completion IDs. The mean-reversion successor is READY; relative-value is blocked only on a mean-reversion v3 terminal noncandidate result.
+- Created `PHASE_3_WORK_QUEUE.json` and deterministic queue selection tests. A future external funding wait no longer masks READY fixed-pair work; exact timestamp eligibility is tested at one second before and at `2026-08-07T14:00:10Z`.
+- Updated current state to select the mean-reversion v3 completion preflight. No economic evaluation, network call, market-data access, holdout access, model training, or return calculation occurred.

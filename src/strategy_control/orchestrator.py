@@ -69,6 +69,8 @@ from strategy_control.volatility_parity_evaluator import (
 from strategy_control.volatility_parity_pipeline import (
     verify_frozen_contract as verify_volatility_parity_frozen_contract,
 )
+from strategy_control.work_queue import load_queue as load_phase_3_queue
+from strategy_control.work_queue import select_task as select_phase_3_queue_task
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "CURRENT_STATE.json"
@@ -279,6 +281,20 @@ def select_task(state: dict[str, Any] | None = None) -> dict[str, Any]:
     elif current.get("program_state") == "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO":
         active_phase = 3
     if active_phase is not None:
+        queue_reference = current.get("phase_3_work_queue")
+        if active_phase == 3 and isinstance(queue_reference, str):
+            queued = select_phase_3_queue_task(
+                load_phase_3_queue(ROOT / queue_reference)
+            )
+            if queued.get("task_id"):
+                return {
+                    "task": queued["task_id"],
+                    "experiment_id": queued.get("experiment_id"),
+                    "phase": 3,
+                    "queue_state": queued.get("state"),
+                    "next_eligible_timestamp": queued.get("next_eligible_timestamp"),
+                    "information_value": "Select the highest-priority eligible Phase 3 task.",
+                }
         return {
             "task": current.get("next_task", f"PHASE_{active_phase}_TASK_NOT_REGISTERED"),
             "experiment_id": current.get("current_experiment_id"),

@@ -116,9 +116,9 @@
     "scheduled_enabled": false,
     "store_live": false
   },
-  "current_experiment_id": "prospective-funding-basis-observation",
+  "current_experiment_id": "btc-eth-long-only-mean-reversion-v3-completion",
   "data_contract_status": "WORKSTREAM_D_FROZEN_PROSPECTIVE_COLLECTION_ACTIVE / LATEST_CLOSED_WINDOW_COMPLETE / STRATEGY_DATA_CONTRACT_NOT_YET_COMPLETE / HOLDOUT_SEALED",
-  "development_status": "FUNDING_BASIS_OBSERVATION_ACTIVE / PROFITABILITY_NOT_TESTED / ONE_CLEAN_DEVELOPMENT_RESULT_NOT_REACHED",
+  "development_status": "SUCCESSOR_MEAN_REVERSION_V3_READY / PROFITABILITY_NOT_TESTED / ONE_CLEAN_DEVELOPMENT_RESULT_NOT_REACHED",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -279,7 +279,7 @@
     "source_snapshot_commit": "8cc68881615c0f736bcad86eed47b205b94d9765",
     "store_live": false
   },
-  "next_task": "read_only_day_7_funding_availability_checkpoint_at_or_after_2026_08_07T14_00_10Z; no currently authorized route can produce a development economic result before then",
+  "next_task": "run_btc_eth_long_only_mean_reversion_v3_completion_preflight",
   "phase": 3,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -295,6 +295,10 @@
   "phase_3_authorization": "PHASE_3_AUTHORIZATION.json",
   "phase_3_authorization_byte_sha256": "1df130cad8a7f3834e8355e7b8435ecee9eaefb03d5a7e8a291a4f0addbbc7cf",
   "phase_3_authorization_sha256": "1b33cb1264f3a4023acd862b435650fe0c9856b8c16305bb13a3962693be4442",
+  "phase_3_successor_authorization": "PHASE_3_SUCCESSOR_AUTHORIZATION.json",
+  "phase_3_successor_authorization_byte_sha256": "9a3eaf104889e4749ce35067beb9ada5bd2b8dedf15e89c99d8d50e72b6187a7",
+  "phase_3_work_queue": "PHASE_3_WORK_QUEUE.json",
+  "phase_3_work_queue_byte_sha256": "8a308735cf12c26570d3290bf323017c405a5bc0c60c4e38e31a152e7938651d",
   "phase_3_strategy_registry": "STRATEGY_REGISTRY_PHASE_3.json",
   "phase_3_strategy_registry_byte_sha256": "caaa247b0a931a1ceb6747efa7ba5ec828f4ffb384e0fa605f3ca279e97fb51f",
   "phase_3_strategy_registry_sha256": "ee6e615d2c9ea357a3254bab99e9fa60498cb8383812126fa143f7497bdac340",
