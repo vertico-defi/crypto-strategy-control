@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "phase": 3,
+  "validated_at_utc": "2026-08-05T15:02:58.315678619Z",
+  "classification": "IMPLEMENTATION_INCONCLUSIVE",
+  "economic_classification": "NO_ECONOMIC_RESULT",
+  "mechanical_completion_round": 2,
+  "mechanical_completion_rounds_used": 2,
+  "mechanical_completion_rounds_remaining": 0,
+  "formal_economic_attempt_consumed": false,
+  "parent_result": "FAIL_CONTRACT_FIDELITY_AND_PRODUCTION_ENTRY_POINT",
+  "model_result": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_FORMAL_EVALUATOR_IMPLEMENTATION_MODEL_RESULT.json",
+  "model_output_files": {
+    "evaluator": "src/strategy_control/mean_reversion_v2_evaluator.py",
+    "formal_driver": "experiments/btc-eth-long-only-mean-reversion-v2/formal_development_evaluation.py",
+    "tests": "tests/test_mean_reversion_v2_evaluator.py"
+  },
+  "verified_failures": [
+    {
+      "id": "PRODUCTION_ENTRY_POINT_ABSENT",
+      "evidence": "formal_development_evaluation.main validates a bindings JSON and then unconditionally raises FormalEvaluationError; it cannot execute the verified 36-partition adapter or produce a complete formal artifact.",
+      "actual_strategy_result_possible": false
+    },
+    {
+      "id": "DELAYED_EXACT_FILL_LOOKUP_WRONG_VECTOR",
+      "evidence": "A focused synthetic delay=1 path deterministically raises MeanReversionV2Error: missing exact ordinary fill; forward scan prohibited. The evaluator applies a target due at the current base fill using the current identity's later delayed timestamp/prices.",
+      "actual_strategy_result_possible": false
+    },
+    {
+      "id": "STANDALONE_POSITION_SIZE_WRONG",
+      "evidence": "Standalone paths reuse Clock.actual values 0.0/0.5 without scaling the named asset to the frozen standalone zero-or-one target; the required asset sensitivity is not evaluated.",
+      "economic_rule_affected": "asset_standalone_net_return_each_gt"
+    },
+    {
+      "id": "SINGLE_ASSET_BUY_HOLD_WEIGHT_WRONG",
+      "evidence": "BTCUSDT and ETHUSDT buy-and-hold comparators are instantiated at 50% risky exposure and 50% cash rather than the named single-asset buy-and-hold exposure.",
+      "economic_rule_affected": "baseline comparison"
+    },
+    {
+      "id": "BUY_HOLD_REBALANCED_INSTEAD_OF_DRIFTED",
+      "evidence": "The comparator passes the same target weights at every synchronized fill to self_financing, mechanically rebalancing and charging turnover instead of buying once, drifting without rebalance, and liquidating terminally.",
+      "economic_rule_affected": "baseline comparison"
+    },
+    {
+      "id": "DSR_CURRENT_REGISTRY_USES_MEAN_RETURNS",
+      "evidence": "The seven current registry values are sum(path.returns)/len(path.returns), not the frozen nonannualized daily Sharpes on the seven-trial common panel.",
+      "economic_rule_affected": "deflated_sharpe_probability_gte"
+    },
+    {
+      "id": "REGIME_GATE_OMITS_COMPLETED_ENTRY_MINIMUM",
+      "evidence": "Regime eligibility checks only return-vector length >=45 and does not require at least five completed entries per regime; it also sums returns rather than computing the frozen compounded regime net result.",
+      "economic_rule_affected": "regime_gate"
+    },
+    {
+      "id": "CONCENTRATION_ATTRIBUTION_NOT_RECONSTRUCTED",
+      "evidence": "The evaluator assigns exactly one half of every portfolio return to each asset instead of using aggregate and standalone daily net currency PnL; the exceptional-trade evidence is not the frozen quantity.",
+      "economic_rule_affected": "exceptional_trade_gate"
+    },
+    {
+      "id": "STRICT_FOLD_PREFIX_NOT_PRODUCTION_DERIVED",
+      "evidence": "Formal fold paths filter already-derived full-boundary sessions and fills instead of constructing each fold from its own boundary-specific row index as required by the strict-prefix contract.",
+      "economic_rule_affected": "fold isolation and fold metrics"
+    },
+    {
+      "id": "INTEGRITY_EVIDENCE_HARDCODED",
+      "evidence": "input_identity_pass and strict_prefix_pass are supplied as literal true values; the frozen contract requires these claims to be derived from validated evidence.",
+      "economic_rule_affected": "no_material_leakage"
+    }
+  ],
+  "deterministic_validation": {
+    "focused_evaluator_and_production_tests": "PASS_18_BUT_INSUFFICIENT",
+    "targeted_delayed_path_diagnostic": "FAIL_MISSING_EXACT_ORDINARY_FILL_FORWARD_SCAN_PROHIBITED",
+    "formal_driver_unconditional_raise_count": 1,
+    "full_repository_tests_with_preinstalled_research_dependencies": "PASS_327",
+    "ruff": "PASS",
+    "strict_mypy_python_3_13": "PASS_32_SOURCE_FILES",
+    "compilation": "PASS",
+    "git_diff_check": "PASS",
+    "interpretation": "Passing tests and tooling do not establish contract fidelity or profitability; parent source inspection and focused diagnostics exposed uncovered defects."
+  },
+  "round_effect": "The round added a useful in-memory skeleton but did not create a valid production execution path and did not remove the blocker to one clean economic result.",
+  "why_no_further_route_1_repair": "Phase 3 authorized at most two pre-result mechanical completion rounds. Round 1 repaired production evidence serialization; round 2 produced the failed evaluator assembly above. The remaining changes are multiple nonlocal evaluator and production-path repairs, not parent test augmentation or an already-authorized post-result correction. No post-result correction is available because no complete result exists.",
+  "phase_3_route_disposition": "IMPLEMENTATION_INCONCLUSIVE",
+  "next_authorized_workstream": "btc-eth-relative-value-rotation-v2",
+  "aggregate_strategy_returns_calculated": false,
+  "performance_claim_made": false,
+  "market_data_accessed_during_round_2": false,
+  "holdout_path_resolved": false,
+  "holdout_parquet_footer_or_value_read": false,
+  "holdout_opened": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

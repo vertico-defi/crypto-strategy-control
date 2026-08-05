@@ -45,3 +45,14 @@
 - Next experiment step: run the frozen development-only economic evaluation, calculate every preregistered metric and stress without retuning, then obtain the required economic/fidelity audit.
 - Current blocker: none before the authorized formal development evaluation.
 - Exact resume state: completion rounds used 1/2; post-result corrections used 0/1; substantive audits used 1/2; formal economic attempts used 0; holdout remains sealed and unread.
+
+## 2026-08-05T15:02:58.315678619Z — Workstream A ends implementation-inconclusive; no economic result
+
+- Current checkpoint: the second and final pre-result mechanical completion round produced an evaluator skeleton, but parent contract validation failed before any formal development run.
+- Changed: added the live Terra/medium implementation, focused tests, an inert formal driver, and immutable invocation and parent-validation evidence. No frozen economic rule changed.
+- Verified: the model's 18 focused tests passed; all 327 repository tests, Ruff, strict Mypy across 32 source files, and compilation passed in the research environment. A parent delay-path diagnostic and source-level contract review then exposed ten uncovered production and fidelity defects.
+- Failed: the driver unconditionally raises after binding checks; delayed exact-fill lookup fails; standalone sizing and buy-and-hold baselines are wrong; DSR, regime, concentration, fold-prefix, and leakage evidence do not implement the frozen contract.
+- Best defensible result: `IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT`. This is not evidence that the strategy is unprofitable, and the formal economic attempt was not consumed.
+- Next experiment: `btc-eth-relative-value-rotation-v2`, which is scientifically independent and must use separate Phase 3 artifacts and contaminated-prior multiplicity accounting.
+- Current blocker: mean-reversion v2 exhausted both Phase 3 pre-result mechanical completion rounds; the remaining work is nonlocal evaluator and production-path repair. The post-result correction does not apply because no result exists.
+- Exact resume state: Workstream A is administratively terminal for Phase 3; activate Workstream B, inspect its current committed state, and run a representative real-data production preflight before consuming a Phase 3 completion round. Holdout remains sealed and unread.
