@@ -1,0 +1,34 @@
+{
+  "verified_at_utc": "2026-08-05T21:24:00Z",
+  "invocation_mode": "deterministic_local",
+  "read_only": true,
+  "funding_timer": {
+    "unit": "perp-carry-v2b-funding-availability.timer",
+    "load_state": "loaded",
+    "unit_file_state": "enabled",
+    "active_state": "active",
+    "sub_state": "waiting",
+    "next_elapse_local": "2026-08-05 23:14:00 CEST"
+  },
+  "day7_timer": {
+    "unit": "perp-carry-v2b-availability-day7.timer",
+    "load_state": "loaded",
+    "unit_file_state": "enabled",
+    "active_state": "active",
+    "sub_state": "waiting",
+    "next_elapse_local": "2026-08-07 16:00:10 CEST",
+    "next_eligible_utc": "2026-08-07T14:00:10Z"
+  },
+  "day7_service": {
+    "working_directory": "/home/vertico/perp-carry-lab-v2",
+    "configured_exec_start": "/home/vertico/perp-carry-lab/.venv/bin/python -m perp_carry_lab.v2b_availability_ops day7 --data-dir data --protocol config/perp-carry-v2b-availability.toml",
+    "configured_executable_exists": true,
+    "v2_executable_checked": "/home/vertico/perp-carry-lab-v2/.venv/bin/python",
+    "v2_executable_exists": false,
+    "path_status": "MISMATCH_RECORDED_NO_CORRECTION",
+    "reason": "The intended v2 executable is not present, so a deterministic replacement cannot be established unambiguously. Neither service was started."
+  },
+  "checkpoint_started": false,
+  "network_polled": false,
+  "market_data_accessed": false
+}

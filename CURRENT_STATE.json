@@ -303,6 +303,7 @@
   "phase_3_relative_value_v3_preflight": "experiments/btc-eth-relative-value-rotation-v3-completion/PHASE_3_SUCCESSOR_COMPLETION_PREFLIGHT.json",
   "phase_3_relative_value_v3_preflight_byte_sha256": "b3590c17959e226d098ea9ce5a30b0f7b20b43d14916498ac12cafc8a3158b3b",
   "phase_3_work_queue_byte_sha256": "1ee99dc7e662efc4d56443d0d99f0ba843ba43f63354d284d7f611dd2116ea4e",
+  "phase_3_funding_timer_verification": "PHASE_3_FUNDING_TIMER_VERIFICATION.json",
   "phase_3_strategy_registry": "STRATEGY_REGISTRY_PHASE_3.json",
   "phase_3_strategy_registry_byte_sha256": "caaa247b0a931a1ceb6747efa7ba5ec828f4ffb384e0fa605f3ca279e97fb51f",
   "phase_3_strategy_registry_sha256": "ee6e615d2c9ea357a3254bab99e9fa60498cb8383812126fa143f7497bdac340",
