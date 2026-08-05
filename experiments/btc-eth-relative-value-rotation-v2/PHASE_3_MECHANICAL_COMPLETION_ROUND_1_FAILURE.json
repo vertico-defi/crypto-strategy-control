@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 3,
+  "validated_at_utc": "2026-08-05T15:45:33.417079Z",
+  "classification": "IMPLEMENTATION_BLOCKED",
+  "economic_classification": "NO_ECONOMIC_RESULT",
+  "mechanical_completion_round": 1,
+  "mechanical_completion_rounds_used": 1,
+  "mechanical_completion_rounds_remaining": 1,
+  "formal_economic_attempt_consumed": false,
+  "parent_result": "FAIL_PRODUCTION_IDENTITY_RETENTION_AND_LINEAR_TERMINAL_SELECTION",
+  "model_result": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_1_MODEL_RESULT.json",
+  "parent_validation": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_1_PARENT_VALIDATION.json",
+  "verified_passes": [
+    "The adapter constructed 549 explicit session bindings and 356 causally eligible execution bindings from all 36 allowlisted development partitions.",
+    "All 356 selected base vectors and available delayed vectors retained the exact real FillIdentity row identities.",
+    "Exactly one terminal binding retained the actual final canonical base-row identity.",
+    "The bisect-backed BoundaryIndex focused tests and exact no-forward lookup fixtures passed.",
+    "The 45 focused tests, full repository suite, Ruff, strict Mypy across 32 source files, and compilation passed."
+  ],
+  "verified_failures": [
+    {
+      "id": "PRODUCTION_OBSERVATION_IDENTITIES_SYNTHESIZED",
+      "evidence": "On the 36-partition production path, all 1,094 per-asset close-observation identity comparisons mismatched. build_production_bindings accepts only JointSession and FillIdentity, while JointSession retains prices and a session-level hash but not the two exact source close-row identities. The adapter therefore writes session_hash:asset synthetic identities instead of the retained MinuteRow identities required by the frozen trace contract.",
+      "measured_count": 1094,
+      "required_mechanical_change": "Pass the immutable boundary-specific ProductionRowIndex into the adapter and bind each complete session observation to the exact retained close row at session plus one day."
+    },
+    {
+      "id": "TERMINAL_SELECTION_REPEATS_FULL_FILL_SCAN",
+      "evidence": "The real-data CountingSequence measured 127,092 fill elements iterated by build_production_bindings. The exact code computes max(base_timestamp for value in fills) inside the 549-session output loop. A construction pass plus one terminal selection requires no more than the measured linear upper bound of 905 elements for 549 sessions and 356 fills.",
+      "measured_fill_elements_iterated": 127092,
+      "linear_upper_bound": 905,
+      "required_mechanical_change": "Validate the ordered fill sequence once, select the terminal FillIdentity once, and compare each binding to that immutable identity without reconstructing the fill sequence."
+    }
+  ],
+  "additional_source_findings_for_final_round": [
+    "The adapter must receive the boundary-specific ProductionRowIndex because its current JointSession/FillIdentity inputs cannot prove exact observation identities.",
+    "The final round must retain the adapter's demonstrated exact base and delayed fill identity joins while removing the repeated terminal scan.",
+    "Before simulator use, the final round must validate positive close values and complete named mappings fail closed rather than permitting later arithmetic exceptions.",
+    "Gap-while-exposed behavior still requires explicit priced-liquidation evidence or a DATA_INTEGRITY failure; passing generic tests does not establish that production transition."
+  ],
+  "deterministic_validation": {
+    "focused_relative_value_tests": "PASS_45_BUT_INSUFFICIENT",
+    "full_repository_tests": "PASS_332_BUT_INSUFFICIENT",
+    "ruff": "PASS",
+    "strict_mypy_python_3_13": "PASS_32_SOURCE_FILES",
+    "compilation": "PASS",
+    "real_36_partition_parent_validation": "FAIL",
+    "real_parent_validation_wall_seconds_from_stage_log": 212.81319135101512,
+    "interpretation": "Generic tests did not compare adapter observations to retained production row identities and did not instrument iteration of the real fill sequence."
+  },
+  "round_effect": "Round 1 removed positional fill pairing and the per-lookup all-timestamp scan, but left the route blocked because it synthesized every production observation identity and retained a rows-times-sessions terminal scan.",
+  "why_another_round_is_required": "The frozen contract requires full per-asset observation identities and elimination of repeated terminal-fill scans before simulator or economic interpretation. Phase 3 authorizes one final pre-result mechanical completion round for this independent workstream.",
+  "next_permitted_action": "Authorize mechanical completion round 2 limited to exact boundary-index observation identity binding, one-pass terminal selection, remaining fail-closed production transitions, and the production/evaluator path needed for pre-economic fidelity validation.",
+  "aggregate_strategy_returns_calculated": false,
+  "performance_claim_made": false,
+  "market_data_accessed": true,
+  "market_data_scope": "36 existing hash-allowlisted development partitions only, through the existing verified production loader",
+  "strategy_simulator_invoked": false,
+  "holdout_path_resolved": false,
+  "holdout_parquet_footer_or_value_read": false,
+  "holdout_opened": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

@@ -41,11 +41,11 @@
       "expected_turnover": "not yet validly measured",
       "baseline_cost_model": "frozen successor preregistration required",
       "stressed_cost_model": "doubled-cost stress required",
-      "development_status": "PHASE_3_LOCALIZED_PRODUCTION_ADAPTER_AND_SESSION_MAPPING_BLOCKER; REPAIR_ROUND_1_PENDING",
+      "development_status": "PHASE_3_MECHANICAL_COMPLETION_ROUND_1_FAILED_PARENT_PRODUCTION_VALIDATION; IMPLEMENTATION_BLOCKED; NO_ECONOMIC_RESULT; FINAL_ROUND_AVAILABLE",
       "audit_status": "PHASE_3_PRE_ECONOMIC_FIDELITY_NOT_YET_ELIGIBLE",
       "prospective_status": "NOT_STARTED",
       "capital_eligibility": false,
-      "current_health_state": "NOT_ELIGIBLE_NO_CLEAN_DEVELOPMENT_RESULT",
+      "current_health_state": "NOT_ELIGIBLE_PRODUCTION_IDENTITIES_AND_TERMINAL_COMPLEXITY_BLOCKED",
       "retirement_rule": "Retire or suspend on a frozen no-go, prospective degradation gate, data-contract failure, or irreparable fidelity defect."
     },
     {

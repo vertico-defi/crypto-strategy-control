@@ -67,3 +67,14 @@
 - Next experiment step: authorize completion round 1 narrowly for a boundary-bound production adapter, explicit signal-session-to-exact-fill mapping, fail-closed gap/recovery state, and representative identity reconciliation.
 - Current blocker: missing production session/fill binding and repeated full timestamp scans.
 - Exact resume state: Workstream B completion rounds used 0/2; post-result corrections used 0/1; substantive audits used 0/2; formal economic attempts used 0; holdout remains unresolved, sealed, and unread.
+
+## 2026-08-05T15:45:33.417079Z — Workstream B round 1 measured blocker
+
+- Current checkpoint: completion round 1/2 is consumed; the final pre-result completion round remains available.
+- Changed: the live Terra/medium patch added explicit session/fill bindings and direct exact-vector lookup without changing frozen strategy economics.
+- Verified: all 36 development partitions; 549 sessions; 356 eligible bindings; exact base, delayed, and terminal fill row identities; 45 focused tests; the full repository suite; Ruff; strict Mypy; and compilation.
+- Failed: all 1,094 actual close-observation identities were replaced by synthesized identifiers. Terminal construction iterated 127,092 fill elements versus a 905-element linear bound.
+- Best defensible result: `IMPLEMENTATION_BLOCKED / NO_ECONOMIC_RESULT`. No simulator, aggregate return, or performance metric was run.
+- Next experiment step: use the final bounded round to pass the immutable boundary index into the adapter, preserve exact close-row identities, select terminal once, complete fail-closed production transitions, and rerun production validation before any fidelity audit.
+- Current blocker: production observation identity retention and repeated terminal-fill scanning.
+- Exact resume state: source parent `6da4e00...`; round-1 failure artifact `65685f67...`; rounds used 1/2; post-result corrections used 0/1; substantive audits used 0/2; formal economic attempts used 0; holdout remains unresolved, sealed, unopened, and unread.

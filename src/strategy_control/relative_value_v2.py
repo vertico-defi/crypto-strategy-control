@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from bisect import bisect_right
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
@@ -129,6 +130,151 @@ class CanonicalVector:
         )  # type: ignore[return-value]
 
 
+@dataclass(frozen=True)
+class SignalSession:
+    """One grid session before any execution lookup is attempted.
+
+    Keeping the pair together is intentional: production callers must not pass
+    independently filtered BTC and ETH arrays to the execution simulator.
+    """
+
+    session_id: str
+    session_at: datetime
+    observations: tuple[Observation, Observation] | None
+
+    def __post_init__(self) -> None:
+        if not self.session_id:
+            raise RelativeValueV2Error("session identity is required")
+        _utc(self.session_at)
+        if self.observations is not None and {row.asset for row in self.observations} != set(
+            SYMBOLS
+        ):
+            raise RelativeValueV2Error("session requires both named observations")
+
+
+@dataclass(frozen=True)
+class SessionExecutionBinding:
+    """Immutable causal identity binding for one half-open-boundary grid session."""
+
+    session_id: str
+    session_at: datetime
+    observations: tuple[Observation, Observation] | None
+    cutoff: datetime | None
+    segment: int
+    recovery_count: int
+    base_fill: CanonicalVector | None
+    delayed_fill: CanonicalVector | None
+    terminal_fill: CanonicalVector | None
+
+    def __post_init__(self) -> None:
+        if (
+            not self.session_id
+            or self.segment < 0
+            or not 0 <= self.recovery_count <= RECOVERY_SESSIONS
+        ):
+            raise RelativeValueV2Error("invalid session/execution binding")
+        _utc(self.session_at)
+        if self.observations is None:
+            if (
+                self.cutoff is not None
+                or self.base_fill is not None
+                or self.delayed_fill is not None
+            ):
+                raise RelativeValueV2Error("incomplete session cannot carry execution rows")
+            return
+        if {item.asset for item in self.observations} != set(SYMBOLS):
+            raise RelativeValueV2Error("binding observations are not synchronized")
+        if self.cutoff != information_cutoff(self.observations):
+            raise RelativeValueV2Error("binding cutoff is not the full information cutoff")
+        if self.base_fill is not None and self.base_fill.timestamp <= self.cutoff:
+            raise RelativeValueV2Error("base fill precedes information cutoff")
+        if self.delayed_fill is not None and self.base_fill is None:
+            raise RelativeValueV2Error("delayed fill requires base fill")
+
+    @property
+    def eligible(self) -> bool:
+        return self.recovery_count == RECOVERY_SESSIONS and self.base_fill is not None
+
+
+def bind_session_grid(
+    sessions: Sequence[SignalSession],
+    index: BoundaryIndex,
+    *,
+    terminal: CanonicalVector | None = None,
+) -> tuple[SessionExecutionBinding, ...]:
+    """Create the sole production session-to-fill mapping for one index boundary.
+
+    Missing exact ordinary rows are represented explicitly and never resolved by
+    a later timestamp.  Recovery is counted from the session grid, not from the
+    much shorter execution-vector collection.
+    """
+    ordered = tuple(sessions)
+    if not ordered:
+        raise RelativeValueV2Error("empty session grid")
+    if any(ordered[i].session_at <= ordered[i - 1].session_at for i in range(1, len(ordered))):
+        raise RelativeValueV2Error("duplicate or nonmonotonic session grid")
+    segment, recovery = 0, 0
+    provisional: list[SessionExecutionBinding] = []
+    for item in ordered:
+        contiguous = not provisional or item.session_at == provisional[-1].session_at + timedelta(
+            days=1
+        )
+        complete = item.observations is not None and contiguous
+        if not complete:
+            segment += 1
+            recovery = 0
+            provisional.append(
+                SessionExecutionBinding(
+                    item.session_id, item.session_at, None, None, segment, 0, None, None, None
+                )
+            )
+            continue
+        recovery = min(RECOVERY_SESSIONS, recovery + 1)
+        observations = item.observations
+        if observations is None:  # narrowed above; keeps the invariant explicit to type checkers
+            raise RelativeValueV2Error("incomplete session")
+        cutoff = information_cutoff(observations)
+        try:
+            base = index.required_vector_after(cutoff)
+        except RelativeValueV2Error:
+            base = None
+        provisional.append(
+            SessionExecutionBinding(
+                item.session_id,
+                item.session_at,
+                item.observations,
+                cutoff,
+                segment,
+                recovery,
+                base,
+                None,
+                None,
+            )
+        )
+    result: list[SessionExecutionBinding] = []
+    for position, bound in enumerate(provisional):
+        delayed = None
+        if position + 1 < len(provisional):
+            successor = provisional[position + 1]
+            if bound.eligible and successor.eligible and successor.segment == bound.segment:
+                delayed = successor.base_fill
+        terminal_fill = terminal if bound.base_fill == terminal else None
+        result.append(
+            SessionExecutionBinding(
+                bound.session_id,
+                bound.session_at,
+                bound.observations,
+                bound.cutoff,
+                bound.segment,
+                bound.recovery_count,
+                bound.base_fill,
+                delayed,
+                terminal_fill,
+            )
+        )
+    return tuple(result)
+
+
 class BoundaryIndex:
     """Immutable exact lookup index for one strict half-open boundary."""
 
@@ -154,6 +300,10 @@ class BoundaryIndex:
         self.end = boundary
         self.rows = retained
         self._by_stamp = grouped
+        self._complete_stamps = tuple(
+            stamp for stamp in sorted(grouped) if set(grouped[stamp]) == set(SYMBOLS)
+        )
+        self.lookup_work = 0
 
     def exact_vector(self, timestamp: datetime) -> CanonicalVector:
         stamp = _utc(timestamp)
@@ -165,15 +315,25 @@ class BoundaryIndex:
         return CanonicalVector(stamp, (found[SYMBOLS[0]], found[SYMBOLS[1]]))
 
     def earliest_after(self, cutoff: datetime) -> CanonicalVector:
+        """Bisect the immutable complete-vector index; never rescan retained rows."""
         cutoff = _utc(cutoff)
-        candidates = [
-            stamp
-            for stamp, rows in self._by_stamp.items()
-            if stamp > cutoff and set(rows) == set(SYMBOLS)
-        ]
-        if not candidates:
+        position = bisect_right(self._complete_stamps, cutoff)
+        self.lookup_work += 1
+        if position == len(self._complete_stamps):
             raise RelativeValueV2Error("no exact synchronized vector after information cutoff")
-        return self.exact_vector(min(candidates))
+        return self.exact_vector(self._complete_stamps[position])
+
+    def required_vector_after(self, cutoff: datetime) -> CanonicalVector:
+        """Resolve the one ordinary fill timestamp implied by ``cutoff``.
+
+        This is deliberately not a forward search: a missing exact row is a
+        quarantine/data-integrity event, never permission to use a later row.
+        ``MinuteRow.timestamp`` is the whole-minute open timestamp.
+        """
+        instant = _utc(cutoff)
+        required = instant.replace(second=0, microsecond=0) + timedelta(minutes=1)
+        self.lookup_work += 1
+        return self.exact_vector(required)
 
     def vectors(self) -> tuple[CanonicalVector, ...]:
         return tuple(
@@ -425,7 +585,11 @@ def simulate_period(
     delayed: bool = False,
     cost_rate: float = ONE_WAY_COST,
 ) -> tuple[DecisionTrace, ...]:
-    """Internally driven post-fill simulator; no caller can provide targets."""
+    """Legacy synthetic convenience simulator, not a production entry point.
+
+    It remains for compact fixtures that intentionally construct synchronized
+    arrays.  Real execution must use ``simulate_bound_period``.
+    """
     if (
         trial not in TRIAL_SPECS
         or not vectors
@@ -519,6 +683,152 @@ def simulate_period(
         traces.append(trace)
     if actual != CASH or pending is not None or not traces[-1].terminal_cash_evidence:
         raise RelativeValueV2Error("terminal cash invariant")
+    return tuple(traces)
+
+
+def simulate_bound_period(
+    trial: str,
+    bindings: Sequence[SessionExecutionBinding],
+    *,
+    delayed: bool = False,
+    cost_rate: float = ONE_WAY_COST,
+) -> tuple[DecisionTrace, ...]:
+    """Production simulator consuming only immutable session/fill bindings.
+
+    Unlike :func:`simulate_period`, this route never receives independently
+    filtered observation and vector arrays.  Signal history is accumulated from
+    each binding's named observations, while execution is resolved from that
+    same binding's retained exact vector identity.
+    """
+    if (
+        trial not in TRIAL_SPECS
+        or not bindings
+        or cost_rate not in (ONE_WAY_COST, DOUBLE_ONE_WAY_COST)
+    ):
+        raise RelativeValueV2Error("invalid bound simulator inputs")
+    ordered = tuple(bindings)
+    if any(ordered[i].session_at <= ordered[i - 1].session_at for i in range(1, len(ordered))):
+        raise RelativeValueV2Error("nonmonotonic bound session grid")
+    actual, pending, wealth = CASH, None, 1.0
+    pending_due: CanonicalVector | None = None
+    prior_fill: CanonicalVector | None = None
+    history: dict[str, list[Observation]] = {asset: [] for asset in SYMBOLS}
+    active_segment: int | None = None
+    traces: list[DecisionTrace] = []
+    for binding in ordered:
+        if binding.observations is None:
+            if actual != CASH:
+                raise RelativeValueV2Error("unpriced exposed quarantine")
+            pending, pending_due, prior_fill, active_segment = None, None, None, None
+            history = {asset: [] for asset in SYMBOLS}
+            continue
+        if active_segment is not None and binding.segment != active_segment:
+            # A new segment cannot carry prior exposure or a pending decision.
+            if actual != CASH:
+                raise RelativeValueV2Error("gap bridge would retain exposure")
+            pending, pending_due, prior_fill = None, None, None
+            history = {asset: [] for asset in SYMBOLS}
+        active_segment = binding.segment
+        for observation in binding.observations:
+            history[observation.asset].append(observation)
+        if not binding.eligible:
+            if actual != CASH:
+                raise RelativeValueV2Error("missing exact fill for exposed state")
+            pending, pending_due = None, None
+            continue
+        vector = binding.base_fill
+        if vector is None:  # guarded by eligible, retained for static fail-closed clarity
+            raise RelativeValueV2Error("missing exact required vector")
+        before, pending_before = actual, pending
+        relatives = {
+            asset: 1.0 if prior_fill is None else vector.prices[asset] / prior_fill.prices[asset]
+            for asset in SYMBOLS
+        }
+        if any(not math.isfinite(value) or value <= 0 for value in relatives.values()):
+            raise RelativeValueV2Error("DATA_INTEGRITY unpriceable bound vector")
+        gross = sum(float(before == asset) * relatives[asset] for asset in SYMBOLS) + float(
+            before == CASH
+        )
+        wealth *= gross
+        due_id: str | None = None
+        terminal = binding.terminal_fill is not None
+        if terminal:
+            desired, actual, pending, pending_due, disposition = (
+                CASH,
+                CASH,
+                None,
+                None,
+                "terminal_cash_replaces_due" if delayed else "terminal_cash",
+            )
+        else:
+            if delayed and pending is not None:
+                if pending_due != vector:
+                    raise RelativeValueV2Error("missing exact delayed execution vector")
+                due_id, actual, pending, pending_due = binding.session_id, pending, None, None
+            records = score_at(trial, history, len(history[SYMBOLS[0]]) - 1)
+            complete = records is not None and binding.recovery_count == RECOVERY_SESSIONS
+            if not complete:
+                desired, actual, pending, pending_due, disposition = (
+                    CASH,
+                    CASH,
+                    None,
+                    None,
+                    "quarantine_priced_liquidation" if before != CASH else "quarantine_cash",
+                )
+            elif delayed:
+                desired, _ = decision_at(trial, history, len(history[SYMBOLS[0]]) - 1, actual)
+                pending, pending_due, disposition = (
+                    desired,
+                    binding.delayed_fill,
+                    "queued_for_exact_delayed_vector",
+                )
+            else:
+                desired, _ = decision_at(trial, history, len(history[SYMBOLS[0]]) - 1, actual)
+                actual, disposition = desired, "executed_at_exact_base_vector"
+        evidence = score_at(trial, history, len(history[SYMBOLS[0]]) - 1) or {}
+        turnover = float(before != actual)
+        cost = wealth * turnover * cost_rate
+        wealth -= cost
+        if wealth <= 0 or not math.isfinite(wealth):
+            raise RelativeValueV2Error("DATA_INTEGRITY invalid bound wealth")
+        traces.append(
+            DecisionTrace(
+                trial,
+                len(traces),
+                binding.session_id,
+                due_id,
+                binding.cutoff or vector.timestamp,
+                vector.timestamp,
+                vector.row_ids,
+                tuple((a, evidence[a].identities if evidence else ()) for a in SYMBOLS),
+                tuple((a, evidence[a].raw_returns if evidence else ()) for a in SYMBOLS),
+                tuple((a, evidence[a].volatility if evidence else None) for a in SYMBOLS),
+                tuple((a, evidence[a].score if evidence else None) for a in SYMBOLS),
+                desired,
+                before,
+                actual,
+                pending_before,
+                pending,
+                disposition,
+                tuple(target_weights(before).items()),
+                tuple(target_weights(actual).items()),
+                tuple(relatives.items()),
+                tuple(
+                    (a, wealth / gross * float(before == a) * (relatives[a] - 1)) for a in SYMBOLS
+                ),
+                turnover,
+                cost,
+                gross - 1 - turnover * cost_rate,
+                wealth,
+                binding.segment,
+                binding.recovery_count,
+                "eligible" if evidence else "quarantine",
+                terminal and actual == CASH and pending is None,
+            )
+        )
+        prior_fill = vector
+    if not traces or not traces[-1].terminal_cash_evidence:
+        raise RelativeValueV2Error("bound terminal cash invariant")
     return tuple(traces)
 
 

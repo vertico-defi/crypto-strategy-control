@@ -5,9 +5,10 @@ from __future__ import annotations
 import math
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import TypeVar, cast
 
+from strategy_control.mean_reversion_v2_pipeline import FillIdentity, JointSession
 from strategy_control.relative_value_v2 import (
     CASH,
     DEVELOPMENT_FOLDS,
@@ -16,9 +17,13 @@ from strategy_control.relative_value_v2 import (
     TRIAL_ORDER,
     CanonicalVector,
     DecisionTrace,
+    MinuteRow,
     Observation,
     RelativeValueV2Error,
+    SessionExecutionBinding,
+    SignalSession,
     finite_equal,
+    simulate_bound_period,
     simulate_period,
     target_weights,
 )
@@ -106,21 +111,163 @@ def build_period_run(
     *,
     delayed: bool = False,
 ) -> tuple[DecisionTrace, ...]:
-    """Build immutable decisions internally; callers cannot inject targets.
+    """Legacy synthetic convenience API; not permitted for production input.
 
-    This pure entry point intentionally accepts only already-authorized in-memory
-    observations and canonical fills.  Its own cash-initialized state is used for
-    each score decision, including the post-due-fill delayed state.
+    Production must use ``build_production_bindings`` and ``run_bound_period``;
+    this retained helper exists for useful compact synthetic fixtures only.
     """
     if not vectors or set(observations) != set(SYMBOLS):
         raise RelativeValueV2Error("incomplete period inputs")
     return simulate_period(trial, observations, vectors, delayed=delayed)
 
 
+def run_bound_period(
+    trial: str, bindings: Sequence[SessionExecutionBinding], *, delayed: bool = False
+) -> tuple[DecisionTrace, ...]:
+    """Production-facing entry point; only explicit session/fill bindings are accepted."""
+    return simulate_bound_period(trial, bindings, delayed=delayed)
+
+
+def build_production_bindings(
+    sessions: Sequence[JointSession], fills: Sequence[FillIdentity], *, end: datetime
+) -> tuple[SessionExecutionBinding, ...]:
+    """No-I/O adapter from verified production session/fill evidence.
+
+    ``sessions`` and ``fills`` are deliberately joined by their immutable
+    session identities, never by collection position.  The narrow structural
+    access here keeps the adapter independent of any loader while allowing the
+    verified production-row types to remain in their existing module.
+    """
+    boundary = _utc(end)
+    by_session: dict[datetime, FillIdentity] = {}
+    for fill in fills:
+        session = _utc(fill.session)
+        if session in by_session:
+            raise RelativeValueV2Error("duplicate production fill session")
+        by_session[session] = fill
+    ordered = tuple(sessions)
+    grid: list[SignalSession] = []
+    for source in ordered:
+        session_at = _utc(source.session)
+        complete = source.complete is True
+        cutoff = source.information_cutoff
+        closes = source.closes
+        identity = str(getattr(source, "identity", session_at.isoformat()))
+        if not complete:
+            signal = SignalSession(identity, session_at, None)
+        else:
+            if cutoff is None or set(closes) != set(SYMBOLS):
+                raise RelativeValueV2Error("malformed complete production session")
+            observations = (
+                Observation(
+                    SYMBOLS[0],
+                    cutoff,
+                    cutoff,
+                    float(closes[SYMBOLS[0]]),
+                    f"{identity}:{SYMBOLS[0]}",
+                ),
+                Observation(
+                    SYMBOLS[1],
+                    cutoff,
+                    cutoff,
+                    float(closes[SYMBOLS[1]]),
+                    f"{identity}:{SYMBOLS[1]}",
+                ),
+            )
+            signal = SignalSession(identity, session_at, observations)
+        grid.append(signal)
+    # Construct recovery/segment state from the full grid first.  We then bind
+    # the already verified exact fill identities by session key.
+    from strategy_control.relative_value_v2 import BoundaryIndex, bind_session_grid
+
+    # bind_session_grid needs an index only for its ordinary-fill resolution;
+    # production fills below replace it.  A boundary-empty index gives us the
+    # authoritative grid-derived segment/recovery state without any scan.
+    state = bind_session_grid(grid, BoundaryIndex((), boundary))
+    output: list[SessionExecutionBinding] = []
+    for item in state:
+        selected_fill = by_session.get(item.session_at)
+        base: CanonicalVector | None = None
+        delayed: CanonicalVector | None = None
+        if selected_fill is not None:
+            if item.cutoff is None or item.recovery_count != 150:
+                raise RelativeValueV2Error("fill supplied for ineligible production session")
+            base_stamp = _utc(selected_fill.base_timestamp)
+            required = item.cutoff.replace(second=0, microsecond=0) + timedelta(minutes=1)
+            if base_stamp != required:
+                raise RelativeValueV2Error("production fill is not the exact required vector")
+            prices = selected_fill.base_prices
+            identities = selected_fill.base_row_identities
+            base = CanonicalVector(
+                base_stamp,
+                (
+                    MinuteRow(
+                        SYMBOLS[0],
+                        base_stamp,
+                        float(prices[SYMBOLS[0]]),
+                        str(identities[SYMBOLS[0]]),
+                    ),
+                    MinuteRow(
+                        SYMBOLS[1],
+                        base_stamp,
+                        float(prices[SYMBOLS[1]]),
+                        str(identities[SYMBOLS[1]]),
+                    ),
+                ),
+            )
+            delayed_stamp = selected_fill.delayed_timestamp
+            if delayed_stamp is not None:
+                delayed_stamp = _utc(delayed_stamp)
+                if delayed_stamp <= base_stamp:
+                    raise RelativeValueV2Error("delayed fill does not follow base fill")
+                delayed_prices, delayed_ids = (
+                    selected_fill.delayed_prices,
+                    selected_fill.delayed_row_identities,
+                )
+                delayed = CanonicalVector(
+                    delayed_stamp,
+                    (
+                        MinuteRow(
+                            SYMBOLS[0],
+                            delayed_stamp,
+                            float(delayed_prices[SYMBOLS[0]]),
+                            str(delayed_ids[SYMBOLS[0]]),
+                        ),
+                        MinuteRow(
+                            SYMBOLS[1],
+                            delayed_stamp,
+                            float(delayed_prices[SYMBOLS[1]]),
+                            str(delayed_ids[SYMBOLS[1]]),
+                        ),
+                    ),
+                )
+        terminal = (
+            base
+            if base is not None
+            and base.timestamp
+            == max((_utc(value.base_timestamp) for value in fills), default=boundary)
+            else None
+        )
+        output.append(
+            SessionExecutionBinding(
+                item.session_id,
+                item.session_at,
+                item.observations,
+                item.cutoff,
+                item.segment,
+                item.recovery_count,
+                base,
+                delayed,
+                terminal,
+            )
+        )
+    return tuple(output)
+
+
 def run_development_folds(
     observations: Mapping[str, Sequence[Observation]], vectors: Sequence[CanonicalVector]
 ) -> Mapping[tuple[datetime, datetime], Mapping[str, tuple[DecisionTrace, ...]]]:
-    """Four isolated half-open development folds, each with fresh trial/stress state."""
+    """Synthetic-only fold convenience helper; production uses bound sessions."""
     result: dict[tuple[datetime, datetime], Mapping[str, tuple[DecisionTrace, ...]]] = {}
     for start, end in DEVELOPMENT_FOLDS:
         selected = tuple(v for v in vectors if start <= v.timestamp < end)

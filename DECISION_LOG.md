@@ -498,3 +498,9 @@ The current API cannot bind real causal decisions to fills: 547 complete observa
 ## 2026-08-05T15:26:02.513838849Z — relative-value v2 mechanical completion round 1 authorized
 
 The first of two Phase 3 completion rounds is bounded to the measured production defect: immutable half-open boundary indices, direct indexed exact lookup, explicit signal-session-to-base/delayed-fill binding, and fail-closed quarantine/recovery/terminal mechanics plus tests. It may not change frozen economics or calculate real returns. The round is consumed only when the live Terra/medium implementation invocation starts; real-data validation follows parent source and deterministic validation.
+
+## 2026-08-05T15:45:33.417079Z — relative-value v2 completion round 1 fails parent production validation
+
+The live `gpt-5.6-terra`/`medium` implementation invocation completed and generic validation remained green, but the authorized 36-partition parent validation failed two exact mechanical requirements. All 1,094 production observation-identity comparisons mismatched because the adapter synthesized `session_hash:asset` values rather than retaining the actual close-row identities. The adapter also iterated 127,092 fill elements because terminal selection rescanned all 356 fills inside the 549-session loop; the measured linear construction bound is 905.
+
+The explicit session mapping, 356 base identities, delayed identities, and one terminal row identity were preserved, so the round made partial mechanical progress. It did not establish contract fidelity. Mechanical completion round 1/2 is consumed and one final round remains. No simulator, aggregate return, performance metric, holdout path, capital, or GPU action occurred.

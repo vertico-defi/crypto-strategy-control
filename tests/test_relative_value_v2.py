@@ -16,6 +16,8 @@ from strategy_control.relative_value_v2 import (
     MinuteRow,
     Observation,
     RelativeValueV2Error,
+    SignalSession,
+    bind_session_grid,
     canonical_vector_after,
     common_endpoint_panel,
     decision_for_scores,
@@ -25,6 +27,7 @@ from strategy_control.relative_value_v2 import (
     phase2_dsr_degenerate,
     phase2_dsr_probability,
     primitive_dsr_valid,
+    simulate_bound_period,
     simulate_period,
     target_weights,
     terminal_vector,
@@ -83,6 +86,43 @@ def simulated(*, delayed=False):
         for i in range(182)
     )
     return simulate_period(TRIAL_ORDER[0], observations, fills, delayed=delayed)
+
+
+def bound_grid(count=160, first_fill=150):
+    sessions = tuple(
+        SignalSession(
+            f"session-{i}",
+            START + timedelta(days=i),
+            (
+                Observation(
+                    "BTCUSDT",
+                    START + timedelta(days=i),
+                    START + timedelta(days=i),
+                    100 + i,
+                    f"ob-b-{i}",
+                ),
+                Observation(
+                    "ETHUSDT",
+                    START + timedelta(days=i),
+                    START + timedelta(days=i),
+                    50 + i,
+                    f"ob-e-{i}",
+                ),
+            ),
+        )
+        for i in range(count)
+    )
+    execution_rows = tuple(
+        row
+        for i in range(first_fill, count)
+        for row in (
+            MinuteRow("BTCUSDT", START + timedelta(days=i, minutes=1), 100 + i, f"fill-b-{i}"),
+            MinuteRow("ETHUSDT", START + timedelta(days=i, minutes=1), 50 + i, f"fill-e-{i}"),
+        )
+    )
+    index = BoundaryIndex(execution_rows, START + timedelta(days=count + 1))
+    terminal = index.exact_vector(START + timedelta(days=count - 1, minutes=1))
+    return bind_session_grid(sessions, index, terminal=terminal), index
 
 
 def test_v1_clause_hashes_trials_parameters_costs_folds_gates_and_seed_exact():
@@ -236,6 +276,59 @@ def test_scan_reference_and_indexed_implementation_match_on_small_fixtures():
     assert BoundaryIndex(rows(), at(4)).earliest_after(at(0)) == canonical_vector_after(
         at(0), rows(), end=at(4)
     )
+
+
+def test_production_binding_is_nonpositional_and_preserves_full_session_identity():
+    bindings, _ = bound_grid()
+    eligible = tuple(item for item in bindings if item.eligible)
+    assert len(bindings) == 160 and len(eligible) == 10
+    assert eligible[0].session_id == "session-150"
+    assert eligible[0].base_fill and eligible[0].base_fill.row_ids == ("fill-b-150", "fill-e-150")
+    assert eligible[0].cutoff == START + timedelta(days=150)
+    assert all(
+        item.observations and {row.identity for row in item.observations} for item in bindings
+    )
+
+
+def test_missing_exact_required_fill_does_not_scan_to_later_vector():
+    sessions = (
+        SignalSession(
+            "s",
+            START,
+            (
+                Observation("BTCUSDT", START, START, 1, "b"),
+                Observation("ETHUSDT", START, START, 1, "e"),
+            ),
+        ),
+    )
+    index = BoundaryIndex(rows((2,)), START + timedelta(days=2))
+    binding = bind_session_grid(sessions, index)[0]
+    assert binding.base_fill is None  # expected timestamp is minute 1, never minute 2
+
+
+def test_recovery_is_grid_based_at_149_150_and_not_vector_based():
+    before, _ = bound_grid(count=149, first_fill=148)
+    after, _ = bound_grid(count=150, first_fill=149)
+    assert before[-1].recovery_count == 149 and not before[-1].eligible
+    assert after[-1].recovery_count == 150 and after[-1].eligible
+
+
+def test_bound_simulator_consumes_mapping_and_terminal_replaces_delayed_due_target():
+    bindings, _ = bound_grid()
+    trace = simulate_bound_period(TRIAL_ORDER[0], bindings, delayed=True)
+    assert trace[-1].disposition == "terminal_cash_replaces_due"
+    assert trace[-1].row_ids == ("fill-b-159", "fill-e-159")
+    assert trace[-1].actual_after == CASH and trace[-1].pending_after is None
+
+
+def test_index_lookup_work_is_not_rows_times_sessions_and_bisect_matches_scan_reference():
+    index = BoundaryIndex(rows(range(1, 200)), at(300))
+    expected = tuple(
+        canonical_vector_after(at(n - 1), rows(range(1, 200)), end=at(300)).row_ids
+        for n in range(1, 100)
+    )
+    actual = tuple(index.earliest_after(at(n - 1)).row_ids for n in range(1, 100))
+    assert actual == expected and index.lookup_work == 99
 
 
 def test_signals_targets_vectors_fills_costs_returns_attribution_and_terminal_wealth_reconcile():
