@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "artifact_type": "DETERMINISTIC_PRE_REVIEW_BUNDLE",
+  "created_at_utc": "2026-08-05T11:45:44.122952793Z",
+  "source_content_commit": "04071a14a53bfc56ef0349213cce9dc05434eda8",
+  "canonicalization_specification": {
+    "name": "route4_canonical_json_v1",
+    "algorithm": "Parse exactly one JSON value; serialize UTF-8 with recursively sorted object keys, compact separators comma and colon, ensure_ascii false, allow_nan false, and no terminal newline; hash the resulting bytes with SHA-256 lowercase hexadecimal.",
+    "byte_hash": "SHA-256 of exact tracked bytes without transformation."
+  },
+  "reviewed_content": {
+    "revised_draft": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT_V2.json",
+      "byte_sha256": "5e579d723df05e6ad940357916099d4fd49d0ca2ea744a16310d3483111d9188",
+      "canonical_sha256": "c770c134dc0e75548c352e21f57a99bcd2deffd4813b8b580c5067ad91a05034",
+      "resolved_effective_canonical_sha256": "d771589e1ece1347e1f772bc76ac6611bd64433de39f1f7a9f5b2ab295e85446"
+    },
+    "review_output_schema": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_DELTA_REVIEW_OUTPUT_SCHEMA_V2.json",
+      "byte_sha256": "8e149b74111993784ef1a24a4582d8548d54cab76ad1f3752862ed57e4fd27f2",
+      "canonical_sha256": "99adeb870981faaadb1a723f963be2cce8ffc6dee81eed6dbbaeb5d99c828dec"
+    },
+    "network_event_ledger_schema": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/NETWORK_EVENT_LEDGER_SCHEMA_V1.json",
+      "byte_sha256": "ce95f18c7e365e157ab273ce7673057b93e7b21fb842935dacf29f6b9fd39917",
+      "canonical_sha256": "a205622b3be107c62f1bd307bc619a1a230dd3e115a4f3fcd3c34047c69ab159"
+    }
+  },
+  "deterministic_preflight": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_PROVENANCE_PREFLIGHT.json",
+    "byte_sha256": "d3cb4861bda11f26bfe4b33215e51fc6e29c024abd604fac5c6fe06bc5876ea4",
+    "canonical_sha256": "e34b0540a0155e784ec68df4a0ef2e407bf07d8bdcda16919c7bf052e5573ebb",
+    "verdict": "PASS",
+    "checks_mapped": 19
+  },
+  "predecessor_artifacts": [
+    {
+      "path": "PHASE_2_AUTHORIZATION.json",
+      "byte_sha256": "2686b9caeda1e4d443132cdeafc6c86dfa8e296bde5a711a55f190219bd7c2db",
+      "canonical_sha256": "945eaca653843f830a44c8c3ebd2be4265668989c41f07000437a51e2bc1a123"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
+      "byte_sha256": "c517a6979133676aa470ded8a33d1a71fc3bf07cf84d91d6e908cf8033e9e8ce",
+      "canonical_sha256": "f71a9a59fb13f7eb6af1ed60bcc645e2d40a230040e2729c27003546cf5bcd66"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_PROVENANCE_ARCHITECTURE_CORRECTION_AUTHORIZATION.json",
+      "byte_sha256": "f3311c1aa4212e759903f2f27a2f0376100e6ea3013cca7dd6decc514b49099e",
+      "canonical_sha256": "3f6e4b26fbf5e2b46be5ec661337af5a96a9ff48e1a1527e56fe2a9ae395dff0"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+      "byte_sha256": "756f0be8111f93062bb033b3bbeeeba14ab556a44f530724215f26dbfd6c5774",
+      "canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+      "byte_sha256": "c92a4742bad1f1ad2a19d5a99d956a6f3dcbbf5f008217555fa9e91b35471bbd",
+      "canonical_sha256": "5e8154a7c91aa5de404b05fb3d4d59e0238dc2d4152ee86253c7d709fae387f1"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_REVISION_INCORPORATION.json",
+      "byte_sha256": "1d76e1b10b41c75d88938ed6ff3eba2684114296dc906a8b65c9faf5964900a6",
+      "canonical_sha256": "4697217c9b960f29a9e6bda044a5c3dd3fff3e10ae9b507c62484758a6d3c2c4"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4.json",
+      "byte_sha256": "2e65ca54291e4852d0e36b3372e6df4e8176e01d7dcb73cb066e735c8af45292",
+      "canonical_sha256": "23588f15d16fd640d6942d6b1bd82cd926e01b0064e895f559f3f559db699b83"
+    }
+  ],
+  "exact_review_scope": {
+    "review_kind": "FINAL_NARROW_PROVENANCE_ARCHITECTURE_DELTA_REVIEW",
+    "substantive_checks": [1, 8, 9],
+    "architecture_checks": [
+      "non_circular_binding",
+      "append_only_attempt_schema",
+      "append_only_terminal_schema",
+      "raw_only_reconstruction",
+      "semantic_completeness_of_no_response_handling",
+      "deterministic_preflight_correctness"
+    ],
+    "regression_scope": "Determine whether the bounded delta altered or invalidated any of attempt-4 checks 0, 2-7, or 10-18; do not restart full Route 4 direction research.",
+    "verdicts": ["PASS", "REVISION_REQUIRED", "REVIEW_INCONCLUSIVE"],
+    "read_only": true
+  },
+  "content_mutation_rule": "Any byte or canonical hash mismatch in revised draft, review output schema, network-event schema, or source-content-commit version stops before review as PRE_REVIEW_CONTENT_MUTATION.",
+  "authorized_actions": {
+    "narrow_live_sol_xhigh_review_after_clean_bundle_commit": true,
+    "identical_retry_only_after_non_substantive_temporary_service_failure": true,
+    "freeze_manifest_only_after_pass": true
+  },
+  "prohibited_actions": {
+    "network_acquisition": true,
+    "market_data_access": true,
+    "strategy_implementation": true,
+    "model_training": true,
+    "backtesting": true,
+    "returns_calculation": true,
+    "holdout_resolution_or_access": true,
+    "economic_or_resource_rule_change": true
+  }
+}

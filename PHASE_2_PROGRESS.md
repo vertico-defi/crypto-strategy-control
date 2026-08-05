@@ -479,3 +479,14 @@
 - Next action: complete deterministic preflight, commit exact content, create the immutable pre-review bundle, then run the one authorized live read-only Sol/xhigh narrow delta review.
 - Current blocker: none.
 - Exact resume state: draft not frozen; acquisition/implementation prohibited; network/data/training/backtest/return/holdout counters zero; capital/GPU zero; mining unchanged.
+
+## 2026-08-05T11:45:44.122952793Z — Route 4 deterministic preflight passes
+
+- Current checkpoint: content commit `04071a14...`; preflight `e34b0540...`; pre-review bundle `c87da4d5...`; draft remains unfrozen.
+- What changed: durable deterministic evidence and an acyclic bundle now bind the independently canonicalized draft v2, reusable delta-review schema, immutable event schema, predecessor artifacts, exact content commit, and narrow review scope.
+- What was verified: all 19 checks are mapped; checks 1, 8, and 9 pass their deterministic portions; all eleven required response/no-response fixtures reconstruct; truncation, reordering, mutation, duplicates, missing attempts, and multiple terminal outcomes fail closed; the other 16 attempt-4 passes are unchanged or strengthened under the closed delta.
+- What failed: no preflight check failed. Human methodological confirmation remains required for the authorized delta.
+- Current best defensible result: no data result and no economic result; deterministic contract validation is not profitability evidence.
+- Next action: commit the exact preflight/bundle/prompt checkpoint, verify content immutability and clean worktree, then run the authorized live read-only Sol/xhigh narrow delta review.
+- Current blocker: none.
+- Exact resume state: zero acquisition, market data, training, backtest, returns, or holdout access; draft not frozen; capital/GPU zero; mining unchanged.
