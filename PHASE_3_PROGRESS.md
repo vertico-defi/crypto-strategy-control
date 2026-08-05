@@ -33,3 +33,15 @@
 - Next experiment step: fresh live read-only Sol/high fidelity audit, then formal development evaluation only if the audit passes.
 - Current blocker: fidelity audit gate not yet run.
 - Exact resume state: completion rounds used 1/2; post-result corrections used 0/1; substantive audits used 0/2; formal economic attempts used 0; holdout remains sealed and unread.
+
+## 2026-08-05T14:35:43.598802465Z — pre-economic fidelity audit passes
+
+- Current checkpoint: live read-only Sol/high audit passed all twelve mechanical-fidelity checks; formal development-only evaluation is authorized.
+- Changed: added only immutable audit result, usage, and state evidence. Strategy code, frozen preregistration, data contract, and mechanics did not change.
+- Verified: exact source ancestry and fifteen evidence hashes; bounded serializer-only diff; 36-entry development allowlist and zero holdout entries before path resolution; production artifact and 47-record stage-log linkage; exact row/session/fill/trace/accounting identities; 257.48-second successful production run with zero swaps; aborted mistyped binding excluded; no aggregate metric or result promotion.
+- Failed: the first invocation aborted before model execution because the response schema omitted explicit property types. The corrected schema then completed successfully; the abort did not consume a substantive attempt.
+- Model evidence: live `gpt-5.6-sol` at `high`, thread `019fd253-9546-78e0-82e0-42a3882114ff`, 422.834236458 seconds, 2,092,691 input tokens (1,933,056 cached), 18,802 output tokens, 8,264 reasoning-output tokens.
+- Best defensible result: implementation fidelity is approved for formal development evaluation; no Phase 3 economic result or profitability evidence exists yet.
+- Next experiment step: run the frozen development-only economic evaluation, calculate every preregistered metric and stress without retuning, then obtain the required economic/fidelity audit.
+- Current blocker: none before the authorized formal development evaluation.
+- Exact resume state: completion rounds used 1/2; post-result corrections used 0/1; substantive audits used 1/2; formal economic attempts used 0; holdout remains sealed and unread.
