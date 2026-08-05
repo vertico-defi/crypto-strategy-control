@@ -457,3 +457,14 @@
 - Next action: await separate explicit human authorization for any revisions and any fifth direction review. Do not freeze or acquire.
 - Current blocker: `DIRECTION_REVISION_REQUIRES_HUMAN_AUTHORIZATION`.
 - Exact resume state: attempt 4 consumed with substantive verdict; retry closed; no fifth review authorized; implementation repair 1/3 remains used, acquisition attempts zero; network/data/object/return/holdout access zero; capital/GPU zero; mining unchanged.
+
+## 2026-08-05T09:29:21.882649012Z — route-4 attempt-4 blocker published and verified
+
+- Current checkpoint: source evidence `5cf57806…`, sanitized source snapshot `f969ddab…`, and portfolio `963d2c6c…` are pushed and synchronized.
+- What changed: the public static portfolio now reports attempt 4's `REVISION_REQUIRED`, both remaining methodology defects, and `DIRECTION_REVISION_REQUIRES_HUMAN_AUTHORIZATION` without a data or profitability claim.
+- What was verified: publication-history gate PASS for Strategy Control; 5/5 portfolio tests; syntax/type checks; 22 static pages; zero API routes; `STORE_LIVE=false`; GitHub validation `30993410248` and Pages `30993410225` succeeded; deployed HTTP 200 content matched the exact source evidence commit and safety statements.
+- What failed: no publication gate. The methodology blocker remains unchanged.
+- Current best defensible result: no route-4 data verdict and no Phase 2 economic result.
+- Next action: await separate explicit human authorization for any Route 4 revision and any fifth direction review. Do not freeze or acquire.
+- Current blocker: `DIRECTION_REVISION_REQUIRES_HUMAN_AUTHORIZATION`.
+- Exact resume state: attempt 4 substantive and preserved; retry closed; no fifth review; implementation repair 1/3 used, acquisition attempts zero; all data/return/holdout counters zero; capital/GPU zero; mining unchanged.
