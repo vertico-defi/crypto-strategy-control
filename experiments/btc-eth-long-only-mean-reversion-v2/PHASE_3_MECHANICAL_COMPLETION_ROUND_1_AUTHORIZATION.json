@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "phase": 3,
+  "repair_type": "MECHANICAL_COMPLETION_ROUND",
+  "repair_round": 1,
+  "authorized_at_utc": "2026-08-05T14:03:20.000000Z",
+  "source_parent_commit": "124909a8f1da6d1e3a52d841aaf4d5e7fbfd877b",
+  "authorization_basis": "PHASE_3_AUTHORIZATION.json",
+  "pre_repair_production_evidence": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_PRE_REPAIR_PRODUCTION_PREFLIGHT.json",
+  "pre_repair_production_evidence_byte_sha256": "266eab19cca8b2442b0e46134160950dffd28fde91762548d46d4ca68b38c3e7",
+  "measured_defect": {
+    "producer": "final_mechanical_production_validation.py:266",
+    "failure": "final_mechanical_production_validation.py:496",
+    "exception": "TypeError: Object of type datetime is not JSON serializable"
+  },
+  "authorized_changes": [
+    "Add a strict deterministic serializer for UTC evidence timestamps.",
+    "Serialize each fold boundary in the production evidence result before JSON encoding.",
+    "Add focused tests for the UTC representation, JSON compatibility, and rejection of naive or non-UTC evidence timestamps.",
+    "Rerun deterministic tests and the exact 36-partition production validation under the 1800-second ceiling."
+  ],
+  "forbidden_changes": [
+    "assets",
+    "trials or trial ordering",
+    "entry or exit thresholds",
+    "three-session horizon",
+    "20-session volatility lookback",
+    "five-interval maximum holding period",
+    "50 percent asset weights",
+    "14-bps or 28-bps costs",
+    "fold boundaries",
+    "gap or quarantine rules",
+    "150-session recovery",
+    "execution clocks or exact execution-row rule",
+    "position sizing or return accounting",
+    "bootstrap, DSR, PBO, or gates",
+    "holdout rules"
+  ],
+  "pre_change_hashes": {
+    "effective_contract_canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "preregistration_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+    "validation_driver_byte_sha256": "7ee98e1ba4fbe1a89f720c3e56d974c79f7668309a32d70af2cbc9ff4cba7f68",
+    "production_pipeline_byte_sha256": "d2aabc92807907cb0b70301c2c43519f2ea2b91e167b2e89916150d313985bb9",
+    "production_tests_byte_sha256": "23750a9ba9e99367b277117e6ea9a2a8abb0c36d95f65d1d1e7ce7c256dcf052"
+  },
+  "budget_after_authorization": {
+    "mechanical_completion_rounds_used": 1,
+    "mechanical_completion_rounds_remaining": 1,
+    "post_result_fidelity_corrections_used": 0,
+    "substantive_audit_attempts_used": 0
+  },
+  "formal_economic_attempt_authorized_by_this_artifact": false,
+  "aggregate_strategy_returns_calculated": false,
+  "holdout_access_permitted": false,
+  "capital_permitted": 0,
+  "compute": "CPU_ONLY"
+}

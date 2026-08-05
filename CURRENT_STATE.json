@@ -46,8 +46,8 @@
     "phase_3_current_experiment": {
       "experiment_id": "btc-eth-long-only-mean-reversion-v2",
       "mechanical_completion_rounds_authorized": 2,
-      "mechanical_completion_rounds_used": 0,
-      "mechanical_completion_rounds_remaining": 2,
+      "mechanical_completion_rounds_used": 1,
+      "mechanical_completion_rounds_remaining": 1,
       "post_result_fidelity_corrections_authorized": 1,
       "post_result_fidelity_corrections_used": 0,
       "post_result_fidelity_corrections_remaining": 1,
@@ -218,7 +218,7 @@
   "implementation_model_result": null,
   "implementation_model_result_byte_sha256": null,
   "implementation_model_result_sha256": null,
-  "implementation_status": "PHASE_2_ADMINISTRATIVE_TERMINAL_PRESERVED / PHASE_3_COMPLETION_ROUND_1_PERMITTED_NOT_YET_CONSUMED",
+  "implementation_status": "PHASE_2_ADMINISTRATIVE_TERMINAL_PRESERVED / PHASE_3_MECHANICAL_COMPLETION_ROUND_1_IN_PROGRESS",
   "implementation_artifact_sha256": {},
   "implementation_validation": null,
   "implementation_validation_byte_sha256": null,
@@ -249,7 +249,7 @@
     "source_snapshot_commit": "71c9ab457de878e1e0f9fb3c67d7e70a700a1977",
     "store_live": false
   },
-  "next_task": "authorize_and_execute_mean_reversion_v2_phase_3_mechanical_completion_round_1",
+  "next_task": "validate_mean_reversion_v2_phase_3_mechanical_completion_round_1",
   "phase": 3,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -272,6 +272,8 @@
   "phase_3_portfolio_operating_system_byte_sha256": "81db87438ca7d435f46d494377d6216d577b0aa3bfc5f9d3617a21a3513162ed",
   "phase_3_capital_readiness": "CAPITAL_READINESS_PHASE_3.md",
   "phase_3_capital_readiness_byte_sha256": "0dda479adcae97d8d755fd324bc9c570d9d23b536b2758c8df266b50aa6b5304",
+  "phase_3_mean_reversion_mechanical_completion_round_1_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_1_AUTHORIZATION.json",
+  "phase_3_mean_reversion_mechanical_completion_round_1_authorization_byte_sha256": "248fbfd0ba746a15cba7a837a04354bd1275a46d7c1279989e1555815731f19f",
   "route_4_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
   "route_4_authorization_byte_sha256": "c517a6979133676aa470ded8a33d1a71fc3bf07cf84d91d6e908cf8033e9e8ce",
   "route_4_authorization_sha256": "f71a9a59fb13f7eb6af1ed60bcc645e2d40a230040e2729c27003546cf5bcd66",
@@ -450,5 +452,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_3_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-05T13:58:53.822067Z"
+  "updated_at_utc": "2026-08-05T14:03:20.000000Z"
 }

@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from collections.abc import Iterator, Mapping, Sequence
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime, timedelta, timezone
 from pathlib import Path
 from typing import cast
 
@@ -33,6 +34,7 @@ from strategy_control.mean_reversion_v2_pipeline import (
     read_verified_entry,
     reconcile_representative_accounting,
     representative_row_hashes,
+    serialize_utc_evidence_timestamp,
     terminal_fill_identity,
     verify_entry_buffer,
     verify_source_identity,
@@ -41,6 +43,22 @@ from strategy_control.mean_reversion_v2_pipeline import (
 
 def stamp(day: int, minute: int) -> datetime:
     return datetime(2025, 1, 1, tzinfo=UTC) + timedelta(days=day, minutes=minute)
+
+
+def test_utc_evidence_timestamp_is_deterministic_and_json_safe() -> None:
+    boundary = datetime(2026, 1, 1, tzinfo=UTC)
+    observed = serialize_utc_evidence_timestamp(boundary)
+    assert observed == "2026-01-01T00:00:00Z"
+    assert json.loads(json.dumps({"boundary": observed})) == {"boundary": observed}
+
+
+@pytest.mark.parametrize(
+    "invalid",
+    [datetime(2026, 1, 1), datetime(2026, 1, 1, tzinfo=timezone(timedelta(hours=1)))],
+)
+def test_evidence_timestamp_rejects_non_utc_or_naive_values(invalid: datetime) -> None:
+    with pytest.raises(ProductionIntegrationError, match="timezone-aware UTC"):
+        serialize_utc_evidence_timestamp(invalid)
 
 
 def minute(

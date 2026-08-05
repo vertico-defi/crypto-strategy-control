@@ -46,6 +46,14 @@ class ProductionIntegrationError(MeanReversionV2Error):
     """A production identity, parser, or causal-input invariant failed."""
 
 
+def serialize_utc_evidence_timestamp(value: datetime) -> str:
+    """Serialize a UTC evidence timestamp without changing its instant."""
+
+    if value.tzinfo is None or value.utcoffset() != timedelta(0):
+        raise ProductionIntegrationError("evidence timestamp must be timezone-aware UTC")
+    return value.isoformat().replace("+00:00", "Z")
+
+
 @dataclass(frozen=True)
 class AllowlistEntry:
     bytes: int

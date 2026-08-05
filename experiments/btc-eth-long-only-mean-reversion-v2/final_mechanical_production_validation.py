@@ -41,6 +41,7 @@ from strategy_control.mean_reversion_v2_pipeline import (
     read_verified_entry,
     reconcile_representative_accounting,
     representative_row_hashes,
+    serialize_utc_evidence_timestamp,
     terminal_fill_identity,
     verify_source_identity,
 )
@@ -263,7 +264,7 @@ def main() -> None:
             [item.base_timestamp for item in fills], terminal_identity.base_timestamp, fold_boundary
         )
         fold_evidence[str(number)] = {
-            "boundary": fold_boundary,
+            "boundary": serialize_utc_evidence_timestamp(fold_boundary),
             "retained_row_count": index.retained_row_count,
             "session_count": len(sessions),
             "incomplete_session_count": sum(not item.complete for item in sessions),
