@@ -490,3 +490,13 @@
 - Next action: commit the exact preflight/bundle/prompt checkpoint, verify content immutability and clean worktree, then run the authorized live read-only Sol/xhigh narrow delta review.
 - Current blocker: none.
 - Exact resume state: zero acquisition, market data, training, backtest, returns, or holdout access; draft not frozen; capital/GPU zero; mining unchanged.
+## 2026-08-05T12:01:47.401146741Z — final Route 4 narrow delta review is substantive `REVISION_REQUIRED`
+
+- Current checkpoint: clean reviewed commit `4f4fe6ab...`, content commit `04071a14...`, bundle `c87da4d5...`, live Sol/xhigh result `91e187ab...`; no freeze manifest exists.
+- What changed: only durable review and hard-stop classification evidence. The reviewed content was unchanged.
+- What was verified: check 1 passed; all byte/canonical identities and the acyclic bundle matched; the read-only invocation completed successfully in 642.48 seconds using 2,133,336 input tokens (1,912,576 cached) and 27,409 output tokens. No service retry was used.
+- What failed: check 8 lacks truthful post-response-start transfer-failure states and accepts inconsistent HTTP/outcome combinations; check 9 cannot detect complete-suffix or whole-ledger deletion and does not validate pagination lineage or retained blobs; prior check 4 is therefore invalidated. The deterministic preflight missed these adversarial cases.
+- Current best defensible result: `DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT`. The route is not economically unsuccessful and is not scientifically consumed.
+- Next action: stop Route 4. Await a program-level decision between Route 4 deferral and a separately authorized independent route. No sixth direction review is authorized.
+- Current blocker: `PROGRAM_LEVEL_HUMAN_DECISION_REQUIRED_AFTER_ROUTE_4_FINAL_NARROW_REVIEW_HARD_STOP`.
+- Exact resume state: acquisition not started; zero network requests, bytes, archive objects, market rows, training, backtests, returns, or holdout access; draft unfrozen; capital/GPU zero; mining unchanged.

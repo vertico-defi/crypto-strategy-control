@@ -16,10 +16,13 @@
         "authorized": true,
         "authorization_type": "final_bounded_provenance_architecture_correction_and_narrow_delta_review",
         "substantive_attempts_authorized": 1,
-        "substantive_attempts_used": 0,
+        "substantive_attempts_used": 1,
         "identical_service_failure_retries_authorized": 1,
         "identical_service_failure_retries_used": 0,
-        "implementation_or_acquisition_repairs_consumed": 0
+        "retry_closed_after_substantive_verdict": true,
+        "implementation_or_acquisition_repairs_consumed": 0,
+        "final_verdict": "REVISION_REQUIRED",
+        "further_correction_or_review_authorized": false
       },
       "prior_route_terminal_audit_attempts": {
         "route_3_terminal_direction_review_classification": 1
@@ -32,6 +35,7 @@
       "model_invocations": {
         "direction_review_used": 4,
         "direction_review_attempt_4_authorized": 1,
+        "final_provenance_narrow_delta_review_used": 1,
         "implementation_used": 0,
         "independent_audit_used": 0,
         "production_integration_used": 0
@@ -63,8 +67,8 @@
     "store_live": false
   },
   "current_experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
-  "data_contract_status": "FINAL_PROVENANCE_PREFLIGHT_PASS / PREREGISTRATION_NOT_FROZEN / DATA_ACQUISITION_PROHIBITED",
-  "development_status": "REVISION_REQUIRED_NOT_FROZEN / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
+  "data_contract_status": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / ACQUISITION_PROHIBITED",
+  "development_status": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -86,7 +90,7 @@
   "direction_review_model_result": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
   "direction_review_model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
   "direction_review_model_result_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
-  "direction_review_status": "FINAL_NARROW_DELTA_REVIEW_AUTHORIZED / NOT_INVOKED / CLEAN_PRE_REVIEW_BUNDLE_CHECKPOINT_PENDING",
+  "direction_review_status": "FINAL_NARROW_DELTA_REVIEW_REVISION_REQUIRED / SUBSTANTIVE_RETRY_CLOSED / NO_FURTHER_REVIEW_AUTHORIZED",
   "route_4_final_provenance_correction_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_PROVENANCE_ARCHITECTURE_CORRECTION_AUTHORIZATION.json",
   "route_4_final_provenance_correction_authorization_byte_sha256": "f3311c1aa4212e759903f2f27a2f0376100e6ea3013cca7dd6decc514b49099e",
   "route_4_final_provenance_correction_authorization_sha256": "3f6e4b26fbf5e2b46be5ec661337af5a96a9ff48e1a1527e56fe2a9ae395dff0",
@@ -102,6 +106,15 @@
   "route_4_final_provenance_pre_review_bundle": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_PROVENANCE_PRE_REVIEW_BUNDLE.json",
   "route_4_final_provenance_pre_review_bundle_byte_sha256": "636d791175534623b3bd8c85e17adeb796ee722cf8458b95cdab9ea5b2b54e1f",
   "route_4_final_provenance_pre_review_bundle_sha256": "c87da4d5356dd844d4ce56be3823ad271c44cf25793e5d6791c83dd410ffe996",
+  "route_4_final_narrow_delta_review": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_NARROW_DELTA_REVIEW.json",
+  "route_4_final_narrow_delta_review_byte_sha256": "274867ee48df8d70db16cfae372750f21d6f82585568b1767b7430194ed215c2",
+  "route_4_final_narrow_delta_review_sha256": "3a19b249cb379c44f435e1c7388c6af781cc93f111a518c42f926e81c90af1be",
+  "route_4_final_narrow_delta_review_model_result": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_NARROW_DELTA_REVIEW_MODEL_RESULT.json",
+  "route_4_final_narrow_delta_review_model_result_byte_sha256": "a55ca564cc72f83f742729c37ca844e872c564eab50ef08ab2b03f0bb468f94b",
+  "route_4_final_narrow_delta_review_model_result_sha256": "91e187ab4235369b52a50c61ab58e02286b01b56f6d1b7cfa81cdcbc8e8af345",
+  "route_4_final_narrow_delta_review_validation": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_NARROW_DELTA_REVIEW_VALIDATION.json",
+  "route_4_final_narrow_delta_review_validation_byte_sha256": "6d3db3bc1d732b0faf9df9492cfedd3a27061c9fc7d53e62db53c9f51341c186",
+  "route_4_final_narrow_delta_review_validation_sha256": "f60400137e09126372ed8b0fcc37672e8ddebb789e3c9ce8c0f7fc8e7adff5f6",
   "route_4_direction_review_attempt_4": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4.json",
   "route_4_direction_review_attempt_4_byte_sha256": "2e65ca54291e4852d0e36b3372e6df4e8176e01d7dcb73cb066e735c8af45292",
   "route_4_direction_review_attempt_4_sha256": "23588f15d16fd640d6942d6b1bd82cd926e01b0064e895f559f3f559db699b83",
@@ -185,7 +198,7 @@
   "implementation_model_result": null,
   "implementation_model_result_byte_sha256": null,
   "implementation_model_result_sha256": null,
-  "implementation_status": "NOT_STARTED / NOT_AUTHORIZED_PENDING_DIRECTION_ACCEPTANCE",
+  "implementation_status": "NOT_STARTED / NOT_AUTHORIZED / ROUTE_4_DIRECTION_HARD_STOP",
   "implementation_artifact_sha256": {},
   "implementation_validation": null,
   "implementation_validation_byte_sha256": null,
@@ -202,8 +215,8 @@
   "implementation_validation_failure_byte_sha256": "c477090b311f998dc9bd7976853b518c20c663946e52c7f6d0776d6ab205051a",
   "implementation_validation_failure_sha256": "9efe03564a2f978229df47b5fd918a66acd04961bcdea7899b0ce00e168e7e80",
   "implementation_validation_sha256": null,
-  "last_terminal_experiment_id": "btc-eth-volatility-managed-equal-weight-v2",
-  "last_terminal_verdict": "PREREGISTRATION_BLOCKED_DIRECTION_REVIEW_BUDGET_EXHAUSTED / METHODOLOGY_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+  "last_terminal_experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "last_terminal_verdict": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
   "latest_publication": {
     "deployed_content_verified": true,
     "evidence_commit": "5cf57806f1d2a6f83d320a9247004a523471590f",
@@ -216,7 +229,7 @@
     "source_snapshot_commit": "f969ddab91b84a20e4a666cdfa2b622283e39175",
     "store_live": false
   },
-  "next_task": "commit_clean_pre_review_bundle_checkpoint_then_run_authorized_live_read_only_sol_xhigh_narrow_delta_review",
+  "next_task": "await_program_level_human_decision_between_route_4_deferral_and_a_separately_authorized_independent_route",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -254,11 +267,11 @@
   "preregistration_revision_incorporation_byte_sha256": "1d76e1b10b41c75d88938ed6ff3eba2684114296dc906a8b65c9faf5964900a6",
   "preregistration_revision_incorporation_sha256": "4697217c9b960f29a9e6bda044a5c3dd3fff3e10ae9b507c62484758a6d3c2c4",
   "preregistration_sha256": null,
-  "preregistration_status": "DRAFT_V2_PROVENANCE_CORRECTED_PREFLIGHT_PASS_NOT_FROZEN_PENDING_NARROW_DELTA_REVIEW",
+  "preregistration_status": "REVISION_REQUIRED_NOT_FROZEN / DIRECTION_DESIGN_INCONCLUSIVE / NO_FURTHER_CORRECTION_AUTHORIZED",
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
-  "program_blocker": null,
+  "program_blocker": "PROGRAM_LEVEL_HUMAN_DECISION_REQUIRED_AFTER_ROUTE_4_FINAL_NARROW_REVIEW_HARD_STOP",
   "program_state": "ACTIVE_RESEARCH_PHASE_2",
   "final_mechanical_index_repair_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_AUTHORIZATION.json",
   "final_mechanical_index_repair_authorization_byte_sha256": "baa2a233880cc3896e55a5ddcb6bc6c4325209693c697ecdcb783f55f37e7d85",
@@ -346,6 +359,32 @@
     "terminal_audit_sha256": "c10df658ea4387e2df8a7e18c779fdeb049fda8d45ad71d71b92a56d2549c774",
     "queue_routing": "BEGIN_BINANCE_ARCHIVE_ACQUISITION_V3"
   },
+  "route_4_terminal": {
+    "exact_experiment_terminal_for_current_authorization": true,
+    "administrative_queue_terminal": true,
+    "scientifically_consumed": false,
+    "terminal_verdict": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
+    "hard_stop_issue_types": [
+      "SCHEMA_FAILURE",
+      "RECONSTRUCTABILITY_FAILURE",
+      "LOCAL_PROVENANCE_FAILURE"
+    ],
+    "new_nonlocal_methodological_defect": false,
+    "economic_result_exists": false,
+    "data_result_exists": false,
+    "implementation_started": false,
+    "acquisition_started": false,
+    "network_requests_made": 0,
+    "bytes_acquired": 0,
+    "market_data_rows_accessed": 0,
+    "draft_frozen": false,
+    "freeze_manifest_created": false,
+    "holdout_paths_resolved": false,
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "sixth_direction_review_authorized": false,
+    "queue_routing": "PROGRAM_LEVEL_DECISION_REQUIRED_ROUTE_4_DEFER_OR_SEPARATELY_AUTHORIZE_INDEPENDENT_ROUTE"
+  },
   "production_integration_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/PRODUCTION_INTEGRATION_AUTHORIZATION.json",
   "production_integration_authorization_byte_sha256": "f3e3c60de2ac562f77913cbef6890a3701d5b9e2256404ee6ab031b270d27671",
   "production_integration_authorization_sha256": "3b4dcb136512eb1012cc0b763e83d56fe846b0241ed1ef6e1a815b9d0815bcab",
@@ -381,5 +420,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-05T09:29:21.882649012Z"
+  "updated_at_utc": "2026-08-05T12:07:47.184945080Z"
 }

@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "review_kind": "FINAL_NARROW_PROVENANCE_ARCHITECTURE_DELTA_REVIEW",
+  "authorization_type": "final_bounded_provenance_architecture_correction_and_narrow_delta_review",
+  "invocation_mode": "live",
+  "reviewer_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "permission": "read_only",
+  "fallback_used": false,
+  "parent_prelaunch_at_utc": "2026-08-05T11:50:49.971985217Z",
+  "result_file_completed_at_utc": "2026-08-05T12:01:47.401146741Z",
+  "reported_wall_duration_seconds": 642.48,
+  "maximum_wall_seconds": 1200,
+  "external_deadline_expired": false,
+  "process_exit_status": 0,
+  "thread_id": "019fd1c3-4cf5-76e0-8080-accb52234a97",
+  "source_commit_reviewed": "4f4fe6aba3db11a93b79659a3dd87c37f97a08a0",
+  "source_content_commit": "04071a14a53bfc56ef0349213cce9dc05434eda8",
+  "source_clean_at_start": true,
+  "reviewed_content_unchanged": true,
+  "pre_review_content_mutation": false,
+  "pre_review_bundle": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_PROVENANCE_PRE_REVIEW_BUNDLE.json",
+    "byte_sha256": "636d791175534623b3bd8c85e17adeb796ee722cf8458b95cdab9ea5b2b54e1f",
+    "canonical_sha256": "c87da4d5356dd844d4ce56be3823ad271c44cf25793e5d6791c83dd410ffe996"
+  },
+  "preflight": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_PROVENANCE_PREFLIGHT.json",
+    "byte_sha256": "d3cb4861bda11f26bfe4b33215e51fc6e29c024abd604fac5c6fe06bc5876ea4",
+    "canonical_sha256": "e34b0540a0155e784ec68df4a0ef2e407bf07d8bdcda16919c7bf052e5573ebb",
+    "recorded_verdict": "PASS",
+    "review_finding": "INCOMPLETE_SEMANTIC_COVERAGE"
+  },
+  "reviewed_draft": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT_V2.json",
+    "byte_sha256": "5e579d723df05e6ad940357916099d4fd49d0ca2ea744a16310d3483111d9188",
+    "canonical_sha256": "c770c134dc0e75548c352e21f57a99bcd2deffd4813b8b580c5067ad91a05034",
+    "resolved_effective_canonical_sha256": "d771589e1ece1347e1f772bc76ac6611bd64433de39f1f7a9f5b2ab295e85446"
+  },
+  "reviewed_output_schema": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_DELTA_REVIEW_OUTPUT_SCHEMA_V2.json",
+    "byte_sha256": "8e149b74111993784ef1a24a4582d8548d54cab76ad1f3752862ed57e4fd27f2",
+    "canonical_sha256": "99adeb870981faaadb1a723f963be2cce8ffc6dee81eed6dbbaeb5d99c828dec"
+  },
+  "network_event_schema": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/NETWORK_EVENT_LEDGER_SCHEMA_V1.json",
+    "byte_sha256": "ce95f18c7e365e157ab273ce7673057b93e7b21fb842935dacf29f6b9fd39917",
+    "canonical_sha256": "a205622b3be107c62f1bd307bc619a1a230dd3e115a4f3fcd3c34047c69ab159"
+  },
+  "model_result": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/FINAL_NARROW_DELTA_REVIEW_MODEL_RESULT.json",
+    "byte_sha256": "a55ca564cc72f83f742729c37ca844e872c564eab50ef08ab2b03f0bb468f94b",
+    "canonical_sha256": "91e187ab4235369b52a50c61ab58e02286b01b56f6d1b7cfa81cdcbc8e8af345",
+    "parsed_object_matches_codex_last_message": true
+  },
+  "token_usage": {
+    "input_tokens": 2133336,
+    "cached_input_tokens": 1912576,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 27409,
+    "reasoning_output_tokens": 17098,
+    "total_tokens": 2160745
+  },
+  "delta_check_counts": {
+    "passed": 1,
+    "failed": 2
+  },
+  "delta_check_dispositions": {
+    "1": "PASS",
+    "8": "FAIL",
+    "9": "FAIL"
+  },
+  "regression_check_dispositions": {
+    "0": "STRENGTHENED",
+    "2": "UNCHANGED",
+    "3": "UNCHANGED",
+    "4": "INVALIDATED",
+    "5": "UNCHANGED",
+    "6": "UNCHANGED",
+    "7": "UNCHANGED",
+    "10": "UNCHANGED",
+    "11": "UNCHANGED",
+    "12": "UNCHANGED",
+    "13": "UNCHANGED",
+    "14": "UNCHANGED",
+    "15": "UNCHANGED",
+    "16": "STRENGTHENED",
+    "17": "UNCHANGED",
+    "18": "UNCHANGED"
+  },
+  "final_verdict": "REVISION_REQUIRED",
+  "hard_stop_triggered": true,
+  "hard_stop_issue_types": [
+    "SCHEMA_FAILURE",
+    "RECONSTRUCTABILITY_FAILURE",
+    "LOCAL_PROVENANCE_FAILURE"
+  ],
+  "new_nonlocal_methodological_defect": false,
+  "route_classification": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
+  "data_acquisition_remains_prohibited": true,
+  "draft_frozen": false,
+  "freeze_manifest_created": false,
+  "additional_correction_authorized": false,
+  "sixth_direction_review_authorized": false,
+  "identical_service_failure_retry_used": false,
+  "identical_service_failure_retry_closed_reason": "The invocation produced a substantive REVISION_REQUIRED verdict; the service-failure-only retry is not permitted.",
+  "prelaunch_wrapper_diagnostic": {
+    "command": "/usr/bin/time -v /usr/bin/timeout ...",
+    "exit_status": 127,
+    "observed_error_class": "/usr/bin/time binary unavailable",
+    "model_invocation_started": false,
+    "review_attempt_or_retry_consumed": false
+  },
+  "network_accessed": false,
+  "market_data_accessed": false,
+  "archive_objects_discovered": 0,
+  "archive_objects_downloaded": 0,
+  "bytes_acquired": 0,
+  "market_data_rows_accessed": 0,
+  "model_training_performed": false,
+  "backtest_performed": false,
+  "strategy_returns_calculated": false,
+  "performance_claim_made": false,
+  "holdout_paths_resolved": false,
+  "holdout_accessed": false,
+  "implementation_repair_consumed": false,
+  "acquisition_attempt_consumed": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

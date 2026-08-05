@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "completed_at_utc": "2026-08-05T12:07:47.184945080Z",
+  "invocation_mode": "deterministic_local",
+  "source_commit_reviewed": "4f4fe6aba3db11a93b79659a3dd87c37f97a08a0",
+  "source_content_commit": "04071a14a53bfc56ef0349213cce9dc05434eda8",
+  "validation_scope": "PRESERVE_SUBSTANTIVE_FINAL_NARROW_REVIEW_AND_ENFORCE_AUTHORIZED_HARD_STOP",
+  "checks": [
+    {
+      "command": "compare FINAL_NARROW_DELTA_REVIEW_MODEL_RESULT.json parsed object to the exact Codex --output-last-message result",
+      "exit_status": 0,
+      "result": "PASS exact parsed-object equality"
+    },
+    {
+      "command": "recompute reviewed draft, output-schema, network-schema, preflight, and pre-review-bundle byte and canonical hashes",
+      "exit_status": 0,
+      "result": "PASS exact equality to the committed pre-review bundle and live review result"
+    },
+    {
+      "command": "git diff --name-only 04071a14a53bfc56ef0349213cce9dc05434eda8 -- reviewed content and validator paths",
+      "exit_status": 0,
+      "result": "PASS no output: reviewed content remains byte-identical to the source-content commit"
+    },
+    {
+      "command": "validate review verdict, check partition, prohibited-action flags, and service-retry rule",
+      "exit_status": 0,
+      "result": "PASS: substantive REVISION_REQUIRED; check 1 PASS; checks 8 and 9 FAIL; prior check 4 INVALIDATED; all prohibited-action flags false; retry prohibited"
+    },
+    {
+      "command": "env PYTHONPATH=/home/vertico/crypto-strategy-control/src /home/vertico/ctrend-lab/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_route4_contract.py tests/test_route4_preflight.py",
+      "exit_status": 0,
+      "result": "All 13 focused tests passed. The live reviewer demonstrated that this suite does not cover complete-suffix truncation, HTTP/outcome coupling, pagination-parent resolution, or retained-blob verification."
+    },
+    {
+      "command": "env PYTHONPATH=/home/vertico/crypto-strategy-control/src /home/vertico/ctrend-lab/.venv/bin/python -m pytest -q -p no:cacheprovider",
+      "exit_status": 0,
+      "result": "All 319 repository tests passed. These tests are not evidence of a valid data contract or trading profitability."
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m ruff check .",
+      "exit_status": 0,
+      "result": "All checks passed."
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m mypy --strict --python-version 3.13 src",
+      "exit_status": 0,
+      "result": "Success: no issues found in 31 source files."
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m compileall -q src tests",
+      "exit_status": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "parse every repository JSON and the four controlled JSONL ledgers",
+      "exit_status": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "publication-safety credential-pattern scan",
+      "exit_status": 0,
+      "result": "PASS no secret material found; one benign progress-log phrase matched"
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0,
+      "result": "PASS"
+    }
+  ],
+  "validated_artifacts": {
+    "review_byte_sha256": "274867ee48df8d70db16cfae372750f21d6f82585568b1767b7430194ed215c2",
+    "review_canonical_sha256": "3a19b249cb379c44f435e1c7388c6af781cc93f111a518c42f926e81c90af1be",
+    "model_result_byte_sha256": "a55ca564cc72f83f742729c37ca844e872c564eab50ef08ab2b03f0bb468f94b",
+    "model_result_canonical_sha256": "91e187ab4235369b52a50c61ab58e02286b01b56f6d1b7cfa81cdcbc8e8af345",
+    "pre_review_bundle_canonical_sha256": "c87da4d5356dd844d4ce56be3823ad271c44cf25793e5d6791c83dd410ffe996",
+    "preflight_canonical_sha256": "e34b0540a0155e784ec68df4a0ef2e407bf07d8bdcda16919c7bf052e5573ebb",
+    "revised_draft_canonical_sha256": "c770c134dc0e75548c352e21f57a99bcd2deffd4813b8b580c5067ad91a05034",
+    "reviewed_output_schema_canonical_sha256": "99adeb870981faaadb1a723f963be2cce8ffc6dee81eed6dbbaeb5d99c828dec"
+  },
+  "verdict": "PASS_REVIEW_EVIDENCE_VALIDATION",
+  "review_verdict_preserved": "REVISION_REQUIRED",
+  "route_classification": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
+  "draft_frozen": false,
+  "freeze_manifest_created": false,
+  "acquisition_authorized": false,
+  "network_accessed": false,
+  "market_data_accessed": false,
+  "archive_objects_downloaded": 0,
+  "bytes_acquired": 0,
+  "market_data_rows_accessed": 0,
+  "holdout_paths_resolved": false,
+  "holdout_accessed": false,
+  "model_training_performed": false,
+  "backtest_performed": false,
+  "strategy_returns_calculated": false,
+  "performance_claim_made": false,
+  "implementation_repair_consumed": false,
+  "acquisition_attempt_consumed": false,
+  "additional_correction_authorized": false,
+  "sixth_direction_review_authorized": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0
+}

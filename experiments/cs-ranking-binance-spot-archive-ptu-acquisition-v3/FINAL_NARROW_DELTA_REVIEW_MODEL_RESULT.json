@@ -1,0 +1,164 @@
+{
+  "schema_version": "2.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "review_kind": "FINAL_NARROW_PROVENANCE_ARCHITECTURE_DELTA_REVIEW",
+  "verdict": "REVISION_REQUIRED",
+  "source_commit": "4f4fe6aba3db11a93b79659a3dd87c37f97a08a0",
+  "source_content_commit": "04071a14a53bfc56ef0349213cce9dc05434eda8",
+  "pre_review_bundle_sha256": "c87da4d5356dd844d4ce56be3823ad271c44cf25793e5d6791c83dd410ffe996",
+  "draft_byte_sha256": "5e579d723df05e6ad940357916099d4fd49d0ca2ea744a16310d3483111d9188",
+  "draft_canonical_sha256": "c770c134dc0e75548c352e21f57a99bcd2deffd4813b8b580c5067ad91a05034",
+  "output_schema_byte_sha256": "8e149b74111993784ef1a24a4582d8548d54cab76ad1f3752862ed57e4fd27f2",
+  "output_schema_canonical_sha256": "99adeb870981faaadb1a723f963be2cce8ffc6dee81eed6dbbaeb5d99c828dec",
+  "scope": "Read-only committed-evidence review of the exact bounded provenance delta, its predecessor, schemas, validators, tests, attempt-4 evidence, authorizations, protocol, and gates. No network, Binance resource, market data, holdout, model training, strategy implementation, backtest, return calculation, acquisition, or performance evaluation was accessed or performed.",
+  "delta_checks": [
+    {
+      "check": 1,
+      "status": "PASS",
+      "finding": "All supplied byte and canonical hashes independently recompute exactly, including the resolved effective draft. The reviewed content matches the source-content commit and clean worktree, with no PRE_REVIEW_CONTENT_MUTATION. Draft and output schema contain no reciprocal current-content hashes; predecessor hashes are labeled lineage. The bundle creates an acyclic content-to-bundle-to-review-to-post-PASS-freeze chain, and the specified freeze manifest is conditional on PASS and binds the unchanged reviewed identities and review evidence."
+    },
+    {
+      "check": 8,
+      "status": "FAIL",
+      "finding": "The ATTEMPT union fixes the original response-only defect: no-response fields are explicit null and recorded retries are distinct, ordered, immutable, and counted. It is not exhaustive or fail-closed for all response attempts, however. There is no truthful outcome for a response whose headers/status arrive but body transfer then times out, resets, or exceeds the streaming ceiling. The validator also accepts SUCCESS_HTTP with status 503, bypassing the frozen retry policy, because HTTP status is not coupled to observable_outcome."
+    },
+    {
+      "check": 9,
+      "status": "FAIL",
+      "finding": "For records still present, the validator enforces one terminal, ordered attempts, terminal state, and the preceding ledger-prefix hash. Exact raw-only completeness is not established: deleting an entire final completed request suffix from a valid multi-request ledger leaves a ledger that validates, and an empty truncation also validates. Unresolved pagination-parent hashes and arbitrary unverified blob references are accepted. Thus complete-suffix truncation, missing scheduled attempts, and blob-inconsistent evidence do not fail closed without an external authoritative head or schedule."
+    }
+  ],
+  "regression_checks": [
+    {
+      "check": 0,
+      "status": "STRENGTHENED",
+      "finding": "Exact content identities and the clean source-content commit are additionally bound by the independently canonicalized pre-review bundle."
+    },
+    {
+      "check": 2,
+      "status": "UNCHANGED",
+      "finding": "Phase 1 and prior archive-route verdicts and artifacts remain immutable and unmodified."
+    },
+    {
+      "check": 3,
+      "status": "UNCHANGED",
+      "finding": "The requirement that every v3 observation derive from newly retained official bytes is untouched."
+    },
+    {
+      "check": 4,
+      "status": "INVALIDATED",
+      "finding": "The storage-carrier replacement is incomplete: the effective draft still binds decoded listing evidence to a raw index record, still requires raw_evidence_index_sha256 in the manifest, and still resolves source hashes through the removed raw evidence index. Pagination-parent and retained-blob validation are also absent, so exact raw listing reconstruction is no longer internally closed."
+    },
+    {
+      "check": 5,
+      "status": "UNCHANGED",
+      "finding": "The root traversal and exact 101-month development scope are outside the closed delta and unchanged."
+    },
+    {
+      "check": 6,
+      "status": "UNCHANGED",
+      "finding": "Identity-preserving redirect and listing/object/checksum metadata requirements remain textually unchanged; the new response records retain final URL, headers, byte count, body hash, and blob reference."
+    },
+    {
+      "check": 7,
+      "status": "UNCHANGED",
+      "finding": "ZIP, CSV, numeric, timestamp, and OHLCV validation rules are outside the delta."
+    },
+    {
+      "check": 10,
+      "status": "UNCHANGED",
+      "finding": "Symbol-label-only identity, episode splitting, and recovery buffers are unchanged."
+    },
+    {
+      "check": 11,
+      "status": "UNCHANGED",
+      "finding": "Causal eligibility and liquidity inputs remain restricted to verified completed pre-signal rows."
+    },
+    {
+      "check": 12,
+      "status": "UNCHANGED",
+      "finding": "Retrospective last-bar metadata remains noncausal audit metadata only."
+    },
+    {
+      "check": 13,
+      "status": "UNCHANGED",
+      "finding": "Exact execution lookup, synchronization, delay, and fail-closed terminal rules are unchanged."
+    },
+    {
+      "check": 14,
+      "status": "UNCHANGED",
+      "finding": "Archive-completeness and asset-identity claim limitations are unchanged."
+    },
+    {
+      "check": 15,
+      "status": "UNCHANGED",
+      "finding": "The 25-symbol, 365-row, and 365-signal-day sufficiency gates are unchanged."
+    },
+    {
+      "check": 16,
+      "status": "STRENGTHENED",
+      "finding": "Resource ceilings are unchanged, while issued-attempt accounting now includes response and no-response ATTEMPT records."
+    },
+    {
+      "check": 17,
+      "status": "UNCHANGED",
+      "finding": "DATA_CONTRACT_GO remains noneconomic and all implementation, acquisition, holdout, capital, and performance permissions remain false."
+    },
+    {
+      "check": 18,
+      "status": "UNCHANGED",
+      "finding": "The seven attempt-3 revisions remain represented without economic, numerical-gate, or resource-ceiling expansion; the current failures arise in the final provenance delta."
+    }
+  ],
+  "findings": [
+    "The repository is clean at 4f4fe6aba3db11a93b79659a3dd87c37f97a08a0, and every required reviewed-content file is byte-identical to content commit 04071a14a53bfc56ef0349213cce9dc05434eda8.",
+    "All supplied bindings independently match, including network-schema canonical hash a205622b3be107c62f1bd307bc619a1a230dd3e115a4f3fcd3c34047c69ab159, preflight canonical hash e34b0540a0155e784ec68df4a0ef2e407bf07d8bdcda16919c7bf052e5573ebb, bundle byte hash 636d791175534623b3bd8c85e17adeb796ee722cf8458b95cdab9ea5b2b54e1f, and attempt-4 bindings.",
+    "The thirteen committed focused tests pass, but their truncation fixture removes only a terminal while retaining unterminated attempts; it does not test deletion of a complete final request suffix.",
+    "Independent adversarial validation demonstrated acceptance of complete-suffix truncation, SUCCESS_HTTP with status 503, an unresolved pagination parent, and a non-content-addressed unverified blob reference.",
+    "The preflight maps all nineteen checks and its HUMAN_METHODOLOGY_ONLY classifications are explicit and reasonable. Its executable conclusions are nevertheless unsound because several semantic PASS booleans are asserted after incomplete fixtures and do not detect the demonstrated failures.",
+    "No durable-evidence shortage prevents a substantive verdict; these are reproducible committed-design failures, not service or transport limitations."
+  ],
+  "required_revisions": [
+    {
+      "category": "schema_failure",
+      "problem": "The response/no-response outcome union omits post-response-start transfer failures and does not couple HTTP status, outcome, retryability, transport observations, and next action. A 503 can validate as accepted success.",
+      "required_change": "Version the network-event schema and validator to represent response-started incomplete transfers and other locally rejected response bodies explicitly; define exact status-to-outcome rules, including the only accepted success statuses; derive retryability and next action from those rules; and add adversarial fixtures for 503-as-success, 200-as-error, partial-body timeout/reset, and size-ceiling termination.",
+      "scope_effect": "Required for check 8 and for truthful terminal derivation in check 9; no economic or acquisition scope changes."
+    },
+    {
+      "category": "reconstructability_failure",
+      "problem": "Terminal-prefix binding cannot detect deletion of a complete final request suffix, and raw-only validation lacks an authoritative terminal-inclusive ledger head and expected attempted-request coverage.",
+      "required_change": "Add a terminal-inclusive append-only hash chain or immutable final ledger seal bound outside mutable state, bind the exact scheduled/attempted logical-request set derivable from retained evidence, and require reconstruction to match both. Add negative fixtures deleting one complete final request, multiple complete suffix requests, and the whole ledger.",
+      "scope_effect": "Required for check 9 exact reconstruction and fail-closed truncation handling."
+    },
+    {
+      "category": "reconstructability_failure",
+      "problem": "The effective contract retains references to the removed raw evidence index and the validator accepts unresolved pagination-parent and unverified blob references.",
+      "required_change": "Replace every remaining raw-index field and prose reference with exact NETWORK_EVENT_LEDGER_V1 and logical_request_id semantics; define the manifest ledger hash and blob Merkle bindings; validate pagination lineage against preceding successful listing terminals; and verify every referenced blob path, byte count, SHA-256, decoded evidence binding, and missing/corrupt-blob failure.",
+      "scope_effect": "Repairs check 9 and the invalidated prior check 4 without changing economic methodology, gates, or resource ceilings."
+    },
+    {
+      "category": "local_provenance_failure",
+      "problem": "FINAL_PROVENANCE_PREFLIGHT reports raw-only reconstruction, truncation rejection, union completeness, and all-sixteen regression safety as PASS despite not testing or detecting the demonstrated counterexamples.",
+      "required_change": "Make each semantic result depend on executable assertions, add the missing adversarial fixtures and effective-contract stale-reference scan, validate schema/validator conditional equivalence, and report failure rather than hard-coded true whenever any required property is not established.",
+      "scope_effect": "Required before another narrow review can rely on the deterministic preflight; classifications that are genuinely human-only may remain explicit."
+    }
+  ],
+  "limitations": [
+    "No production ledger or retained blob set exists and none was accessed; this verdict assesses the committed no-data architecture and deterministic fixtures only.",
+    "Positive test completion is not evidence of archive availability, data-contract acceptance, strategy validity, or performance."
+  ],
+  "reviewed_content_unchanged": true,
+  "non_circular_binding_passed": true,
+  "raw_only_reconstruction_passed": false,
+  "previous_sixteen_checks_unaltered": false,
+  "network_accessed": false,
+  "market_data_accessed": false,
+  "model_training_performed": false,
+  "backtest_performed": false,
+  "strategy_returns_calculated": false,
+  "holdout_accessed": false,
+  "performance_claim_made": false,
+  "implementation_authorized": false,
+  "acquisition_authorized": false
+}
