@@ -109,7 +109,7 @@
   },
   "current_experiment_id": "btc-eth-relative-value-rotation-v2",
   "data_contract_status": "FROZEN_VERIFIED_DEVELOPMENT_DATA_CONTRACT / 36_ALLOWLISTED_PARTITIONS / HOLDOUT_SEALED",
-  "development_status": "LOCALIZED_PRODUCTION_ADAPTER_AND_SESSION_MAPPING_BLOCKER / REPAIR_ROUND_1_PENDING / NO_ECONOMIC_RESULT",
+  "development_status": "MECHANICAL_COMPLETION_ROUND_1_AUTHORIZED_PENDING_LIVE_IMPLEMENTATION / NO_ECONOMIC_RESULT",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -270,7 +270,7 @@
     "source_snapshot_commit": "71c9ab457de878e1e0f9fb3c67d7e70a700a1977",
     "store_live": false
   },
-  "next_task": "authorize_relative_value_v2_phase_3_mechanical_completion_round_1",
+  "next_task": "invoke_terra_medium_for_relative_value_v2_phase_3_mechanical_completion_round_1",
   "phase": 3,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -332,6 +332,10 @@
   "phase_3_relative_value_production_preflight_result_byte_sha256": "79c34afc62fc96030ff5017981650745f1a9d5570c2069882aff88d1bc050336",
   "phase_3_relative_value_production_preflight_stages": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_PRODUCTION_PREFLIGHT_STAGES.jsonl",
   "phase_3_relative_value_production_preflight_stages_byte_sha256": "7f9394f625f1ba923f253381d393bcfaa66398c05d2a58b01ac0852c5d2d10c1",
+  "phase_3_relative_value_mechanical_completion_round_1_authorization": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_1_AUTHORIZATION.json",
+  "phase_3_relative_value_mechanical_completion_round_1_authorization_byte_sha256": "79db4c5c89149e56ba03b2d5a603a8fc959d1fbca375d7ad15cc21c1b29f843a",
+  "phase_3_relative_value_mechanical_completion_round_1_prompt": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_1_PROMPT.md",
+  "phase_3_relative_value_mechanical_completion_round_1_prompt_byte_sha256": "0c1d17d0e623d4406f01ec999e782b1435a1902ce72e535c4d5f2487b9021a97",
   "route_4_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
   "route_4_authorization_byte_sha256": "c517a6979133676aa470ded8a33d1a71fc3bf07cf84d91d6e908cf8033e9e8ce",
   "route_4_authorization_sha256": "f71a9a59fb13f7eb6af1ed60bcc645e2d40a230040e2729c27003546cf5bcd66",
