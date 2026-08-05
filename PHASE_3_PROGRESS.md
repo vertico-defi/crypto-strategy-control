@@ -56,3 +56,14 @@
 - Next experiment: `btc-eth-relative-value-rotation-v2`, which is scientifically independent and must use separate Phase 3 artifacts and contaminated-prior multiplicity accounting.
 - Current blocker: mean-reversion v2 exhausted both Phase 3 pre-result mechanical completion rounds; the remaining work is nonlocal evaluator and production-path repair. The post-result correction does not apply because no result exists.
 - Exact resume state: Workstream A is administratively terminal for Phase 3; activate Workstream B, inspect its current committed state, and run a representative real-data production preflight before consuming a Phase 3 completion round. Holdout remains sealed and unread.
+
+## 2026-08-05T15:20:55.543759Z — Workstream B real-data blocker localized before repair
+
+- Current checkpoint: relative-value v2's instrumentation-only production preflight completed against all 36 allowlisted development partitions; no completion round was consumed.
+- Changed: activated Workstream B under its separate Phase 3 budget and added only a production preflight driver and durable evidence. Frozen strategy economics remain unchanged.
+- Verified: 790,558 rows and two missing minutes per asset; 549 session-grid entries, 547 complete sessions, 356 causal execution vectors; fold execution counts 81/172/264/356; exact terminal vector identity. Runtime was 211.21 seconds, peak RSS 1,730,340 KiB, and swaps were zero.
+- Failed: the current simulator has no explicit decision-session mapping and pairs vector index `i` to observation index `i`; all 356 real positional pairings mismatch because the 547 complete signal sessions include quarantined/recovery history while only 356 execution vectors are eligible. `BoundaryIndex.earliest_after` also scans all indexed timestamps per lookup.
+- Best defensible result: a localized production-adapter/session-binding blocker. No simulator was invoked, no aggregate return or performance metric was calculated, and no economic conclusion exists.
+- Next experiment step: authorize completion round 1 narrowly for a boundary-bound production adapter, explicit signal-session-to-exact-fill mapping, fail-closed gap/recovery state, and representative identity reconciliation.
+- Current blocker: missing production session/fill binding and repeated full timestamp scans.
+- Exact resume state: Workstream B completion rounds used 0/2; post-result corrections used 0/1; substantive audits used 0/2; formal economic attempts used 0; holdout remains unresolved, sealed, and unread.
