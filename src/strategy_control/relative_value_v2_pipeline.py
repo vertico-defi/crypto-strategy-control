@@ -8,7 +8,12 @@ from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from typing import TypeVar, cast
 
-from strategy_control.mean_reversion_v2_pipeline import FillIdentity, JointSession
+from strategy_control.mean_reversion_v2_pipeline import (
+    FillIdentity,
+    JointSession,
+    ProductionRowIndex,
+)
+from strategy_control.mean_reversion_v2_pipeline import MinuteRow as ProductionMinuteRow
 from strategy_control.relative_value_v2 import (
     CASH,
     DEVELOPMENT_FOLDS,
@@ -129,7 +134,11 @@ def run_bound_period(
 
 
 def build_production_bindings(
-    sessions: Sequence[JointSession], fills: Sequence[FillIdentity], *, end: datetime
+    sessions: Sequence[JointSession],
+    index: ProductionRowIndex,
+    fills: Sequence[FillIdentity],
+    *,
+    end: datetime,
 ) -> tuple[SessionExecutionBinding, ...]:
     """No-I/O adapter from verified production session/fill evidence.
 
@@ -139,39 +148,91 @@ def build_production_bindings(
     verified production-row types to remain in their existing module.
     """
     boundary = _utc(end)
+    if _utc(index.boundary) != boundary:
+        raise RelativeValueV2Error("production row-index boundary mismatch")
+
+    # Materialize exactly once.  Besides making the terminal selection linear,
+    # this rejects a mutable/lazy caller from changing the fill identity map
+    # halfway through binding construction.
+    ordered_fills = tuple(fills)
     by_session: dict[datetime, FillIdentity] = {}
-    for fill in fills:
+    prior_fill_session: datetime | None = None
+    prior_fill_timestamp: datetime | None = None
+    for ordinal, fill in enumerate(ordered_fills):
         session = _utc(fill.session)
-        if session in by_session:
-            raise RelativeValueV2Error("duplicate production fill session")
+        base_timestamp = _utc(fill.base_timestamp)
+        if (
+            session in by_session
+            or (prior_fill_session is not None and session <= prior_fill_session)
+            or (prior_fill_timestamp is not None and base_timestamp <= prior_fill_timestamp)
+            or fill.fill_index != ordinal
+        ):
+            raise RelativeValueV2Error("duplicate, unordered, or malformed production fill")
+        if session >= boundary or base_timestamp >= boundary:
+            raise RelativeValueV2Error("production fill escapes strict boundary")
         by_session[session] = fill
+        prior_fill_session, prior_fill_timestamp = session, base_timestamp
+
+    terminal_source = ordered_fills[-1] if ordered_fills else None
+    terminal_session = _utc(terminal_source.session) if terminal_source is not None else None
     ordered = tuple(sessions)
+    if not ordered:
+        raise RelativeValueV2Error("empty production session grid")
+    if any(
+        _utc(ordered[position].session) <= _utc(ordered[position - 1].session)
+        for position in range(1, len(ordered))
+    ):
+        raise RelativeValueV2Error("duplicate or unordered production session")
+    session_keys = {_utc(source.session) for source in ordered}
+    if not set(by_session).issubset(session_keys):
+        raise RelativeValueV2Error("production fill has no exact decision session")
     grid: list[SignalSession] = []
     for source in ordered:
         session_at = _utc(source.session)
         complete = source.complete is True
         cutoff = source.information_cutoff
         closes = source.closes
-        identity = str(getattr(source, "identity", session_at.isoformat()))
+        identity = source.identity
         if not complete:
+            if cutoff is not None or closes:
+                raise RelativeValueV2Error("incomplete production session carries signal data")
             signal = SignalSession(identity, session_at, None)
         else:
             if cutoff is None or set(closes) != set(SYMBOLS):
                 raise RelativeValueV2Error("malformed complete production session")
+            cutoff = _utc(cutoff)
+            close_timestamp = session_at + timedelta(days=1)
+            close_rows = {
+                asset: index.rows_by_asset[asset].get(close_timestamp) for asset in SYMBOLS
+            }
+            if any(row is None for row in close_rows.values()):
+                raise RelativeValueV2Error("complete session lacks retained exact close row")
+            if any(
+                row is None
+                or _utc(row.event_timestamp) != close_timestamp
+                or not math.isfinite(row.close)
+                or row.close <= 0
+                or float(closes[asset]) != float(row.close)
+                or _utc(row.available_timestamp) > cutoff
+                for asset, row in close_rows.items()
+            ):
+                raise RelativeValueV2Error("production close row/cutoff mismatch")
+            btc_close = cast(ProductionMinuteRow, close_rows[SYMBOLS[0]])
+            eth_close = cast(ProductionMinuteRow, close_rows[SYMBOLS[1]])
             observations = (
                 Observation(
                     SYMBOLS[0],
+                    btc_close.event_timestamp,
                     cutoff,
-                    cutoff,
-                    float(closes[SYMBOLS[0]]),
-                    f"{identity}:{SYMBOLS[0]}",
+                    float(btc_close.close),
+                    btc_close.identity,
                 ),
                 Observation(
                     SYMBOLS[1],
+                    eth_close.event_timestamp,
                     cutoff,
-                    cutoff,
-                    float(closes[SYMBOLS[1]]),
-                    f"{identity}:{SYMBOLS[1]}",
+                    float(eth_close.close),
+                    eth_close.identity,
                 ),
             )
             signal = SignalSession(identity, session_at, observations)
@@ -198,6 +259,19 @@ def build_production_bindings(
                 raise RelativeValueV2Error("production fill is not the exact required vector")
             prices = selected_fill.base_prices
             identities = selected_fill.base_row_identities
+            if set(prices) != set(SYMBOLS) or set(identities) != set(SYMBOLS):
+                raise RelativeValueV2Error("incomplete named base fill mapping")
+            exact_base = {
+                asset: index.rows_by_asset[asset].get(base_stamp + timedelta(minutes=1))
+                for asset in SYMBOLS
+            }
+            if any(row is None for row in exact_base.values()) or any(
+                row is None
+                or float(prices[asset]) != float(row.open)
+                or identities[asset] != row.identity
+                for asset, row in exact_base.items()
+            ):
+                raise RelativeValueV2Error("base fill does not retain exact production rows")
             base = CanonicalVector(
                 base_stamp,
                 (
@@ -224,6 +298,19 @@ def build_production_bindings(
                     selected_fill.delayed_prices,
                     selected_fill.delayed_row_identities,
                 )
+                if set(delayed_prices) != set(SYMBOLS) or set(delayed_ids) != set(SYMBOLS):
+                    raise RelativeValueV2Error("incomplete named delayed fill mapping")
+                exact_delayed = {
+                    asset: index.rows_by_asset[asset].get(delayed_stamp + timedelta(minutes=1))
+                    for asset in SYMBOLS
+                }
+                if any(row is None for row in exact_delayed.values()) or any(
+                    row is None
+                    or float(delayed_prices[asset]) != float(row.open)
+                    or delayed_ids[asset] != row.identity
+                    for asset, row in exact_delayed.items()
+                ):
+                    raise RelativeValueV2Error("delayed fill does not retain exact production rows")
                 delayed = CanonicalVector(
                     delayed_stamp,
                     (
@@ -241,13 +328,7 @@ def build_production_bindings(
                         ),
                     ),
                 )
-        terminal = (
-            base
-            if base is not None
-            and base.timestamp
-            == max((_utc(value.base_timestamp) for value in fills), default=boundary)
-            else None
-        )
+        terminal = base if terminal_session == item.session_at else None
         output.append(
             SessionExecutionBinding(
                 item.session_id,

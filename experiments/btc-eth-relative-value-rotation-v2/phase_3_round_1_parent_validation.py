@@ -62,6 +62,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--base-output", type=Path, required=True)
     parser.add_argument("--base-stage-log", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--repair-round", type=int, choices=(1, 2), default=1)
     return parser.parse_args()
 
 
@@ -88,7 +89,7 @@ def main() -> None:
         if end != BOUNDARY:
             return fills
         counted = CountingSequence(fills)
-        bindings = build_production_bindings(sessions, counted, end=end)
+        bindings = build_production_bindings(sessions, index, counted, end=end)
         source_by_session = {item.session: item for item in sessions}
         fill_by_session = {item.session: item for item in fills}
         observation_identity_comparisons = 0
@@ -182,11 +183,11 @@ def main() -> None:
         "schema_version": "1.0",
         "experiment_id": "btc-eth-relative-value-rotation-v2",
         "phase": 3,
-        "repair_round": 1,
+        "repair_round": arguments.repair_round,
         "classification": (
-            "MECHANICAL_COMPLETION_ROUND_1_PARENT_VALIDATION_PASS"
+            f"MECHANICAL_COMPLETION_ROUND_{arguments.repair_round}_PARENT_VALIDATION_PASS"
             if passed
-            else "MECHANICAL_COMPLETION_ROUND_1_PARENT_VALIDATION_FAILED"
+            else f"MECHANICAL_COMPLETION_ROUND_{arguments.repair_round}_PARENT_VALIDATION_FAILED"
         ),
         "started_at_utc": started_at,
         "finished_at_utc": now(),

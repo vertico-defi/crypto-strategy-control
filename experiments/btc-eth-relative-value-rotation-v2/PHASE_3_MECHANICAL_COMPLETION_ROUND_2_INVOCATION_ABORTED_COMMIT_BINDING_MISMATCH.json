@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 3,
+  "classification": "INVOCATION_ABORTED_COMMIT_BINDING_MISMATCH",
+  "classified_at_utc": "2026-08-05T16:07:49.591494545Z",
+  "supplied_source_commit": "62b76d1f9752ee5febf7f97fba1c398c072cbd60",
+  "actual_source_commit": "62b76d133a09221164d008bdfe5c141176f1e57e",
+  "prefix_matched": "62b76d1",
+  "full_hash_matched": false,
+  "cause": "The parent expanded a seven-character Git prefix by assumption instead of resolving it with git rev-parse.",
+  "excluded_artifacts": {
+    "parent_validation": {
+      "path": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_PARENT_VALIDATION.json",
+      "byte_sha256": "b5d666b9a92945a5e9818f600aface77f9a0a318a91b73e02e3332c2d0cff72a"
+    },
+    "base_preflight_result": {
+      "path": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_BASE_PREFLIGHT_RESULT.json",
+      "byte_sha256": "1cda02fdc1ef9f82fe0e903aa445f21d35610e9f9c888c104f74e11410ac5d6a"
+    },
+    "base_preflight_stages": {
+      "path": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_BASE_PREFLIGHT_STAGES.jsonl",
+      "byte_sha256": "ba45b8e055433c1750928cca2364621046053427a39beb5211a22c72dcc81bcc"
+    },
+    "resource_report": {
+      "path": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_PARENT_TIME.txt",
+      "byte_sha256": "f9e785ee65deca3c90b0400dfe3a2f920573d6280ed09d740c42702ad5b45236"
+    }
+  },
+  "mechanical_completion_round_consumed": false,
+  "formal_economic_attempt_consumed": false,
+  "strategy_simulator_invoked": false,
+  "aggregate_strategy_returns_calculated": false,
+  "performance_claim_made": false,
+  "holdout_path_resolved": false,
+  "holdout_accessed": false,
+  "required_action": "Rerun the identical simulator-free validation with the exact git rev-parse result; preserve these excluded artifacts unchanged."
+}

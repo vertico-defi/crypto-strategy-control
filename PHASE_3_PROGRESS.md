@@ -86,3 +86,14 @@
 - Budget: the round will consume completion round 2/2 when the live Terra/medium invocation starts.
 - Evidence boundary: model access to market files, returns, holdout paths, Git, GPU, credentials, orders, and capital is prohibited.
 - Next: clean authorization commit, live implementation, deterministic source validation, real 36-partition parent validation, then Sol/high fidelity review only if every mechanical gate passes.
+
+## 2026-08-05T16:07:49.591494545Z — Workstream B terminal implementation result
+
+- Current checkpoint: relative-value v2 exhausted both Phase 3 pre-result completion rounds and is administratively terminal as `IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT`.
+- Changed: the final round bound exact retained observation rows through `ProductionRowIndex` and made terminal selection one-pass.
+- Verified: 36 development partitions; 549 sessions; 356 eligible bindings; 0/1,094 observation-ID mismatches; 356 fill iterations; a correctly bound 207.85-second rerun; 1,743,812 KiB peak RSS; zero swaps; 47 focused tests; all 334 repository tests; Ruff; strict Mypy; compilation. An earlier mistyped full-commit binding is preserved and excluded.
+- Failed: no complete independent oracle, formal evaluator, frozen multiplicity transition, exhaustive trace reconciliation, production four-fold runner, or derived economic-gate path was completed. The model explicitly reported fidelity was not established.
+- Best defensible result: a narrow production-adapter pass and a terminal implementation-inconclusive strategy route. There is no economic result and no evidence of profitability or unprofitability.
+- Next programme step: keep Route 4 deferred under its hard stop and inspect the separately authorized prospective funding/basis observation track; no fixed-pair successor beyond Workstreams A/B is currently activated by Phase 3.
+- Current blocker: Workstream B completion budget exhausted with nonlocal fidelity/evaluator obligations remaining.
+- Exact resume state: Workstreams A and B both implementation-inconclusive without economic results; Route 4 deferred; Workstream D available for read-only/zero-capital inspection; holdouts unresolved, sealed, unopened, and unread; capital and GPU permissions zero.

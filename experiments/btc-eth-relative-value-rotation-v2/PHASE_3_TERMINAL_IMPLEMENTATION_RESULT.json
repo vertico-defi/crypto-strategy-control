@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 3,
+  "classified_at_utc": "2026-08-05T16:07:49.591494545Z",
+  "classification": "IMPLEMENTATION_INCONCLUSIVE",
+  "economic_classification": "NO_ECONOMIC_RESULT",
+  "mechanical_completion_rounds_used": 2,
+  "mechanical_completion_rounds_remaining": 0,
+  "formal_economic_attempt_consumed": false,
+  "post_result_fidelity_correction_applicable": false,
+  "parent_result": "NARROW_PRODUCTION_ADAPTER_PASS_BUT_FINAL_COMPLETION_SCOPE_INCOMPLETE",
+  "round_2_model_result": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_MODEL_RESULT.json",
+  "round_2_parent_validation": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_BOUND_PARENT_VALIDATION.json",
+  "excluded_commit_binding_mismatch": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_INVOCATION_ABORTED_COMMIT_BINDING_MISMATCH.json",
+  "verified_narrow_adapter_pass": {
+    "development_partitions": 36,
+    "rows_per_asset": 790558,
+    "missing_minutes_per_asset": 2,
+    "sessions": 549,
+    "eligible_bindings": 356,
+    "production_observation_identity_comparisons": 1094,
+    "production_observation_identity_mismatches": 0,
+    "base_identity_mismatches": 0,
+    "delayed_identity_mismatches": 0,
+    "terminal_binding_count": 1,
+    "fill_elements_iterated": 356,
+    "linear_upper_bound": 905,
+    "wall_clock_seconds": 207.85,
+    "maximum_resident_set_kib": 1743812,
+    "swaps": 0,
+    "exit_status": 0
+  },
+  "terminal_material_failures": [
+    {
+      "id": "INDEPENDENT_ORACLE_STILL_INCOMPLETE",
+      "evidence": "relative_value_v2_oracle.py is byte-identical to the Phase 2 terminal validation hash c32b68da... and was not changed in either final-round diff. It still lacks complete production-trace, recovery, quarantine, fold, multiplicity, bootstrap, DSR/PBO, regime and nineteen-gate recomputation."
+    },
+    {
+      "id": "FORMAL_EVALUATOR_ASSEMBLY_ABSENT",
+      "evidence": "The final round created no evaluator or formal-development driver and changed only the production adapter, its parent validator and one test file. No complete production aggregate/four-fold/trial/stress result path exists."
+    },
+    {
+      "id": "FROZEN_MULTIPLICITY_TRANSITION_NOT_IMPLEMENTED",
+      "evidence": "The existing generic caller-supplied MultiplicityRegistry remains unchanged and does not construct the frozen ordered named 49-slot prior registry or 56/35/21 first-completed-development transition."
+    },
+    {
+      "id": "QUARANTINE_AND_GAP_FIDELITY_NOT_CLOSED",
+      "evidence": "simulate_bound_period and relative_value_v2.py were unchanged in round 2. The model explicitly reported that remaining Phase 2 audit obligations were not completed; exposed priced liquidation, fail-closed unpriced liquidation, no-bridge precedence and exhaustive reconciliation remain unaudited."
+    },
+    {
+      "id": "FOUR_FOLD_AND_ECONOMIC_GATE_PATH_NOT_CLOSED",
+      "evidence": "The only run_development_folds implementation remains explicitly synthetic-only and positionally accepts observations/vectors. No production boundary-index aggregate/four-fold runner or derived baseline, neighbor, regime, concentration, bootstrap, DSR, PBO and nineteen-gate path was added."
+    }
+  ],
+  "deterministic_validation": {
+    "focused_relative_value_tests": "PASS_47_BUT_INSUFFICIENT",
+    "full_repository_tests": "PASS_334_BUT_INSUFFICIENT",
+    "ruff": "PASS",
+    "strict_mypy_python_3_13": "PASS_32_SOURCE_FILES",
+    "compilation": "PASS",
+    "real_36_partition_adapter_validation": "PASS_NARROW_SCOPE",
+    "interpretation": "Passing generic and adapter tests does not supply the missing evaluator, independent oracle, production fold path or economic result."
+  },
+  "why_no_further_repair": "Phase 3 authorized at most two pre-result mechanical completion rounds for Workstream B. Both were consumed. The model explicitly left nonlocal oracle, evaluator, multiplicity and fidelity work incomplete. No post-result correction is available because no complete result exists.",
+  "phase_3_route_disposition": "ADMINISTRATIVELY_TERMINAL_IMPLEMENTATION_INCONCLUSIVE",
+  "scientifically_unprofitable": false,
+  "strategy_family_economically_evaluated": false,
+  "strategy_family_economically_consumed": false,
+  "aggregate_strategy_returns_calculated": false,
+  "performance_claim_made": false,
+  "market_data_accessed": true,
+  "market_data_scope": "36 existing hash-allowlisted development partitions only for simulator-free adapter validation",
+  "strategy_simulator_invoked": false,
+  "holdout_path_resolved": false,
+  "holdout_parquet_footer_or_value_read": false,
+  "holdout_opened": false,
+  "holdout_values_read": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}
