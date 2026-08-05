@@ -219,14 +219,14 @@
   "last_terminal_verdict": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
   "latest_publication": {
     "deployed_content_verified": true,
-    "evidence_commit": "5cf57806f1d2a6f83d320a9247004a523471590f",
-    "pages_deployment_run_id": 30993410225,
+    "evidence_commit": "c067034d7186a58334079b51f172755cf01d4651",
+    "pages_deployment_run_id": 31005074520,
     "pages_status": "SUCCESS_DEPLOYED_CONTENT_VERIFIED",
-    "portfolio_commit": "963d2c6c924a4dcb94286bef43d54e57cb0bf433",
+    "portfolio_commit": "81c5977608c2ade86172a1d3fe46a3616477cbab",
     "portfolio_publication_gate": "PASS",
-    "portfolio_validation_run_id": 30993410248,
-    "source_checkpoint_commit": "5cf57806f1d2a6f83d320a9247004a523471590f",
-    "source_snapshot_commit": "f969ddab91b84a20e4a666cdfa2b622283e39175",
+    "portfolio_validation_run_id": 31005074516,
+    "source_checkpoint_commit": "c067034d7186a58334079b51f172755cf01d4651",
+    "source_snapshot_commit": "71c9ab457de878e1e0f9fb3c67d7e70a700a1977",
     "store_live": false
   },
   "next_task": "await_program_level_human_decision_between_route_4_deferral_and_a_separately_authorized_independent_route",
@@ -420,5 +420,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-05T12:07:47.184945080Z"
+  "updated_at_utc": "2026-08-05T12:20:04.930428793Z"
 }

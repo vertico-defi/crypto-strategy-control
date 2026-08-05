@@ -500,3 +500,14 @@
 - Next action: stop Route 4. Await a program-level decision between Route 4 deferral and a separately authorized independent route. No sixth direction review is authorized.
 - Current blocker: `PROGRAM_LEVEL_HUMAN_DECISION_REQUIRED_AFTER_ROUTE_4_FINAL_NARROW_REVIEW_HARD_STOP`.
 - Exact resume state: acquisition not started; zero network requests, bytes, archive objects, market rows, training, backtests, returns, or holdout access; draft unfrozen; capital/GPU zero; mining unchanged.
+
+## 2026-08-05T12:20:04.930428793Z — Route 4 hard stop published and verified
+
+- Current checkpoint: source evidence `c067034d...`, sanitized source snapshot `71c9ab45...`, and portfolio `81c59776...` are pushed and synchronized.
+- What changed: the public static portfolio now reports `DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT / ACQUISITION_NOT_STARTED` and binds the exact source evidence commit.
+- What was verified: publication-history gate PASS; 5/5 portfolio tests; syntax checks; 22 static pages; zero API routes; `STORE_LIVE=false`; tracked-file secret scan clean; GitHub validation run `31005074516` and Pages run `31005074520` succeeded; deployed HTTP-200 content matched the exact source evidence and safety statements.
+- What failed: no publication gate. Route 4 remains stopped under the substantive delta-review verdict.
+- Current best defensible result: no Route 4 data result and no Phase 2 economic result.
+- Next action: await a program-level human decision between Route 4 deferral and a separately authorized independent route.
+- Current blocker: `PROGRAM_LEVEL_HUMAN_DECISION_REQUIRED_AFTER_ROUTE_4_FINAL_NARROW_REVIEW_HARD_STOP`.
+- Exact resume state: zero acquisition, market data, training, backtest, returns, or holdout access; draft not frozen; no further Route 4 review authorized; capital/GPU zero; mining unchanged.
