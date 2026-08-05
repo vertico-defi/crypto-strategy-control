@@ -93,7 +93,13 @@ PHASE_2_VOLATILITY_MANAGED_EXPERIMENT_ID = "btc-eth-volatility-managed-equal-wei
 PHASE_2_ARCHIVE_ACQUISITION_EXPERIMENT_ID = (
     "cs-ranking-binance-spot-archive-ptu-acquisition-v3"
 )
-ACTIVE_PROGRAM_STATES = frozenset({"ACTIVE_RESEARCH", "ACTIVE_RESEARCH_PHASE_2"})
+ACTIVE_PROGRAM_STATES = frozenset(
+    {
+        "ACTIVE_RESEARCH",
+        "ACTIVE_RESEARCH_PHASE_2",
+        "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO",
+    }
+)
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
 InvocationMode = Literal["live", "mock", "deterministic_local"]
 
@@ -267,14 +273,19 @@ def select_task(state: dict[str, Any] | None = None) -> dict[str, Any]:
     """Return one distinct, high-information task without inspecting a holdout."""
 
     current = state or load_json(STATE)
+    active_phase: int | None = None
     if current.get("program_state") == "ACTIVE_RESEARCH_PHASE_2":
+        active_phase = 2
+    elif current.get("program_state") == "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO":
+        active_phase = 3
+    if active_phase is not None:
         return {
-            "task": current.get("next_task", "PHASE_2_TASK_NOT_REGISTERED"),
+            "task": current.get("next_task", f"PHASE_{active_phase}_TASK_NOT_REGISTERED"),
             "experiment_id": current.get("current_experiment_id"),
-            "phase": 2,
+            "phase": active_phase,
             "information_value": (
-                "Execute the explicitly authorized Phase 2 queue while preserving all "
-                "Phase 1 terminal evidence."
+                f"Execute the explicitly authorized Phase {active_phase} workstream while "
+                "preserving all prior-phase terminal evidence."
             ),
         }
     terminal_ids = {str(item["experiment_id"]) for item in terminal_experiments()}
@@ -3021,7 +3032,16 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
         if git["clean"] and isinstance(git.get("head"), str)
         else terminal.get("source_commit")
     )
-    if state["program_state"] == "ACTIVE_RESEARCH_PHASE_2":
+    if state["program_state"] in {
+        "ACTIVE_RESEARCH_PHASE_2",
+        "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO",
+    }:
+        active_phase = 2 if state["program_state"] == "ACTIVE_RESEARCH_PHASE_2" else 3
+        evidence_scope = (
+            "This is implementation evidence only: no Phase 2 economic result exists, "
+            if active_phase == 2
+            else "This programme-state transition alone is not profitability evidence: "
+        )
         phase_1_result = state.get("phase_1_terminal", {}).get(
             "final_result", "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED"
         )
@@ -3030,12 +3050,10 @@ def public_snapshot(*, dry_run: bool) -> dict[str, Any]:
             "and durably registered Phase 1 zero-cost research space was exhausted without a "
             "prospectively validated candidate. Both Phase 1 point-in-time universe routes "
             "were terminal, so its ordered cross-sectional queue remained economically "
-            "unevaluated. Some Phase 1 fixed-pair experiments retained diagnostic historical "
-            "no-go results, while calendar seasonality and equal-weight volatility management "
-            "were consumed without economic results. This did not claim that every conceivable "
-            "public dataset or crypto strategy was impossible. Phase 2 is now active under a "
-            f"new authorization; its current status is {terminal.get('classification')}. This "
-            "is implementation evidence only: no Phase 2 economic result exists, every final "
+            "unevaluated. This did not claim that every conceivable public dataset or crypto "
+            f"strategy was impossible. Phase {active_phase} is active under a separate "
+            f"authorization; its current status is {terminal.get('classification')}. "
+            f"{evidence_scope}every final "
             "holdout remains closed and unread, no candidate is promoted, capital remains zero, "
             "and no profitability conclusion is permitted."
         )

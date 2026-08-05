@@ -247,8 +247,38 @@ def test_phase_2_selection_does_not_reopen_the_phase_1_archive_route() -> None:
         "experiment_id": orchestrator.PHASE_2_MEAN_REVERSION_EXPERIMENT_ID,
         "phase": 2,
         "information_value": (
-            "Execute the explicitly authorized Phase 2 queue while preserving all "
-            "Phase 1 terminal evidence."
+            "Execute the explicitly authorized Phase 2 workstream while preserving all "
+            "prior-phase terminal evidence."
+        ),
+    }
+
+
+def test_phase_3_is_a_supported_active_state() -> None:
+    state = {
+        "schema_version": "2.0",
+        "program_state": "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO",
+        "capital_permitted": 0,
+        "next_task": "run_mean_reversion_v2_phase_3_preflight",
+        "budgets": {},
+    }
+    orchestrator.validate_state(state)
+    assert orchestrator.is_active_program_state(state) is True
+
+
+def test_phase_3_selection_preserves_explicit_workstream_routing() -> None:
+    state = {
+        "program_state": "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO",
+        "current_experiment_id": orchestrator.PHASE_2_MEAN_REVERSION_EXPERIMENT_ID,
+        "next_task": "run_mean_reversion_v2_phase_3_preflight",
+    }
+    task = orchestrator.select_task(state)
+    assert task == {
+        "task": "run_mean_reversion_v2_phase_3_preflight",
+        "experiment_id": orchestrator.PHASE_2_MEAN_REVERSION_EXPERIMENT_ID,
+        "phase": 3,
+        "information_value": (
+            "Execute the explicitly authorized Phase 3 workstream while preserving all "
+            "prior-phase terminal evidence."
         ),
     }
 

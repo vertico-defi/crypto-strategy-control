@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "zero-capital-crypto-research-phase-3-adaptive-portfolio",
+  "authorized_at_utc": "2026-08-05T13:44:50.456958627Z",
+  "program_state": "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO",
+  "source_parent_commit": "2157451468a219bb78d1ee74079fc3dfe222bd06",
+  "objective": "Build an adaptive multi-strategy crypto research portfolio whose independently validated sleeves may abstain to cash and which remains at zero capital until frozen prospective validation succeeds.",
+  "preserved_prior_phases": {
+    "phase_1_final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
+    "phase_2_evidence_rule": "Every Phase 2 experiment, administrative terminal state, hash, review, ledger record, commit, and publication remains historical evidence and is not rewritten, softened, or relabeled.",
+    "mean_reversion_v2_phase_2_terminal": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+    "relative_value_v2_phase_2_terminal": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+    "route_4_phase_2_terminal": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT"
+  },
+  "programme_layers": [
+    "DISCOVERY",
+    "VALIDATION",
+    "PROSPECTIVE_EVALUATION",
+    "CAPITAL_READINESS_DOCUMENTATION_ONLY"
+  ],
+  "permitted_result_labels": [
+    "EXPLORATORY",
+    "DEVELOPMENT",
+    "VALIDATED_HISTORICAL_CANDIDATE",
+    "FROZEN_PROSPECTIVE",
+    "PROSPECTIVE_PASS",
+    "NO_GO",
+    "IMPLEMENTATION_INCONCLUSIVE",
+    "DATA_INCONCLUSIVE"
+  ],
+  "first_milestone": "ONE_CLEAN_DEVELOPMENT_ECONOMIC_RESULT_PROFITABLE_OR_UNPROFITABLE",
+  "workstreams": {
+    "A": {
+      "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+      "phase_3_authority": "Fresh bounded completion authority that overrides only the prior Phase 2 administrative repair boundary.",
+      "contaminated_prior_evidence": "The Phase 1 +14.60% diagnostic result is not validation and may not be an optimization target.",
+      "maximum_mechanical_completion_rounds": 2,
+      "maximum_post_result_fidelity_corrections": 1,
+      "maximum_substantive_audit_attempts": 2,
+      "service_failure_retries_consume_substantive_attempt": false,
+      "pre_repair_requirement": "Run a representative real-data production fixture and complexity benchmark before consuming a completion round.",
+      "compute": "CPU_ONLY"
+    },
+    "B": {
+      "experiment_id": "btc-eth-relative-value-rotation-v2",
+      "scientifically_independent_of_workstream_a": true,
+      "activation": "Begin automatically if Workstream A is implementation-inconclusive.",
+      "contaminated_prior_evidence": "The Phase 1 +41.53% diagnostic result is not validation and may not be an optimization target.",
+      "separate_preregistration_code_state_artifacts_and_multiplicity": true,
+      "compute": "CPU_ONLY"
+    },
+    "C": {
+      "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+      "state": "DIRECTION_DESIGN_INCONCLUSIVE / NO_DATA_RESULT / NO_ECONOMIC_RESULT",
+      "phase_3_disposition": "DEFERRED_NOT_SCIENTIFICALLY_REJECTED",
+      "sixth_direction_review_authorized_in_first_phase_3_cycle": false,
+      "dependency": "A new programme-level decision is allowed only after Workstream A or B produces one clean economic result."
+    },
+    "D": {
+      "workstream": "FUNDING_AND_BASIS_OBSERVATION",
+      "scope": "Inspect and, where existing rights and limits permit, continue zero-capital causal observation without trading.",
+      "blocks_fixed_pair_work": false
+    },
+    "E": {
+      "workstream": "COMMON_PORTFOLIO_OPERATING_SYSTEM",
+      "initial_allocator": "DETERMINISTIC_ELIGIBILITY_AND_RISK_RULES_WITH_CASH_DEFAULT",
+      "complex_meta_model_authorized": false
+    }
+  },
+  "mean_reversion_v2_frozen_economics": {
+    "preregistration": "experiments/btc-eth-long-only-mean-reversion-v2/PREREGISTRATION.json",
+    "effective_contract_canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "modification_permitted": false,
+    "development_data_only": true,
+    "holdout_access_permitted": false
+  },
+  "holdout": {
+    "period": "2026-01-01 through 2026-06-30",
+    "status": "SEALED_UNOPENED_UNREAD",
+    "opening_permitted_by_this_authorization": false
+  },
+  "resource_and_safety_boundaries": {
+    "capital_permitted": 0,
+    "orders_permitted": false,
+    "exchange_or_wallet_credentials_permitted": false,
+    "leverage_permitted": false,
+    "paid_data_api_compute_or_credits_permitted": false,
+    "automatic_top_up_permitted": false,
+    "gpu_change_permitted": false,
+    "vertcoin_mining": "UNCHANGED",
+    "store_live": false
+  },
+  "authorization_checkpoint_claims": {
+    "market_values_read": false,
+    "returns_calculated": false,
+    "holdout_paths_resolved": false,
+    "holdout_opened": false,
+    "holdout_values_read": false,
+    "candidate_promoted": false,
+    "prior_phase_evidence_modified": false
+  }
+}
