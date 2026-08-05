@@ -268,15 +268,15 @@
   "last_terminal_experiment_id": "btc-eth-relative-value-rotation-v2",
   "last_terminal_verdict": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
   "latest_publication": {
-    "deployed_content_verified": true,
-    "evidence_commit": "ce2434269ee42c63d56814cd4d21dcc6e20d9ece",
-    "pages_deployment_run_id": 31025754421,
-    "pages_status": "SUCCESS_DEPLOYED_CONTENT_VERIFIED",
-    "portfolio_commit": "3ed2dc629ed88188583ee80edb0f69c21e5be7ab",
+    "deployed_content_verified": false,
+    "evidence_commit": "a85a5e2ecdaeb29083b8eece22d886331d2defe3",
+    "pages_deployment_run_id": null,
+    "pages_status": "NOT_VERIFIED_AFTER_CHECKPOINT",
+    "portfolio_commit": "1d6b1c39a66193bd08bc999964d1b614ae73e0ac",
     "portfolio_publication_gate": "PASS",
-    "portfolio_validation_run_id": 31025754501,
-    "source_checkpoint_commit": "ce2434269ee42c63d56814cd4d21dcc6e20d9ece",
-    "source_snapshot_commit": "8cc68881615c0f736bcad86eed47b205b94d9765",
+    "portfolio_validation_run_id": "LOCAL_NPM_TEST_TYPECHECK_BUILD_PUBLICATION_AUDIT",
+    "source_checkpoint_commit": "a85a5e2ecdaeb29083b8eece22d886331d2defe3",
+    "source_snapshot_commit": "a85a5e2ecdaeb29083b8eece22d886331d2defe3",
     "store_live": false
   },
   "next_task": "program_level_decision_after_two_successor_scope_blockers",
@@ -563,5 +563,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_3_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-05T16:33:17.779379250Z"
+  "updated_at_utc": "2026-08-05T21:20:00Z"
 }
