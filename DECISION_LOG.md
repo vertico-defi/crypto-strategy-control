@@ -504,3 +504,9 @@ The first of two Phase 3 completion rounds is bounded to the measured production
 The live `gpt-5.6-terra`/`medium` implementation invocation completed and generic validation remained green, but the authorized 36-partition parent validation failed two exact mechanical requirements. All 1,094 production observation-identity comparisons mismatched because the adapter synthesized `session_hash:asset` values rather than retaining the actual close-row identities. The adapter also iterated 127,092 fill elements because terminal selection rescanned all 356 fills inside the 549-session loop; the measured linear construction bound is 905.
 
 The explicit session mapping, 356 base identities, delayed identities, and one terminal row identity were preserved, so the round made partial mechanical progress. It did not establish contract fidelity. Mechanical completion round 1/2 is consumed and one final round remains. No simulator, aggregate return, performance metric, holdout path, capital, or GPU action occurred.
+
+## 2026-08-05T15:53:58.569447047Z — relative-value v2 final completion round authorized
+
+The second and final pre-result round is authorized against clean evidence parent `4a361e0f...`. It must bind actual observation row identities through the boundary-specific production index, reduce terminal selection to one pass, preserve the exact fill joins already verified, and close every remaining quarantine, clock, fold, oracle, evaluator, statistic, and gate obligation needed for pre-economic fidelity review. A narrow two-counter patch alone is insufficient because no further pre-result implementation round will remain.
+
+The live Terra/medium invocation may edit code and tests but may not access market files, any holdout path, returns, Git, GPU, credentials, orders, or capital. Parent real-data validation and a separate Sol/high fidelity audit remain mandatory before formal economic evaluation.

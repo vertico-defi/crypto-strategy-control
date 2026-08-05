@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 3,
+  "authorization_type": "FINAL_BOUNDED_PRE_RESULT_MECHANICAL_COMPLETION_ROUND",
+  "authorized_at_utc": "2026-08-05T15:47:20.167890040Z",
+  "source_parent_commit": "4a361e0f4b77eef4ed2824fdd72fa6d433384f4e",
+  "authority": "explicit_user_phase_3_workstream_b_bounded_production_first_policy",
+  "repair_round": 2,
+  "mechanical_completion_rounds_authorized": 2,
+  "mechanical_completion_rounds_used_before_start": 1,
+  "mechanical_completion_rounds_remaining_after_start": 0,
+  "round_consumption_rule": "This final round is consumed when the live implementation invocation starts.",
+  "required_inputs": {
+    "frozen_preregistration": "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION.json",
+    "effective_preregistration_draft": "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION_DRAFT.json",
+    "phase_2_terminal_validation": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_VALIDATION.json",
+    "phase_2_terminal_audit": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+    "phase_3_preflight": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_PRODUCTION_PREFLIGHT.json",
+    "round_1_failure": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_1_FAILURE.json"
+  },
+  "measured_real_data_bindings": {
+    "development_partitions": 36,
+    "rows_per_asset": 790558,
+    "missing_minutes_per_asset": 2,
+    "session_grid": 549,
+    "complete_sessions": 547,
+    "eligible_execution_bindings": 356,
+    "round_1_observation_identity_mismatches": 1094,
+    "round_1_fill_elements_iterated": 127092,
+    "round_1_linear_fill_iteration_upper_bound": 905
+  },
+  "authorized_scope": [
+    "Bind complete-session observations to exact retained per-asset close MinuteRow identities from the immutable boundary-specific ProductionRowIndex; do not synthesize row identities.",
+    "Validate the adapter index boundary, strict prefix, session and fill order, uniqueness, positive closes, complete named mappings, event/availability causality, exact base and delayed vector identities, and fail closed on every mismatch.",
+    "Select and validate the actual terminal FillIdentity once, outside the session loop. Eliminate every repeated full-list scan in session construction, exact lookup, and terminal selection.",
+    "Retain the round-1 exact session-keyed base/delayed fill mapping, direct lookup, no-forward-scan behavior, and exact 150-session recovery boundary.",
+    "Complete cash and exposed quarantine precedence, priced liquidation or explicit DATA_INTEGRITY failure, pending-target cancellation, no gap bridge, segment/regime reset, base and delayed clocks, due-session identity, exact terminal replacement, and terminal cash reconciliation.",
+    "Provide production aggregate and exact four-fold runners that build a fresh immutable half-open ProductionRowIndex per boundary, keep warmup separate from PnL state, and run all seven trials and base, doubled-cost, and delayed stresses independently.",
+    "Complete the no-I/O economic evaluator assembly, frozen baseline comparisons, fold, asset, neighbor, cost, delay, regime, concentration, bootstrap, DSR, PBO, multiplicity, nineteen-gate, and governance evidence paths without opening data or calculating a market result in the model invocation.",
+    "Complete a genuinely independent oracle and behavioral trace reconciliation for representative base, delayed, quarantine, recovery, fold, terminal, accounting, bootstrap, statistic, and gate fixtures.",
+    "Add production-path and exact named tests covering every required_pre_economic_tests clause and every unresolved Phase 2 terminal-audit finding."
+  ],
+  "frozen_economics_unchanged": [
+    "assets, seven trials, trial order, horizons, scores, cash filters, gaps and tie rules",
+    "14-bps base and 28-bps doubled one-way costs",
+    "four development folds and half-open boundaries",
+    "exact base and delayed execution clocks",
+    "150-session recovery",
+    "position sizing and self-financing return accounting",
+    "baseline definitions, parameter neighbors, regimes, seed, bootstrap, DSR, PBO, multiplicity and nineteen acceptance gates",
+    "holdout and prospective rules"
+  ],
+  "prohibited": [
+    "market-file access during the model invocation",
+    "holdout path resolution, metadata access, footer access or value access",
+    "aggregate return or performance calculation during implementation",
+    "parameter tuning or rule changes based on the contaminated Phase 1 +41.53 percent result",
+    "caller-supplied production targets or positional observation/vector pairing",
+    "GPU use, capital, credentials, orders, network acquisition or Git actions by the implementation model"
+  ],
+  "required_parent_validation": [
+    "focused and full deterministic tests, Ruff, strict Mypy and compilation",
+    "real 36-partition production adapter and four-boundary construction under a 1800-second hard ceiling",
+    "exact retained observation, base, delayed and terminal identities",
+    "linear construction/lookup instrumentation",
+    "representative independent signals, targets, fills, costs, returns and terminal reconciliation without aggregate economic interpretation",
+    "clean source diff and exact input hashes",
+    "fresh live read-only Sol/high pre-economic fidelity audit before formal evaluation"
+  ],
+  "failure_rule": "If this final round or its parent production validation fails, classify the route IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT, preserve all evidence, consume no formal economic attempt, and make no further pre-result repair.",
+  "holdout_access_permitted": false,
+  "formal_economic_attempt_consumed": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

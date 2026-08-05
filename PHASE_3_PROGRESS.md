@@ -78,3 +78,11 @@
 - Next experiment step: use the final bounded round to pass the immutable boundary index into the adapter, preserve exact close-row identities, select terminal once, complete fail-closed production transitions, and rerun production validation before any fidelity audit.
 - Current blocker: production observation identity retention and repeated terminal-fill scanning.
 - Exact resume state: source parent `6da4e00...`; round-1 failure artifact `65685f67...`; rounds used 1/2; post-result corrections used 0/1; substantive audits used 0/2; formal economic attempts used 0; holdout remains unresolved, sealed, unopened, and unread.
+
+## 2026-08-05T15:53:58.569447047Z — Workstream B final completion round authorized
+
+- Current checkpoint: final mechanical completion round 2 is authorized at clean parent `4a361e0f...` and has not started.
+- Scope: exact production observation identities, linear terminal selection, fail-closed production state, boundary-specific folds, complete pure evaluator/oracle mechanics, and behavioral tests.
+- Budget: the round will consume completion round 2/2 when the live Terra/medium invocation starts.
+- Evidence boundary: model access to market files, returns, holdout paths, Git, GPU, credentials, orders, and capital is prohibited.
+- Next: clean authorization commit, live implementation, deterministic source validation, real 36-partition parent validation, then Sol/high fidelity review only if every mechanical gate passes.

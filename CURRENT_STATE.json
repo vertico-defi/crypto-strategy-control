@@ -112,7 +112,7 @@
   },
   "current_experiment_id": "btc-eth-relative-value-rotation-v2",
   "data_contract_status": "FROZEN_VERIFIED_DEVELOPMENT_DATA_CONTRACT / 36_ALLOWLISTED_PARTITIONS / HOLDOUT_SEALED",
-  "development_status": "MECHANICAL_COMPLETION_ROUND_1_FAILED_PARENT_PRODUCTION_VALIDATION / IMPLEMENTATION_BLOCKED / NO_ECONOMIC_RESULT / ROUND_2_AVAILABLE",
+  "development_status": "FINAL_MECHANICAL_COMPLETION_ROUND_2_AUTHORIZED_PENDING_LIVE_IMPLEMENTATION / NO_ECONOMIC_RESULT",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -351,6 +351,10 @@
   "phase_3_relative_value_mechanical_completion_round_1_base_preflight_stages_byte_sha256": "65ea3661379df5a44ab428e60b88a0719ee44a3c4857523e956eb45c48bb2447",
   "phase_3_relative_value_mechanical_completion_round_1_failure": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_1_FAILURE.json",
   "phase_3_relative_value_mechanical_completion_round_1_failure_byte_sha256": "65685f675e50d20498ce034d12d4c59abc18f74b266d49fee19197e0fd919f72",
+  "phase_3_relative_value_mechanical_completion_round_2_authorization": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_AUTHORIZATION.json",
+  "phase_3_relative_value_mechanical_completion_round_2_authorization_byte_sha256": "f3e698891e2cb724f23c9ae851051199db35248e4d987c774082c0267c514b18",
+  "phase_3_relative_value_mechanical_completion_round_2_prompt": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_MECHANICAL_COMPLETION_ROUND_2_PROMPT.md",
+  "phase_3_relative_value_mechanical_completion_round_2_prompt_byte_sha256": "c66ff74f9049da6cb8cb89991bc65113186bc799fce60528fade47037a7c7460",
   "route_4_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/ROUTE_AUTHORIZATION.json",
   "route_4_authorization_byte_sha256": "c517a6979133676aa470ded8a33d1a71fc3bf07cf84d91d6e908cf8033e9e8ce",
   "route_4_authorization_sha256": "f71a9a59fb13f7eb6af1ed60bcc645e2d40a230040e2729c27003546cf5bcd66",
@@ -529,5 +533,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_3_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-05T15:47:20.167890040Z"
+  "updated_at_utc": "2026-08-05T15:53:58.569447047Z"
 }

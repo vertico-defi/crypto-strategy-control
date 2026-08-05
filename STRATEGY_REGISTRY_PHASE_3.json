@@ -41,7 +41,7 @@
       "expected_turnover": "not yet validly measured",
       "baseline_cost_model": "frozen successor preregistration required",
       "stressed_cost_model": "doubled-cost stress required",
-      "development_status": "PHASE_3_MECHANICAL_COMPLETION_ROUND_1_FAILED_PARENT_PRODUCTION_VALIDATION; IMPLEMENTATION_BLOCKED; NO_ECONOMIC_RESULT; FINAL_ROUND_AVAILABLE",
+      "development_status": "PHASE_3_FINAL_MECHANICAL_COMPLETION_ROUND_2_AUTHORIZED_PENDING_LIVE_IMPLEMENTATION; NO_ECONOMIC_RESULT",
       "audit_status": "PHASE_3_PRE_ECONOMIC_FIDELITY_NOT_YET_ELIGIBLE",
       "prospective_status": "NOT_STARTED",
       "capital_eligibility": false,
