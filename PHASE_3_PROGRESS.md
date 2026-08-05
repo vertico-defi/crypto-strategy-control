@@ -97,3 +97,14 @@
 - Next programme step: keep Route 4 deferred under its hard stop and inspect the separately authorized prospective funding/basis observation track; no fixed-pair successor beyond Workstreams A/B is currently activated by Phase 3.
 - Current blocker: Workstream B completion budget exhausted with nonlocal fidelity/evaluator obligations remaining.
 - Exact resume state: Workstreams A and B both implementation-inconclusive without economic results; Route 4 deferred; Workstream D available for read-only/zero-capital inspection; holdouts unresolved, sealed, unopened, and unread; capital and GPU permissions zero.
+
+## 2026-08-05T16:20:28.380353192Z — Workstream D collector checkpoint
+
+- Current checkpoint: the existing prospective funding-availability collector is healthy and continuing under its frozen external contract; no Phase 3 cycle was manually triggered.
+- Changed: added a read-only inspection artifact and updated the registry/controller state. The external collector repository and its frozen schema were not changed.
+- Verified: external commit `b1732e99...` is clean; timer active/enabled/waiting; latest service exit zero; state health `ok`; 73,900 state-tracked records; 154,148,830 bytes used; latest closed report has 63,650/63,650 expected records across ten streams and completeness 1.0.
+- Failed or incomplete: the six-file raw/state difference remains unresolved; realized settlements are not joined; Binance executable bid/ask is absent; fees and slippage are not frozen. These prevent treating this as a strategy-ready data contract.
+- Best defensible result: healthy causal observation collection only. Profitability is not tested, no trading sleeve exists, and the first Phase 3 clean-development-result milestone has not been reached.
+- Next experiment step: leave the frozen collector unchanged and perform the read-only day-seven checkpoint at or after `2026-08-07T14:00:10Z`.
+- Current blocker: Workstreams A and B are administratively terminal, Route 4 is deferred, and Workstream D's next decision checkpoint depends on observations arriving after the current time. No additional strategy route is presently authorized.
+- Exact resume state: collector continues through its existing systemd timer; do not start a concurrent cycle; inspect the closed day-seven evidence after the checkpoint, then determine whether a separately versioned funding/basis strategy contract needs human authorization. All holdouts remain unresolved, sealed, unopened, and unread; capital and GPU permissions remain zero.
