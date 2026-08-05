@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "phase": 3,
+  "authorized_at_utc": "2026-08-05T14:46:17.450758729Z",
+  "stage": "FORMAL_DEVELOPMENT_EVALUATOR_ASSEMBLY_PRE_RESULT",
+  "classification": "MECHANICAL_COMPLETION_ROUND_2",
+  "source_parent_commit": "0ae81caa03dcb9b51fc68aa10432b04742ccce56",
+  "invocation_mode": "live",
+  "requested_model": "gpt-5.6-terra",
+  "reasoning_level": "medium",
+  "permissions": "WORKSPACE_WRITE_NO_GIT_NO_DATA",
+  "mechanical_completion_rounds_authorized": 2,
+  "mechanical_completion_rounds_used_before_invocation": 1,
+  "this_invocation_consumes_round": 2,
+  "mechanical_completion_rounds_remaining_after_start": 0,
+  "basis": {
+    "phase_3_authorization_byte_sha256": "1df130cad8a7f3834e8355e7b8435ecee9eaefb03d5a7e8a291a4f0addbbc7cf",
+    "frozen_preregistration_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+    "effective_contract_byte_sha256": "1da897a3eff60a013181d6381fc20b9e7e1678cad6005dd6c9224fdb15385a77",
+    "effective_contract_canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "production_artifact_byte_sha256": "9dff22992972f5eaed4630e4b098c6a7a79a7bcb1fec4fffea65b8d2c5e3f0af",
+    "pre_economic_fidelity_audit_model_result_byte_sha256": "60481b24e4854c986bb598405188314c683a7602cffa6ad7d7c7911fac462ec7",
+    "pre_economic_fidelity_audit_verdict": "PASS_FIDELITY_APPROVED_FOR_FORMAL_DEVELOPMENT_EVALUATION"
+  },
+  "authorized_changes": [
+    "add one deterministic mean-reversion-v2 aggregate evaluator module",
+    "add one formal development-only production driver",
+    "add focused synthetic evaluator tests",
+    "reuse without changing the audited v2 signal, clock, index, fill, accounting, statistical, gate, and trace primitives",
+    "instrument stage timing and immutable evidence needed by the later formal run"
+  ],
+  "required_outputs": [
+    "all seven frozen trials in exact order",
+    "independent aggregate and four strict-prefix folds",
+    "standalone BTCUSDT and ETHUSDT",
+    "cash, single-asset, equal-weight buy-and-hold, and raw-drawdown comparators",
+    "base cost, doubled cost, and one-eligible-fill delay",
+    "primary aggregate panel, seven-trial common panel, and pairwise comparator panels",
+    "bootstrap, append-only DSR, PBO, regimes, concentration, and all nineteen gates",
+    "complete canonical signals, decisions, targets, fills, dispositions, costs, interval returns, and terminal-state hashes",
+    "independent reconciliation and fail-closed classification"
+  ],
+  "prohibited": [
+    "modify the frozen preregistration or any economic or statistical rule",
+    "modify the audited v2 mechanics modules except if compilation requires an export-only change that the parent reviews before any run",
+    "open the source-data repository or any market file",
+    "resolve, state, stat, open, parse, or inspect any 2026 or holdout path",
+    "calculate any actual strategy return, metric, gate, or ranking",
+    "use the contaminated Phase 1 return for parameter selection",
+    "run Git commands, create commits, or push",
+    "use network acquisition, credentials, orders, wallets, capital, leverage, GPU, or alter mining"
+  ],
+  "formal_economic_attempt_authorized_during_implementation": false,
+  "holdout_access_permitted": false,
+  "capital_permitted": 0
+}
