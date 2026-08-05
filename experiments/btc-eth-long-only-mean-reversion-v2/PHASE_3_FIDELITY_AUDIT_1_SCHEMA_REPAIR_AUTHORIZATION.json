@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "phase": 3,
+  "repair_type": "AUDIT_RESPONSE_SCHEMA_PLUMBING_ONLY",
+  "authorized_at_utc": "2026-08-05T14:25:04.418829958Z",
+  "source_parent_commit": "60ad7c1fb3b0f6c3982a6b4fa352f7dc5c8daf9b",
+  "original_audit_authorization_byte_sha256": "7cc3ab3876d37ff23cf15cc25f3e5fd6357febf1713375b876a55b25b2674a2a",
+  "aborted_invocation_byte_sha256": "4294881ad40aa82eec03debfcebc1c13f7491695a66104f8c4ef974eb92dd10e",
+  "original_output_schema_byte_sha256": "52d31d66ec476748021ab9b0a42fc4759f918fb8e52a3edb46ae891d3b520e3a",
+  "corrected_output_schema": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_FIDELITY_AUDIT_1_OUTPUT_SCHEMA_V2.json",
+  "corrected_output_schema_byte_sha256": "9e296d280e4a05c8ff6fe075c7d7fb42d4a40516f642ff3d6deb52819707607f",
+  "corrected_prompt": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_FIDELITY_AUDIT_1_PROMPT_V2.md",
+  "corrected_prompt_byte_sha256": "dfbc9ed994ba5c06bc1da12f450a88e058ef682698c1a16d389bdd22b44cdf40",
+  "exact_changes": [
+    "Add explicit string types to const and enum string properties.",
+    "Add explicit boolean types to false-only safety properties.",
+    "Point the otherwise identical prompt at the versioned corrected schema."
+  ],
+  "review_scope_changed": false,
+  "evidence_under_review_changed": false,
+  "strategy_code_changed": false,
+  "economic_or_statistical_rule_changed": false,
+  "substantive_audit_attempt_remains": 1,
+  "substantive_audit_attempts_used": 0,
+  "deterministic_preflight": "PASS_ALL_TOP_LEVEL_AND_NESTED_PROPERTIES_HAVE_EXPLICIT_TYPES",
+  "holdout_access_permitted": false,
+  "formal_economic_attempt_authorized": false,
+  "capital_permitted": 0
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "verdict",
+    "source_commit",
+    "evidence_implementation_commit",
+    "audit_scope",
+    "checks",
+    "findings",
+    "formal_development_evaluation_authorized",
+    "aggregate_strategy_returns_calculated",
+    "performance_claim_made",
+    "market_data_accessed",
+    "holdout_accessed",
+    "files_modified"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "experiment_id": {"type": "string", "const": "btc-eth-long-only-mean-reversion-v2"},
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "PASS_FIDELITY_APPROVED_FOR_FORMAL_DEVELOPMENT_EVALUATION",
+        "REVISION_REQUIRED_MECHANICAL_FIDELITY_DEFECT",
+        "AUDIT_INCONCLUSIVE"
+      ]
+    },
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "evidence_implementation_commit": {
+      "type": "string",
+      "const": "9eee066e0a72cb2d7941bce98489678f58a11655"
+    },
+    "audit_scope": {"type": "string", "minLength": 1},
+    "checks": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check_number", "status", "finding"],
+        "properties": {
+          "check_number": {"type": "integer", "minimum": 1, "maximum": 12},
+          "status": {"type": "string", "enum": ["PASS", "FAIL", "INCONCLUSIVE"]},
+          "finding": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "findings": {"type": "array", "items": {"type": "string"}},
+    "formal_development_evaluation_authorized": {"type": "boolean"},
+    "aggregate_strategy_returns_calculated": {"type": "boolean", "const": false},
+    "performance_claim_made": {"type": "boolean", "const": false},
+    "market_data_accessed": {"type": "boolean", "const": false},
+    "holdout_accessed": {"type": "boolean", "const": false},
+    "files_modified": {"type": "boolean", "const": false}
+  }
+}
