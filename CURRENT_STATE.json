@@ -269,14 +269,14 @@
   "last_terminal_verdict": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
   "latest_publication": {
     "deployed_content_verified": true,
-    "evidence_commit": "c067034d7186a58334079b51f172755cf01d4651",
-    "pages_deployment_run_id": 31005074520,
+    "evidence_commit": "ce2434269ee42c63d56814cd4d21dcc6e20d9ece",
+    "pages_deployment_run_id": 31025754421,
     "pages_status": "SUCCESS_DEPLOYED_CONTENT_VERIFIED",
-    "portfolio_commit": "81c5977608c2ade86172a1d3fe46a3616477cbab",
+    "portfolio_commit": "3ed2dc629ed88188583ee80edb0f69c21e5be7ab",
     "portfolio_publication_gate": "PASS",
-    "portfolio_validation_run_id": 31005074516,
-    "source_checkpoint_commit": "c067034d7186a58334079b51f172755cf01d4651",
-    "source_snapshot_commit": "71c9ab457de878e1e0f9fb3c67d7e70a700a1977",
+    "portfolio_validation_run_id": 31025754501,
+    "source_checkpoint_commit": "ce2434269ee42c63d56814cd4d21dcc6e20d9ece",
+    "source_snapshot_commit": "8cc68881615c0f736bcad86eed47b205b94d9765",
     "store_live": false
   },
   "next_task": "read_only_day_7_funding_availability_checkpoint_at_or_after_2026_08_07T14_00_10Z; no currently authorized route can produce a development economic result before then",
@@ -555,5 +555,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_3_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-05T16:20:28.380353192Z"
+  "updated_at_utc": "2026-08-05T16:33:17.779379250Z"
 }

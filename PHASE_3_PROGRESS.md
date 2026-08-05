@@ -108,3 +108,9 @@
 - Next experiment step: leave the frozen collector unchanged and perform the read-only day-seven checkpoint at or after `2026-08-07T14:00:10Z`.
 - Current blocker: Workstreams A and B are administratively terminal, Route 4 is deferred, and Workstream D's next decision checkpoint depends on observations arriving after the current time. No additional strategy route is presently authorized.
 - Exact resume state: collector continues through its existing systemd timer; do not start a concurrent cycle; inspect the closed day-seven evidence after the checkpoint, then determine whether a separately versioned funding/basis strategy contract needs human authorization. All holdouts remain unresolved, sealed, unopened, and unread; capital and GPU permissions remain zero.
+
+## 2026-08-05T16:33:17.779379250Z — funding checkpoint published
+
+- Source evidence commit: `ce2434269ee42c63d56814cd4d21dcc6e20d9ece`; sanitized source-snapshot commit: `8cc68881615c0f736bcad86eed47b205b94d9765`; portfolio commit: `3ed2dc629ed88188583ee80edb0f69c21e5be7ab`.
+- Publication verification: fail-closed publication scan passed, all five portfolio tests passed, syntax/type checks and static build passed with `STORE_LIVE=false`, validation run `31025754501` succeeded, Pages run `31025754421` succeeded, and the deployed HTTP-200 page was checked for the exact Phase 3 status, source commit, observation count, no-result boundary, sealed holdouts, and capital-zero statement.
+- Interpretation boundary: this publication records collection health and two implementation-inconclusive routes; it makes no strategy-performance or profitability claim.
