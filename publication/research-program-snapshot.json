@@ -1,6 +1,6 @@
 {
   "capital_permitted": 0,
-  "classification": "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO / SUCCESSOR_SCOPE_NONLOCAL / ONE_CLEAN_DEVELOPMENT_RESULT_NOT_REACHED",
+  "classification": "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO / ONE_CLEAN_DEVELOPMENT_RESULT_NOT_REACHED",
   "experiment_id": "phase-3-successor-program",
   "generated_at_utc": "2026-08-05T21:08:00Z",
   "limitation": "Phase 1 and Phase 2 evidence remain unchanged. Phase 3 successor preflights for mean-reversion-v3 and relative-value-v3 found nonlocal evaluator obligations before any new repair or economic evaluation; neither was shown profitable or unprofitable. Route 4 remains deferred and funding remains a causally waiting collection checkpoint. This is research-state evidence, not profitability evidence. No candidate is promoted; final holdouts remain sealed, unopened, and unread; no orders, credentials, capital, leverage, paid data, paid compute, training, backtest, returns, GPU use, or mining change occurred.",
