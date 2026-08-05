@@ -22,3 +22,14 @@
 - Next experiment step: authorize completion round 1 for deterministic UTC boundary serialization and focused regression tests, then rerun the full production path.
 - Current blocker: one non-economic evidence-serialization defect.
 - Exact resume state: completion rounds used 0/2; post-result corrections used 0/1; substantive audits used 0/2; holdout entry count was zero and holdout remains sealed and unread.
+
+## 2026-08-05T14:17:24.591620184Z — mechanical round 1 passes correctly bound production validation
+
+- Current checkpoint: strict UTC evidence-serialization correction passes the full development production path; fidelity audit pending.
+- Changed: one evidence serializer, one call site, and three focused cases. Frozen strategy and statistical rules did not change.
+- Verified: 51 focused tests, all 324 repository tests, Ruff, strict Mypy across 31 source files, compilation, exact file and contract hashes, all 36 development partitions, exact rows/gaps/folds, 549 final sessions, 356 synchronized fills, trace and representative 14/28-bps accounting reconciliation. Correctly bound run exited 0 in 257.48 seconds at 2,181,544 KiB maximum RSS with zero swaps.
+- Failed: the first successful post-repair invocation supplied a mistyped expanded commit hash. It is preserved as `INVOCATION_ABORTED_COMMIT_BINDING_MISMATCH` and is not promoted; the identical code was rerun against the exact commit with matching substantive output.
+- Best defensible result: production mechanics pass; no aggregate strategy return or economic result exists.
+- Next experiment step: fresh live read-only Sol/high fidelity audit, then formal development evaluation only if the audit passes.
+- Current blocker: fidelity audit gate not yet run.
+- Exact resume state: completion rounds used 1/2; post-result corrections used 0/1; substantive audits used 0/2; formal economic attempts used 0; holdout remains sealed and unread.
