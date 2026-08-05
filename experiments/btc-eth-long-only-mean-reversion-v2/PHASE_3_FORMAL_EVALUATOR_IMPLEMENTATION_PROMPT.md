@@ -1,6 +1,6 @@
 # Mean-reversion v2 formal evaluator assembly
 
-Work only in `/home/vertico/crypto-strategy-control` at the exact clean source commit named by `PHASE_3_FORMAL_EVALUATOR_IMPLEMENTATION_AUTHORIZATION.json`.
+Work only in `/home/vertico/crypto-strategy-control` at a clean committed HEAD containing `PHASE_3_FORMAL_EVALUATOR_IMPLEMENTATION_AUTHORIZATION.json`. Its `source_parent_commit` names the clean pre-authorization content checkpoint and must be an ancestor of invocation HEAD; it is not a self-referential claim that the authorization file already existed at its own parent.
 
 Use `gpt-5.6-terra` at `medium` reasoning in live workspace-write mode. Do not run Git. Do not open `/home/vertico/crypto-direction-lab`, any market file, any 2026 path, or any holdout artifact. Do not calculate real returns or performance. This invocation is implementation and synthetic validation only.
 
