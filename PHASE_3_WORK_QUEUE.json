@@ -31,9 +31,10 @@
     {
       "task_id": "relative-value-v3-completion",
       "experiment_id": "btc-eth-relative-value-rotation-v3-completion",
-      "state": "BLOCKED_ON_MEAN_REVERSION_V3_TERMINAL",
+      "state": "READY",
       "priority": 2,
-      "unblock_on": ["NO_GO", "IMPLEMENTATION_INCONCLUSIVE", "NONCANDIDATE_TERMINAL"]
+      "unblock_on": ["NO_GO", "IMPLEMENTATION_INCONCLUSIVE", "NONCANDIDATE_TERMINAL"],
+      "unblocked_by": "SUCCESSOR_SCOPE_NONLOCAL"
     },
     {
       "task_id": "route-4",

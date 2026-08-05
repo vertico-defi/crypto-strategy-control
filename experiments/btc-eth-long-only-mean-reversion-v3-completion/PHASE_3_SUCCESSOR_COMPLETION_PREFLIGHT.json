@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v3-completion",
+  "preflight_type": "READ_ONLY_PRODUCTION_COMPLETION_PREFLIGHT",
+  "invocation_mode": "deterministic_local",
+  "evaluated_at_utc": "2026-08-05T21:03:00Z",
+  "source_parent_commit": "08ca58bbe603c2516bd2ab6fc98a5a55e8334877",
+  "predecessor_terminal": {
+    "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+    "path": "experiments/btc-eth-long-only-mean-reversion-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+    "byte_sha256": "49aa1118e79d3916c3744ea3bc3df403e17c398d2140f3c0ca2a017b00bf4633",
+    "verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED"
+  },
+  "frozen_contract": {
+    "canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "preregistration_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567"
+  },
+  "allowlisted_development_data": "not opened by this read-only preflight",
+  "holdout": "SEALED_UNOPENED_UNREAD",
+  "verified_prior_mechanics": [
+    "real production mechanics and exact indexed lookup evidence passed",
+    "independent fidelity audit passed",
+    "no formal economic result exists"
+  ],
+  "remaining_obligations": [
+    "replace unconditional formal-driver failure with a production evaluator",
+    "correct delayed target/fill identity handling",
+    "correct common-panel baselines and position sizing",
+    "recompute DSR, regime, attribution, fold isolation, leakage, and all gates under the frozen contract"
+  ],
+  "scope_decision": {
+    "classification": "SUCCESSOR_SCOPE_NONLOCAL",
+    "implementation_status": "IMPLEMENTATION_INCONCLUSIVE",
+    "economic_status": "NO_ECONOMIC_RESULT",
+    "mechanical_round_consumed": false,
+    "reason": "The remaining obligations change multiple evaluator and statistical mechanics; they are not a single bounded completion of the existing production path."
+  },
+  "safety": {
+    "network_access": false,
+    "market_data_access": false,
+    "model_training": false,
+    "backtest": false,
+    "returns_calculated": false,
+    "holdout_path_resolved": false,
+    "capital_permitted": 0,
+    "gpu_seconds_used": 0
+  },
+  "next_authorized_workstream": "btc-eth-relative-value-rotation-v3-completion"
+}
