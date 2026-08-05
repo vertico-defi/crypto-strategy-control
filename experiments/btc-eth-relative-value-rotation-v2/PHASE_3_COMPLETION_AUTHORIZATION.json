@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v2",
+  "phase": 3,
+  "authorized_at_utc": "2026-08-05T15:12:09.448638811Z",
+  "authorization_type": "FRESH_BOUNDED_PHASE_3_PRODUCTION_FIRST_COMPLETION_AUTHORITY",
+  "source_parent_commit": "bdb230a541748b15715c318b1b4b935478ab15e6",
+  "phase_3_authorization": "PHASE_3_AUTHORIZATION.json",
+  "phase_3_authorization_byte_sha256": "1df130cad8a7f3834e8355e7b8435ecee9eaefb03d5a7e8a291a4f0addbbc7cf",
+  "frozen_preregistration": "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION.json",
+  "frozen_preregistration_byte_sha256": "aa922a6ce0027f00186f08c69cfeb3ef000b46a40ea14688d94daed3afee5187",
+  "effective_contract_canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "phase_2_terminal_evidence": {
+    "validation": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_VALIDATION.json",
+    "validation_byte_sha256": "c477090b311f998dc9bd7976853b518c20c663946e52c7f6d0776d6ab205051a",
+    "audit": "experiments/btc-eth-relative-value-rotation-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+    "audit_byte_sha256": "27e4a50d122a46c88516acee47af75aeb6435f445e2cb12c503756c5c37fe6d3",
+    "classification_preserved": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT"
+  },
+  "prior_result_treatment": "The Phase 1 +41.53% diagnostic result remains contaminated, counts toward multiplicity, and may not select or tune any Phase 3 parameter, rule, threshold, cost, trial, or gate.",
+  "budget": {
+    "mechanical_completion_rounds_authorized": 2,
+    "mechanical_completion_rounds_used": 0,
+    "post_result_mechanical_fidelity_corrections_authorized": 1,
+    "post_result_mechanical_fidelity_corrections_used": 0,
+    "substantive_audit_attempts_authorized": 2,
+    "substantive_audit_attempts_used": 0,
+    "identical_service_failure_retries_consume_substantive_attempt": false,
+    "maximum_local_evaluation_wall_seconds": 1800,
+    "maximum_live_invocation_wall_seconds": 1200,
+    "cpu_only": true,
+    "gpu_seconds_permitted": 0,
+    "capital_permitted": 0
+  },
+  "production_first_gate": {
+    "representative_real_data_fixture_required_before_repair": true,
+    "complexity_benchmark_required_before_repair": true,
+    "exact_development_allowlist_count": 36,
+    "holdout_entries_permitted": 0,
+    "formal_economic_interpretation_permitted": false,
+    "repair_round_consumed_by_preflight": false
+  },
+  "known_phase_2_defects_to_measure": [
+    "no contract-bound real-data production adapter",
+    "no explicit decision-session-to-execution-vector mapping in the simulator API",
+    "incomplete quarantine and 150-session recovery enforcement",
+    "incomplete independent oracle and trace reconciliation",
+    "unfrozen multiplicity registry constructor and transition",
+    "fold warmup and PnL isolation not production-derived",
+    "superficial named tests"
+  ],
+  "unchanged_economics": true,
+  "formal_economic_attempt_authorized": false,
+  "holdout_path_resolution_permitted": false,
+  "holdout_access_permitted": false,
+  "orders_permitted": false,
+  "capital_permitted": 0,
+  "vertcoin_mining": "UNCHANGED",
+  "next_action": "Commit the instrumentation-only real-data preflight, then run it under a hard 1800-second CPU deadline before authorizing mechanical completion round 1."
+}
