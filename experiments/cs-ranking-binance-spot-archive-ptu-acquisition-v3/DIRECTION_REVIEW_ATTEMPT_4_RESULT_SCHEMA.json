@@ -1,0 +1,90 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "review_attempt",
+    "authorization_type",
+    "verdict",
+    "source_commit",
+    "draft_sha256",
+    "output_schema_sha256",
+    "scope",
+    "confirmed",
+    "checks",
+    "required_revisions",
+    "limitations",
+    "data_acquisition_remains_prohibited",
+    "data_acquisition_may_be_authorized_after_parent_freeze",
+    "market_data_accessed",
+    "network_accessed",
+    "holdout_accessed",
+    "model_training_performed",
+    "backtest_performed",
+    "strategy_returns_calculated",
+    "performance_claim_made",
+    "implementation_repair_consumed",
+    "acquisition_attempt_consumed"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "enum": ["1.0"]},
+    "experiment_id": {"type": "string", "enum": ["cs-ranking-binance-spot-archive-ptu-acquisition-v3"]},
+    "review_attempt": {"type": "integer", "enum": [4]},
+    "authorization_type": {"type": "string", "enum": ["provenance_correct_review_amendment"]},
+    "verdict": {"type": "string", "enum": ["PASS", "REVISION_REQUIRED", "REVIEW_INCONCLUSIVE"]},
+    "source_commit": {"type": "string"},
+    "draft_sha256": {"type": "string", "enum": ["48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e"]},
+    "output_schema_sha256": {"type": "string", "enum": ["5e8154a7c91aa5de404b05fb3d4d59e0238dc2d4152ee86253c7d709fae387f1"]},
+    "scope": {"type": "string"},
+    "confirmed": {"type": "array", "items": {"type": "string"}},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check", "status", "categories", "finding"],
+        "properties": {
+          "check": {"type": "string"},
+          "status": {"type": "string", "enum": ["PASS", "FAIL", "LIMITATION"]},
+          "categories": {
+            "type": "array",
+            "items": {"type": "string", "enum": ["provenance", "output_schema", "data_methodology", "economic_methodology", "acceptance_gates", "resource_scope", "safety_governance"]}
+          },
+          "finding": {"type": "string"}
+        }
+      }
+    },
+    "required_revisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "check", "categories", "problem", "exact_required_change", "freeze_effect"],
+        "properties": {
+          "severity": {"type": "string", "enum": ["major", "minor"]},
+          "check": {"type": "string"},
+          "categories": {
+            "type": "array",
+            "items": {"type": "string", "enum": ["provenance", "output_schema", "data_methodology", "economic_methodology", "acceptance_gates", "resource_scope", "safety_governance"]}
+          },
+          "problem": {"type": "string"},
+          "exact_required_change": {"type": "string"},
+          "freeze_effect": {"type": "string"}
+        }
+      }
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "data_acquisition_remains_prohibited": {"type": "boolean"},
+    "data_acquisition_may_be_authorized_after_parent_freeze": {"type": "boolean"},
+    "market_data_accessed": {"type": "boolean", "enum": [false]},
+    "network_accessed": {"type": "boolean", "enum": [false]},
+    "holdout_accessed": {"type": "boolean", "enum": [false]},
+    "model_training_performed": {"type": "boolean", "enum": [false]},
+    "backtest_performed": {"type": "boolean", "enum": [false]},
+    "strategy_returns_calculated": {"type": "boolean", "enum": [false]},
+    "performance_claim_made": {"type": "boolean", "enum": [false]},
+    "implementation_repair_consumed": {"type": "boolean", "enum": [false]},
+    "acquisition_attempt_consumed": {"type": "boolean", "enum": [false]}
+  }
+}

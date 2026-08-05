@@ -4,6 +4,12 @@
       "audit_attempts_used_by_stage": {
         "route_4_no_data_direction_review": 3
       },
+      "route_4_direction_review_attempt_4_amendment": {
+        "authorized": true,
+        "authorization_type": "provenance_correct_review_amendment",
+        "attempt_consumed": false,
+        "identical_service_failure_retries_authorized": 1
+      },
       "prior_route_terminal_audit_attempts": {
         "route_3_terminal_direction_review_classification": 1
       },
@@ -14,6 +20,7 @@
       "maximum_post_run_fidelity_repairs": 2,
       "model_invocations": {
         "direction_review_used": 3,
+        "direction_review_attempt_4_authorized": 1,
         "implementation_used": 0,
         "independent_audit_used": 0,
         "production_integration_used": 0
@@ -45,8 +52,8 @@
     "store_live": false
   },
   "current_experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
-  "data_contract_status": "ROUTE_4_REVISED_PREREGISTRATION_DRAFT_NOT_FROZEN / EXPLICIT_HUMAN_AUTHORIZED_REVIEW_AMENDMENT_REQUIRED",
-  "development_status": "NO_DATA_DIRECTION_REVIEW_REVISION_REQUIRED / NO_ECONOMIC_RESULT",
+  "data_contract_status": "ROUTE_4_REVISED_PREREGISTRATION_DRAFT_NOT_FROZEN / PROVENANCE_CORRECT_DIRECTION_REVIEW_ATTEMPT_4_AUTHORIZED_PENDING_REVIEW",
+  "development_status": "NO_DATA_DIRECTION_REVIEW_ATTEMPT_4_AUTHORIZED_PENDING_REVIEW / NO_ECONOMIC_RESULT",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -68,7 +75,18 @@
   "direction_review_model_result": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_REVIEW_MODEL_RESULT.json",
   "direction_review_model_result_byte_sha256": "f4e5aab2d7bb6df18bd914f1870959680847cfc0df55e3e8993f2a8d5f9bd0fc",
   "direction_review_model_result_sha256": "3111455b27e633ff7e8a972be4199975669e5079e5eaa08e799121084446a8b7",
-  "direction_review_status": "ATTEMPT_3_REVISION_REQUIRED / 3_OF_3_DIRECTION_ATTEMPTS_USED / REVISED_DRAFT_AWAITS_EXPLICIT_HUMAN_AUTHORIZED_REVIEW_AMENDMENT",
+  "direction_review_status": "ATTEMPT_3_REVISION_REQUIRED_PRESERVED / ATTEMPT_4_PROVENANCE_CORRECT_AMENDMENT_AUTHORIZED_PENDING_CLEAN_COMMIT_AND_LIVE_REVIEW",
+  "route_4_direction_review_attempt_4_authorization": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_AUTHORIZATION.json",
+  "route_4_direction_review_attempt_4_authorization_byte_sha256": "3f16aceff2bfd992397fb013398196c92dee401278fceb0b2f89b49cf2665f07",
+  "route_4_direction_review_attempt_4_authorization_sha256": "5f895261159f36538dbe851cd62918722e2b2a99f096b4f92beeec004e76154d",
+  "route_4_direction_review_attempt_4_precheck": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_PRECHECK.json",
+  "route_4_direction_review_attempt_4_precheck_byte_sha256": "577d4027e477848ca1eaf2c8ea9a95d536b1ed6190135cf10e032445ddcf87ab",
+  "route_4_direction_review_attempt_4_precheck_sha256": "42aa7b9f9f92b53e5c7ff38a7d1fa421cdf08b1e0a7d864c7653b95720536fbc",
+  "route_4_direction_review_attempt_4_prompt": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_PROMPT.md",
+  "route_4_direction_review_attempt_4_prompt_byte_sha256": "f1f87056e1482008c38fa4e6590a1a089eab3214b8bc67087c3104512c7adbca",
+  "route_4_direction_review_attempt_4_result_schema": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_RESULT_SCHEMA.json",
+  "route_4_direction_review_attempt_4_result_schema_byte_sha256": "5ff44e519bb909fee9e0ba2436f787170b92c1549d753f0c15e60d6b5066024f",
+  "route_4_direction_review_attempt_4_result_schema_sha256": "a9e4cb169d2f4efb68fe1c729a86fa41cf26e6020bfbe9c4d35d7aad702afe01",
   "route_4_direction_review_attempt_3": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3.json",
   "route_4_direction_review_attempt_3_byte_sha256": "c3c65589426eb2c76dda80b9f0b54d0bd9ce7b5842eff1a1121b9fac2947c13f",
   "route_4_direction_review_attempt_3_sha256": "faf19996f233f6f57a51ff71eff9d78ee89ae741bf410fe16b4ae99ba4be8234",
@@ -163,7 +181,7 @@
     "source_snapshot_commit": "30c769b9a5cefdc0986b7cadfda2b31af7846bbd",
     "store_live": false
   },
-  "next_task": "await_explicit_human_authorization_for_provenance_correct_fourth_no_data_sol_xhigh_direction_review_amendment",
+  "next_task": "commit_and_push_clean_attempt_4_review_inputs_then_invoke_live_read_only_sol_xhigh_direction_review",
   "phase": 2,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -198,11 +216,11 @@
   "preregistration_revision_incorporation_byte_sha256": "1d76e1b10b41c75d88938ed6ff3eba2684114296dc906a8b65c9faf5964900a6",
   "preregistration_revision_incorporation_sha256": "4697217c9b960f29a9e6bda044a5c3dd3fff3e10ae9b507c62484758a6d3c2c4",
   "preregistration_sha256": null,
-  "preregistration_status": "DRAFT_REVISED_NOT_FROZEN_PENDING_EXPLICIT_HUMAN_AUTHORIZED_REVIEW_AMENDMENT",
+  "preregistration_status": "DRAFT_REVISED_NOT_FROZEN_ATTEMPT_4_AUTHORIZED_PENDING_DIRECTION_REVIEW",
   "program_audit_id": "program-approved-space-audit-v1",
   "program_audit_model_result_sha256": "f6295920af889890104a93d3a0e68e150c0903da5b0b5ff59c79d291f6b99283",
   "program_audit_status": "APPROVED_SPACE_EXHAUSTED_PHASE_1_PRESERVED",
-  "program_blocker": "EXPLICIT_HUMAN_AUTHORIZATION_REQUIRED_FOR_FOURTH_NO_DATA_SOL_XHIGH_DIRECTION_REVIEW_AMENDMENT_BEFORE_ROUTE_4_FREEZE_OR_IMPLEMENTATION",
+  "program_blocker": null,
   "program_state": "ACTIVE_RESEARCH_PHASE_2",
   "final_mechanical_index_repair_authorization": "experiments/btc-eth-long-only-mean-reversion-v2/FINAL_MECHANICAL_INDEX_REPAIR_AUTHORIZATION.json",
   "final_mechanical_index_repair_authorization_byte_sha256": "baa2a233880cc3896e55a5ddcb6bc6c4325209693c697ecdcb783f55f37e7d85",
@@ -325,5 +343,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_2_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-04T19:04:13.087068690Z"
+  "updated_at_utc": "2026-08-05T08:59:39.496998745Z"
 }

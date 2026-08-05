@@ -436,3 +436,13 @@
 - Next action: await explicit human authorization for one provenance-correct fourth no-data Sol/xhigh direction review amendment. Do not freeze, implement, acquire, or start the conditional tournament.
 - Current blocker: `EXPLICIT_HUMAN_AUTHORIZATION_REQUIRED_FOR_FOURTH_NO_DATA_SOL_XHIGH_DIRECTION_REVIEW_AMENDMENT`.
 - Exact resume state: route-4 direction review 3/3, implementation repair 1/3, post-run repairs 0/2; all market/data/object/return/holdout counters zero; capital/GPU zero; mining unchanged.
+## 2026-08-05T08:59:39.496998745Z — route-4 fourth direction-review amendment authorized
+
+- Current checkpoint: exact draft `48ff7c37…` and reviewed schema `5e8154a7…` independently match the human-authorized canonical hashes; attempts 1–3 are unchanged.
+- What changed: a response-only attempt-4 schema, read-only prompt, precheck, and provenance-correct authorization now bind one live Sol/xhigh review. They do not alter either artifact under review.
+- What was verified: clean synchronized parent `6f98b254…`; both authorized canonical hashes; all seven attempt-3 revisions represented; all prior review and incorporation byte/canonical hashes unchanged.
+- What failed: nothing in the authorization precheck. Semantic compatibility of the reviewed output schema remains an explicit auditor check and is not inferred from hash equality.
+- Current best defensible result: no route-4 data verdict and no Phase 2 economic result.
+- Next action: validate and push the clean reviewed-input checkpoint, then run attempt 4 read-only.
+- Current blocker: none.
+- Exact resume state: attempt 4 authorized but not consumed; one identical retry only for non-substantive temporary service failure; implementation/acquisition unauthorized; network/data/object/return/holdout access zero; capital/GPU zero; mining unchanged.

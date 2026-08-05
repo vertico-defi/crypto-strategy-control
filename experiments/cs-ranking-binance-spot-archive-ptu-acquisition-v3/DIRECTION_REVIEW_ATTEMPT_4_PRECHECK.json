@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "review_attempt": 4,
+  "authorization_type": "provenance_correct_review_amendment",
+  "prechecked_at_utc": "2026-08-05T08:58:33.896760057Z",
+  "expected_source_parent_commit": "6f98b254d00c1dac4b2ef2789c3ca328dc2a65df",
+  "repository_before_amendment_artifacts": {
+    "head": "6f98b254d00c1dac4b2ef2789c3ca328dc2a65df",
+    "origin_main": "6f98b254d00c1dac4b2ef2789c3ca328dc2a65df",
+    "branch": "main",
+    "clean": true,
+    "synchronized": true
+  },
+  "authorized_hashes": {
+    "revised_draft": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+      "byte_count": 55424,
+      "byte_sha256": "756f0be8111f93062bb033b3bbeeeba14ab556a44f530724215f26dbfd6c5774",
+      "authorized_canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e",
+      "independently_recomputed_canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e",
+      "match": true
+    },
+    "reviewed_output_schema": {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+      "byte_count": 2378,
+      "byte_sha256": "c92a4742bad1f1ad2a19d5a99d956a6f3dcbbf5f008217555fa9e91b35471bbd",
+      "authorized_canonical_sha256": "5e8154a7c91aa5de404b05fb3d4d59e0238dc2d4152ee86253c7d709fae387f1",
+      "independently_recomputed_canonical_sha256": "5e8154a7c91aa5de404b05fb3d4d59e0238dc2d4152ee86253c7d709fae387f1",
+      "match": true,
+      "semantic_review_required": true,
+      "embedded_draft_sha256_enum_observed": "144d795799304945e115b9006d54fc6490b31dc00c3c0e485094980bbab21c0e",
+      "embedded_verdict_enums_observed": ["DIRECTION_ACCEPTED", "REVISION_REQUIRED"],
+      "precheck_interpretation": "Canonical authorization is satisfied. Semantic compatibility with the revised draft and attempt-4 methodology is deliberately left to the independent reviewer and is not inferred from hash equality."
+    },
+    "hash_authorization_mismatch": false
+  },
+  "seven_revision_representation": [
+    {
+      "revision_id": "review-output-schema-chain-of-custody",
+      "represented_by": ["the explicit user provenance-correct attempt-4 amendment", "this precheck", "DIRECTION_REVIEW_ATTEMPT_4_AUTHORIZATION.json"],
+      "status": "REPRESENTED_FOR_REVIEW_NOT_PREJUDGED"
+    },
+    {
+      "revision_id": "identity-preserving-redirects",
+      "draft_paths": ["/official_source_contract/redirect_rule", "/network_allowlist_and_request_identity/production_transport_guard", "/raw_evidence_retention_contract/raw_evidence_index_record_schema/final_url"],
+      "status": "REPRESENTED"
+    },
+    {
+      "revision_id": "executable-csv-boundary",
+      "draft_paths": ["/row_schema_and_validation_contract/text_and_csv_parser", "/row_schema_and_validation_contract/numeric_parse", "/row_schema_and_validation_contract/value_rules"],
+      "status": "REPRESENTED"
+    },
+    {
+      "revision_id": "all-duplicate-object-keys-fail-closed",
+      "draft_paths": ["/pagination_and_enumeration_contract/reject", "/required_tests_before_production_acquisition"],
+      "status": "REPRESENTED"
+    },
+    {
+      "revision_id": "exhaustive-count-partitions",
+      "draft_paths": ["/versioned_manifest_contract/counts_fields_exact", "/versioned_manifest_contract/count_partition_contract", "/production_artifact_contract/cross_artifact_invariants"],
+      "status": "REPRESENTED"
+    },
+    {
+      "revision_id": "request-attempt-and-resume-identity",
+      "draft_paths": ["/raw_evidence_retention_contract/logical_request_identity_contract", "/raw_evidence_retention_contract/raw_evidence_index_record_schema", "/production_artifact_contract/local_untracked_artifacts/ACQUISITION_STATE.json"],
+      "status": "REPRESENTED"
+    },
+    {
+      "revision_id": "symbol-label-only-identity",
+      "draft_paths": ["/continuity_episode_and_identity_contract/cross_symbol_rename_or_migration", "/continuity_episode_and_identity_contract/identity_status_values", "/continuity_episode_and_identity_contract/identity_eligibility_rule", "/causal_universe_contract/eligibility"],
+      "status": "REPRESENTED"
+    }
+  ],
+  "prior_review_evidence_preserved": [
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_1_TIMEOUT.json",
+      "byte_sha256": "4b78ae2104e5b23bd72c132e37989fb885433b1581217da431421cc547c9a134",
+      "canonical_sha256": "7d56dd253d7672df62eb9ffead69763bec61ded27c46d8724efe27474ce332dc"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_2_TIMEOUT.json",
+      "byte_sha256": "17d7d04a93f4013332259418f35151ccfd85e19d02403ce699278ad8f384a554",
+      "canonical_sha256": "efd567cce4055be4e0b243ae7734439068c82fc3bf0b2b7ac52b45a54b2a85e4"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3.json",
+      "byte_sha256": "c3c65589426eb2c76dda80b9f0b54d0bd9ce7b5842eff1a1121b9fac2947c13f",
+      "canonical_sha256": "faf19996f233f6f57a51ff71eff9d78ee89ae741bf410fe16b4ae99ba4be8234"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3_MODEL_RESULT.json",
+      "byte_sha256": "b2a7fa3ca2e11f3e1bf2d4a72c85ddf6fdf85abe19b2d7e10cbbffd54d3678d7",
+      "canonical_sha256": "b79c0ea1b38b0d8654b73b8124a01af1539f56dc77b3b96be5f346dc21d49c74"
+    },
+    {
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_REVISION_INCORPORATION.json",
+      "byte_sha256": "1d76e1b10b41c75d88938ed6ff3eba2684114296dc906a8b65c9faf5964900a6",
+      "canonical_sha256": "4697217c9b960f29a9e6bda044a5c3dd3fff3e10ae9b507c62484758a6d3c2c4"
+    }
+  ],
+  "attempt_4_result_capture": {
+    "schema_path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_RESULT_SCHEMA.json",
+    "schema_byte_sha256": "5ff44e519bb909fee9e0ba2436f787170b92c1549d753f0c15e60d6b5066024f",
+    "schema_canonical_sha256": "a9e4cb169d2f4efb68fe1c729a86fa41cf26e6020bfbe9c4d35d7aad702afe01",
+    "purpose": "Response capture only; it does not replace or modify the reviewed output-schema artifact."
+  },
+  "prompt": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_PROMPT.md",
+    "byte_sha256": "f1f87056e1482008c38fa4e6590a1a089eab3214b8bc67087c3104512c7adbca"
+  },
+  "zero_action_assertions": {
+    "files_modified_before_hash_match_confirmed": false,
+    "network_requests_made": 0,
+    "archive_objects_discovered": 0,
+    "archive_objects_downloaded": 0,
+    "market_data_accessed": false,
+    "model_training_performed": false,
+    "backtest_performed": false,
+    "strategy_returns_calculated": false,
+    "holdout_paths_resolved": false,
+    "holdout_accessed": false,
+    "implementation_repairs_consumed": 0,
+    "acquisition_attempts_consumed": 0,
+    "capital_permitted": 0,
+    "gpu_seconds_used": 0,
+    "vertcoin_mining": "UNCHANGED"
+  },
+  "precheck_verdict": "PASS_HASHES_AND_REVISION_REPRESENTATION_CONFIRMED"
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "phase": 2,
+  "authorized_at_utc": "2026-08-05T08:59:39.496998745Z",
+  "review_attempt": 4,
+  "authorization_type": "provenance_correct_review_amendment",
+  "user_authorization_scope": "One fresh live read-only gpt-5.6-sol/xhigh direction review binding exactly the authorized revised-draft and corrected output-schema canonical hashes. Attempts 1-3 remain immutable. One identical retry is permitted only if the primary invocation produces no substantive verdict solely because of temporary service, transport, timeout, context, or model-availability failure.",
+  "source_parent_commit": "6f98b254d00c1dac4b2ef2789c3ca328dc2a65df",
+  "required_review_source": "The exact clean 40-hex HEAD containing this authorization, its bound precheck, prompt, and result-capture schema. The reviewer must record that HEAD, verify source_parent_commit is its ancestor, and review no different worktree state.",
+  "requested_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "invocation_mode": "live",
+  "permission": "read_only",
+  "maximum_wall_seconds_per_invocation": 1200,
+  "primary_invocations_authorized": 1,
+  "identical_service_failure_retries_authorized": 1,
+  "substantive_revision_retries_authorized": 0,
+  "fifth_direction_review_authorized": false,
+  "authorized_revised_draft": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/PREREGISTRATION_DRAFT.json",
+    "byte_sha256": "756f0be8111f93062bb033b3bbeeeba14ab556a44f530724215f26dbfd6c5774",
+    "authorized_canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e",
+    "independently_recomputed_canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e"
+  },
+  "authorized_reviewed_output_schema": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_OUTPUT_SCHEMA.json",
+    "byte_sha256": "c92a4742bad1f1ad2a19d5a99d956a6f3dcbbf5f008217555fa9e91b35471bbd",
+    "authorized_canonical_sha256": "5e8154a7c91aa5de404b05fb3d4d59e0238dc2d4152ee86253c7d709fae387f1",
+    "independently_recomputed_canonical_sha256": "5e8154a7c91aa5de404b05fb3d4d59e0238dc2d4152ee86253c7d709fae387f1",
+    "role": "Immutable methodology artifact under review; not the response-format schema for attempt 4."
+  },
+  "bound_precheck": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_PRECHECK.json",
+    "byte_sha256": "577d4027e477848ca1eaf2c8ea9a95d536b1ed6190135cf10e032445ddcf87ab",
+    "canonical_sha256": "42aa7b9f9f92b53e5c7ff38a7d1fa421cdf08b1e0a7d864c7653b95720536fbc"
+  },
+  "bound_prompt": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_PROMPT.md",
+    "byte_sha256": "f1f87056e1482008c38fa4e6590a1a089eab3214b8bc67087c3104512c7adbca"
+  },
+  "result_capture_schema": {
+    "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_4_RESULT_SCHEMA.json",
+    "byte_sha256": "5ff44e519bb909fee9e0ba2436f787170b92c1549d753f0c15e60d6b5066024f",
+    "canonical_sha256": "a9e4cb169d2f4efb68fe1c729a86fa41cf26e6020bfbe9c4d35d7aad702afe01",
+    "role": "Attempt-4 response capture only; it cannot replace or amend DIRECTION_REVIEW_OUTPUT_SCHEMA.json."
+  },
+  "prior_attempts_preserved": [
+    {
+      "attempt": 1,
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_1_TIMEOUT.json",
+      "byte_sha256": "4b78ae2104e5b23bd72c132e37989fb885433b1581217da431421cc547c9a134",
+      "canonical_sha256": "7d56dd253d7672df62eb9ffead69763bec61ded27c46d8724efe27474ce332dc"
+    },
+    {
+      "attempt": 2,
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_2_TIMEOUT.json",
+      "byte_sha256": "17d7d04a93f4013332259418f35151ccfd85e19d02403ce699278ad8f384a554",
+      "canonical_sha256": "efd567cce4055be4e0b243ae7734439068c82fc3bf0b2b7ac52b45a54b2a85e4"
+    },
+    {
+      "attempt": 3,
+      "path": "experiments/cs-ranking-binance-spot-archive-ptu-acquisition-v3/DIRECTION_REVIEW_ATTEMPT_3.json",
+      "byte_sha256": "c3c65589426eb2c76dda80b9f0b54d0bd9ce7b5842eff1a1121b9fac2947c13f",
+      "canonical_sha256": "faf19996f233f6f57a51ff71eff9d78ee89ae741bf410fe16b4ae99ba4be8234"
+    }
+  ],
+  "required_review_checks": [
+    "all nineteen numbered checks in the bound prompt",
+    "all seven attempt-3 required revisions",
+    "semantic compatibility of the reviewed output schema with the revised draft",
+    "no economic-methodology, acceptance-gate, or resource-scope expansion",
+    "zero prohibited access or budget consumption"
+  ],
+  "permitted_substantive_verdicts": ["PASS", "REVISION_REQUIRED", "REVIEW_INCONCLUSIVE"],
+  "pass_handling": "Only PASS permits the parent to freeze exactly the reviewed revised draft and reviewed output schema after independently rechecking both authorized canonical hashes. Acquisition remains prohibited until that freeze is committed and all existing implementation and acquisition gates are satisfied.",
+  "revision_required_handling": "Do not modify or freeze either reviewed artifact. Preserve the review, classify exact route 4 as DIRECTION_REVISION_REQUIRES_HUMAN_AUTHORIZATION, consume no implementation or acquisition budget, and do not invoke a fifth review without separate explicit authorization.",
+  "inconclusive_handling": "If the primary invocation has no substantive result solely through an authorized temporary service failure, one byte-identical retry is permitted. If both are inconclusive, preserve evidence and classify DIRECTION_REVIEW_PENDING_SERVICE_RECOVERY without rejection or economic consumption.",
+  "prohibited_actions": [
+    "modify the revised draft, reviewed output schema, or source code",
+    "browse, make a network data request, or acquire an archive object",
+    "access a market file, bar, 2026 market identity, or final holdout",
+    "train a model, run a backtest, calculate returns, or make a performance claim",
+    "alter economics, statistical gates, acceptance gates, acquisition scope, or resource ceilings",
+    "consume an implementation repair or acquisition attempt",
+    "use credentials, orders, wallet, capital, GPU, or mining changes"
+  ],
+  "implementation_authorized": false,
+  "acquisition_authorized": false,
+  "holdout_access_authorized": false,
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "fallback_used": false,
+  "fallback_permitted": false
+}
