@@ -10,3 +10,15 @@
 - Next experiment: `btc-eth-long-only-mean-reversion-v2`.
 - Current blocker: the committed Phase 2 production driver completed indexed mechanics but failed artifact serialization because a fold boundary remained a `datetime`; this is historical evidence, not yet a consumed Phase 3 round.
 - Exact resume state: run the unchanged real-development-data production fixture and complexity benchmark before authorizing or consuming completion round 1. Holdout access remains prohibited.
+
+## 2026-08-05T13:58:53.822067Z — pre-repair production blocker reproduced and measured
+
+- Current checkpoint: unchanged real-data production preflight completed; no Phase 3 completion round consumed.
+- Changed: added only durable preflight and stage evidence; no implementation code or frozen contract changed.
+- Verified: all 36 development partitions; 790,558 rows and two missing minutes per asset; four boundary-specific indices; final 549 sessions and 356 synchronized fills; 712 decisions and 54 target/fill/disposition records; two representative cost/return/cash reconciliation cases; canonical mechanical evidence completed. The hard ceiling did not trigger.
+- Failed: artifact serialization at `final_mechanical_production_validation.py:496` because `fold_evidence[*].boundary` was retained as a Python `datetime` at line 266. No complete output artifact was created.
+- Measured resources: 262.15 seconds wall clock, 2,134,316 KiB maximum RSS, 104 major and 610,549 minor page faults, zero swaps, exit 1.
+- Best defensible result: exact mechanical blocker localized; no aggregate strategy return, formal economic result, or performance conclusion exists.
+- Next experiment step: authorize completion round 1 for deterministic UTC boundary serialization and focused regression tests, then rerun the full production path.
+- Current blocker: one non-economic evidence-serialization defect.
+- Exact resume state: completion rounds used 0/2; post-result corrections used 0/1; substantive audits used 0/2; holdout entry count was zero and holdout remains sealed and unread.

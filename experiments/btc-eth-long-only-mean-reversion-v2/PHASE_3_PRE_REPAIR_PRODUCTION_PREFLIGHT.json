@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+  "phase": 3,
+  "classification": "LOCALIZED_MECHANICAL_BLOCKER_REPRODUCED_PRE_REPAIR",
+  "invocation_mode": "deterministic_local",
+  "started_at_utc": "2026-08-05T13:54:31.672067Z",
+  "finished_at_utc": "2026-08-05T13:58:53.822067Z",
+  "source_checkpoint_commit": "b7ffc87063b2f221a718bb59820d19fdc574ec88",
+  "command": "env PYTHONPATH=/home/vertico/crypto-strategy-control/src /usr/bin/timeout --signal=INT --kill-after=5s 1800s /usr/bin/busybox time -v /home/vertico/ctrend-lab/.venv/bin/python experiments/btc-eth-long-only-mean-reversion-v2/final_mechanical_production_validation.py --source-root /home/vertico/crypto-direction-lab --implementation-commit b7ffc87063b2f221a718bb59820d19fdc574ec88 --output /tmp/phase3-mean-reversion-v2-preflight-result.json --stage-log /tmp/phase3-mean-reversion-v2-preflight-stages.jsonl",
+  "input_bindings": {
+    "validation_driver_byte_sha256": "7ee98e1ba4fbe1a89f720c3e56d974c79f7668309a32d70af2cbc9ff4cba7f68",
+    "production_pipeline_byte_sha256": "d2aabc92807907cb0b70301c2c43519f2ea2b91e167b2e89916150d313985bb9",
+    "production_tests_byte_sha256": "23750a9ba9e99367b277117e6ea9a2a8abb0c36d95f65d1d1e7ce7c256dcf052",
+    "preregistration_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+    "effective_contract_canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "development_data_contract_byte_sha256": "47dcf7e5bec24ec73be45cdeb200e25671807e7a28c3c1204499a4e20ae972b7",
+    "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd"
+  },
+  "production_observations": {
+    "development_allowlist_count": 36,
+    "holdout_entry_count": 0,
+    "row_counts": {"BTCUSDT": 790558, "ETHUSDT": 790558},
+    "known_missing_minute_counts": {"BTCUSDT": 2, "ETHUSDT": 2},
+    "folds": [
+      {"fold_number": 1, "retained_rows": 789114, "session_count": 274, "fill_count": 81},
+      {"fold_number": 2, "retained_rows": 1051194, "session_count": 365, "fill_count": 172},
+      {"fold_number": 3, "retained_rows": 1316154, "session_count": 457, "fill_count": 264},
+      {"fold_number": 4, "retained_rows": 1581114, "session_count": 549, "fill_count": 356}
+    ],
+    "decision_count": 712,
+    "target_count": 54,
+    "trace_fill_count": 54,
+    "disposition_count": 54,
+    "representative_cost_return_and_terminal_cash_cases": 2,
+    "canonical_mechanical_evidence_completed": true,
+    "expected_grid_entries_final_fold": 1581120
+  },
+  "complexity_benchmark": {
+    "measured_boundary_index_session_fill_seconds": [25.489296881947666, 33.72000850504264, 42.92726763593964, 51.19632931705564],
+    "measured_retained_rows": [789114, 1051194, 1316154, 1581114],
+    "measured_session_counts": [274, 365, 457, 549],
+    "row_by_session_full_scan_eliminated_by_existing_index": true,
+    "interpretation": "Boundary construction time rises with retained rows and the expected session grid; this preflight found no recurrence of the prior rows-times-sessions scan blocker."
+  },
+  "resource_evidence": {
+    "hard_deadline_seconds": 1800,
+    "hard_deadline_triggered": false,
+    "wall_clock_seconds": 262.15,
+    "user_cpu_seconds": 260.77,
+    "system_cpu_seconds": 2.30,
+    "maximum_resident_set_kib": 2134316,
+    "major_page_faults": 104,
+    "minor_page_faults": 610549,
+    "swaps": 0,
+    "exit_status": 1
+  },
+  "failure": {
+    "exception_type": "TypeError",
+    "message": "Object of type datetime is not JSON serializable",
+    "producer_code_path": "experiments/btc-eth-long-only-mean-reversion-v2/final_mechanical_production_validation.py:265",
+    "producer_expression": "fold_evidence[str(number)]['boundary'] = fold_boundary",
+    "failure_code_path": "experiments/btc-eth-long-only-mean-reversion-v2/final_mechanical_production_validation.py:496",
+    "failed_operation": "json.dumps(result, sort_keys=True, separators=(',', ':'))",
+    "complete_output_artifact_created": false
+  },
+  "stage_log": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_PRE_REPAIR_PRODUCTION_PREFLIGHT_STAGES.jsonl",
+  "stage_log_byte_sha256": "a7152cea61c19972d37354c5e53272d8fa7111b174e41460fa4c89d35cac2692",
+  "phase_3_mechanical_completion_round_consumed": false,
+  "next_permitted_action": "Authorize and consume mechanical completion round 1 only for deterministic UTC boundary serialization and its tests.",
+  "aggregate_strategy_returns_calculated": false,
+  "representative_mechanical_interval_returns_calculated": true,
+  "formal_economic_attempt_consumed": false,
+  "economic_result_exists": false,
+  "performance_claim_permitted": false,
+  "holdout_path_resolved": false,
+  "holdout_parquet_footer_or_value_read": false,
+  "holdout_opened": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0,
+  "vertcoin_mining": "UNCHANGED"
+}

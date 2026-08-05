@@ -56,7 +56,11 @@
       "substantive_audit_attempts_remaining": 2,
       "service_failure_retries_consume_substantive_attempt": false,
       "representative_real_data_preflight_required_before_repair": true,
-      "representative_real_data_preflight_completed": false,
+      "representative_real_data_preflight_completed": true,
+      "representative_real_data_preflight_result": "LOCALIZED_MECHANICAL_BLOCKER_REPRODUCED_PRE_REPAIR",
+      "representative_real_data_preflight_artifact": "experiments/btc-eth-long-only-mean-reversion-v2/PHASE_3_PRE_REPAIR_PRODUCTION_PREFLIGHT.json",
+      "representative_real_data_preflight_artifact_byte_sha256": "266eab19cca8b2442b0e46134160950dffd28fde91762548d46d4ca68b38c3e7",
+      "representative_real_data_preflight_stage_log_byte_sha256": "a7152cea61c19972d37354c5e53272d8fa7111b174e41460fa4c89d35cac2692",
       "formal_economic_attempt_consumed": false
     },
     "maximum_local_evaluation_wall_seconds": 1800,
@@ -84,7 +88,7 @@
   },
   "current_experiment_id": "btc-eth-long-only-mean-reversion-v2",
   "data_contract_status": "FROZEN_VERIFIED_DEVELOPMENT_DATA_CONTRACT / 36_ALLOWLISTED_PARTITIONS / HOLDOUT_SEALED",
-  "development_status": "PHASE_3_AUTHORIZED_PENDING_REAL_PRODUCTION_PREFLIGHT / NO_PHASE_3_ECONOMIC_RESULT",
+  "development_status": "PHASE_3_PRE_REPAIR_PRODUCTION_BLOCKER_LOCALIZED / NO_PHASE_3_ECONOMIC_RESULT",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",
@@ -214,7 +218,7 @@
   "implementation_model_result": null,
   "implementation_model_result_byte_sha256": null,
   "implementation_model_result_sha256": null,
-  "implementation_status": "PHASE_2_ADMINISTRATIVE_TERMINAL_PRESERVED / PHASE_3_FRESH_COMPLETION_AUTHORITY / PRE_REPAIR_PREFLIGHT_PENDING",
+  "implementation_status": "PHASE_2_ADMINISTRATIVE_TERMINAL_PRESERVED / PHASE_3_COMPLETION_ROUND_1_PERMITTED_NOT_YET_CONSUMED",
   "implementation_artifact_sha256": {},
   "implementation_validation": null,
   "implementation_validation_byte_sha256": null,
@@ -245,7 +249,7 @@
     "source_snapshot_commit": "71c9ab457de878e1e0f9fb3c67d7e70a700a1977",
     "store_live": false
   },
-  "next_task": "run_mean_reversion_v2_phase_3_real_data_preflight_and_complexity_benchmark",
+  "next_task": "authorize_and_execute_mean_reversion_v2_phase_3_mechanical_completion_round_1",
   "phase": 3,
   "phase_1_terminal": {
     "final_result": "APPROVED_SPACE_EXHAUSTED / RESEARCH_BUDGET_EXHAUSTED",
@@ -446,5 +450,5 @@
   "terminal_implementation_audit_verdict": "IMPLEMENTATION_BLOCKED_REPAIR_BUDGET_EXHAUSTED",
   "progress_log": "PHASE_3_PROGRESS.md",
   "schema_version": "2.0",
-  "updated_at_utc": "2026-08-05T13:44:50.456958627Z"
+  "updated_at_utc": "2026-08-05T13:58:53.822067Z"
 }
