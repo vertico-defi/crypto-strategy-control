@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+  "review_attempt": 4,
+  "completed_at_utc": "2026-08-05T09:21:28.104112493Z",
+  "invocation_mode": "deterministic_local",
+  "source_commit_reviewed": "d71939360d1b41a74592ef694613ed3fef7c617c",
+  "validation_scope": "PRESERVED_LIVE_REVIEW_RESULT_AND_REVISION_REQUIRED_CLASSIFICATION",
+  "checks": [
+    {
+      "command": "parse every repository JSON and JSONL artifact",
+      "exit_status": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "compare DIRECTION_REVIEW_ATTEMPT_4_MODEL_RESULT.json parsed object to authoritative local Codex task_complete.last_agent_message",
+      "exit_status": 0,
+      "result": "PASS exact parsed-object equality"
+    },
+    {
+      "command": "validate verdict, 19-check partition, required revisions, and prohibited-action flags",
+      "exit_status": 0,
+      "result": "PASS: REVISION_REQUIRED; 16 PASS, 3 FAIL, 0 LIMITATION; 2 required revisions; all prohibited-action flags false"
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m ruff check .",
+      "exit_status": 0,
+      "result": "All checks passed."
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m mypy --strict --python-version 3.13 src",
+      "exit_status": 0,
+      "result": "Success: no issues found in 29 source files."
+    },
+    {
+      "command": "env PYTHONPATH=/home/vertico/crypto-strategy-control/src /home/vertico/ctrend-lab/.venv/bin/python -m pytest -q",
+      "exit_status": 0,
+      "result": "All 306 repository tests passed. These tests are not evidence of data-contract acceptance or trading profitability."
+    },
+    {
+      "command": "/home/vertico/ctrend-lab/.venv/bin/python -m compileall -q src tests",
+      "exit_status": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0,
+      "result": "PASS"
+    }
+  ],
+  "validated_artifacts": {
+    "direction_review_byte_sha256": "2e65ca54291e4852d0e36b3372e6df4e8176e01d7dcb73cb066e735c8af45292",
+    "direction_review_canonical_sha256": "23588f15d16fd640d6942d6b1bd82cd926e01b0064e895f559f3f559db699b83",
+    "model_result_byte_sha256": "e311a8509e7f41429ad76dadf02ff6a94264c216a5d52902bee88623ab57f305",
+    "model_result_canonical_sha256": "fc538fc5991c54a98cb72b9e2a0a3b759215a87b2a2f5ee93daa0007726696e4",
+    "revised_draft_canonical_sha256": "48ff7c37eaec1babf5a463f90900b6f188e99c8dd38056c351509b461c61d86e",
+    "reviewed_output_schema_canonical_sha256": "5e8154a7c91aa5de404b05fb3d4d59e0238dc2d4152ee86253c7d709fae387f1"
+  },
+  "verdict": "PASS_REVIEW_EVIDENCE_VALIDATION",
+  "review_verdict_preserved": "REVISION_REQUIRED",
+  "route_classification": "DIRECTION_REVISION_REQUIRES_HUMAN_AUTHORIZATION",
+  "draft_frozen": false,
+  "acquisition_authorized": false,
+  "network_accessed": false,
+  "market_data_accessed": false,
+  "holdout_paths_resolved": false,
+  "holdout_accessed": false,
+  "model_training_performed": false,
+  "backtest_performed": false,
+  "strategy_returns_calculated": false,
+  "performance_claim_made": false,
+  "implementation_repair_consumed": false,
+  "acquisition_attempt_consumed": false,
+  "capital_permitted": 0,
+  "gpu_seconds_used": 0
+}

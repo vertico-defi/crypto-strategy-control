@@ -446,3 +446,14 @@
 - Next action: validate and push the clean reviewed-input checkpoint, then run attempt 4 read-only.
 - Current blocker: none.
 - Exact resume state: attempt 4 authorized but not consumed; one identical retry only for non-substantive temporary service failure; implementation/acquisition unauthorized; network/data/object/return/holdout access zero; capital/GPU zero; mining unchanged.
+
+## 2026-08-05T09:15:51.755Z — route-4 attempt 4 requires human-authorized revision
+
+- Current checkpoint: live Sol/xhigh attempt 4 returned substantive `REVISION_REQUIRED`; wrapper `23588f15…`, model result `fc538fc5…`.
+- What changed: review evidence only. The draft and reviewed schema were not modified or frozen.
+- What was verified: exact clean source `d719393…`; both authorized canonical hashes; all prior hashes; 16/19 methodology checks; all seven attempt-3 revisions represented without economic or resource expansion.
+- What failed: the reviewed schema still embeds the superseded draft hash; no-response request attempts and immutable logical terminal outcomes are not exhaustively representable or raw-reconstructable.
+- Current best defensible result: no route-4 data verdict and no Phase 2 economic result.
+- Next action: await separate explicit human authorization for any revisions and any fifth direction review. Do not freeze or acquire.
+- Current blocker: `DIRECTION_REVISION_REQUIRES_HUMAN_AUTHORIZATION`.
+- Exact resume state: attempt 4 consumed with substantive verdict; retry closed; no fifth review authorized; implementation repair 1/3 remains used, acquisition attempts zero; network/data/object/return/holdout access zero; capital/GPU zero; mining unchanged.
