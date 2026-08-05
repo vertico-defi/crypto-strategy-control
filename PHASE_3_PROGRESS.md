@@ -126,3 +126,8 @@
 - The read-only successor preflight bound the unchanged v2 terminal artifact and contract. Existing production mechanics and fidelity evidence were preserved, but the remaining obligations require a production evaluator plus corrections to delayed identity, baselines, sizing, DSR, regime, attribution, fold isolation, leakage, and gates.
 - This is `SUCCESSOR_SCOPE_NONLOCAL / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT`; the one mechanical completion round was not consumed. The independently authorized relative-value v3 successor is now READY.
 - No market data, network call, training, backtest, returns, or holdout access occurred.
+
+## 2026-08-05 — relative-value v3 completion preflight
+
+- The independently authorized relative-value successor preflight also found a nonlocal scope: the absent production evaluator/oracle and remaining recovery, quarantine, multiplicity, bootstrap, DSR/PBO, regime, fold, and gate mechanics cannot be completed by one narrowly scoped mechanical round.
+- It is preserved as `SUCCESSOR_SCOPE_NONLOCAL / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT`; no successor repair round or formal economic attempt was consumed. Both fixed-pair successors are now terminal for this bounded authority, while Route 4 remains deferred and funding remains independently waiting for its causal checkpoint.

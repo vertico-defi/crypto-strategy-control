@@ -24,17 +24,18 @@
     {
       "task_id": "mean-reversion-v3-completion",
       "experiment_id": "btc-eth-long-only-mean-reversion-v3-completion",
-      "state": "READY",
+      "state": "IMPLEMENTATION_INCONCLUSIVE",
       "priority": 1,
       "action": "run_successor_completion_preflight"
     },
     {
       "task_id": "relative-value-v3-completion",
       "experiment_id": "btc-eth-relative-value-rotation-v3-completion",
-      "state": "READY",
+      "state": "IMPLEMENTATION_INCONCLUSIVE",
       "priority": 2,
       "unblock_on": ["NO_GO", "IMPLEMENTATION_INCONCLUSIVE", "NONCANDIDATE_TERMINAL"],
-      "unblocked_by": "SUCCESSOR_SCOPE_NONLOCAL"
+      "unblocked_by": "SUCCESSOR_SCOPE_NONLOCAL",
+      "terminal": true
     },
     {
       "task_id": "route-4",

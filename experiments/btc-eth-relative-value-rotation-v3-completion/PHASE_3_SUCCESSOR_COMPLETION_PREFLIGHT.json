@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v3-completion",
+  "preflight_type": "READ_ONLY_PRODUCTION_COMPLETION_PREFLIGHT",
+  "invocation_mode": "deterministic_local",
+  "evaluated_at_utc": "2026-08-05T21:08:00Z",
+  "source_parent_commit": "ddc4280be02f0f8d8be83a82c11fb56ba92e75f5",
+  "predecessor_terminal": {
+    "experiment_id": "btc-eth-relative-value-rotation-v2",
+    "path": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_TERMINAL_IMPLEMENTATION_RESULT.json",
+    "byte_sha256": "bea0435d41b9129211db8063f1eb3bfdc4bb549f30d3fbc8dc47a666a849c2ae",
+    "verdict": "IMPLEMENTATION_INCONCLUSIVE"
+  },
+  "frozen_contract": {
+    "canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+    "preregistration_byte_sha256": "aa922a6ce0027f00186f08c69cfeb3ef000b46a40ea14688d94daed3afee5187"
+  },
+  "allowlisted_development_data": "not opened by this read-only preflight",
+  "holdout": "SEALED_UNOPENED_UNREAD",
+  "verified_prior_mechanics": [
+    "narrow production adapter identity validation passed",
+    "exact observation and delayed identity comparisons passed",
+    "no formal economic result exists"
+  ],
+  "remaining_obligations": [
+    "complete independent production oracle and trace reconciliation",
+    "implement formal evaluator and four-fold production runner",
+    "close recovery, quarantine, gap, multiplicity, bootstrap, DSR, PBO, regime, and nineteen-gate recomputation",
+    "bind terminal fills and economic returns under the frozen contract"
+  ],
+  "scope_decision": {
+    "classification": "SUCCESSOR_SCOPE_NONLOCAL",
+    "implementation_status": "IMPLEMENTATION_INCONCLUSIVE",
+    "economic_status": "NO_ECONOMIC_RESULT",
+    "mechanical_round_consumed": false,
+    "reason": "The remaining obligations are an absent evaluator/oracle and multiple statistical and fold mechanics, not one bounded mechanical completion."
+  },
+  "safety": {
+    "network_access": false,
+    "market_data_access": false,
+    "model_training": false,
+    "backtest": false,
+    "returns_calculated": false,
+    "holdout_path_resolved": false,
+    "capital_permitted": 0,
+    "gpu_seconds_used": 0
+  },
+  "next_authorized_workstream": "PROGRAM_LEVEL_DECISION_REQUIRED"
+}
