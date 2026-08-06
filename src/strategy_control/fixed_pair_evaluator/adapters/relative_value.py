@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from strategy_control.relative_value_v2 import decision_for_scores
+
 
 @dataclass(frozen=True)
 class RelativeValueAdapter:
@@ -21,3 +23,25 @@ class RelativeValueAdapter:
 class DecisionIntent:
     session_index: int
     session: Any
+
+
+@dataclass(frozen=True)
+class RotationDecisionIntent:
+    session_index: int
+    actual_before: str
+    desired: str
+    score_identities: tuple[str, ...]
+
+
+def decide_contract_target(
+    trial: str,
+    scores: dict[str, float | None],
+    raw_returns: dict[str, list[float]],
+    actual: str,
+    *,
+    session_index: int,
+    score_identities: tuple[str, ...],
+) -> RotationDecisionIntent:
+    """Bind the frozen relative-value decision formula to an immutable identity."""
+    desired = decision_for_scores(trial, scores, raw_returns, actual)
+    return RotationDecisionIntent(session_index, actual, desired, score_identities)

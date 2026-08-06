@@ -16,6 +16,9 @@ from strategy_control.fixed_pair_evaluator import (
 from strategy_control.fixed_pair_evaluator.adapters.mean_reversion import (
     run_contract_clock,
 )
+from strategy_control.fixed_pair_evaluator.adapters.relative_value import (
+    decide_contract_target,
+)
 from strategy_control.fixed_pair_evaluator.evidence import (
     StageMarker,
     require_independent_sources,
@@ -166,3 +169,16 @@ def test_mean_adapter_preserves_clock_identity_and_pending_target() -> None:
     assert len(trace.decisions) == 2
     assert len(trace.targets) == 2
     assert trace.targets[0].asset == "BTCUSDT"
+
+
+def test_relative_value_adapter_binds_frozen_target_formula() -> None:
+    intent = decide_contract_target(
+        "primary_risk_adjusted_20_60_120",
+        {"BTCUSDT": 1.0, "ETHUSDT": 0.0},
+        {"BTCUSDT": [0.1, 0.1, 0.1], "ETHUSDT": [0.1, 0.1, 0.1]},
+        "CASH",
+        session_index=4,
+        score_identities=("btc", "eth"),
+    )
+    assert intent.desired == "BTCUSDT"
+    assert intent.score_identities == ("btc", "eth")
