@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+  "invocation_mode": "live",
+  "reviewer_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "scope": "read-only fidelity and methodology audit of clean-room development result",
+  "source_commit_reviewed": "4ee928472f29587398a337136ae7d82bd2888296",
+  "attempt_1": {
+    "started_at_utc": "2026-08-06T12:25:00Z",
+    "finished_at_utc": "2026-08-06T12:26:00Z",
+    "result": "NO_SUBSTANTIVE_VERDICT",
+    "error": "Codex tool-output expansion terminated before the model returned the requested verdict; no audit conclusion was produced."
+  },
+  "identical_retry": {
+    "started_at_utc": "2026-08-06T12:35:00Z",
+    "finished_at_utc": "2026-08-06T12:36:00Z",
+    "result": "NO_SUBSTANTIVE_VERDICT",
+    "error": "The identical live retry terminated after extensive read-only inspection output without returning the requested PASS or REVISION_REQUIRED verdict; no audit conclusion was produced."
+  },
+  "substantive_verdict": null,
+  "classification": "AUDIT_PENDING_SERVICE_RECOVERY",
+  "retry_closed": true,
+  "no_files_modified_by_audit": true,
+  "no_network_or_holdout_access": true,
+  "no_new_economic_evaluation": true
+}
