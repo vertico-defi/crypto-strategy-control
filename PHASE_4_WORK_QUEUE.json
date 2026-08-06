@@ -14,9 +14,9 @@
     {
       "task_id": "fixed-pair-evaluator-architecture",
       "experiment_id": "fixed-pair-development-evaluator-v1",
-      "state": "READY",
+      "state": "TERMINAL",
       "priority": 1,
-      "action": "produce_clause_code_test_obligation_map_and_architecture_review"
+      "action": "terminal_implementation_inconclusive_budget_exhausted"
     },
     {
       "task_id": "mean-reversion-v4-evaluation",
