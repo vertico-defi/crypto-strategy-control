@@ -10,7 +10,7 @@ from __future__ import annotations
 import math
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from types import MappingProxyType
 
 ASSETS = ("BTCUSDT", "ETHUSDT")
@@ -32,6 +32,8 @@ class CleanRow:
     asset: str
     timestamp: datetime
     close: float
+    source_path: str = "fixture"
+    row_index: int = -1
 
     def __post_init__(self) -> None:
         if self.asset not in ASSETS or self.timestamp.tzinfo != UTC:
@@ -46,6 +48,7 @@ class CleanSession:
     rows: Mapping[str, CleanRow]
     complete: bool
     quarantine: bool = False
+    execution_rows: Mapping[str, CleanRow] = MappingProxyType({})
 
 
 @dataclass(frozen=True)
@@ -119,6 +122,46 @@ def build_sessions(
     return tuple(output)
 
 
+def build_daily_sessions(rows: Iterable[CleanRow]) -> tuple[CleanSession, ...]:
+    """Construct the frozen daily sessions from exact 1-minute event rows."""
+    grouped: dict[str, dict[datetime, dict[datetime, CleanRow]]] = {
+        asset: {} for asset in ASSETS
+    }
+    for row in rows:
+        session_day = (row.timestamp - timedelta(minutes=1)).date()
+        session = datetime(session_day.year, session_day.month, session_day.day, tzinfo=UTC)
+        grouped[row.asset].setdefault(session, {})[row.timestamp] = row
+    days = sorted({day for items in grouped.values() for day in items})
+    output: list[CleanSession] = []
+    for day in days:
+        expected = tuple(day + timedelta(minutes=i) for i in range(1, 1441))
+        selected = {asset: grouped[asset].get(day, {}) for asset in ASSETS}
+        complete = all(tuple(selected[asset]) == expected for asset in ASSETS)
+        if complete:
+            rows_at_close = {
+                asset: selected[asset][expected[-1]] for asset in ASSETS
+            }
+            next_day = day + timedelta(days=1)
+            next_expected = next_day + timedelta(minutes=1)
+            execution = {
+                asset: grouped[asset].get(next_day, {}).get(next_expected, rows_at_close[asset])
+                for asset in ASSETS
+            }
+        else:
+            rows_at_close = {}
+            execution = {}
+        output.append(
+            CleanSession(
+                day,
+                MappingProxyType(rows_at_close),
+                complete,
+                not complete,
+                MappingProxyType(execution),
+            )
+        )
+    return tuple(output)
+
+
 def _signal(history: list[float]) -> float | None:
     if len(history) < max(HORIZON, VOL_LOOKBACK) + 1:
         return None
@@ -164,7 +207,16 @@ def evaluate(
             pending = {asset: None for asset in ASSETS}
             previous_prices = None
             continue
-        prices = {asset: session.rows[asset].close for asset in ASSETS}
+        prices = {
+            asset: session.execution_rows.get(asset, session.rows[asset]).close
+            for asset in ASSETS
+        }
+        execution_timestamp = next(iter(session.execution_rows.values()), None)
+        fill_timestamp = (
+            execution_timestamp.timestamp
+            if execution_timestamp is not None
+            else session.timestamp
+        )
         if previous_prices is not None:
             marked = equity
             for asset in ASSETS:
@@ -187,7 +239,7 @@ def evaluate(
                     CleanFill(
                         asset,
                         sessions[scheduled_index - 1].timestamp,
-                        session.timestamp,
+                        fill_timestamp,
                         prices[asset],
                         target_weight,
                         cost,
@@ -211,6 +263,24 @@ def evaluate(
                 CleanDecision(asset, session.timestamp, signal, weights[asset], target)
             )
             if target is not None:
+                if index == len(sessions) - 1 and target == 0.0:
+                    turnover = abs(target - weights[asset])
+                    cost = equity * turnover * cost_bps / 10_000
+                    equity -= cost
+                    total_cost += cost
+                    fills.append(
+                        CleanFill(
+                            asset,
+                            session.timestamp,
+                            fill_timestamp,
+                            prices[asset],
+                            target,
+                            cost,
+                        )
+                    )
+                    weights[asset] = target
+                    entry_index[asset] = None
+                    continue
                 if index + 1 >= len(sessions) or not sessions[index + 1].complete:
                     raise CleanRoomInvariantError("exact next-session execution row missing")
                 pending[asset] = (index + 1, target)

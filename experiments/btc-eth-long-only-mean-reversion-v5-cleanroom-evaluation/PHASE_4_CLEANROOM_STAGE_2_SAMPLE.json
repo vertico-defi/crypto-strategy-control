@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+  "stage": "STAGE_2_REAL_DATA_SAMPLE",
+  "source_parent_commit": "2b3bf2b",
+  "source_repository": "crypto-direction-lab (absolute local path intentionally omitted from public artifact)",
+  "dataset_id": "historical-v2-pathc-20260723T175155Z",
+  "selected_months": ["2025-01"],
+  "selected_partition_count": 2,
+  "selected_paths": [
+    "canonical/venue=binance/symbol=BTCUSDT/year=2025/month=01/observations.parquet",
+    "canonical/venue=binance/symbol=ETHUSDT/year=2025/month=01/observations.parquet"
+  ],
+  "row_counts": {"BTCUSDT": 44640, "ETHUSDT": 44640},
+  "daily_session_count": 31,
+  "complete_session_count": 31,
+  "incomplete_session_count": 0,
+  "decisions": 62,
+  "fills": 0,
+  "intervals": 30,
+  "terminal_equity": 1.0,
+  "net_return": 0.0,
+  "terminal_cash": true,
+  "holdout_path_resolution_count": 0,
+  "holdout_opened": false,
+  "market_data_scope": "allowlisted development partitions only",
+  "economic_interpretation": "not a formal evaluation; no-trade sample mechanics only",
+  "wall_time_seconds": 2.4,
+  "max_rss_bytes": null,
+  "status": "PASS_SAMPLE_MECHANICS_NO_FORMAL_RESULT"
+}
