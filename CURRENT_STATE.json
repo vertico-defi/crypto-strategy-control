@@ -313,6 +313,8 @@
   "phase_4_architecture_review": "experiments/fixed-pair-development-evaluator-v1/PHASE_4_ARCHITECTURE_REVIEW.json",
   "phase_4_architecture_review_byte_sha256": "fc10120c40f86825ae12a107e0caa99881d83c21f4238878e8c67da0b079af0c",
   "phase_4_architecture_review_verdict": "REVISION_REQUIRED",
+  "phase_4_architecture_delta_review_2": "experiments/fixed-pair-development-evaluator-v1/PHASE_4_ARCHITECTURE_DELTA_REVIEW_2.json",
+  "phase_4_architecture_delta_review_2_byte_sha256": "048d88f23b40819c6e7f344225d73939ef52b47c8320545d2c1a8543c5444808",
   "phase_3_strategy_registry": "STRATEGY_REGISTRY_PHASE_3.json",
   "phase_3_strategy_registry_byte_sha256": "caaa247b0a931a1ceb6747efa7ba5ec828f4ffb384e0fa605f3ca279e97fb51f",
   "phase_3_strategy_registry_sha256": "ee6e615d2c9ea357a3254bab99e9fa60498cb8383812126fa143f7497bdac340",

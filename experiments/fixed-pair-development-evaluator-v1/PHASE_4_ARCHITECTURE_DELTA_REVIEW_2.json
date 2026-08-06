@@ -1,0 +1,32 @@
+{
+  "experiment_id": "fixed-pair-development-evaluator-v1",
+  "review_type": "phase_4_stage_1_architecture_delta",
+  "review_attempt": 2,
+  "authorization_type": "phase_4_authorized_architecture_review",
+  "invocation_mode": "live",
+  "reviewer_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "started_at_utc": "2026-08-06T10:01:00Z",
+  "finished_at_utc": "2026-08-06T10:11:00Z",
+  "source_commit_reviewed": "48c48bf291838afb1f8ae12915d2a4da01231d14",
+  "invocation_id": "019fd685-d916-79f2-8afc-1728cf980682",
+  "holdout_accessed": false,
+  "network_accessed": false,
+  "market_data_accessed": false,
+  "model_training": false,
+  "backtest_run": false,
+  "returns_calculated": false,
+  "verdict": "REVISION_REQUIRED",
+  "hash_reconciliation": "PASS",
+  "frozen_economic_contracts_unchanged": true,
+  "findings": [
+    "Adapters are nominal Any-typed stubs without immutable decisions, clocks, state, terminal semantics, or identities.",
+    "Session indexing ignores causal availability, gaps, and 150-session recovery and exposes mutable mappings.",
+    "Evidence reconciliation can self-attest from arbitrary identifiers and matching hashes; stage order is unconstrained and input/output hashes are identical.",
+    "Required loader and holdout guard are absent; fixture coverage is incomplete.",
+    "Accounting charges full target gross and replaces units rather than applying turnover-based atomic portfolio reallocation and terminal liquidation."
+  ],
+  "stage_1_safe_to_proceed": false,
+  "economic_interpretation": "none",
+  "next_state": "ARCHITECTURE_REVISION_REQUIRED"
+}

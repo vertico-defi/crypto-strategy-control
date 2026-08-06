@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
+from types import MappingProxyType
 
 
 class SessionInvariantError(ValueError):
@@ -39,7 +40,12 @@ class BoundaryRowIndex:
     def build(cls, rows: Iterable[Row], *, boundary: datetime) -> BoundaryRowIndex:
         if boundary.tzinfo is None or boundary.utcoffset() != timedelta(0):
             raise SessionInvariantError("boundary must be UTC")
-        retained = tuple(row for row in rows if row.timestamp < boundary)
+        retained = tuple(
+            row
+            for row in rows
+            if row.timestamp < boundary
+            and (row.available is None or row.available < boundary)
+        )
         keys: set[tuple[str, datetime]] = set()
         previous: dict[str, datetime] = {}
         indexed: dict[tuple[str, datetime], Row] = {}
@@ -53,7 +59,7 @@ class BoundaryRowIndex:
             keys.add(key)
             previous[row.asset] = row.timestamp
             indexed[key] = row
-        return cls(boundary=boundary, rows=retained, by_asset_time=indexed)
+        return cls(boundary=boundary, rows=retained, by_asset_time=MappingProxyType(indexed))
 
     def exact(self, asset: str, timestamp: datetime) -> Row | None:
         return self.by_asset_time.get((asset, timestamp))
@@ -87,7 +93,7 @@ def build_sessions(
         result.append(
             Session(
                 timestamp=timestamp,
-                rows=rows,
+                rows=MappingProxyType(rows),
                 complete=complete,
                 eligible=complete and timestamp not in quarantine,
             )

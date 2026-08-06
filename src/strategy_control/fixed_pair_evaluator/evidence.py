@@ -8,10 +8,26 @@ from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from typing import Any
 
+STAGE_ORDER = (
+    "identity_verified",
+    "representative_rows_materialized",
+    "production_trace_emitted",
+    "independent_reference_reconciled",
+    "development_evaluator_complete",
+)
+
 
 def canonical_hash(value: Any) -> str:
     raw = json.dumps(value, sort_keys=True, separators=(",", ":"), default=str).encode()
     return hashlib.sha256(raw).hexdigest()
+
+
+def validate_stage_sequence(markers: tuple[StageMarker, ...]) -> None:
+    names = tuple(marker.stage for marker in markers)
+    if names != STAGE_ORDER:
+        raise ValueError("stage sequence is incomplete or out of order")
+    if any(marker.status != "PASS" for marker in markers):
+        raise ValueError("stage sequence contains a failed marker")
 
 
 @dataclass(frozen=True)
@@ -24,10 +40,12 @@ class StageMarker:
     status: str
 
     @classmethod
-    def complete(cls, stage: str, payload: Any) -> StageMarker:
+    def complete(cls, stage: str, payload: Any, *, input_payload: Any | None = None) -> StageMarker:
+        if stage not in STAGE_ORDER:
+            raise ValueError(f"unknown stage: {stage}")
         now = datetime.now(UTC).isoformat().replace("+00:00", "Z")
-        digest = canonical_hash(payload)
-        return cls(stage, now, now, digest, digest, "PASS")
+        input_hash = canonical_hash(payload if input_payload is None else input_payload)
+        return cls(stage, now, now, input_hash, canonical_hash(payload), "PASS")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
