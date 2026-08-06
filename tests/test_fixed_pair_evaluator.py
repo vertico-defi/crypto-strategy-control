@@ -29,6 +29,10 @@ from strategy_control.fixed_pair_evaluator.loader import (
     DevelopmentManifest,
     HoldoutGuard,
 )
+from strategy_control.fixed_pair_evaluator.reference import (
+    reference_compound,
+    reference_turnover,
+)
 from strategy_control.fixed_pair_evaluator.session import (
     RecoveryState,
     Row,
@@ -212,3 +216,9 @@ def test_mean_adapter_delayed_fill_remains_exact_and_pending() -> None:
         delay=1,
     )
     assert trace.targets[0].fill_index == 1
+
+
+def test_independent_reference_reconciles_turnover_and_wealth() -> None:
+    assert reference_turnover({"BTCUSDT": 1.0}, {"ETHUSDT": 1.0}, include_cash=True) == 1.0
+    assert reference_turnover({"BTCUSDT": 0.0}, {"BTCUSDT": 0.5}, include_cash=False) == 0.5
+    assert reference_compound((0.1, -0.1)) == pytest.approx(0.99)
