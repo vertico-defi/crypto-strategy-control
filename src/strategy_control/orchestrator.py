@@ -100,6 +100,7 @@ ACTIVE_PROGRAM_STATES = frozenset(
         "ACTIVE_RESEARCH",
         "ACTIVE_RESEARCH_PHASE_2",
         "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO",
+        "ACTIVE_RESEARCH_PHASE_4_FIXED_PAIR_EVALUATION_ENGINE_COMPLETION",
     }
 )
 INVOCATION_MODES = ("live", "mock", "deterministic_local")
@@ -280,9 +281,15 @@ def select_task(state: dict[str, Any] | None = None) -> dict[str, Any]:
         active_phase = 2
     elif current.get("program_state") == "ACTIVE_RESEARCH_PHASE_3_ADAPTIVE_PORTFOLIO":
         active_phase = 3
+    elif current.get("program_state") == (
+        "ACTIVE_RESEARCH_PHASE_4_FIXED_PAIR_EVALUATION_ENGINE_COMPLETION"
+    ):
+        active_phase = 4
     if active_phase is not None:
-        queue_reference = current.get("phase_3_work_queue")
-        if active_phase == 3 and isinstance(queue_reference, str):
+        queue_reference = current.get(
+            "phase_4_work_queue" if active_phase == 4 else "phase_3_work_queue"
+        )
+        if active_phase in {3, 4} and isinstance(queue_reference, str):
             queued = select_phase_3_queue_task(
                 load_phase_3_queue(ROOT / queue_reference)
             )
@@ -290,10 +297,12 @@ def select_task(state: dict[str, Any] | None = None) -> dict[str, Any]:
                 return {
                     "task": queued["task_id"],
                     "experiment_id": queued.get("experiment_id"),
-                    "phase": 3,
+                    "phase": active_phase,
                     "queue_state": queued.get("state"),
                     "next_eligible_timestamp": queued.get("next_eligible_timestamp"),
-                    "information_value": "Select the highest-priority eligible Phase 3 task.",
+                    "information_value": (
+                        f"Select the highest-priority eligible Phase {active_phase} task."
+                    ),
                 }
         return {
             "task": current.get("next_task", f"PHASE_{active_phase}_TASK_NOT_REGISTERED"),

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "phase-4-fixed-pair-evaluation-engine-completion-v1",
+  "authorized_at_utc": "2026-08-06T09:47:05.775Z",
+  "program_state": "ACTIVE_RESEARCH_PHASE_4_FIXED_PAIR_EVALUATION_ENGINE_COMPLETION",
+  "source_parent_commit": "b776780f0e4ea0a05edc1a6f06c8cdafde4a7a74",
+  "objective": "ONE_COMPLETE_AUDITED_DEVELOPMENT_ECONOMIC_RESULT",
+  "capital_permitted": 0,
+  "gpu_seconds_permitted": 0,
+  "mining_change_permitted": false,
+  "holdout": "SEALED_UNOPENED_UNREAD",
+  "network_acquisition_permitted": false,
+  "funding_checkpoint": {
+    "state": "WAITING_EXTERNAL",
+    "next_eligible_utc": "2026-08-07T14:00:10Z",
+    "blocks_phase_4_ready_work": false,
+    "protocol_unchanged": true
+  },
+  "predecessors": {
+    "mean_reversion_v3": {
+      "experiment_id": "btc-eth-long-only-mean-reversion-v3-completion",
+      "terminal_artifact": "experiments/btc-eth-long-only-mean-reversion-v3-completion/PHASE_3_SUCCESSOR_COMPLETION_PREFLIGHT.json",
+      "terminal_byte_sha256": "1210c0ac8d7bf845fb6cbfedc6fdf99cd22c55b94c788910610e81b9686d73dc",
+      "terminal_state": "SUCCESSOR_SCOPE_NONLOCAL / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+      "frozen_contract_canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+      "frozen_preregistration_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+      "phase_2_terminal_artifact": "experiments/btc-eth-long-only-mean-reversion-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+      "phase_2_terminal_byte_sha256": "49aa1118e79d3916c3744ea3bc3df403e17c398d2140f3c0ca2a017b00bf4633"
+    },
+    "relative_value_v3": {
+      "experiment_id": "btc-eth-relative-value-rotation-v3-completion",
+      "terminal_artifact": "experiments/btc-eth-relative-value-rotation-v3-completion/PHASE_3_SUCCESSOR_COMPLETION_PREFLIGHT.json",
+      "terminal_byte_sha256": "b3590c17959e226d098ea9ce5a30b0f7b20b43d14916498ac12cafc8a3158b3b",
+      "terminal_state": "SUCCESSOR_SCOPE_NONLOCAL / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+      "frozen_contract_canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+      "frozen_preregistration_byte_sha256": "aa922a6ce0027f00186f08c69cfeb3ef000b46a40ea14688d94daed3afee5187",
+      "phase_2_terminal_artifact": "experiments/btc-eth-relative-value-rotation-v2/PHASE_3_TERMINAL_IMPLEMENTATION_RESULT.json",
+      "phase_2_terminal_byte_sha256": "bea0435d41b9129211db8063f1eb3bfdc4bb549f30d3fbc8dc47a666a849c2ae"
+    }
+  },
+  "new_experiments": {
+    "shared_evaluator": "fixed-pair-development-evaluator-v1",
+    "mean_reversion": "btc-eth-long-only-mean-reversion-v4-evaluation",
+    "relative_value": "btc-eth-relative-value-rotation-v4-evaluation",
+    "relative_value_dependency": "mean-reversion v4 must reach a clean terminal result other than a historical candidate awaiting human review"
+  },
+  "budgets": {
+    "contract_architecture_analyses": 1,
+    "shared_evaluator_implementation_cycles_max": 8,
+    "mean_reversion_adapter_cycles_max": 3,
+    "relative_value_adapter_cycles_max": 3,
+    "substantive_architecture_fidelity_audits_max": 3,
+    "post_result_audits_per_strategy": 1,
+    "identical_service_failure_retry_per_audit": 1,
+    "cpu_only": true
+  },
+  "economic_rules_unchanged": true,
+  "route_4": "PRESERVED_Direction_DESIGN_INCONCLUSIVE_NO_DATA_RESULT_NO_ECONOMIC_RESULT_ACQUISITION_NOT_STARTED",
+  "no_partial_result_promotion": true,
+  "hard_stops": [
+    "CONTRACT_INCONSISTENT / NO_ECONOMIC_RESULT",
+    "full_authorized_evaluator_budget_exhausted",
+    "economic_rule_or_holdout_rule_change_required",
+    "genuine_data_rights_hardware_storage_authentication_or_safety_blocker",
+    "validated_candidate_ready_for_human_holdout_review"
+  ]
+}

@@ -132,3 +132,8 @@
 - The independently authorized relative-value successor preflight also found a nonlocal scope: the absent production evaluator/oracle and remaining recovery, quarantine, multiplicity, bootstrap, DSR/PBO, regime, fold, and gate mechanics cannot be completed by one narrowly scoped mechanical round.
 - It is preserved as `SUCCESSOR_SCOPE_NONLOCAL / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT`; no successor repair round or formal economic attempt was consumed. Both fixed-pair successors are now terminal for this bounded authority, while Route 4 remains deferred and funding remains independently waiting for its causal checkpoint.
 - Sanitized portfolio snapshot was generated and pushed at portfolio commit `1d6b1c39a66193bd08bc999964d1b614ae73e0ac`; tests, type checks, static build, and publication audit passed. Pages deployment was not independently verified in this checkpoint.
+
+## 2026-08-06 — Phase 4 evaluator authorization
+
+- Phase 4 explicitly authorizes the previously nonlocal fixed-pair evaluator work. Historical Phase 3 successor blockers remain unchanged; Phase 4 starts with a separate shared evaluator workstream and new v4 experiment IDs.
+- The Phase 4 queue keeps funding `WAITING_EXTERNAL` and Route 4 `DEFERRED`; READY evaluator architecture work is independent and has priority.

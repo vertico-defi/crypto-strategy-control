@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "queue_id": "phase-4-fixed-pair-evaluator-queue-v1",
+  "created_at_utc": "2026-08-06T09:47:05.775Z",
+  "source_parent_commit": "b776780f0e4ea0a05edc1a6f06c8cdafde4a7a74",
+  "writer_lock": {"path": ".research-orchestrator.lock", "max_mutating_tasks": 1},
+  "selection_policy": {
+    "ready_before_future_wait": true,
+    "no_repeated_future_timestamp_audits": true,
+    "no_heartbeat_commits": true,
+    "one_atomic_repository_mutation": true
+  },
+  "tasks": [
+    {
+      "task_id": "fixed-pair-evaluator-architecture",
+      "experiment_id": "fixed-pair-development-evaluator-v1",
+      "state": "READY",
+      "priority": 1,
+      "action": "produce_clause_code_test_obligation_map_and_architecture_review"
+    },
+    {
+      "task_id": "mean-reversion-v4-evaluation",
+      "experiment_id": "btc-eth-long-only-mean-reversion-v4-evaluation",
+      "state": "BLOCKED_DEPENDENCY",
+      "priority": 2,
+      "dependency": "fixed-pair-development-evaluator-v1_stages_1_to_3"
+    },
+    {
+      "task_id": "relative-value-v4-evaluation",
+      "experiment_id": "btc-eth-relative-value-rotation-v4-evaluation",
+      "state": "BLOCKED_DEPENDENCY",
+      "priority": 3,
+      "dependency": "mean-reversion-v4_clean_terminal_noncandidate"
+    },
+    {
+      "task_id": "funding-checkpoint",
+      "experiment_id": "prospective-funding-basis-observation",
+      "state": "WAITING_EXTERNAL",
+      "priority": 4,
+      "next_eligible_timestamp": "2026-08-07T14:00:10Z",
+      "action": "read_only_day_7_funding_availability_checkpoint",
+      "blocks_ready_tasks": false
+    },
+    {
+      "task_id": "route-4",
+      "experiment_id": "cs-ranking-binance-spot-archive-ptu-acquisition-v3",
+      "state": "DEFERRED",
+      "priority": 5,
+      "action": "no_review_or_acquisition_in_phase_4"
+    }
+  ]
+}

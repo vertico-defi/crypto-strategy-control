@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "map_id": "phase-4-fixed-pair-evaluator-obligation-map-v1",
+  "created_at_utc": "2026-08-06T09:47:05.775Z",
+  "source_parent_commit": "b776780f0e4ea0a05edc1a6f06c8cdafde4a7a74",
+  "authorization": "PHASE_4_AUTHORIZATION.json",
+  "economic_contracts": {
+    "mean_reversion": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "relative_value": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9"
+  },
+  "architecture": {
+    "shared_layers": [
+      "manifest-bound loader and holdout guard",
+      "immutable boundary-specific session/index builder",
+      "common synchronized information and execution-row oracles",
+      "gap/quarantine/recovery segment engine",
+      "state-machine execution, fills, costs, cash, returns, and terminal liquidation",
+      "fold runner and baseline panels",
+      "statistics, gates, trace reconciliation, canonical artifacts, and stage markers"
+    ],
+    "adapter_layers": [
+      "mean-reversion signal/state adapter",
+      "relative-value rotation signal/state adapter"
+    ],
+    "independence_boundary": "Adapters emit immutable decisions from shared causal vectors; shared accounting never selects or changes strategy signals."
+  },
+  "obligations": [
+    {"id":"MR-01","scope":"shared evaluator infrastructure","obligation":"replace unconditional formal-driver failure with a production evaluator","evidence":"PHASE_3_FORMAL_EVALUATOR_PARENT_VALIDATION_FAILURE.json","status":"OPEN"},
+    {"id":"MR-02","scope":"mean-reversion adapter","obligation":"correct delayed target/fill identity handling","evidence":"PHASE_3_FORMAL_EVALUATOR_PARENT_VALIDATION_FAILURE.json","status":"OPEN"},
+    {"id":"MR-03","scope":"shared accounting/statistics","obligation":"correct common-panel baselines, position sizing, DSR, regime, attribution, fold isolation, leakage, and all gates","evidence":"PHASE_3_FORMAL_EVALUATOR_PARENT_VALIDATION_FAILURE.json","status":"OPEN"},
+    {"id":"RV-01","scope":"relative-value adapter","obligation":"complete independent production oracle and trace reconciliation","evidence":"PHASE_3_SUCCESSOR_COMPLETION_PREFLIGHT.json","status":"OPEN"},
+    {"id":"RV-02","scope":"shared evaluator infrastructure","obligation":"implement formal evaluator and four-fold production runner","evidence":"PHASE_3_SUCCESSOR_COMPLETION_PREFLIGHT.json","status":"OPEN"},
+    {"id":"RV-03","scope":"shared statistics/evidence","obligation":"close recovery, quarantine, gap, multiplicity, bootstrap, DSR, PBO, regime, and nineteen-gate recomputation","evidence":"PHASE_3_SUCCESSOR_COMPLETION_PREFLIGHT.json","status":"OPEN"},
+    {"id":"RV-04","scope":"relative-value adapter and accounting","obligation":"bind terminal fills and economic returns under the frozen contract","evidence":"PHASE_3_SUCCESSOR_COMPLETION_PREFLIGHT.json","status":"OPEN"},
+    {"id":"EV-01","scope":"evidence-generation requirement","obligation":"canonical traces, independent reconciliation, stage markers, runtime and memory evidence","evidence":"Phase 4 authorization stages 2-4","status":"OPEN"},
+    {"id":"ST-01","scope":"statistical requirement","obligation":"bootstrap, DSR, PBO, drawdown, parameter-neighborhood, regime and gate panels","evidence":"frozen contracts and acceptance gates","status":"OPEN"}
+  ],
+  "contract_consistency_precheck": {
+    "mean_reversion": "NO_CONTRADICTION_FOUND",
+    "relative_value": "NO_CONTRADICTION_FOUND",
+    "stop_code_if_reversed": "CONTRACT_INCONSISTENT"
+  },
+  "clause_to_code": [
+    {"clause":"data identity and holdout guard","module":"fixed_pair_evaluator/loader.py","tests":"test_fixed_pair_loader.py"},
+    {"clause":"session, gap, quarantine, recovery","module":"fixed_pair_evaluator/session.py","tests":"test_fixed_pair_session.py"},
+    {"clause":"exact target and fill oracle","module":"fixed_pair_evaluator/oracle.py","tests":"test_fixed_pair_oracle.py"},
+    {"clause":"state, fills, costs, cash, returns","module":"fixed_pair_evaluator/accounting.py","tests":"test_fixed_pair_accounting.py"},
+    {"clause":"folds, baselines, panels, statistics, gates","module":"fixed_pair_evaluator/evaluation.py","tests":"test_fixed_pair_evaluation.py"},
+    {"clause":"traces and canonical artifacts","module":"fixed_pair_evaluator/evidence.py","tests":"test_fixed_pair_evidence.py"},
+    {"clause":"mean-reversion signal adapter","module":"fixed_pair_evaluator/adapters/mean_reversion.py","tests":"test_mean_reversion_v4_adapter.py"},
+    {"clause":"relative-value signal adapter","module":"fixed_pair_evaluator/adapters/relative_value.py","tests":"test_relative_value_v4_adapter.py"}
+  ],
+  "known_answer_fixtures": [
+    "complete_and_incomplete_sessions",
+    "exact_and_missing_execution_rows",
+    "synchronized_and_asynchronous_assets",
+    "entry_exit_max_holding_and_costs",
+    "base_and_delayed_execution",
+    "gap_quarantine_recovery",
+    "fold_prefix_isolation",
+    "forced_terminal_liquidation_cash",
+    "drawdown_trade_count_turnover_statistics"
+  ]
+}
