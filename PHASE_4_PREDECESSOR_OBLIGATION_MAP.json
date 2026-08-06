@@ -60,5 +60,28 @@
     "fold_prefix_isolation",
     "forced_terminal_liquidation_cash",
     "drawdown_trade_count_turnover_statistics"
-  ]
+  ],
+  "architecture_revision_after_review_1": {
+    "status": "IMPLEMENTED_FOR_REVIEW",
+    "shared_mechanics": {
+      "session_index": "BoundaryRowIndex is immutable, strict half-open, duplicate-rejecting, nonmonotonic-rejecting, exact-keyed, and boundary-specific.",
+      "execution_oracle": "ExactExecutionOracle raises MissingExecutionRow and never scans forward.",
+      "accounting": "CashLedger and Fill are mechanics-only; adapters retain strategy-specific targets and clocks.",
+      "evidence": "StageMarker and canonical_hash bind stage payloads without reciprocal contract hashes."
+    },
+    "strategy_adapter_boundary": {
+      "mean_reversion": "adapter owns frozen mean-reversion signal/state/clock/terminal semantics and emits immutable decision intents.",
+      "relative_value": "adapter owns synchronized relative-value vector/rotation/clock/terminal semantics and emits immutable decision intents.",
+      "shared_layer_prohibition": "shared layer may not synthesize or reinterpret either strategy's economic decisions."
+    },
+    "stage_contracts": [
+      "identity_verified",
+      "representative_rows_materialized",
+      "production_trace_emitted",
+      "independent_reference_reconciled",
+      "development_evaluator_complete"
+    ],
+    "independent_reference_rule": "reference implementation may not import production signal, clock, fill, cost, return, attribution, or gate functions",
+    "review_1_required_corrections_addressed": true
+  }
 }

@@ -137,3 +137,4 @@
 
 - Phase 4 explicitly authorizes the previously nonlocal fixed-pair evaluator work. Historical Phase 3 successor blockers remain unchanged; Phase 4 starts with a separate shared evaluator workstream and new v4 experiment IDs.
 - The Phase 4 queue keeps funding `WAITING_EXTERNAL` and Route 4 `DEFERRED`; READY evaluator architecture work is independent and has priority.
+- The first Phase 4 live architecture review completed at 2026-08-06T09:56:59.140Z with `REVISION_REQUIRED`. It found no hash or holdout violation, but required explicit strategy-specific execution semantics and independent evidence/stage contracts before evaluator implementation. No economic result was attempted.

@@ -1,0 +1,56 @@
+{
+  "experiment_id": "fixed-pair-development-evaluator-v1",
+  "review_type": "phase_4_stage_1_contract_architecture",
+  "review_attempt": 1,
+  "authorization_type": "phase_4_authorized_architecture_review",
+  "invocation_mode": "live",
+  "reviewer_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "started_at_utc": "2026-08-06T09:48:00Z",
+  "finished_at_utc": "2026-08-06T09:56:59.140Z",
+  "source_commit_reviewed": "e5457335f7eaf45c8899b6f580e4cc360421099c",
+  "invocation_id": "019fd67b-c40c-7ff2-891b-c491bf8c9ee2",
+  "input_artifacts": [
+    "PHASE_4_AUTHORIZATION.json",
+    "PHASE_4_WORK_QUEUE.json",
+    "PHASE_4_PREDECESSOR_OBLIGATION_MAP.json",
+    "experiments/btc-eth-long-only-mean-reversion-v2/PREREGISTRATION.json",
+    "experiments/btc-eth-relative-value-rotation-v2/PREREGISTRATION.json",
+    "src/strategy_control/mean_reversion_v2_evaluator.py",
+    "src/strategy_control/mean_reversion_v2_pipeline.py",
+    "src/strategy_control/relative_value_v2_pipeline.py",
+    "src/strategy_control/relative_value_v2_oracle.py"
+  ],
+  "holdout_accessed": false,
+  "network_accessed": false,
+  "market_data_accessed": false,
+  "model_training": false,
+  "backtest_run": false,
+  "returns_calculated": false,
+  "verdict": "REVISION_REQUIRED",
+  "checks": {
+    "predecessor_and_contract_hash_reconciliation": "PASS",
+    "frozen_economic_rules_preserved": "REQUIRES_ARCHITECTURE_CORRECTION",
+    "strategy_specific_execution_semantics": "FAIL",
+    "independent_evidence_contract": "FAIL",
+    "stage_contracts_and_reconciliation": "FAIL",
+    "holdout_guard": "PASS",
+    "scope_and_resource_boundaries": "PASS"
+  },
+  "findings": [
+    {
+      "severity": "major",
+      "finding": "The shared architecture is not implementation-safe because it does not preserve or explicitly bind strategy-specific execution and economic semantics for both frozen contracts.",
+      "required_action": "Define separate adapter contracts and transition-level evidence for mean-reversion and relative-value execution, including clocks, terminal liquidation, and decision-state semantics, without changing economics."
+    },
+    {
+      "severity": "major",
+      "finding": "Independent evidence and stage contracts are not sufficiently specified to prove that production calculations and reconciliation are independent.",
+      "required_action": "Define immutable stage inputs/outputs, independent reference calculations, canonical trace bindings, and explicit failure/holdout-latch evidence before implementation."
+    }
+  ],
+  "reviewer_summary": "Read-only audit complete. Frozen and predecessor hashes reconcile, but the proposed architecture is not implementation-safe because it does not preserve several strategy-specific execution/economic semantics or define independent evidence and stage contracts.",
+  "economic_interpretation": "none",
+  "next_state": "ARCHITECTURE_REVISION_REQUIRED",
+  "artifact_created_without_market_data": true
+}
