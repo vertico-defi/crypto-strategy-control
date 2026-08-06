@@ -143,6 +143,9 @@ def test_gap_and_recovery_require_150_complete_sessions() -> None:
     for session in sessions:
         state = state.observe(session)
     assert not state.recovered
+    for _ in range(150):
+        state = state.observe(sessions[0])
+    assert state.recovered
 
 
 def test_mean_adapter_preserves_clock_identity_and_pending_target() -> None:
@@ -155,6 +158,7 @@ def test_mean_adapter_preserves_clock_identity_and_pending_target() -> None:
                 "fill_time": t(1),
                 "fill_index": 0,
                 "signal": -10.0,
+                "delayed_fill_time": t(2),
                 "fill_price": 100.0,
             },
             {
@@ -182,3 +186,29 @@ def test_relative_value_adapter_binds_frozen_target_formula() -> None:
     )
     assert intent.desired == "BTCUSDT"
     assert intent.score_identities == ("btc", "eth")
+
+
+def test_mean_adapter_delayed_fill_remains_exact_and_pending() -> None:
+    trace = run_contract_clock(
+        TRIALS[0],
+        (
+            {
+                "asset": "BTCUSDT",
+                "session": t(0),
+                "fill_time": t(1),
+                "fill_index": 0,
+                "signal": -10.0,
+                "delayed_fill_time": t(2),
+            },
+            {
+                "asset": "BTCUSDT",
+                "session": t(1),
+                "fill_time": t(2),
+                "fill_index": 1,
+                "signal": -10.0,
+                "fill_price": 100.0,
+            },
+        ),
+        delay=1,
+    )
+    assert trace.targets[0].fill_index == 1
