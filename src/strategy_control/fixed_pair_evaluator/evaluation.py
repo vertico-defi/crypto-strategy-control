@@ -7,7 +7,10 @@ contract-bound trace and an independent reconciliation report.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Protocol
+from datetime import datetime
+from typing import Any, Protocol, TypeVar
+
+T = TypeVar("T")
 
 
 class StrategyAdapter(Protocol):
@@ -21,6 +24,20 @@ class StageResult:
     stage: str
     passed: bool
     evidence: dict[str, Any]
+
+
+def strict_prefix(
+    items: tuple[T, ...], *, timestamp_of: Any, boundary: datetime
+) -> tuple[T, ...]:
+    """Return only items strictly before a half-open fold boundary."""
+    return tuple(item for item in items if timestamp_of(item) < boundary)
+
+
+def delayed_execution_queue(decisions: tuple[T, ...]) -> tuple[tuple[T | None, T], ...]:
+    """Pair each decision with the exact next execution slot; first slot is empty."""
+    pairs: list[tuple[T | None, T]] = [(None, decisions[0])]
+    pairs.extend((decisions[i - 1], decisions[i]) for i in range(1, len(decisions)))
+    return tuple(pairs)
 
 
 def require_independent_reconciliation(

@@ -19,6 +19,10 @@ from strategy_control.fixed_pair_evaluator.adapters.mean_reversion import (
 from strategy_control.fixed_pair_evaluator.adapters.relative_value import (
     decide_contract_target,
 )
+from strategy_control.fixed_pair_evaluator.evaluation import (
+    delayed_execution_queue,
+    strict_prefix,
+)
 from strategy_control.fixed_pair_evaluator.evidence import (
     StageMarker,
     require_independent_sources,
@@ -222,3 +226,13 @@ def test_independent_reference_reconciles_turnover_and_wealth() -> None:
     assert reference_turnover({"BTCUSDT": 1.0}, {"ETHUSDT": 1.0}, include_cash=True) == 1.0
     assert reference_turnover({"BTCUSDT": 0.0}, {"BTCUSDT": 0.5}, include_cash=False) == 0.5
     assert reference_compound((0.1, -0.1)) == pytest.approx(0.99)
+
+
+def test_fold_prefix_and_delayed_queue_are_strict() -> None:
+    values = (t(0), t(1), t(2))
+    assert strict_prefix(values, timestamp_of=lambda value: value, boundary=t(2)) == values[:2]
+    assert delayed_execution_queue(("a", "b", "c")) == (
+        (None, "a"),
+        ("a", "b"),
+        ("b", "c"),
+    )
