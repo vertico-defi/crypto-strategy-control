@@ -1,0 +1,32 @@
+{
+  "experiment_id": "fixed-pair-development-evaluator-v1",
+  "review_type": "phase_4_stage_1_architecture_fidelity_final",
+  "review_attempt": 3,
+  "authorization_type": "phase_4_authorized_architecture_review",
+  "invocation_mode": "live",
+  "reviewer_model": "gpt-5.6-sol",
+  "reasoning_level": "xhigh",
+  "started_at_utc": "2026-08-06T10:12:00Z",
+  "finished_at_utc": "2026-08-06T10:24:00Z",
+  "source_commit_reviewed": "25969dcbb6b1b66197040d58a60febe9cddbc1af",
+  "invocation_id": "019fd68a-fb5c-76a2-a04e-417580c6f6eb",
+  "holdout_accessed": false,
+  "network_accessed": false,
+  "market_data_accessed": false,
+  "model_training": false,
+  "backtest_run": false,
+  "returns_calculated": false,
+  "verdict": "REVISION_REQUIRED",
+  "hash_reconciliation": "PASS",
+  "frozen_economic_contracts_unchanged": true,
+  "stage_2_ready": false,
+  "findings": [
+    "Relative-value frozen turnover is 0.5 times L1 over BTC, ETH, and cash; the shared rebalance charges a BTC-to-ETH rotation as turnover 2 instead of 1.",
+    "Adapters remain generic shells without frozen signal, clock, state-transition, terminal, or exact decision/fill identity semantics.",
+    "Session mechanics still lack causal gap detection and 150-session recovery; loader and holdout controls are only structural.",
+    "Independent evidence is not cryptographically or architecturally enforced; stage payloads can self-attest and no production/reference dependency separation is proven.",
+    "Known-answer fixture coverage is insufficient for delayed execution, quarantine, recovery, folds, terminal liquidation, and statistical contracts."
+  ],
+  "economic_interpretation": "none",
+  "next_state": "ARCHITECTURE_REVISION_REQUIRED"
+}

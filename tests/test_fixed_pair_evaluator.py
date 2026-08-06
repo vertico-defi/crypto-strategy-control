@@ -93,6 +93,19 @@ def test_turnover_rebalance_and_terminal_liquidation() -> None:
     assert terminal.cash > 0
 
 
+def test_relative_value_half_l1_rotation_turnover_is_one() -> None:
+    ledger = CashLedger(1000.0, {"BTCUSDT": 10.0})
+    plan = PortfolioRebalance(
+        {"BTCUSDT": 100.0, "ETHUSDT": 100.0},
+        {"ETHUSDT": 1.0},
+        14.0,
+        "half_l1_including_cash",
+    )
+    result = rebalance(ledger, plan, equity=1000.0)
+    assert result.cash == 0.0
+    assert result.units["ETHUSDT"] < 10.0
+
+
 def test_stage_order_and_holdout_guard_fail_closed() -> None:
     markers = tuple(StageMarker.complete(stage, {"stage": stage}) for stage in (
         "identity_verified", "representative_rows_materialized", "production_trace_emitted",

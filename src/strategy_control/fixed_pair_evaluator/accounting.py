@@ -20,6 +20,7 @@ class PortfolioRebalance:
     prices: Mapping[str, float]
     target_weights: Mapping[str, float]
     cost_bps: float
+    turnover_convention: str = "mean_risky_abs"
 
 
 @dataclass(frozen=True)
@@ -59,10 +60,18 @@ def rebalance(
         else 0.0
         for asset in assets
     }
-    turnover = sum(
-        abs(plan.target_weights.get(asset, 0.0) - current_weights[asset])
+    changes = {
+        asset: abs(plan.target_weights.get(asset, 0.0) - current_weights[asset])
         for asset in assets
-    )
+    }
+    if plan.turnover_convention == "mean_risky_abs":
+        turnover = sum(changes.values())
+    elif plan.turnover_convention == "half_l1_including_cash":
+        current_cash = max(0.0, 1.0 - sum(current_weights.values()))
+        target_cash = max(0.0, 1.0 - sum(plan.target_weights.values()))
+        turnover = 0.5 * (sum(changes.values()) + abs(target_cash - current_cash))
+    else:
+        raise ValueError("unknown frozen turnover convention")
     post_cost_equity = equity - equity * turnover * plan.cost_bps / 10_000
     units = {
         asset: post_cost_equity * plan.target_weights.get(asset, 0.0) / plan.prices[asset]
