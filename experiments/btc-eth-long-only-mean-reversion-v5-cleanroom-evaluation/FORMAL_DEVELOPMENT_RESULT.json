@@ -1,0 +1,168 @@
+{
+  "all_development_gates_pass": false,
+  "baseline_equal_weight": {
+    "annualized_sharpe": 0.1636131553546195,
+    "maximum_drawdown": 0.44997864685142197,
+    "mean_interval_return": 0.0002503444039115831,
+    "net_return": -0.06166952146853488
+  },
+  "bootstrap": {
+    "lower_95": -0.1778842199929428,
+    "median": 0.1987668601688315,
+    "sample_count": 2000.0,
+    "upper_95": 0.83535836837102
+  },
+  "capital_permitted": 0,
+  "classification": "DEVELOPMENT_RESULT_PENDING_INDEPENDENT_AUDIT",
+  "complete_session_count": 548,
+  "daily_session_count": 549,
+  "dataset_id": "historical-v2-pathc-20260723T175155Z",
+  "development_allowlist_count": 36,
+  "dsr_probability": 0.0,
+  "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+  "folds": [
+    {
+      "annualized_sharpe": -0.8650906289956019,
+      "fills": 16,
+      "maximum_drawdown": 0.15462394302852878,
+      "mean_interval_return": -0.0005294227577537404,
+      "net_return": -0.05230610612049447
+    },
+    {
+      "annualized_sharpe": 1.9811962783164287,
+      "fills": 10,
+      "maximum_drawdown": 0.03468810104400166,
+      "mean_interval_return": 0.001317061387007802,
+      "net_return": 0.11815050215202727
+    },
+    {
+      "annualized_sharpe": 1.001785805240884,
+      "fills": 12,
+      "maximum_drawdown": 0.050855491344552584,
+      "mean_interval_return": 0.0004426154116149561,
+      "net_return": 0.037735833583102174
+    },
+    {
+      "annualized_sharpe": 1.4837797918441578,
+      "fills": 16,
+      "maximum_drawdown": 0.04630423314182652,
+      "mean_interval_return": 0.0008012957185883559,
+      "net_return": 0.07061012397420807
+    }
+  ],
+  "formal_result_exists": true,
+  "gates": {
+    "additional_delay_aggregate_net_return_gt": true,
+    "aggregate_net_return_gt": true,
+    "annualized_sharpe_gte": true,
+    "asset_standalone_net_return_each_gt": true,
+    "baseline_superiority": true,
+    "bootstrap_mean_daily_net_return_lower_95_ci_gt": false,
+    "completed_entries_each_asset_minimum": true,
+    "completed_entries_total_minimum": true,
+    "deflated_sharpe_probability_gte": false,
+    "doubled_cost_aggregate_net_return_gt": true,
+    "exceptional_trade_gate": true,
+    "fold_count": true,
+    "maximum_drawdown_lte": true,
+    "no_material_leakage": true,
+    "parameter_neighbor_count": true,
+    "positive_folds_minimum": true,
+    "positive_parameter_neighbors_minimum": true,
+    "probability_of_backtest_overfitting_lte": false,
+    "regime_gate": true
+  },
+  "gpu_seconds_used": 0,
+  "holdout_accessed": false,
+  "holdout_path_resolution_count": 0,
+  "incomplete_session_count": 1,
+  "max_rss_kb": 206396,
+  "pbo_probability": 0.4714285714285714,
+  "primary": {
+    "costs": 0.04099657169143712,
+    "fills": 54,
+    "gross": {
+      "annualized_sharpe": 1.1829024144816092,
+      "maximum_drawdown": 0.15225274191993798,
+      "mean_interval_return": 0.0006811966957703164,
+      "net_return": 0.2541491480889173
+    },
+    "net": {
+      "annualized_sharpe": 1.009747046966945,
+      "maximum_drawdown": 0.15462394302852878,
+      "mean_interval_return": 0.0005762371740244395,
+      "net_return": 0.20761113168436696
+    },
+    "trace_hash": "fb921632928d29bb88c323c832381ece039eb01e3e08cb598754d6e2554180d1"
+  },
+  "row_counts": {
+    "BTCUSDT": 790558,
+    "ETHUSDT": 790558
+  },
+  "runtime_seconds": 18.93306185794063,
+  "schema_version": "1.0",
+  "selected_partition_count": 36,
+  "source_repository": "crypto-direction-lab (absolute local path omitted)",
+  "standalone": {
+    "BTCUSDT": {
+      "annualized_sharpe": 0.370908829193092,
+      "maximum_drawdown": 0.07032125708195791,
+      "mean_interval_return": 8.825706709543788e-05,
+      "net_return": 0.028798207198643455,
+      "net_return_terminal": 0.028798207198643455
+    },
+    "ETHUSDT": {
+      "annualized_sharpe": 1.1579498741375442,
+      "maximum_drawdown": 0.10045380370897339,
+      "mean_interval_return": 0.00046965246569425105,
+      "net_return": 0.17380757784621403,
+      "net_return_terminal": 0.17380757784621426
+    }
+  },
+  "stresses": {
+    "additional_delay": {
+      "annualized_sharpe": 0.3202694522329832,
+      "maximum_drawdown": 0.128890745474592,
+      "mean_interval_return": 0.00020797795226546237,
+      "net_return": 0.04942060566078865,
+      "net_return_terminal": 0.049420605660787764
+    },
+    "doubled_cost": {
+      "annualized_sharpe": 0.8328278906693712,
+      "maximum_drawdown": 0.1569901663590485,
+      "mean_interval_return": 0.0004713132830090308,
+      "net_return": 0.16276920232615866,
+      "net_return_terminal": 0.16276920232615777
+    }
+  },
+  "trials": {
+    "deeper_entry": {
+      "fills": 38,
+      "net_return": 0.23822366236599546
+    },
+    "longer_five_session_shock": {
+      "fills": 34,
+      "net_return": 0.1263570801949463
+    },
+    "primary_standardized_shock": {
+      "fills": 54,
+      "net_return": 0.20761113168436673
+    },
+    "raw_three_session_drawdown_baseline": {
+      "fills": 82,
+      "net_return": 0.14071030618302238
+    },
+    "shallower_entry": {
+      "fills": 72,
+      "net_return": 0.19190898777908072
+    },
+    "shorter_two_session_shock": {
+      "fills": 60,
+      "net_return": -0.016341503281443792
+    },
+    "slower_volatility_estimator": {
+      "fills": 44,
+      "net_return": 0.12198898587407436
+    }
+  }
+}

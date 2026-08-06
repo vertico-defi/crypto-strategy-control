@@ -44,7 +44,7 @@
   },
   "budget": {
     "cleanroom_implementation_cycles_max": 4,
-    "cleanroom_implementation_cycles_used": 2,
+    "cleanroom_implementation_cycles_used": 4,
     "substantive_audits_max": 1,
     "identical_service_failure_retries": 1
   },
@@ -58,5 +58,5 @@
     "returns_calculated": false
   },
   "phase_1_to_4_evidence": "immutable_prior_evidence_counted_for_multiplicity_only",
-  "state": "ACTIVE_CLEANROOM_STAGE_2_SAMPLE"
+  "state": "STAGE_4_FORMAL_DEVELOPMENT_RESULT_PENDING_INDEPENDENT_AUDIT"
 }
