@@ -58,3 +58,20 @@ class StageMarker:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+@dataclass(frozen=True)
+class EvidenceBundle:
+    """Immutable production/reference binding for a bounded validation stage."""
+
+    production_source_hash: str
+    reference_source_hash: str
+    production_trace_hash: str
+    reference_trace_hash: str
+    markers: tuple[StageMarker, ...]
+
+    def validate(self) -> None:
+        require_independent_sources(self.production_source_hash, self.reference_source_hash)
+        if self.production_trace_hash != self.reference_trace_hash:
+            raise ValueError("production/reference traces do not reconcile")
+        validate_stage_sequence(self.markers)

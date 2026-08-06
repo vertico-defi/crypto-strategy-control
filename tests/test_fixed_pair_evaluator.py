@@ -24,6 +24,7 @@ from strategy_control.fixed_pair_evaluator.evaluation import (
     strict_prefix,
 )
 from strategy_control.fixed_pair_evaluator.evidence import (
+    EvidenceBundle,
     StageMarker,
     require_independent_sources,
     validate_stage_sequence,
@@ -141,6 +142,7 @@ def test_stage_order_and_holdout_guard_fail_closed() -> None:
     require_independent_sources("production", "reference")
     with pytest.raises(ValueError):
         require_independent_sources("same", "same")
+    EvidenceBundle("production", "reference", "trace", "trace", markers).validate()
 
 
 def test_gap_and_recovery_require_150_complete_sessions() -> None:
