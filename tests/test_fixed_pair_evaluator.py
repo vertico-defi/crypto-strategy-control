@@ -13,6 +13,9 @@ from strategy_control.fixed_pair_evaluator import (
     rebalance,
     terminal_liquidation,
 )
+from strategy_control.fixed_pair_evaluator.adapters.mean_reversion import (
+    run_contract_clock,
+)
 from strategy_control.fixed_pair_evaluator.evidence import (
     StageMarker,
     require_independent_sources,
@@ -29,6 +32,7 @@ from strategy_control.fixed_pair_evaluator.session import (
     SessionInvariantError,
     expected_gaps,
 )
+from strategy_control.mean_reversion_v2 import TRIALS
 
 
 def t(minutes: int) -> datetime:
@@ -136,3 +140,29 @@ def test_gap_and_recovery_require_150_complete_sessions() -> None:
     for session in sessions:
         state = state.observe(session)
     assert not state.recovered
+
+
+def test_mean_adapter_preserves_clock_identity_and_pending_target() -> None:
+    trace = run_contract_clock(
+        TRIALS[0],
+        (
+            {
+                "asset": "BTCUSDT",
+                "session": t(0),
+                "fill_time": t(1),
+                "fill_index": 0,
+                "signal": -10.0,
+                "fill_price": 100.0,
+            },
+            {
+                "asset": "BTCUSDT",
+                "session": t(1),
+                "fill_time": t(2),
+                "fill_index": 1,
+                "signal": 0.0,
+            },
+        ),
+    )
+    assert len(trace.decisions) == 2
+    assert len(trace.targets) == 2
+    assert trace.targets[0].asset == "BTCUSDT"

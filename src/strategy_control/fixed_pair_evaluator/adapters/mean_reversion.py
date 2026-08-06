@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from strategy_control.mean_reversion_v2 import Clock, Decision, Target, Trial
+
 
 @dataclass(frozen=True)
 class MeanReversionAdapter:
@@ -28,3 +30,37 @@ class MeanReversionAdapter:
 class DecisionIntent:
     session_index: int
     session: Any
+
+
+@dataclass(frozen=True)
+class MeanDecisionTrace:
+    decisions: tuple[Decision, ...]
+    targets: tuple[Target, ...]
+
+
+def run_contract_clock(
+    trial: Trial,
+    rows: tuple[dict[str, Any], ...],
+    *,
+    delay: int = 0,
+) -> MeanDecisionTrace:
+    """Run the frozen per-asset clock without changing signal economics."""
+    clock = Clock(trial, delay)
+    decisions: list[Decision] = []
+    targets: list[Target] = []
+    for row in rows:
+        decision, target = clock.decide(
+            str(row["asset"]),
+            row["session"],
+            row["fill_time"],
+            int(row["fill_index"]),
+            row.get("signal"),
+            delayed_fill_time=row.get("delayed_fill_time"),
+            raw_daily_return=row.get("raw_daily_return"),
+        )
+        decisions.append(decision)
+        if target is not None:
+            targets.append(target)
+        if row.get("fill_price") is not None:
+            clock.apply_fill(row["fill_time"], float(row["fill_price"]), int(row["fill_index"]))
+    return MeanDecisionTrace(tuple(decisions), tuple(targets))
