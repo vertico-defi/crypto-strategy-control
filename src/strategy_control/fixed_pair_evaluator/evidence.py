@@ -30,6 +30,15 @@ def validate_stage_sequence(markers: tuple[StageMarker, ...]) -> None:
         raise ValueError("stage sequence contains a failed marker")
 
 
+def require_independent_sources(
+    production_source_hash: str, reference_source_hash: str
+) -> None:
+    if not production_source_hash or not reference_source_hash:
+        raise ValueError("both production and reference source hashes are required")
+    if production_source_hash == reference_source_hash:
+        raise ValueError("production and reference implementations must be distinct")
+
+
 @dataclass(frozen=True)
 class StageMarker:
     stage: str

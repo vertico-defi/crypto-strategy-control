@@ -15,6 +15,7 @@ from strategy_control.fixed_pair_evaluator import (
 )
 from strategy_control.fixed_pair_evaluator.evidence import (
     StageMarker,
+    require_independent_sources,
     validate_stage_sequence,
 )
 from strategy_control.fixed_pair_evaluator.loader import (
@@ -22,7 +23,12 @@ from strategy_control.fixed_pair_evaluator.loader import (
     DevelopmentManifest,
     HoldoutGuard,
 )
-from strategy_control.fixed_pair_evaluator.session import Row, SessionInvariantError
+from strategy_control.fixed_pair_evaluator.session import (
+    RecoveryState,
+    Row,
+    SessionInvariantError,
+    expected_gaps,
+)
 
 
 def t(minutes: int) -> datetime:
@@ -117,3 +123,16 @@ def test_stage_order_and_holdout_guard_fail_closed() -> None:
         manifest.resolve_development("2026/file.parquet")
     with pytest.raises(DataIdentityError):
         HoldoutGuard().reject(Path("/tmp/2026/file.parquet"))
+    require_independent_sources("production", "reference")
+    with pytest.raises(ValueError):
+        require_independent_sources("same", "same")
+
+
+def test_gap_and_recovery_require_150_complete_sessions() -> None:
+    assert expected_gaps((t(0), t(1), t(3))) == ((t(1), t(3)),)
+    index = BoundaryRowIndex.build(rows(), boundary=t(2))
+    sessions = build_sessions(index, timestamps=(t(0), t(1)), assets=("BTCUSDT", "ETHUSDT"))
+    state = RecoveryState()
+    for session in sessions:
+        state = state.observe(session)
+    assert not state.recovered

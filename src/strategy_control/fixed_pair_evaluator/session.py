@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
+from itertools import pairwise
 from types import MappingProxyType
 
 
@@ -71,6 +72,31 @@ class Session:
     rows: Mapping[str, Row]
     complete: bool
     eligible: bool
+
+
+@dataclass(frozen=True)
+class RecoveryState:
+    consecutive_complete: int = 0
+    quarantined: bool = False
+
+    def observe(self, session: Session) -> RecoveryState:
+        if not session.complete:
+            return RecoveryState(0, True)
+        count = self.consecutive_complete + 1
+        return RecoveryState(count, self.quarantined and count < 150)
+
+    @property
+    def recovered(self) -> bool:
+        return self.consecutive_complete >= 150 and not self.quarantined
+
+
+def expected_gaps(timestamps: Iterable[datetime]) -> tuple[tuple[datetime, datetime], ...]:
+    ordered = tuple(timestamps)
+    gaps: list[tuple[datetime, datetime]] = []
+    for left, right in pairwise(ordered):
+        if right - left > timedelta(minutes=1):
+            gaps.append((left, right))
+    return tuple(gaps)
 
 
 def build_sessions(
