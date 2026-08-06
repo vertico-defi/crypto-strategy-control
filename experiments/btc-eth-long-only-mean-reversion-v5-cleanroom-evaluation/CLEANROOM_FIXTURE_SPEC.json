@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+  "stage": "KNOWN_ANSWER_FIXTURE",
+  "implementation_module": "src/strategy_control/mean_reversion_v5_cleanroom.py",
+  "fixture_cases": [
+    "complete_sessions",
+    "incomplete_session_quarantine",
+    "duplicate_rows",
+    "next_session_exact_execution",
+    "missing_execution_row_fail_closed",
+    "terminal_cash"
+  ],
+  "fixture_source": "tests/test_mean_reversion_v5_cleanroom.py",
+  "independent_expected_result": {
+    "terminal_cash": true,
+    "terminal_equity": 1.017716465564334,
+    "net_return": 0.01771646556433404,
+    "costs": 0.002825810492524234,
+    "decision_count": 60,
+    "fill_count": 4,
+    "interval_count": 29,
+    "execution_is_strictly_after_decision": true
+  },
+  "holdout_path_resolution_count": 0,
+  "market_data_access": false,
+  "returns_calculated": false,
+  "status": "FIXTURE_IMPLEMENTED_AWAITING_TEST_EXECUTION"
+}

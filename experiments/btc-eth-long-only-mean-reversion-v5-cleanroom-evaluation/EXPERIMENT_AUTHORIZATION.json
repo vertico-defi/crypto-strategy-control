@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+  "authorization_type": "PHASE_4_CLEAN_ROOM_SUCCESSOR",
+  "authorized_at_utc": "2026-08-06T00:00:00Z",
+  "source_parent_commit": "0abdc2b6b244cef60e1fd450b32eb37d0d01659a",
+  "objective": "ONE_COMPLETE_AUDITED_DEVELOPMENT_ECONOMIC_RESULT",
+  "architecture": "NARROW_CLEAN_ROOM_MEAN_REVERSION_ONLY",
+  "predecessors": [
+    {
+      "experiment_id": "btc-eth-long-only-mean-reversion-v2",
+      "terminal_artifact": "experiments/btc-eth-long-only-mean-reversion-v2/TERMINAL_IMPLEMENTATION_AUDIT.json",
+      "terminal_artifact_byte_sha256": "49aa1118e79d3916c3744ea3bc3df403e17c398d2140f3c0ca2a017b00bf4633",
+      "terminal_state": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT"
+    },
+    {
+      "experiment_id": "btc-eth-long-only-mean-reversion-v3-completion",
+      "terminal_artifact": "experiments/btc-eth-long-only-mean-reversion-v3-completion/PHASE_3_SUCCESSOR_COMPLETION_PREFLIGHT.json",
+      "terminal_artifact_byte_sha256": "1210c0ac8d7bf845fb6cbfedc6fdf99cd22c55b94c788910610e81b9686d73dc",
+      "terminal_state": "SUCCESSOR_SCOPE_NONLOCAL / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT"
+    },
+    {
+      "experiment_id": "btc-eth-long-only-mean-reversion-v4-evaluation",
+      "terminal_artifact": "experiments/fixed-pair-development-evaluator-v1/PHASE_4_TERMINAL_IMPLEMENTATION_RESULT.json",
+      "terminal_artifact_byte_sha256": "a295dc0ce47b958efd117f05f25f9b3b5bfff501af726154e4113e622aad0faa",
+      "terminal_state": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT"
+    },
+    {
+      "experiment_id": "fixed-pair-development-evaluator-v1",
+      "terminal_artifact": "experiments/fixed-pair-development-evaluator-v1/PHASE_4_TERMINAL_IMPLEMENTATION_RESULT.json",
+      "terminal_artifact_byte_sha256": "a295dc0ce47b958efd117f05f25f9b3b5bfff501af726154e4113e622aad0faa",
+      "terminal_state": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT"
+    }
+  ],
+  "frozen_contract": {
+    "path": "experiments/btc-eth-long-only-mean-reversion-v2/PREREGISTRATION.json",
+    "byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+    "canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "frozen_source_commit": "57265df7778e420f604bd014a33153dbc7bdf2bf",
+    "assets": ["BTCUSDT", "ETHUSDT"],
+    "development_allowlist_count": 36,
+    "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd",
+    "contaminated_prior_primary_net_return": 0.1459680153018521
+  },
+  "budget": {
+    "cleanroom_implementation_cycles_max": 4,
+    "cleanroom_implementation_cycles_used": 1,
+    "substantive_audits_max": 1,
+    "identical_service_failure_retries": 1
+  },
+  "safety": {
+    "capital_permitted": 0,
+    "gpu_seconds": 0,
+    "mining_change": false,
+    "network_access": false,
+    "holdout_access": false,
+    "market_data_evaluation": false,
+    "returns_calculated": false
+  },
+  "phase_1_to_4_evidence": "immutable_prior_evidence_counted_for_multiplicity_only",
+  "state": "ACTIVE_CLEANROOM_STAGE_1"
+}

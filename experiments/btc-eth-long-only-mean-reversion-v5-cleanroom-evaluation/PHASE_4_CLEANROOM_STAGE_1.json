@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+  "stage": "STAGE_1_CONTRACT_AND_KNOWN_ANSWER_FIXTURE",
+  "source_parent_commit": "0abdc2b6b244cef60e1fd450b32eb37d0d01659a",
+  "contract": {
+    "wrapper_path": "experiments/btc-eth-long-only-mean-reversion-v2/PREREGISTRATION.json",
+    "wrapper_byte_sha256": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+    "effective_contract_canonical_sha256": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+    "effective_contract_byte_sha256": "1da897a3eff60a013181d6381fc20b9e7e1678cad6005dd6c9224fdb15385a77"
+  },
+  "predecessor_bindings": {
+    "mean_reversion_v2_terminal_byte_sha256": "49aa1118e79d3916c3744ea3bc3df403e17c398d2140f3c0ca2a017b00bf4633",
+    "mean_reversion_v3_preflight_byte_sha256": "1210c0ac8d7bf845fb6cbfedc6fdf99cd22c55b94c788910610e81b9686d73dc",
+    "phase_4_terminal_byte_sha256": "a295dc0ce47b958efd117f05f25f9b3b5bfff501af726154e4113e622aad0faa"
+  },
+  "fixture": {
+    "path": "tests/test_mean_reversion_v5_cleanroom.py",
+    "cases": 4,
+    "result": "PASS",
+    "terminal_equity": 1.017716465564334,
+    "net_return": 0.01771646556433404,
+    "costs": 0.002825810492524234,
+    "decisions": 60,
+    "fills": 4,
+    "intervals": 29,
+    "holdout_path_resolution_count": 0
+  },
+  "production_data_access": false,
+  "economic_evaluation": false,
+  "status": "STAGE_1_FIXTURE_PASS"
+}
