@@ -4,7 +4,7 @@
   "status": "PASS_MECHANICAL_FIXTURE_SUBSET",
   "source_commit": "6f95a34",
   "test_command": ".venv/bin/python -m pytest -q tests/test_fixed_pair_evaluator.py",
-  "test_result": "12 passed",
+  "test_result": "13 passed",
   "ruff": "PASS",
   "mypy_strict": "PASS",
   "fixtures": {
@@ -19,6 +19,7 @@
     "gap_and_150_session_recovery_state": "PASS",
     "mean_reversion_clock_identity_and_pending_target": "PASS",
     "mean_reversion_delayed_exact_fill": "PASS",
+    "independent_reference_turnover_and_wealth": "PASS",
     "relative_value_frozen_target_formula": "PASS"
   },
   "not_yet_covered": [
@@ -26,7 +27,7 @@
     "delayed execution queue across multiple fills",
     "four-fold prefix isolation",
     "full quarantine liquidation and terminal cash trace",
-    "independent reference implementation",
+    "full independent reference production trace",
     "statistics and gate panels"
   ],
   "holdout_accessed": false,
