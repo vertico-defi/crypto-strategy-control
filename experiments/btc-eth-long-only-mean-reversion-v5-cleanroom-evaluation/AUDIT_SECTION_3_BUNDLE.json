@@ -1,0 +1,14 @@
+{
+  "section_id": "STATISTICS_GATES_CLAIMS",
+  "reviewed_source_commit": "4ee928472f29587398a337136ae7d82bd2888296",
+  "reviewed_contract_hash": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+  "reviewed_result_hashes": {
+    "formal_result": "7d834553c3c47630336036697c0be10c24eb5558e46adf5c70a0ff84822b7ce7",
+    "validation": "ca97f3de596cd5e2cb0269ea4cf054b038b420bcdc8b1c00901f78fa5c8cea98",
+    "contract": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567"
+  },
+  "scope": ["Sharpe", "drawdown", "bootstrap", "DSR", "PBO", "parameter neighborhood", "regime", "baseline", "all gates", "claim consistency"],
+  "dsr_registry_classification": "VALID_FAIL_CLOSED",
+  "required_output": {"verdict": ["PASS", "REVISION_REQUIRED", "AUDIT_INCONCLUSIVE"], "files_modified": false},
+  "holdout_access_count": 0
+}

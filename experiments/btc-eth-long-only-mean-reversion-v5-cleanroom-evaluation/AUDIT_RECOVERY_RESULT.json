@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+  "recovery_protocol": "bounded_audit_recovery_protocol",
+  "reviewed_source_commit": "4ee928472f29587398a337136ae7d82bd2888296",
+  "audit_pending_checkpoint": "5303653",
+  "frozen_contract_canonical_hash": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+  "frozen_contract_byte_hash": "f8eb130bb3c1fc1670e369fa3b54007ee847bd6e4714ccfff28066a96124f567",
+  "stage_1_diagnosis": {
+    "attempt_1": ["CONTEXT_OR_OUTPUT_TRUNCATION", "SUBSTANTIVE_RESPONSE_MISSING_VERDICT"],
+    "identical_retry": ["CONTEXT_OR_OUTPUT_TRUNCATION", "SUBSTANTIVE_RESPONSE_MISSING_VERDICT"],
+    "usable_raw_substantive_response": false,
+    "dsr_registry_classification": "VALID_FAIL_CLOSED"
+  },
+  "path_used": "PATH_C_DECOMPOSED_AUDIT",
+  "section_results": {
+    "data_causality_holdout": {"path": "experiments/btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation/AUDIT_SECTION_1_RESULT.json", "verdict": "AUDIT_INCONCLUSIVE"},
+    "execution_accounting": {"path": "experiments/btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation/AUDIT_SECTION_2_RESULT.json", "verdict": "AUDIT_INCONCLUSIVE"},
+    "statistics_gates_claims": {"path": "experiments/btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation/AUDIT_SECTION_3_RESULT.json", "verdict": "AUDIT_INCONCLUSIVE"}
+  },
+  "integrator": {
+    "invocation_mode": "live",
+    "model": "gpt-5.6-sol",
+    "reasoning_level": "xhigh",
+    "verdict": "AUDIT_INCONCLUSIVE",
+    "findings": ["S1-001: evidence bundle did not enumerate source-file paths", "S2-001: no machine-readable substantive execution/accounting verdict", "S3-001: no machine-readable substantive statistics/gates verdict"],
+    "holdout_access_count": 0,
+    "files_modified": false
+  },
+  "final_audit_classification": "AUDIT_PROTOCOL_INCONCLUSIVE",
+  "development_classification_preserved": "DEVELOPMENT_RESULT_PENDING_INDEPENDENT_AUDIT",
+  "no_evaluator_rerun": true,
+  "no_holdout_access": true,
+  "no_new_strategy_result": true
+}

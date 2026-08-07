@@ -1,0 +1,16 @@
+{
+  "section_id": "DATA_CAUSALITY_HOLDOUT",
+  "reviewed_source_commit": "4ee928472f29587398a337136ae7d82bd2888296",
+  "reviewed_contract_hash": "9fca7dacc8fa2c58842b230763f6c33900e0ef0eb6055253ae0d559948aae8b1",
+  "reviewed_result_hashes": {"bundle": "ffed66326419fa70a59472152a1cb619a4b4a049cfad89c7059354bf5f57b890", "formal_result": "7d834553c3c47630336036697c0be10c24eb5558e46adf5c70a0ff84822b7ce7"},
+  "verdict": "AUDIT_INCONCLUSIVE",
+  "finding_ids": ["S1-001"],
+  "severity": "HIGH",
+  "findings": ["The evidence bundle did not enumerate the source-file paths needed for independent inspection."],
+  "exact_evidence_paths": ["experiments/btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation/AUDIT_SECTION_1_BUNDLE.json"],
+  "exact_evidence_hashes": {"bundle": "ffed66326419fa70a59472152a1cb619a4b4a049cfad89c7059354bf5f57b890"},
+  "unresolved_items": ["Independent section-level verification of loader, session, recovery, fold, and holdout code."],
+  "holdout_access_count": 0,
+  "files_modified": false,
+  "model_response_status": "SUBSTANTIVE_INCONCLUSIVE"
+}
