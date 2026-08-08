@@ -30,6 +30,8 @@ STATES = {
     "HUMAN_APPROVAL",
     "DEFERRED",
     "TERMINAL",
+    "FAILED",
+    "PAUSED_FOR_USAGE",
 }
 ROLES = {
     "research_director": {"model": "gpt-5.6-sol", "reasoning": "high"},
@@ -93,6 +95,7 @@ def atomic_write(path: Path, value: dict[str, Any]) -> None:
 
 def validate(queue: dict[str, Any]) -> None:
     seen: set[str] = set()
+    tasks_by_id: dict[str, dict[str, Any]] = {}
     for task in queue["tasks"]:
         if task["id"] in seen or task["state"] not in STATES:
             raise ValueError("invalid queue task")
@@ -101,6 +104,17 @@ def validate(queue: dict[str, Any]) -> None:
             raise ValueError("invalid workstream or role")
         if "expected_artifact" not in task or "validation" not in task:
             raise ValueError("task lacks mandatory evidence contract")
+        tasks_by_id[task["id"]] = task
+    for task in queue["tasks"]:
+        for dependency in task.get("depends_on", []):
+            if dependency not in tasks_by_id:
+                raise ValueError("task depends on an unknown task")
+        if (
+            task.get("workstream") == "AUDIENCE_AND_MONETIZATION"
+            and task.get("state") == "READY"
+            and not task.get("verified_provenance")
+        ):
+            raise ValueError("ready content task lacks verified provenance")
 
 
 def acquire_lock() -> None:

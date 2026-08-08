@@ -1,0 +1,62 @@
+{
+  "source_review": "PHASE_0_ARCHITECTURE_REVIEW.md",
+  "source_commit": "f3de38c",
+  "reviewer_disposition": "REVISION_REQUIRED",
+  "findings": [
+    {
+      "id": "P0-001",
+      "requirement": "Runtime model discovery with typed temporary-availability fallback only.",
+      "severity": "HIGH",
+      "affected_files": ["orchestrate_regimemoe.py", "regime_moe_program/tests/test_orchestrator.py"],
+      "implementation_state": "PARTIAL",
+      "deterministic_acceptance_test": "typed availability and shared-usage pause tests",
+      "correction_status": "OPEN",
+      "source_commit": "f3de38c",
+      "reviewer_disposition": "REVISION_REQUIRED"
+    },
+    {
+      "id": "P0-002",
+      "requirement": "Strict artifact schemas and expanded recovery, fallback, dependency, and ISO-week fairness tests.",
+      "severity": "HIGH",
+      "affected_files": ["orchestrate_regimemoe.py", "regime_moe_program/schemas", "regime_moe_program/tests"],
+      "implementation_state": "PARTIAL",
+      "deterministic_acceptance_test": "schema, replay, stale-lock, dependency, and fairness test suite",
+      "correction_status": "OPEN",
+      "source_commit": "f3de38c",
+      "reviewer_disposition": "REVISION_REQUIRED"
+    },
+    {
+      "id": "P0-003",
+      "requirement": "Explicit success/failure dependency outcomes.",
+      "severity": "HIGH",
+      "affected_files": ["orchestrate_regimemoe.py", "regime_moe_program/REGIMEMOE_WORK_QUEUE.json"],
+      "implementation_state": "MISSING",
+      "deterministic_acceptance_test": "failed dependency does not release dependent task",
+      "correction_status": "OPEN",
+      "source_commit": "f3de38c",
+      "reviewer_disposition": "REVISION_REQUIRED"
+    },
+    {
+      "id": "P0-004",
+      "requirement": "Enforced content/website claim provenance.",
+      "severity": "MEDIUM",
+      "affected_files": ["orchestrate_regimemoe.py", "regime_moe_program/REGIMEMOE_WORK_QUEUE.json"],
+      "implementation_state": "MISSING",
+      "deterministic_acceptance_test": "content task without verified provenance is rejected",
+      "correction_status": "OPEN",
+      "source_commit": "f3de38c",
+      "reviewer_disposition": "REVISION_REQUIRED"
+    },
+    {
+      "id": "P0-005",
+      "requirement": "Concrete frozen gates, costs, delays, and typed fold-local expert/router/risk interfaces with chronological OOF lineage, purge, and embargo.",
+      "severity": "HIGH",
+      "affected_files": ["/home/vertico/regime-moe-lab/contracts"],
+      "implementation_state": "PARTIAL",
+      "deterministic_acceptance_test": "contract schema and leakage-control fixture validation",
+      "correction_status": "OPEN",
+      "source_commit": "f3de38c",
+      "reviewer_disposition": "REVISION_REQUIRED"
+    }
+  ]
+}
