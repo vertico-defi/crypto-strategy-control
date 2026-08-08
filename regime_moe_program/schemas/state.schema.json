@@ -1,1 +1,26 @@
-{"type":"object","required":["program","phase","capital_permitted","holdout_access"]}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "schema_version", "program", "phase", "capital_permitted", "holdout_access",
+    "usage_paused", "website_external_lock"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "program": {"const": "RegimeMoE"},
+    "phase": {"type": "integer", "minimum": 0},
+    "capital_permitted": {"const": 0},
+    "holdout_access": {"const": "FORBIDDEN"},
+    "usage_paused": {"type": "boolean"},
+    "retry_after_utc": {"type": "string"},
+    "website_external_lock": {
+      "type": "object",
+      "required": ["repository", "branch", "status"],
+      "properties": {
+        "repository": {"type": "string"},
+        "branch": {"type": "string"},
+        "status": {"type": "string", "pattern": "^EXTERNALLY_LOCKED"}
+      }
+    }
+  }
+}

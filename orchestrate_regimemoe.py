@@ -14,7 +14,9 @@ import subprocess
 import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, cast
+from typing import Any, Literal, cast
+
+from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parent / "regime_moe_program"
 QUEUE = ROOT / "REGIMEMOE_WORK_QUEUE.json"
@@ -22,6 +24,7 @@ STATE = ROOT / "REGIMEMOE_STATE.json"
 SCORECARD = ROOT / "REGIMEMOE_SCORECARD.json"
 LOCK = ROOT / ".orchestrator.lock"
 JOURNAL = ROOT / "REGIMEMOE_TRANSACTION.json"
+SCHEMAS = ROOT / "schemas"
 STATES = {
     "READY",
     "RUNNING",
@@ -33,6 +36,7 @@ STATES = {
     "FAILED",
     "PAUSED_FOR_USAGE",
 }
+TERMINAL_DEPENDENCY_OUTCOMES = {"TERMINAL"}
 ROLES = {
     "research_director": {"model": "gpt-5.6-sol", "reasoning": "high"},
     "independent_auditor": {
@@ -43,6 +47,8 @@ ROLES = {
     "deterministic_evidence": {"model": "gpt-5.6-luna", "reasoning": "medium"},
     "content_product": {"model": "gpt-5.6-terra", "reasoning": "medium"},
 }
+AvailabilityError = Literal["quota", "rate_limit", "temporary_unavailable"]
+ALLOWED_AVAILABILITY_ERRORS: set[str] = {"quota", "rate_limit", "temporary_unavailable"}
 
 
 def available_models() -> set[str]:
@@ -53,13 +59,15 @@ def available_models() -> set[str]:
     )
 
 
-def route_for(task: dict[str, Any], availability_error: str | None = None) -> dict[str, str]:
+def route_for(
+    task: dict[str, Any], availability_error: AvailabilityError | None = None
+) -> dict[str, str]:
     route = ROLES[task["role"]]
     if task["role"] == "independent_auditor" and not task.get("promotion_possible", False):
         raise ValueError("independent audit is forbidden before promotion eligibility")
     if route["model"] in available_models():
         return route
-    if availability_error not in {"quota", "rate_limit", "temporary_unavailable"}:
+    if availability_error not in ALLOWED_AVAILABILITY_ERRORS:
         raise RuntimeError(
             "preferred model unavailable; substantive failure never triggers fallback"
         )
@@ -84,6 +92,22 @@ def read(path: Path) -> dict[str, Any]:
     return cast(dict[str, Any], value)
 
 
+def validate_state(state: dict[str, Any]) -> None:
+    validate_json_schema(state, SCHEMAS / "state.schema.json")
+    required = {"program", "phase", "capital_permitted", "holdout_access", "usage_paused"}
+    if not required <= state.keys() or state["program"] != "RegimeMoE":
+        raise ValueError("invalid program state")
+    if state["capital_permitted"] != 0 or state["holdout_access"] != "FORBIDDEN":
+        raise ValueError("capital or holdout safety boundary violated")
+    lock = state.get("website_external_lock")
+    if not isinstance(lock, dict) or not str(
+        lock.get("status", "")
+    ).startswith("EXTERNALLY_LOCKED"):
+        raise ValueError("website external lock must remain enforced")
+    if state["usage_paused"] and not isinstance(state.get("retry_after_utc"), str):
+        raise ValueError("usage pause requires retry_after_utc")
+
+
 def atomic_write(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as file:
@@ -94,27 +118,60 @@ def atomic_write(path: Path, value: dict[str, Any]) -> None:
 
 
 def validate(queue: dict[str, Any]) -> None:
+    validate_json_schema(queue, SCHEMAS / "queue.schema.json")
+    if not isinstance(queue.get("workstreams"), list) or not isinstance(queue.get("tasks"), list):
+        raise ValueError("queue workstreams and tasks must be arrays")
     seen: set[str] = set()
     tasks_by_id: dict[str, dict[str, Any]] = {}
     for task in queue["tasks"]:
-        if task["id"] in seen or task["state"] not in STATES:
+        if not isinstance(task, dict) or task.get("id") in seen or task.get("state") not in STATES:
             raise ValueError("invalid queue task")
         seen.add(task["id"])
         if task["workstream"] not in queue["workstreams"] or task["role"] not in ROLES:
             raise ValueError("invalid workstream or role")
-        if "expected_artifact" not in task or "validation" not in task:
+        if (
+            not isinstance(task.get("expected_artifact"), str)
+            or not task["expected_artifact"]
+            or not isinstance(task.get("validation"), list)
+            or not task["validation"]
+        ):
             raise ValueError("task lacks mandatory evidence contract")
         tasks_by_id[task["id"]] = task
     for task in queue["tasks"]:
-        for dependency in task.get("depends_on", []):
+        dependencies = task.get("depends_on", [])
+        outcomes = task.get("dependency_outcomes", {})
+        if not isinstance(dependencies, list) or not isinstance(outcomes, dict):
+            raise ValueError("dependencies and dependency outcomes must be structured")
+        if set(outcomes) != set(dependencies):
+            raise ValueError("each dependency requires an explicit accepted outcome")
+        for dependency in dependencies:
             if dependency not in tasks_by_id:
                 raise ValueError("task depends on an unknown task")
+            if outcomes[dependency] not in TERMINAL_DEPENDENCY_OUTCOMES:
+                raise ValueError("only validated terminal dependency outcomes may release work")
         if (
             task.get("workstream") == "AUDIENCE_AND_MONETIZATION"
             and task.get("state") == "READY"
             and not task.get("verified_provenance")
         ):
             raise ValueError("ready content task lacks verified provenance")
+        if task.get("state") == "TERMINAL":
+            checkpoint_data = task.get("last_checkpoint")
+            if (
+                not isinstance(checkpoint_data, dict)
+                or checkpoint_data.get("status") != "TERMINAL"
+                or checkpoint_data.get("expected_artifact") != task["expected_artifact"]
+                or not checkpoint_data.get("deterministic_validation")
+            ):
+                raise ValueError("terminal task lacks deterministic artifact evidence")
+
+
+def validate_json_schema(value: dict[str, Any], schema_path: Path) -> None:
+    schema = read(schema_path)
+    errors = sorted(Draft202012Validator(schema).iter_errors(value), key=lambda error: error.path)
+    if errors:
+        location = ".".join(str(part) for part in errors[0].path) or "root"
+        raise ValueError(f"schema validation failed at {location}: {errors[0].message}")
 
 
 def acquire_lock() -> None:
@@ -154,17 +211,32 @@ def recover() -> None:
         commit_snapshot(pending["queue"], pending["state"], pending["scorecard"])
 
 
+def iso_week() -> str:
+    current = datetime.now(UTC).isocalendar()
+    return f"{current.year}-W{current.week:02d}"
+
+
+def dependency_outcomes_satisfied(
+    task: dict[str, Any], tasks_by_id: dict[str, dict[str, Any]]
+) -> bool:
+    return all(
+        tasks_by_id[dependency]["state"] == outcome
+        for dependency, outcome in task.get("dependency_outcomes", {}).items()
+    )
+
+
 def select(queue: dict[str, Any]) -> dict[str, Any] | None:
     """Choose one independent READY task; waiting work is intentionally ignored."""
-    completed = {task["id"] for task in queue["tasks"] if task["state"] == "TERMINAL"}
+    tasks_by_id = {task["id"]: task for task in queue["tasks"]}
     candidates = [
         task
         for task in queue["tasks"]
-        if task["state"] == "READY" and set(task.get("depends_on", [])) <= completed
+        if task["state"] == "READY" and dependency_outcomes_satisfied(task, tasks_by_id)
     ]
     if not candidates:
         return None
-    recent = queue.get("weekly_completed_by_workstream", {})
+    weekly = queue.get("weekly_completed_by_iso_week", {})
+    recent = weekly.get(iso_week(), queue.get("weekly_completed_by_workstream", {}))
     return cast(
         dict[str, Any],
         min(
@@ -209,6 +281,7 @@ def cycle(mutate: bool) -> dict[str, Any]:
     recover()
     queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
     validate(queue)
+    validate_state(state)
     if state["usage_paused"]:
         return {"status": "USAGE_PAUSED", "checkpoint": None}
     task = select(queue)
@@ -222,12 +295,20 @@ def cycle(mutate: bool) -> dict[str, Any]:
         task["state"] = outcome
         task["last_checkpoint"] = report
         if outcome == "TERMINAL":
-            counts = queue.setdefault("weekly_completed_by_workstream", {})
+            weekly = queue.setdefault("weekly_completed_by_iso_week", {})
+            counts = weekly.setdefault(iso_week(), {})
             counts[task["workstream"]] = counts.get(task["workstream"], 0) + 1
             scorecard["completed_checkpoints"].append(report)
         state["last_cycle_at_utc"] = now()
         commit_snapshot(queue, state, scorecard)
     return {"status": report["status"], "checkpoint": report}
+
+
+def retry_after_reached(state: dict[str, Any]) -> bool:
+    retry_after = state.get("retry_after_utc")
+    if not isinstance(retry_after, str):
+        return False
+    return datetime.fromisoformat(retry_after.replace("Z", "+00:00")) <= datetime.now(UTC)
 
 
 def main() -> None:
@@ -239,12 +320,13 @@ def main() -> None:
     parser.add_argument("--max-cycles", type=int, default=1)
     args = parser.parse_args()
     if args.command == "status":
-        queue = read(QUEUE)
+        queue, state = read(QUEUE), read(STATE)
         validate(queue)
+        validate_state(state)
         print(
             json.dumps(
                 {
-                    "state": read(STATE),
+                    "state": state,
                     "task_counts": {
                         s: sum(t["state"] == s for t in queue["tasks"]) for s in STATES
                     },
@@ -258,7 +340,11 @@ def main() -> None:
         return
     if args.command == "resume":
         state = read(STATE)
+        validate_state(state)
+        if state["usage_paused"] and not retry_after_reached(state):
+            raise RuntimeError("usage pause remains in effect until retry_after_utc")
         state["usage_paused"] = False
+        state.pop("retry_after_utc", None)
         atomic_write(STATE, state)
         print(json.dumps({"status": "RESUMED"}))
         return
@@ -269,7 +355,12 @@ def main() -> None:
         elif args.command == "one-cycle":
             result = cycle(True)
         else:
-            reports = [cycle(True) for _ in range(max(0, args.max_cycles))]
+            reports = []
+            for _ in range(max(0, args.max_cycles)):
+                report = cycle(True)
+                reports.append(report)
+                if report["status"] in {"NO_OP", "USAGE_PAUSED"}:
+                    break
             result = {"status": "MULTI_CYCLE", "reports": reports}
         print(json.dumps(result, indent=2))
     finally:

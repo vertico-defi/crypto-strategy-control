@@ -1,1 +1,31 @@
-{"type":"object","required":["workstreams","tasks"],"properties":{"tasks":{"type":"array"}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "workstreams", "tasks"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "workstreams": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id", "workstream", "role", "state", "priority", "commands",
+          "expected_artifact", "validation"
+        ],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "workstream": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1},
+          "state": {"type": "string", "minLength": 1},
+          "priority": {"type": "integer", "minimum": 0},
+          "commands": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "expected_artifact": {"type": "string", "minLength": 1},
+          "validation": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "depends_on": {"type": "array", "items": {"type": "string"}},
+          "dependency_outcomes": {"type": "object", "additionalProperties": {"const": "TERMINAL"}}
+        }
+      }
+    }
+  }
+}
