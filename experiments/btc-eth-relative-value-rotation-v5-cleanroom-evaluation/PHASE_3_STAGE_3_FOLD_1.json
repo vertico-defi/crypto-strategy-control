@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
+  "stage": "STAGE_3_ONE_DEVELOPMENT_FOLD_PARTIAL",
+  "source_commit": "242bef4",
+  "fold": "2025-01-01T00:00:00Z/2025-04-01T00:00:00Z",
+  "selected_partition_count": 18,
+  "daily_session_count": 274,
+  "complete_session_count": 273,
+  "decisions": 89,
+  "fills": 89,
+  "intervals": 89,
+  "net_return": -0.01582935627088733,
+  "costs": 0.00825979325256905,
+  "terminal_cash": true,
+  "holdout_path_resolution_count": 0,
+  "market_data_accessed": true,
+  "reference_decision_reconciliation": "not yet rerun for this accounting path",
+  "formal_economic_result": false,
+  "status": "PARTIAL_FOLD_MECHANICS_REFERENCE_ACCOUNTING_REQUIRED"
+}

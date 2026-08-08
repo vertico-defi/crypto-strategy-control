@@ -118,7 +118,7 @@
   },
   "current_experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
   "data_contract_status": "WORKSTREAM_D_FROZEN_PROSPECTIVE_COLLECTION_ACTIVE / LATEST_CLOSED_WINDOW_COMPLETE / STRATEGY_DATA_CONTRACT_NOT_YET_COMPLETE / HOLDOUT_SEALED",
-  "development_status": "PHASE_4_CLEANROOM_STAGE_4 / FULL_DEVELOPMENT_RESULT_COMPLETE / AUDIT_PROTOCOL_INCONCLUSIVE / HOLDOUT_SEALED",
+  "development_status": "PHASE_3_RELATIVE_VALUE_V5_STAGE_3_FOLD_PARTIAL / MEAN_V5_NOT_PROMOTABLE / HOLDOUT_SEALED",
   "formal_development_result": "experiments/btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation/FORMAL_DEVELOPMENT_RESULT.json",
   "formal_validation_artifact": "experiments/btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation/PHASE_4_CLEANROOM_STAGE_4_FORMAL_VALIDATION.json",
   "independent_audit_invocation": "experiments/btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation/INDEPENDENT_AUDIT_INVOCATION.json",
