@@ -16,8 +16,10 @@
       "experiment_id": "prospective-funding-basis-observation",
       "state": "WAITING_EXTERNAL",
       "priority": 3,
-      "next_eligible_timestamp": "2026-08-07T14:00:10Z",
-      "action": "read_only_day_7_funding_availability_checkpoint",
+      "next_eligible_timestamp": "2026-08-30T00:00:00Z",
+      "action": "read_only_funding_finalization_checkpoint",
+      "prior_checkpoint_artifact": "experiments/prospective-funding-basis-observation/PHASE_3_DAY7_CHECKPOINT.json",
+      "prior_checkpoint_completed": true,
       "independent_of_fixed_pair": true,
       "blocks_ready_tasks": false
     },

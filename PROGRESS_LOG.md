@@ -8,3 +8,11 @@
 - Next experiment: none inside the approved space. Further work requires explicit human authorization for a new lawful data route, genuinely distinct family, or bounded retry.
 - Current blocker: the approved research space and budget are exhausted; this is the audited terminal condition, not an infrastructure failure. Scheduled continuation remains disabled; GPU and mining are unchanged.
 - Exact resume state: no active experiment; program `RESEARCH_BUDGET_EXHAUSTED`; calls 4/4, repair 1/1, and cycle 1/1 used; program audit `f6295920...`; every 2026 holdout remains unopened and unread; candidate count zero; capital zero.
+
+## 2026-08-08 Phase 3 continuation checkpoint
+
+- Mean-reversion v5 remains `DEVELOPMENT_RESULT_NOT_PROMOTABLE / AUDIT_PROTOCOL_INCONCLUSIVE / HOLDOUT_NOT_AUTHORIZED`; its source and result artifacts were not modified.
+- Relative-value v5 clean-room evaluation is terminal `IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT` after four authorized cycles. Its final gate-first panel used all 36 development partitions and resolved zero holdout paths; no independent audit was invoked because mandatory gates were not all satisfied.
+- Funding day-seven evidence is complete and preserved as degraded data-quality evidence. The queue now waits for the existing finalization checkpoint at `2026-08-30T00:00:00Z`; no early polling or collector invocation occurred.
+- Route 4 remains deferred direction-inconclusive. The portfolio operating system remains waiting for a validated sleeve. Capital remains zero; GPU and mining are unchanged.
+- Exact resume state: no READY strategy experiment remains under the current Phase 3 authorizations; next permitted external action is the read-only funding finalization checkpoint at its frozen timestamp. Any new economic route requires explicit authorization.
