@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "schema_version", "program", "phase", "capital_permitted", "holdout_access",
     "usage_paused", "website_external_lock"
@@ -13,8 +14,12 @@
     "holdout_access": {"const": "FORBIDDEN"},
     "usage_paused": {"type": "boolean"},
     "retry_after_utc": {"type": "string"},
+    "gpu_phase_0": {"const": false},
+    "timers_enabled": {"const": false},
+    "last_cycle_at_utc": {"type": "string"},
     "website_external_lock": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["repository", "branch", "status"],
       "properties": {
         "repository": {"type": "string"},

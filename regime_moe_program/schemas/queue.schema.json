@@ -1,14 +1,18 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "additionalProperties": false,
   "required": ["schema_version", "workstreams", "tasks"],
   "properties": {
     "schema_version": {"type": "string"},
     "workstreams": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "weekly_completed_by_workstream": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "weekly_completed_by_iso_week": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}}},
     "tasks": {
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "id", "workstream", "role", "state", "priority", "commands",
           "expected_artifact", "validation"
@@ -23,7 +27,30 @@
           "expected_artifact": {"type": "string", "minLength": 1},
           "validation": {"type": "array", "items": {"type": "string"}, "minItems": 1},
           "depends_on": {"type": "array", "items": {"type": "string"}},
-          "dependency_outcomes": {"type": "object", "additionalProperties": {"const": "TERMINAL"}}
+          "dependency_outcomes": {"type": "object", "additionalProperties": {"const": "TERMINAL"}},
+          "adapter": {"type": "string"},
+          "blocker": {"type": "string"},
+          "verified_provenance": {"type": "boolean"},
+          "temporary_availability_fallback": {"type": "string"},
+          "promotion_possible": {"type": "boolean"},
+          "last_checkpoint": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "at_utc": {"type": "string"},
+              "task_id": {"type": "string"},
+              "workstream": {"type": "string"},
+              "expected_artifact": {"type": "string"},
+              "commands": {"type": "array", "items": {"type": "string"}},
+              "model_role": {"type": "string"},
+              "model_route": {"type": "object"},
+              "deterministic_validation": {"type": "array", "items": {"type": "string"}},
+              "status": {"type": "string"},
+              "source_commit_or_blocker": {"type": "string"},
+              "validation_result": {"type": "string"},
+              "artifact_exists": {"type": "boolean"}
+            }
+          }
         }
       }
     }

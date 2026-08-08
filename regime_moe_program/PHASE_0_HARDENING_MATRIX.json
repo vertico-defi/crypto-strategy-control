@@ -20,7 +20,7 @@
       "severity": "HIGH",
       "affected_files": ["orchestrate_regimemoe.py", "regime_moe_program/schemas", "regime_moe_program/tests"],
       "implementation_state": "IMPLEMENTED",
-      "deterministic_acceptance_test": "Draft202012 schema validation plus replay, stale-lock, terminal-evidence, dependency, and ISO-week fairness tests",
+      "deterministic_acceptance_test": "Draft202012 closed queue/state/scorecard schemas plus replay, stale-lock, terminal-artifact, dependency, and ISO-week fairness tests",
       "correction_status": "CORRECTED_PENDING_FOCUSED_REVIEW",
       "source_commit": "f3de38c",
       "reviewer_disposition": "REVISION_REQUIRED"

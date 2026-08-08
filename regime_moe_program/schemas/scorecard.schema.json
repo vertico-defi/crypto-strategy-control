@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "STORE_LIVE", "PAYMENTS_LIVE", "NEWSLETTER_LIVE",
+    "completed_checkpoints", "content_assets_drafted", "research_claims_verified", "note"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "STORE_LIVE": {"const": false},
+    "PAYMENTS_LIVE": {"const": false},
+    "NEWSLETTER_LIVE": {"const": false},
+    "completed_checkpoints": {"type": "array", "items": {"type": "object"}},
+    "content_assets_drafted": {"type": "integer", "minimum": 0},
+    "research_claims_verified": {"type": "integer", "minimum": 0},
+    "note": {"type": "string"}
+  }
+}

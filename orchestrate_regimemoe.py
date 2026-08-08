@@ -108,6 +108,10 @@ def validate_state(state: dict[str, Any]) -> None:
         raise ValueError("usage pause requires retry_after_utc")
 
 
+def validate_scorecard(scorecard: dict[str, Any]) -> None:
+    validate_json_schema(scorecard, SCHEMAS / "scorecard.schema.json")
+
+
 def atomic_write(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as file:
@@ -164,6 +168,8 @@ def validate(queue: dict[str, Any]) -> None:
                 or not checkpoint_data.get("deterministic_validation")
             ):
                 raise ValueError("terminal task lacks deterministic artifact evidence")
+            if not artifact_path(task["expected_artifact"]).is_file():
+                raise ValueError("terminal task required artifact is absent")
 
 
 def validate_json_schema(value: dict[str, Any], schema_path: Path) -> None:
@@ -172,6 +178,20 @@ def validate_json_schema(value: dict[str, Any], schema_path: Path) -> None:
     if errors:
         location = ".".join(str(part) for part in errors[0].path) or "root"
         raise ValueError(f"schema validation failed at {location}: {errors[0].message}")
+
+
+def artifact_path(expected_artifact: str) -> Path:
+    root_relative = Path(expected_artifact)
+    if root_relative.is_absolute() or ".." in root_relative.parts:
+        raise ValueError("artifact path is outside the permitted Phase 0 roots")
+    if root_relative.parts and root_relative.parts[0] == "regime-moe-lab":
+        candidate = ROOT.parent.parent / root_relative
+    else:
+        candidate = ROOT / root_relative
+    permitted_lab_root = ROOT.parent.parent / "regime-moe-lab"
+    if not candidate.is_relative_to(ROOT) and not candidate.is_relative_to(permitted_lab_root):
+        raise ValueError("artifact path is outside the permitted Phase 0 roots")
+    return candidate
 
 
 def acquire_lock() -> None:
@@ -224,6 +244,7 @@ def recover() -> None:
             raise RuntimeError("interrupted transaction journal is incomplete")
         validate(cast(dict[str, Any], pending["queue"]))
         validate_state(cast(dict[str, Any], pending["state"]))
+        validate_scorecard(cast(dict[str, Any], pending["scorecard"]))
         commit_snapshot(pending["queue"], pending["state"], pending["scorecard"])
 
 
@@ -291,7 +312,7 @@ def execute_phase_zero(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
         text=True,
     )
     report = checkpoint(task, "TERMINAL", result.stdout.strip() or "CLEAN_REPOSITORY_STATE")
-    artifact = ROOT / task["expected_artifact"]
+    artifact = artifact_path(task["expected_artifact"])
     if not artifact.is_file():
         raise RuntimeError("Phase 0 adapter cannot terminalize without its required artifact")
     report["artifact_exists"] = True
@@ -304,6 +325,7 @@ def cycle(mutate: bool) -> dict[str, Any]:
     queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
     validate(queue)
     validate_state(state)
+    validate_scorecard(scorecard)
     if state["usage_paused"]:
         return {"status": "USAGE_PAUSED", "checkpoint": None}
     task = select(queue)
@@ -347,6 +369,7 @@ def main() -> None:
         queue, state = read(QUEUE), read(STATE)
         validate(queue)
         validate_state(state)
+        validate_scorecard(read(SCORECARD))
         print(
             json.dumps(
                 {
@@ -360,7 +383,9 @@ def main() -> None:
         )
         return
     if args.command == "weekly-report":
-        print(json.dumps(read(SCORECARD), indent=2))
+        scorecard = read(SCORECARD)
+        validate_scorecard(scorecard)
+        print(json.dumps(scorecard, indent=2))
         return
     if args.command == "resume":
         state = read(STATE)

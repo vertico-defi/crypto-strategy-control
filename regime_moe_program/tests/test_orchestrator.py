@@ -106,11 +106,11 @@ def queue_fixture() -> dict[str, object]:
                 "state": "TERMINAL",
                 "priority": 1,
                 "commands": ["fixture"],
-                "expected_artifact": "data.json",
+                "expected_artifact": "REGIMEMOE_WORK_QUEUE.json",
                 "validation": ["fixture validation"],
                 "last_checkpoint": {
                     "status": "TERMINAL",
-                    "expected_artifact": "data.json",
+                    "expected_artifact": "REGIMEMOE_WORK_QUEUE.json",
                     "deterministic_validation": ["fixture validation"],
                 },
             },
@@ -153,6 +153,15 @@ def test_terminal_requires_matching_artifact_evidence() -> None:
     queue = queue_fixture()
     queue["tasks"][0]["last_checkpoint"]["expected_artifact"] = "wrong.json"  # type: ignore[index]
     with pytest.raises(ValueError, match="deterministic artifact evidence"):
+        controller.validate(queue)  # type: ignore[attr-defined]
+
+
+def test_terminal_requires_existing_artifact() -> None:
+    controller = controller_module()
+    queue = queue_fixture()
+    queue["tasks"][0]["expected_artifact"] = "absent-artifact.json"  # type: ignore[index]
+    queue["tasks"][0]["last_checkpoint"]["expected_artifact"] = "absent-artifact.json"  # type: ignore[index]
+    with pytest.raises(ValueError, match="required artifact is absent"):
         controller.validate(queue)  # type: ignore[attr-defined]
 
 
@@ -257,3 +266,35 @@ def test_strict_schema_rejects_missing_evidence_contract() -> None:
     queue["tasks"][1].pop("validation")  # type: ignore[index]
     with pytest.raises(ValueError, match="schema validation failed"):
         controller.validate(queue)  # type: ignore[attr-defined]
+
+
+def test_strict_schema_rejects_undeclared_property() -> None:
+    controller = controller_module()
+    queue = queue_fixture()
+    queue["unexpected"] = True
+    with pytest.raises(ValueError, match="schema validation failed"):
+        controller.validate(queue)  # type: ignore[attr-defined]
+
+
+def test_replay_rejects_invalid_scorecard(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    controller = controller_module()
+    queue, state, scorecard = (
+        tmp_path / name for name in ("queue.json", "state.json", "score.json")
+    )
+    journal = tmp_path / "journal.json"
+    monkeypatch.setattr(controller, "QUEUE", queue)
+    monkeypatch.setattr(controller, "STATE", state)
+    monkeypatch.setattr(controller, "SCORECARD", scorecard)
+    monkeypatch.setattr(controller, "JOURNAL", journal)
+    controller.atomic_write(
+        journal,
+        {
+            "status": "PREPARED",
+            "queue": json.loads((PROGRAM / "REGIMEMOE_WORK_QUEUE.json").read_text()),
+            "state": json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text()),
+            "scorecard": {"schema_version": "1.0"},
+        },
+    )
+    with pytest.raises(ValueError, match="schema validation failed"):
+        controller.recover()  # type: ignore[attr-defined]
+    assert journal.exists()
