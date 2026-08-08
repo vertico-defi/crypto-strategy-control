@@ -1,27 +1,338 @@
 {
-  "schema_version": "1.0",
+  "all_gates_pass": false,
+  "bootstrap": {
+    "count": 2000.0,
+    "lower_95": -0.38779639373118435,
+    "median": 0.14351511630781588,
+    "upper_95": 1.1976641590684847
+  },
+  "classification": "DEVELOPMENT_RESULT_NOT_PROMOTABLE",
+  "complete_session_count": 548,
+  "daily_session_count": 549,
+  "delayed_execution": {
+    "costs": 0.017542943941646717,
+    "net_return": -0.05167194796903152
+  },
+  "doubled_cost": {
+    "costs": 0.05533945736249249,
+    "net_return": 0.08416883347225657
+  },
+  "dsr_registry_classification": "VALID_FAIL_CLOSED_NOT_IMPLEMENTED",
   "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
-  "stage": "STAGE_4_FULL_DEVELOPMENT_RUN_PARTIAL_STATISTICS",
-  "source_commit": "0f51b0d (before delayed-clock correction)",
-  "development_partitions": 36,
-  "row_counts": {"BTCUSDT": 790558, "ETHUSDT": 790558},
-  "sessions": 549,
-  "complete_sessions": 548,
-  "holdout_path_resolution_count": 0,
-  "folds": [
-    {"fold": 1, "net_return": -0.01582935627088733, "costs": 0.00825979325256905, "decisions": 89, "fills": 89},
-    {"fold": 2, "net_return": -0.02866940283938013, "costs": 0.011330024286466855, "decisions": 90, "fills": 90},
-    {"fold": 3, "net_return": 0.16639400910502777, "costs": 0.009032110294638067, "decisions": 91, "fills": 91},
-    {"fold": 4, "net_return": 0.0, "costs": 0.0, "decisions": 91, "fills": 91}
-  ],
-  "primary": {"net_return": 0.11502025388613046, "costs": 0.02804476207838762, "decisions": 364, "fills": 364, "terminal_cash": true},
-  "stresses": {"doubled_cost_net_return": 0.08416883347225657, "delayed_execution_net_return": -0.05167194796903152, "delayed_execution_costs": 0.017542943941646717},
-  "mandatory_gate_observations": {"aggregate_net_return_gt": true, "positive_folds_minimum": false, "doubled_cost_positive": true, "delayed_execution_positive": false},
-  "unimplemented_or_unreconciled_requirements": ["full seven-trial panels", "bootstrap", "DSR", "PBO", "baseline panels", "asset attribution", "regime and parameter-neighborhood panels", "independent full-result reference reconciliation"],
-  "classification": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
   "formal_economic_result": false,
-  "market_data_accessed": true,
+  "gates": {
+    "additional_delay_aggregate_net_return_gt": false,
+    "aggregate_net_return_gt": true,
+    "annualized_sharpe_gte": false,
+    "asset_net_contribution_each_gt": false,
+    "baseline_superiority": false,
+    "bootstrap_lower_ci_gt": false,
+    "completed_entries_total_minimum": false,
+    "completed_holds_each_asset_minimum": false,
+    "deflated_sharpe_probability_gte": false,
+    "doubled_cost_aggregate_net_return_gt": true,
+    "exceptional_profit_gate": false,
+    "fold_count": true,
+    "maximum_drawdown_lte": true,
+    "no_material_leakage": true,
+    "parameter_neighbor_count": true,
+    "positive_folds_minimum": false,
+    "positive_parameter_neighbors_minimum": true,
+    "probability_of_backtest_overfitting_lte": false,
+    "regime_gate": false
+  },
   "holdout_accessed": false,
-  "capital_permitted": 0,
-  "note": "The positive aggregate diagnostic is not promotable; missing mandatory statistical and panel obligations prevent an economic verdict."
+  "holdout_path_resolution_count": 0,
+  "max_rss_kb": 287764,
+  "pbo_status": "FAIL_CLOSED_NOT_IMPLEMENTED",
+  "primary": {
+    "fills": 364,
+    "folds": [
+      {
+        "annualized_sharpe": 0.05798683093548072,
+        "fills": 89,
+        "maximum_drawdown": 0.08676918442270387,
+        "net_return": -0.007521662690551989
+      },
+      {
+        "annualized_sharpe": -0.29771376279458206,
+        "fills": 90,
+        "maximum_drawdown": 0.0882507916308013,
+        "net_return": -0.017721641988973524
+      },
+      {
+        "annualized_sharpe": 1.4415922398236702,
+        "fills": 91,
+        "maximum_drawdown": 0.13805455524695576,
+        "net_return": 0.176239907357862
+      },
+      {
+        "annualized_sharpe": 0.0,
+        "fills": 91,
+        "maximum_drawdown": 0.0,
+        "net_return": 0.0
+      }
+    ],
+    "net_return": 0.11502025388613046,
+    "stats": {
+      "annualized_sharpe": 0.5765460549949226,
+      "maximum_drawdown": 0.14730881715573207,
+      "net_return": 0.1467045133258682
+    }
+  },
+  "row_counts": {
+    "BTCUSDT": 790558,
+    "ETHUSDT": 790558
+  },
+  "runtime_seconds": 20.23484039399773,
+  "schema_version": "1.0",
+  "selected_partition_count": 36,
+  "source_repository": "crypto-direction-lab (absolute path omitted)",
+  "trials": {
+    "always_in_higher_score_no_cash_filter": {
+      "fills": 364,
+      "folds": [
+        {
+          "annualized_sharpe": -0.19869061693843165,
+          "fills": 90,
+          "maximum_drawdown": 0.16438835680591835,
+          "net_return": -0.040071251720227186
+        },
+        {
+          "annualized_sharpe": 1.0421779240191593,
+          "fills": 90,
+          "maximum_drawdown": 0.1023519460532657,
+          "net_return": 0.08034579074853254
+        },
+        {
+          "annualized_sharpe": 1.4415922398236702,
+          "fills": 91,
+          "maximum_drawdown": 0.13805455524695576,
+          "net_return": 0.176239907357862
+        },
+        {
+          "annualized_sharpe": 0.0,
+          "fills": 91,
+          "maximum_drawdown": 0.0,
+          "net_return": 0.0
+        }
+      ],
+      "net_return": 0.23025825854420212,
+      "stats": {
+        "annualized_sharpe": 0.7897264861727494,
+        "maximum_drawdown": 0.1894962613937592,
+        "net_return": 0.2616769769233742
+      }
+    },
+    "long_60_120_180_horizons": {
+      "fills": 325,
+      "folds": [
+        {
+          "annualized_sharpe": -1.5580192560610786,
+          "fills": 50,
+          "maximum_drawdown": 0.1803162864029484,
+          "net_return": -0.15786782151296996
+        },
+        {
+          "annualized_sharpe": 3.7423505084251523,
+          "fills": 90,
+          "maximum_drawdown": 0.039797517628493706,
+          "net_return": 0.2728146611214013
+        },
+        {
+          "annualized_sharpe": 0.8771566833999778,
+          "fills": 92,
+          "maximum_drawdown": 0.19602717052424845,
+          "net_return": 0.08878085763861687
+        },
+        {
+          "annualized_sharpe": -1.5995893265484178,
+          "fills": 91,
+          "maximum_drawdown": 0.2983705481543488,
+          "net_return": -0.21419640369439952
+        }
+      ],
+      "net_return": -0.07814690369868071,
+      "stats": {
+        "annualized_sharpe": 0.10694288364615566,
+        "maximum_drawdown": 0.31931787814695256,
+        "net_return": -0.051951655166882826
+      }
+    },
+    "primary_risk_adjusted_20_60_120": {
+      "fills": 364,
+      "folds": [
+        {
+          "annualized_sharpe": 0.05798683093548072,
+          "fills": 89,
+          "maximum_drawdown": 0.08676918442270387,
+          "net_return": -0.007521662690551989
+        },
+        {
+          "annualized_sharpe": -0.29771376279458206,
+          "fills": 90,
+          "maximum_drawdown": 0.0882507916308013,
+          "net_return": -0.017721641988973524
+        },
+        {
+          "annualized_sharpe": 1.4415922398236702,
+          "fills": 91,
+          "maximum_drawdown": 0.13805455524695576,
+          "net_return": 0.176239907357862
+        },
+        {
+          "annualized_sharpe": 0.0,
+          "fills": 91,
+          "maximum_drawdown": 0.0,
+          "net_return": 0.0
+        }
+      ],
+      "net_return": 0.11502025388613046,
+      "stats": {
+        "annualized_sharpe": 0.5765460549949226,
+        "maximum_drawdown": 0.14730881715573207,
+        "net_return": 0.1467045133258682
+      }
+    },
+    "raw_60_session_relative_strength_rotation": {
+      "fills": 364,
+      "folds": [
+        {
+          "annualized_sharpe": -1.1749460441828612,
+          "fills": 90,
+          "maximum_drawdown": 0.2576349132305199,
+          "net_return": -0.1638533080096234
+        },
+        {
+          "annualized_sharpe": 1.3250785869098824,
+          "fills": 91,
+          "maximum_drawdown": 0.20972994496508768,
+          "net_return": 0.13820774210053965
+        },
+        {
+          "annualized_sharpe": 2.329801035385229,
+          "fills": 92,
+          "maximum_drawdown": 0.196027170524249,
+          "net_return": 0.38201799409433757
+        },
+        {
+          "annualized_sharpe": -1.0221240966535379,
+          "fills": 91,
+          "maximum_drawdown": 0.2118224564154415,
+          "net_return": -0.09587090118212527
+        }
+      ],
+      "net_return": 0.17296321205595855,
+      "stats": {
+        "annualized_sharpe": 0.6495101772361606,
+        "maximum_drawdown": 0.27994100711966785,
+        "net_return": 0.2233128561022042
+      }
+    },
+    "raw_unadjusted_20_60_120": {
+      "fills": 364,
+      "folds": [
+        {
+          "annualized_sharpe": -0.19869061693843165,
+          "fills": 90,
+          "maximum_drawdown": 0.16438835680591835,
+          "net_return": -0.040071251720227186
+        },
+        {
+          "annualized_sharpe": 1.0421779240191593,
+          "fills": 90,
+          "maximum_drawdown": 0.1023519460532657,
+          "net_return": 0.08034579074853254
+        },
+        {
+          "annualized_sharpe": 1.4415922398236702,
+          "fills": 91,
+          "maximum_drawdown": 0.13805455524695576,
+          "net_return": 0.176239907357862
+        },
+        {
+          "annualized_sharpe": 0.0,
+          "fills": 91,
+          "maximum_drawdown": 0.0,
+          "net_return": 0.0
+        }
+      ],
+      "net_return": 0.23025825854420212,
+      "stats": {
+        "annualized_sharpe": 0.7897264861727494,
+        "maximum_drawdown": 0.1894962613937592,
+        "net_return": 0.2616769769233742
+      }
+    },
+    "short_10_30_60_horizons": {
+      "fills": 364,
+      "folds": [
+        {
+          "annualized_sharpe": -2.0251231062593744,
+          "fills": 89,
+          "maximum_drawdown": 0.035565371286030434,
+          "net_return": -0.035565371286030434
+        },
+        {
+          "annualized_sharpe": -3.2280187075960445,
+          "fills": 90,
+          "maximum_drawdown": 0.12980841924894582,
+          "net_return": -0.12980841924894582
+        },
+        {
+          "annualized_sharpe": 0.49093284351179856,
+          "fills": 91,
+          "maximum_drawdown": 0.1607214086433435,
+          "net_return": 0.02978083776619811
+        },
+        {
+          "annualized_sharpe": 0.0,
+          "fills": 91,
+          "maximum_drawdown": 0.0,
+          "net_return": 0.0
+        }
+      ],
+      "net_return": -0.15492069507727635,
+      "stats": {
+        "annualized_sharpe": -0.5544611323596678,
+        "maximum_drawdown": 0.2414618380330128,
+        "net_return": -0.13576374943295644
+      }
+    },
+    "wide_0_50_rotation_gap": {
+      "fills": 364,
+      "folds": [
+        {
+          "annualized_sharpe": 0.0,
+          "fills": 89,
+          "maximum_drawdown": 0.0,
+          "net_return": 0.0
+        },
+        {
+          "annualized_sharpe": 0.0,
+          "fills": 90,
+          "maximum_drawdown": 0.0,
+          "net_return": 0.0
+        },
+        {
+          "annualized_sharpe": 0.04168170626006062,
+          "fills": 91,
+          "maximum_drawdown": 0.11461503245091997,
+          "net_return": -0.012798481089845937
+        },
+        {
+          "annualized_sharpe": 0.0,
+          "fills": 91,
+          "maximum_drawdown": 0.0,
+          "net_return": 0.0
+        }
+      ],
+      "net_return": -0.015560710427816815,
+      "stats": {
+        "annualized_sharpe": 0.020927472087981534,
+        "maximum_drawdown": 0.11461503245091997,
+        "net_return": -0.012798481089845937
+      }
+    }
+  }
 }

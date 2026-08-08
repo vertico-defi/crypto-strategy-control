@@ -93,6 +93,8 @@ def decide(
     index: int,
     actual: Target,
     horizons: tuple[int, ...] = HORIZONS,
+    gap: float = GAP,
+    cash_filter: bool = True,
 ) -> RelativeDecision | None:
     """Create one causal decision from complete synchronized session closes."""
     if index < max(max(horizons), VOL_LOOKBACK) or not sessions[index].complete:
@@ -108,9 +110,13 @@ def decide(
     winner: Asset = cast(Asset, ASSETS[0] if btc_score >= eth_score else ASSETS[1])
     winner_raw = btc_raw if winner == ASSETS[0] else eth_raw
     loser_raw = eth_raw if winner == ASSETS[0] else btc_raw
+    gap_index = min(1, len(winner_raw) - 1)
     target: Target = (
         winner
-        if (winner_raw[1] - loser_raw[1] >= GAP and sum(winner_raw) / len(winner_raw) > 0)
+        if (
+            winner_raw[gap_index] - loser_raw[gap_index] >= gap
+            and (not cash_filter or sum(winner_raw) / len(winner_raw) > 0)
+        )
         else "CASH"
     )
     return RelativeDecision(
@@ -181,6 +187,9 @@ def evaluate_development(
     cost_bps: float = 14.0,
     delay_sessions: int = 0,
     start_timestamp: datetime | None = None,
+    horizons: tuple[int, ...] = HORIZONS,
+    gap: float = GAP,
+    cash_filter: bool = True,
 ) -> RelativeEconomicResult:
     """Evaluate one frozen trial on complete synchronized daily sessions."""
     if cost_bps not in (0.0, 14.0, 28.0) or delay_sessions not in (0, 1):
@@ -264,7 +273,14 @@ def evaluate_development(
                 actual = "CASH"
             previous_prices = prices
             continue
-        decision = decide(tuple(causal_sessions), len(causal_sessions) - 1, actual)
+        decision = decide(
+            tuple(causal_sessions),
+            len(causal_sessions) - 1,
+            actual,
+            horizons,
+            gap,
+            cash_filter,
+        )
         if decision is not None:
             decisions.append(decision)
             if pending is None:

@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
+  "classification": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+  "source_parent_commit": "da21621",
+  "predecessor_experiment_id": "btc-eth-relative-value-rotation-v2",
+  "predecessor_contract_byte_sha256": "ece8372a68bd81344a1c4b6200713ec19985bff35cd095a73f1c70039508c0ac",
+  "predecessor_contract_canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9",
+  "implementation_cycles_authorized": 4,
+  "implementation_cycles_used": 4,
+  "implementation_cycles_remaining": 0,
+  "development_data": {
+    "partitions": 36,
+    "row_counts": {"BTCUSDT": 790558, "ETHUSDT": 790558},
+    "sessions": 549,
+    "complete_sessions": 548,
+    "holdout_path_resolution_count": 0
+  },
+  "mechanics": {
+    "primary_net_return": 0.11502025388613046,
+    "primary_fold_net_returns": [-0.007521662690551989, -0.017721641988973524, 0.176239907357862, 0.0],
+    "doubled_cost_net_return": 0.08416883347225657,
+    "delayed_execution_net_return": -0.05167194796903152,
+    "primary_maximum_drawdown": 0.14730881715573207,
+    "primary_annualized_sharpe": 0.5765460549949226,
+    "bootstrap_lower_95": -0.38779639373118435
+  },
+  "mandatory_gate_status": "NOT_ALL_PASS",
+  "unresolved_gates": [
+    "positive_folds_minimum",
+    "annualized_sharpe_gte",
+    "additional_delay_aggregate_net_return_gt",
+    "bootstrap_lower_ci_gt",
+    "deflated_sharpe_probability_gte",
+    "probability_of_backtest_overfitting_lte",
+    "baseline_superiority",
+    "asset_net_contribution_each_gt",
+    "regime_gate",
+    "completed_entries_total_minimum",
+    "completed_holds_each_asset_minimum",
+    "exceptional_profit_gate"
+  ],
+  "dsr_registry_classification": "VALID_FAIL_CLOSED_NOT_IMPLEMENTED",
+  "pbo_status": "FAIL_CLOSED_NOT_IMPLEMENTED",
+  "formal_economic_result": false,
+  "audit_status": "NOT_RUN_GATE_FIRST_MANDATORY_GATES_NOT_ALL_PASS",
+  "holdout_accessed": false,
+  "capital_permitted": 0,
+  "evidence": [
+    "EXPERIMENT_AUTHORIZATION.json",
+    "PHASE_3_STAGE_1_FIXTURES.json",
+    "PHASE_3_STAGE_2_SAMPLE.json",
+    "PHASE_3_STAGE_3_FOLD_1.json",
+    "PHASE_3_STAGE_4_FORMAL_RESULT.json"
+  ]
+}
