@@ -126,6 +126,7 @@
   "mean_reversion_v5_terminal_disposition": "experiments/btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation/TERMINAL_DISPOSITION.json",
   "funding_day7_checkpoint": "experiments/prospective-funding-basis-observation/PHASE_3_DAY7_CHECKPOINT.json",
   "relative_value_v5_authorization": "experiments/btc-eth-relative-value-rotation-v5-cleanroom-evaluation/EXPERIMENT_AUTHORIZATION.json",
+  "relative_value_v5_progress": "experiments/btc-eth-relative-value-rotation-v5-cleanroom-evaluation/PROGRESS_LOG.md",
   "direction_acceptance_review_2": "experiments/btc-eth-volatility-managed-equal-weight-v2/DIRECTION_ACCEPTANCE_REVIEW_2.json",
   "direction_acceptance_review_2_byte_sha256": "7acb456fe87a8d385ec7606995e8107ab4049a5109b5f3b8597c0b68bd429f99",
   "direction_acceptance_review_2_sha256": "51f0c41bd1d388fc7c53983b26683aab299af754496de444d497daed75318de0",

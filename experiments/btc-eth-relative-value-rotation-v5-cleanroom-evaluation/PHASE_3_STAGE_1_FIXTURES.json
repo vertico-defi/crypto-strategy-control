@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
+  "stage": "STAGE_1_KNOWN_ANSWER_FIXTURES",
+  "source_commit": "e109b29",
+  "implementation_cycles_used": 1,
+  "fixture_command": "PYTHONPATH=src .venv/bin/pytest -q tests/test_relative_value_v5_cleanroom.py",
+  "fixture_result": "3 passed",
+  "coverage": ["causal warmup", "exact next-session execution", "terminal cash", "incomplete-session fail-closed", "independent score/decision path"],
+  "market_data_accessed": false,
+  "holdout_path_resolution_count": 0,
+  "formal_economic_result": false,
+  "next_stage": "STAGE_2_BOUNDED_REAL_DATA_SAMPLE",
+  "prior_relative_value_v2_unchanged": true
+}
