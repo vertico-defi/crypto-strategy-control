@@ -247,6 +247,7 @@ def evaluate_development(
             actual = target
             pending = None
         if index == len(sessions) - 1:
+            pending = None
             if actual != "CASH":
                 fee = equity * cost_bps / 10_000
                 equity -= fee
@@ -266,7 +267,8 @@ def evaluate_development(
         decision = decide(tuple(causal_sessions), len(causal_sessions) - 1, actual)
         if decision is not None:
             decisions.append(decision)
-            pending = (index + 1 + delay_sessions, decision)
+            if pending is None:
+                pending = (index + 1 + delay_sessions, decision)
         previous_prices = prices
     if actual != "CASH" or pending is not None:
         raise RelativeCleanRoomError("terminal cash invariant")

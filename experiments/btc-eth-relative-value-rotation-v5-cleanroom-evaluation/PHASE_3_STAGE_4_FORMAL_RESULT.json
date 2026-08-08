@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
+  "stage": "STAGE_4_FULL_DEVELOPMENT_RUN_PARTIAL_STATISTICS",
+  "source_commit": "0f51b0d (before delayed-clock correction)",
+  "development_partitions": 36,
+  "row_counts": {"BTCUSDT": 790558, "ETHUSDT": 790558},
+  "sessions": 549,
+  "complete_sessions": 548,
+  "holdout_path_resolution_count": 0,
+  "folds": [
+    {"fold": 1, "net_return": -0.01582935627088733, "costs": 0.00825979325256905, "decisions": 89, "fills": 89},
+    {"fold": 2, "net_return": -0.02866940283938013, "costs": 0.011330024286466855, "decisions": 90, "fills": 90},
+    {"fold": 3, "net_return": 0.16639400910502777, "costs": 0.009032110294638067, "decisions": 91, "fills": 91},
+    {"fold": 4, "net_return": 0.0, "costs": 0.0, "decisions": 91, "fills": 91}
+  ],
+  "primary": {"net_return": 0.11502025388613046, "costs": 0.02804476207838762, "decisions": 364, "fills": 364, "terminal_cash": true},
+  "stresses": {"doubled_cost_net_return": 0.08416883347225657, "delayed_execution_net_return": -0.05167194796903152, "delayed_execution_costs": 0.017542943941646717},
+  "mandatory_gate_observations": {"aggregate_net_return_gt": true, "positive_folds_minimum": false, "doubled_cost_positive": true, "delayed_execution_positive": false},
+  "unimplemented_or_unreconciled_requirements": ["full seven-trial panels", "bootstrap", "DSR", "PBO", "baseline panels", "asset attribution", "regime and parameter-neighborhood panels", "independent full-result reference reconciliation"],
+  "classification": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+  "formal_economic_result": false,
+  "market_data_accessed": true,
+  "holdout_accessed": false,
+  "capital_permitted": 0,
+  "note": "The positive aggregate diagnostic is not promotable; missing mandatory statistical and panel obligations prevent an economic verdict."
+}
