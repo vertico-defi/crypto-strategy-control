@@ -1,6 +1,8 @@
 import json
+import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import pytest
@@ -44,3 +46,37 @@ def test_auditor_requires_promotion_eligibility() -> None:
 
     with pytest.raises(ValueError):
         controller.route_for({"role": "independent_auditor"})
+
+
+def test_stale_lock_is_recovered(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    sys.path.insert(0, str(ROOT))
+    import orchestrate_regimemoe as controller
+
+    lock = tmp_path / "lock"
+    lock.write_text("stale")
+    old = time.time() - 3601
+    os.utime(lock, (old, old))
+    monkeypatch.setattr(controller, "LOCK", lock)
+    controller.acquire_lock()
+    assert lock.exists()
+    controller.release_lock()
+
+
+def test_interrupted_journal_replays(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    sys.path.insert(0, str(ROOT))
+    import orchestrate_regimemoe as controller
+
+    queue, state, scorecard = (
+        tmp_path / name for name in ("queue.json", "state.json", "score.json")
+    )
+    journal = tmp_path / "journal.json"
+    monkeypatch.setattr(controller, "QUEUE", queue)
+    monkeypatch.setattr(controller, "STATE", state)
+    monkeypatch.setattr(controller, "SCORECARD", scorecard)
+    monkeypatch.setattr(controller, "JOURNAL", journal)
+    controller.atomic_write(
+        journal, {"status": "PREPARED", "queue": {"x": 1}, "state": {"y": 2}, "scorecard": {"z": 3}}
+    )
+    controller.recover()
+    assert controller.read(queue) == {"x": 1}
+    assert not journal.exists()
