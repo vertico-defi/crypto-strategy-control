@@ -2,34 +2,52 @@
   "schema_version": "1.0",
   "tasks": [
     {
+      "adapter": "repository_state_smoke",
       "commands": [
-        "read-only contract review"
+        "git status --short --branch"
       ],
-      "expected_artifact": "regime-moe-lab/contracts/DATA_CONTRACT.md",
-      "id": "phase0-data-contract-review",
+      "expected_artifact": "REGIMEMOE_SCORECARD.json",
+      "id": "phase0-repository-state-smoke",
       "last_checkpoint": {
-        "at_utc": "2026-08-08T20:06:02.585580Z",
+        "at_utc": "2026-08-08T20:09:06.846063Z",
         "commands": [
-          "read-only contract review"
+          "git status --short --branch"
         ],
         "deterministic_validation": [
-          "schema validation",
+          "read-only repository state",
           "no holdout resolution"
         ],
-        "expected_artifact": "regime-moe-lab/contracts/DATA_CONTRACT.md",
+        "expected_artifact": "REGIMEMOE_SCORECARD.json",
         "model_role": "deterministic_evidence",
         "model_route": {
           "model": "gpt-5.6-luna",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "NO_MUTATION_DRY_OR_PHASE_0_CHECKPOINT",
-        "status": "COMPLETED_PHASE_0_HARMLESS",
-        "task_id": "phase0-data-contract-review",
+        "source_commit_or_blocker": "## main...origin/main [ahead 2]\n M orchestrate_regimemoe.py\n M regime_moe_program/REGIMEMOE_SCORECARD.json\n M regime_moe_program/REGIMEMOE_WORK_QUEUE.json\n?? regime_moe_program/.orchestrator.lock\n?? regime_moe_program/PHASE_0_ARCHITECTURE_REVIEW.md",
+        "status": "TERMINAL",
+        "task_id": "phase0-repository-state-smoke",
+        "validation_result": "READ_ONLY_REPOSITORY_STATE_SMOKE",
         "workstream": "DATA_AND_EVALUATION"
       },
-      "priority": 1,
+      "priority": 0,
       "role": "deterministic_evidence",
       "state": "TERMINAL",
+      "validation": [
+        "read-only repository state",
+        "no holdout resolution"
+      ],
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "blocker": "no execution adapter authorized",
+      "commands": [
+        "read-only contract review"
+      ],
+      "expected_artifact": "regime-moe-lab/contracts/DATA_CONTRACT.md",
+      "id": "phase0-data-contract-review",
+      "priority": 1,
+      "role": "deterministic_evidence",
+      "state": "HUMAN_APPROVAL",
       "validation": [
         "schema validation",
         "no holdout resolution"
@@ -37,34 +55,15 @@
       "workstream": "DATA_AND_EVALUATION"
     },
     {
+      "blocker": "no execution adapter authorized",
       "commands": [
         "interface-only review"
       ],
       "expected_artifact": "regime-moe-lab/contracts/EXPERT_CONTRACT.md",
       "id": "phase0-expert-interface",
-      "last_checkpoint": {
-        "at_utc": "2026-08-08T20:06:02.618729Z",
-        "commands": [
-          "interface-only review"
-        ],
-        "deterministic_validation": [
-          "no training",
-          "no evaluation"
-        ],
-        "expected_artifact": "regime-moe-lab/contracts/EXPERT_CONTRACT.md",
-        "model_role": "implementation_engineer",
-        "model_route": {
-          "model": "gpt-5.6-terra",
-          "reasoning": "medium"
-        },
-        "source_commit_or_blocker": "NO_MUTATION_DRY_OR_PHASE_0_CHECKPOINT",
-        "status": "COMPLETED_PHASE_0_HARMLESS",
-        "task_id": "phase0-expert-interface",
-        "workstream": "EXPERTS_AND_BASELINES"
-      },
       "priority": 2,
       "role": "implementation_engineer",
-      "state": "TERMINAL",
+      "state": "HUMAN_APPROVAL",
       "validation": [
         "no training",
         "no evaluation"
@@ -72,39 +71,22 @@
       "workstream": "EXPERTS_AND_BASELINES"
     },
     {
+      "blocker": "no execution adapter authorized",
       "commands": [
         "bounded design review"
       ],
       "expected_artifact": "regime-moe-lab/contracts/ROUTER_CONTRACT.md",
       "id": "phase0-router-leakage",
-      "last_checkpoint": {
-        "at_utc": "2026-08-08T20:06:02.619660Z",
-        "commands": [
-          "bounded design review"
-        ],
-        "deterministic_validation": [
-          "meta-leakage clauses present"
-        ],
-        "expected_artifact": "regime-moe-lab/contracts/ROUTER_CONTRACT.md",
-        "model_role": "research_director",
-        "model_route": {
-          "model": "gpt-5.6-sol",
-          "reasoning": "high"
-        },
-        "source_commit_or_blocker": "NO_MUTATION_DRY_OR_PHASE_0_CHECKPOINT",
-        "status": "COMPLETED_PHASE_0_HARMLESS",
-        "task_id": "phase0-router-leakage",
-        "workstream": "AI_ROUTER"
-      },
       "priority": 3,
       "role": "research_director",
-      "state": "TERMINAL",
+      "state": "HUMAN_APPROVAL",
       "validation": [
         "meta-leakage clauses present"
       ],
       "workstream": "AI_ROUTER"
     },
     {
+      "blocker": "no execution adapter authorized",
       "commands": [
         "draft only"
       ],
@@ -112,13 +94,14 @@
       "id": "phase0-thesis-proposal",
       "priority": 4,
       "role": "content_product",
-      "state": "READY",
+      "state": "HUMAN_APPROVAL",
       "validation": [
         "no research claim mutation"
       ],
       "workstream": "THESIS_AND_CAREER"
     },
     {
+      "blocker": "website externally locked",
       "commands": [
         "draft queue only"
       ],
@@ -126,7 +109,7 @@
       "id": "phase0-content-calendar",
       "priority": 5,
       "role": "content_product",
-      "state": "READY",
+      "state": "HUMAN_APPROVAL",
       "validation": [
         "STORE_LIVE=false",
         "verified milestones only"
@@ -149,9 +132,7 @@
     }
   ],
   "weekly_completed_by_workstream": {
-    "AI_ROUTER": 1,
-    "DATA_AND_EVALUATION": 1,
-    "EXPERTS_AND_BASELINES": 1
+    "DATA_AND_EVALUATION": 1
   },
   "workstreams": [
     "DATA_AND_EVALUATION",

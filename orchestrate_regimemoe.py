@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import subprocess
 import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
@@ -20,6 +21,7 @@ QUEUE = ROOT / "REGIMEMOE_WORK_QUEUE.json"
 STATE = ROOT / "REGIMEMOE_STATE.json"
 SCORECARD = ROOT / "REGIMEMOE_SCORECARD.json"
 LOCK = ROOT / ".orchestrator.lock"
+JOURNAL = ROOT / "REGIMEMOE_TRANSACTION.json"
 STATES = {
     "READY",
     "RUNNING",
@@ -69,6 +71,8 @@ def validate(queue: dict[str, Any]) -> None:
         seen.add(task["id"])
         if task["workstream"] not in queue["workstreams"] or task["role"] not in ROLES:
             raise ValueError("invalid workstream or role")
+        if "expected_artifact" not in task or "validation" not in task:
+            raise ValueError("task lacks mandatory evidence contract")
 
 
 def acquire_lock() -> None:
@@ -86,6 +90,26 @@ def acquire_lock() -> None:
 
 def release_lock() -> None:
     LOCK.unlink(missing_ok=True)
+
+
+def commit_snapshot(
+    queue: dict[str, Any], state: dict[str, Any], scorecard: dict[str, Any]
+) -> None:
+    atomic_write(
+        JOURNAL, {"status": "PREPARED", "queue": queue, "state": state, "scorecard": scorecard}
+    )
+    atomic_write(QUEUE, queue)
+    atomic_write(STATE, state)
+    atomic_write(SCORECARD, scorecard)
+    JOURNAL.unlink(missing_ok=True)
+
+
+def recover() -> None:
+    if JOURNAL.exists():
+        pending = read(JOURNAL)
+        if pending.get("status") != "PREPARED":
+            raise RuntimeError("invalid interrupted transaction journal")
+        commit_snapshot(pending["queue"], pending["state"], pending["scorecard"])
 
 
 def select(queue: dict[str, Any]) -> dict[str, Any] | None:
@@ -123,7 +147,24 @@ def checkpoint(task: dict[str, Any], status: str, blocker: str | None = None) ->
     }
 
 
+def execute_phase_zero(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    if task.get("adapter") != "repository_state_smoke":
+        return "HUMAN_APPROVAL", checkpoint(
+            task, "HUMAN_APPROVAL", "no execution adapter authorized"
+        )
+    result = subprocess.run(
+        ["git", "-C", str(ROOT.parent), "status", "--short", "--branch"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    report = checkpoint(task, "TERMINAL", result.stdout.strip() or "CLEAN_REPOSITORY_STATE")
+    report["validation_result"] = "READ_ONLY_REPOSITORY_STATE_SMOKE"
+    return "TERMINAL", report
+
+
 def cycle(mutate: bool) -> dict[str, Any]:
+    recover()
     queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
     validate(queue)
     if state["usage_paused"]:
@@ -131,18 +172,19 @@ def cycle(mutate: bool) -> dict[str, Any]:
     task = select(queue)
     if task is None:
         return {"status": "NO_OP", "checkpoint": None}
-    report = checkpoint(task, "PLANNED" if not mutate else "COMPLETED_PHASE_0_HARMLESS")
+    report = checkpoint(task, "PLANNED")
     if mutate:
-        task["state"] = "TERMINAL"
+        task["state"] = "RUNNING"
+        commit_snapshot(queue, state, scorecard)
+        outcome, report = execute_phase_zero(task)
+        task["state"] = outcome
         task["last_checkpoint"] = report
-        queue.setdefault("weekly_completed_by_workstream", {})[task["workstream"]] = (
-            queue.get("weekly_completed_by_workstream", {}).get(task["workstream"], 0) + 1
-        )
-        scorecard["completed_checkpoints"].append(report)
+        if outcome == "TERMINAL":
+            counts = queue.setdefault("weekly_completed_by_workstream", {})
+            counts[task["workstream"]] = counts.get(task["workstream"], 0) + 1
+            scorecard["completed_checkpoints"].append(report)
         state["last_cycle_at_utc"] = now()
-        atomic_write(QUEUE, queue)
-        atomic_write(SCORECARD, scorecard)
-        atomic_write(STATE, state)
+        commit_snapshot(queue, state, scorecard)
     return {"status": report["status"], "checkpoint": report}
 
 

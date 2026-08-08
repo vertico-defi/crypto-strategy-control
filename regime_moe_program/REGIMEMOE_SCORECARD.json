@@ -4,66 +4,29 @@
   "STORE_LIVE": false,
   "completed_checkpoints": [
     {
-      "at_utc": "2026-08-08T20:06:02.585580Z",
+      "at_utc": "2026-08-08T20:09:06.846063Z",
       "commands": [
-        "read-only contract review"
+        "git status --short --branch"
       ],
       "deterministic_validation": [
-        "schema validation",
+        "read-only repository state",
         "no holdout resolution"
       ],
-      "expected_artifact": "regime-moe-lab/contracts/DATA_CONTRACT.md",
+      "expected_artifact": "REGIMEMOE_SCORECARD.json",
       "model_role": "deterministic_evidence",
       "model_route": {
         "model": "gpt-5.6-luna",
         "reasoning": "medium"
       },
-      "source_commit_or_blocker": "NO_MUTATION_DRY_OR_PHASE_0_CHECKPOINT",
-      "status": "COMPLETED_PHASE_0_HARMLESS",
-      "task_id": "phase0-data-contract-review",
+      "source_commit_or_blocker": "## main...origin/main [ahead 2]\n M orchestrate_regimemoe.py\n M regime_moe_program/REGIMEMOE_SCORECARD.json\n M regime_moe_program/REGIMEMOE_WORK_QUEUE.json\n?? regime_moe_program/.orchestrator.lock\n?? regime_moe_program/PHASE_0_ARCHITECTURE_REVIEW.md",
+      "status": "TERMINAL",
+      "task_id": "phase0-repository-state-smoke",
+      "validation_result": "READ_ONLY_REPOSITORY_STATE_SMOKE",
       "workstream": "DATA_AND_EVALUATION"
-    },
-    {
-      "at_utc": "2026-08-08T20:06:02.618729Z",
-      "commands": [
-        "interface-only review"
-      ],
-      "deterministic_validation": [
-        "no training",
-        "no evaluation"
-      ],
-      "expected_artifact": "regime-moe-lab/contracts/EXPERT_CONTRACT.md",
-      "model_role": "implementation_engineer",
-      "model_route": {
-        "model": "gpt-5.6-terra",
-        "reasoning": "medium"
-      },
-      "source_commit_or_blocker": "NO_MUTATION_DRY_OR_PHASE_0_CHECKPOINT",
-      "status": "COMPLETED_PHASE_0_HARMLESS",
-      "task_id": "phase0-expert-interface",
-      "workstream": "EXPERTS_AND_BASELINES"
-    },
-    {
-      "at_utc": "2026-08-08T20:06:02.619660Z",
-      "commands": [
-        "bounded design review"
-      ],
-      "deterministic_validation": [
-        "meta-leakage clauses present"
-      ],
-      "expected_artifact": "regime-moe-lab/contracts/ROUTER_CONTRACT.md",
-      "model_role": "research_director",
-      "model_route": {
-        "model": "gpt-5.6-sol",
-        "reasoning": "high"
-      },
-      "source_commit_or_blocker": "NO_MUTATION_DRY_OR_PHASE_0_CHECKPOINT",
-      "status": "COMPLETED_PHASE_0_HARMLESS",
-      "task_id": "phase0-router-leakage",
-      "workstream": "AI_ROUTER"
     }
   ],
   "content_assets_drafted": 0,
+  "note": "Reset after architecture review: planned or adapterless tasks are never counted as completed.",
   "research_claims_verified": 0,
   "schema_version": "1.0"
 }
