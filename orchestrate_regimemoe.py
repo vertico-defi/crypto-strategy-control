@@ -43,6 +43,34 @@ ROLES = {
 }
 
 
+def available_models() -> set[str]:
+    """Runtime discovery hook; an unavailable preferred model stops rather than downgrades."""
+    configured = os.environ.get("REGIMEMOE_AVAILABLE_MODELS")
+    return (
+        set(configured.split(",")) if configured else {route["model"] for route in ROLES.values()}
+    )
+
+
+def route_for(task: dict[str, Any], availability_error: str | None = None) -> dict[str, str]:
+    route = ROLES[task["role"]]
+    if task["role"] == "independent_auditor" and not task.get("promotion_possible", False):
+        raise ValueError("independent audit is forbidden before promotion eligibility")
+    if route["model"] in available_models():
+        return route
+    if availability_error not in {"quota", "rate_limit", "temporary_unavailable"}:
+        raise RuntimeError(
+            "preferred model unavailable; substantive failure never triggers fallback"
+        )
+    fallback = task.get("temporary_availability_fallback")
+    if not isinstance(fallback, str) or fallback not in available_models():
+        raise RuntimeError("no permitted temporary-availability fallback")
+    return {
+        "model": fallback,
+        "reasoning": route["reasoning"],
+        "fallback_reason": availability_error,
+    }
+
+
 def now() -> str:
     return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
@@ -140,7 +168,7 @@ def checkpoint(task: dict[str, Any], status: str, blocker: str | None = None) ->
         "expected_artifact": task["expected_artifact"],
         "commands": task["commands"],
         "model_role": task["role"],
-        "model_route": ROLES[task["role"]],
+        "model_route": route_for(task),
         "deterministic_validation": task["validation"],
         "status": status,
         "source_commit_or_blocker": blocker or "NO_MUTATION_DRY_OR_PHASE_0_CHECKPOINT",

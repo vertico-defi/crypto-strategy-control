@@ -3,6 +3,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 PROGRAM = Path(__file__).resolve().parents[1]
 ROOT = PROGRAM.parent
 ENTRY = ROOT / "orchestrate_regimemoe.py"
@@ -34,3 +36,11 @@ def test_dry_run_does_not_mutate_queue() -> None:
 def test_website_lock_is_explicit() -> None:
     state = json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
     assert state["website_external_lock"]["status"].startswith("EXTERNALLY_LOCKED")
+
+
+def test_auditor_requires_promotion_eligibility() -> None:
+    sys.path.insert(0, str(ROOT))
+    import orchestrate_regimemoe as controller
+
+    with pytest.raises(ValueError):
+        controller.route_for({"role": "independent_auditor"})

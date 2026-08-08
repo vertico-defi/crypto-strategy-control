@@ -47,7 +47,7 @@
       "id": "phase0-data-contract-review",
       "priority": 1,
       "role": "deterministic_evidence",
-      "state": "HUMAN_APPROVAL",
+      "state": "READY",
       "validation": [
         "schema validation",
         "no holdout resolution"
