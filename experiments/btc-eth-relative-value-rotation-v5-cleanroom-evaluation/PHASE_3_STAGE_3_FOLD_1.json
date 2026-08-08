@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
   "stage": "STAGE_3_ONE_DEVELOPMENT_FOLD_PARTIAL",
-  "source_commit": "242bef4",
+  "source_commit": "fd3452d (production fold; reference reconciliation added in next checkpoint)",
   "fold": "2025-01-01T00:00:00Z/2025-04-01T00:00:00Z",
   "selected_partition_count": 18,
   "daily_session_count": 274,
@@ -15,7 +15,9 @@
   "terminal_cash": true,
   "holdout_path_resolution_count": 0,
   "market_data_accessed": true,
-  "reference_decision_reconciliation": "not yet rerun for this accounting path",
+  "reference_decision_reconciliation": {"net_return_equal": true, "costs_equal": true, "decision_count_equal": true, "fill_count_equal": true, "terminal_cash_equal": true},
+  "production_cleanroom_source_sha256": "0beae5b2991e807cadff66f8debf1bba6994bbe03f7753fc4d0fb94ba42b0630",
+  "reference_source_sha256": "01da6f40d26be1873c450c64677047513444f71d7c07327f2351fbb6ecbf392c",
   "formal_economic_result": false,
-  "status": "PARTIAL_FOLD_MECHANICS_REFERENCE_ACCOUNTING_REQUIRED"
+  "status": "STAGE_3_FOLD_RECONCILED"
 }
