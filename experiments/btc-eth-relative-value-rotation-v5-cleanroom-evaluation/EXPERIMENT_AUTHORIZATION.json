@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
+  "authorization_type": "PHASE_3_RELATIVE_VALUE_CLEAN_ROOM_SUCCESSOR",
+  "authorized_at_utc": "2026-08-08T10:45:00Z",
+  "source_parent_commit": "da21621",
+  "objective": "ONE_COMPLETE_AUDITED_DEVELOPMENT_ECONOMIC_RESULT_OR_TRUTHFUL_NOT_PROMOTABLE_RESULT",
+  "architecture": "NARROW_STRATEGY_SPECIFIC_CLEAN_ROOM_RELATIVE_VALUE_ONLY",
+  "predecessor": {"experiment_id": "btc-eth-relative-value-rotation-v2", "terminal_state": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT", "frozen_contract_byte_sha256": "ece8372a68bd81344a1c4b6200713ec19985bff35cd095a73f1c70039508c0ac", "frozen_contract_canonical_sha256": "ee1c3246d4941043900a89b968d748176050c564022bf14e7a27e6b38a3df7c9"},
+  "data": {"assets": ["BTCUSDT", "ETHUSDT"], "development_allowlist_count": 36, "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd", "holdout_access": false},
+  "frozen_economics": {"horizons": [20, 60, 120], "volatility_lookback": 20, "relative_gap": 0.25, "weights": {"cash": [0, 0], "BTCUSDT": [1, 0], "ETHUSDT": [0, 1]}, "cost_bps": 14, "doubled_cost_bps": 28, "recovery_sessions": 150, "fold_count": 4, "trial_count": 7, "bootstrap_seed": 4689472421920140622, "gate_count": 19},
+  "budget": {"implementation_cycles_max": 4, "implementation_cycles_used": 1, "implementation_cycles_remaining": 3, "audit_policy": "gate_first; audit only after all mandatory gates pass"},
+  "multiplicity": {"contaminated_prior_result": 0.41527812790274155, "prior_result_used_for_tuning": false},
+  "safety": {"capital_permitted": 0, "gpu_seconds": 0, "network_access": false, "holdout_access": false, "mining_change": false},
+  "state": "STAGE_1_KNOWN_ANSWER_FIXTURES"
+}

@@ -1,0 +1,23 @@
+{
+  "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+  "evaluated_source_commit": "4ee928472f29587398a337136ae7d82bd2888296",
+  "formal_result": "FORMAL_DEVELOPMENT_RESULT.json",
+  "audit_recovery": "AUDIT_RECOVERY_RESULT.json",
+  "development_result_status": "DEVELOPMENT_RESULT_NOT_PROMOTABLE",
+  "audit_status": "AUDIT_PROTOCOL_INCONCLUSIVE",
+  "holdout_status": "HOLDOUT_NOT_AUTHORIZED",
+  "dsr_registry_classification": "VALID_FAIL_CLOSED",
+  "mandatory_gate_failures": [
+    "bootstrap_mean_daily_net_return_lower_95_ci_gt",
+    "deflated_sharpe_probability_gte",
+    "probability_of_backtest_overfitting_lte"
+  ],
+  "positive_diagnostic_net_return": 0.20761113168436696,
+  "positive_diagnostic_gross_return": 0.2541491480889173,
+  "interpretation": "Promising but insufficient development evidence; not independently audited and not promotable.",
+  "not_claimed": ["validated profitable strategy", "historical candidate", "clean independently audited economic no-go", "proof mean reversion cannot work"],
+  "holdout_access_count": 0,
+  "capital_permitted": 0,
+  "evaluator_rerun": false,
+  "contract_changed": false
+}

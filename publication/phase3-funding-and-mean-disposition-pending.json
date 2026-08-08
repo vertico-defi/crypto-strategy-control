@@ -1,0 +1,7 @@
+{
+  "publication_status": "PUBLICATION_PENDING_CONTENT_FUNNEL_REVIEW",
+  "source_commit": "da21621",
+  "funding_checkpoint": {"status": "DEGRADED_DATA_QUALITY_EVIDENCE", "profitability_evidence": false, "window_end_exclusive_utc": "2026-08-07T14:00:00Z", "expected_records": 100800, "observed_records": 100779, "missing_records": 21, "report_sha256": "a65aa5c3120cc6aea44f9a094442fa4d1265eb708e0d22e8ce5f9ec80867adc8"},
+  "mean_reversion_v5": {"status": "DEVELOPMENT_RESULT_NOT_PROMOTABLE / AUDIT_PROTOCOL_INCONCLUSIVE", "headline_metric_disclosed": false, "holdout_status": "NOT_AUTHORIZED", "holdout_access_count": 0, "capital_permitted": 0},
+  "claim_policy": "Do not describe the diagnostic return as validated profit or a product claim."
+}
