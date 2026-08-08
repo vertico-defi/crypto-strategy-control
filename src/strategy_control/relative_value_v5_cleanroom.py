@@ -55,6 +55,8 @@ class RelativeEconomicResult:
     decisions: tuple[RelativeDecision, ...]
     fills: tuple[RelativeFill, ...]
     terminal_cash: bool
+    interval_timestamps: tuple[datetime, ...]
+    interval_assets: tuple[Target, ...]
 
 
 def _log_return(closes: list[float], horizon: int) -> float:
@@ -67,7 +69,7 @@ def _log_return(closes: list[float], horizon: int) -> float:
 
 
 def _score(
-    closes: list[float], horizons: tuple[int, ...] = HORIZONS
+    closes: list[float], horizons: tuple[int, ...] = HORIZONS, risk_adjusted: bool = True
 ) -> tuple[float, tuple[float, ...]]:
     raw = tuple(_log_return(closes, horizon) for horizon in horizons)
     if len(closes) <= VOL_LOOKBACK:
@@ -81,11 +83,12 @@ def _score(
     volatility = math.sqrt(variance)
     if not math.isfinite(volatility) or volatility <= 0:
         raise RelativeCleanRoomError("invalid volatility")
-    standardized = tuple(
-        value / (volatility * math.sqrt(horizon))
-        for value, horizon in zip(raw, horizons, strict=True)
+    components = (
+        tuple(value / (volatility * math.sqrt(horizon)) for value, horizon in zip(raw, horizons, strict=True))
+        if risk_adjusted
+        else raw
     )
-    return sum(standardized) / len(standardized), raw
+    return sum(components) / len(components), raw
 
 
 def decide(
@@ -95,6 +98,7 @@ def decide(
     horizons: tuple[int, ...] = HORIZONS,
     gap: float = GAP,
     cash_filter: bool = True,
+    risk_adjusted: bool = True,
 ) -> RelativeDecision | None:
     """Create one causal decision from complete synchronized session closes."""
     if index < max(max(horizons), VOL_LOOKBACK) or not sessions[index].complete:
@@ -105,20 +109,20 @@ def decide(
     closes = {
         asset: [session.rows[asset].close for session in sessions[: index + 1]] for asset in ASSETS
     }
-    btc_score, btc_raw = _score(closes[ASSETS[0]], horizons)
-    eth_score, eth_raw = _score(closes[ASSETS[1]], horizons)
+    btc_score, btc_raw = _score(closes[ASSETS[0]], horizons, risk_adjusted)
+    eth_score, eth_raw = _score(closes[ASSETS[1]], horizons, risk_adjusted)
     winner: Asset = cast(Asset, ASSETS[0] if btc_score >= eth_score else ASSETS[1])
     winner_raw = btc_raw if winner == ASSETS[0] else eth_raw
     loser_raw = eth_raw if winner == ASSETS[0] else btc_raw
-    gap_index = min(1, len(winner_raw) - 1)
-    target: Target = (
-        winner
-        if (
-            winner_raw[gap_index] - loser_raw[gap_index] >= gap
-            and (not cash_filter or sum(winner_raw) / len(winner_raw) > 0)
-        )
-        else "CASH"
-    )
+    winner_median = sorted(winner_raw)[len(winner_raw) // 2]
+    eligible = not cash_filter or winner_median > 0
+    lead = abs(btc_score - eth_score)
+    if actual == winner:
+        target = winner if eligible else "CASH"
+    elif actual == "CASH":
+        target = winner if eligible and lead >= gap else "CASH"
+    else:
+        target = winner if eligible and lead >= gap else actual
     return RelativeDecision(
         sessions[index].timestamp,
         sessions[index].rows[ASSETS[0]].timestamp,
@@ -136,6 +140,8 @@ def evaluate_fixture(sessions: tuple[CleanSession, ...], cost_bps: float = 14.0)
     decisions: list[RelativeDecision] = []
     fills: list[RelativeFill] = []
     intervals: list[float] = []
+    interval_timestamps: list[datetime] = []
+    interval_assets: list[Target] = []
     wealth = 1.0
     for index, session in enumerate(sessions):
         if not session.complete:
@@ -175,7 +181,10 @@ def evaluate_fixture(sessions: tuple[CleanSession, ...], cost_bps: float = 14.0)
         wealth *= 1.0 - fee
         fills.append(
             RelativeFill(
-                sessions[-1].timestamp, sessions[-1].rows[ASSETS[0]].timestamp, "CASH", fee
+                sessions[-2].timestamp if len(sessions) > 1 else sessions[-1].timestamp,
+                sessions[-1].rows[ASSETS[0]].timestamp,
+                "CASH",
+                fee,
             )
         )
     return RelativeResult(tuple(decisions), tuple(fills), tuple(intervals), True)
@@ -190,6 +199,7 @@ def evaluate_development(
     horizons: tuple[int, ...] = HORIZONS,
     gap: float = GAP,
     cash_filter: bool = True,
+    risk_adjusted: bool = True,
 ) -> RelativeEconomicResult:
     """Evaluate one frozen trial on complete synchronized daily sessions."""
     if cost_bps not in (0.0, 14.0, 28.0) or delay_sessions not in (0, 1):
@@ -202,11 +212,14 @@ def evaluate_development(
     decisions: list[RelativeDecision] = []
     fills: list[RelativeFill] = []
     intervals: list[float] = []
+    interval_timestamps: list[datetime] = []
+    interval_assets: list[Target] = []
     equity = 1.0
     costs = 0.0
     previous_prices: dict[str, float] | None = None
     started = False
     causal_sessions: list[CleanSession] = []
+    recovery_complete_sessions = 0
     for index, session in enumerate(sessions):
         if not session.complete:
             if actual != "CASH" or pending is not None:
@@ -214,10 +227,12 @@ def evaluate_development(
             history = {asset: [] for asset in ASSETS}
             causal_sessions = []
             previous_prices = None
+            recovery_complete_sessions = 0
             continue
         for asset in ASSETS:
             history[asset].append(session.rows[asset].close)
         causal_sessions.append(session)
+        recovery_complete_sessions += 1
         if start_timestamp is not None and session.timestamp < start_timestamp:
             continue
         if not started:
@@ -235,9 +250,13 @@ def evaluate_development(
         if previous_prices is not None and actual != "CASH":
             asset = actual
             intervals.append(prices[asset] / previous_prices[asset] - 1.0)
+            interval_timestamps.append(session.timestamp)
+            interval_assets.append(asset)
             equity *= 1.0 + intervals[-1]
         elif previous_prices is not None:
             intervals.append(0.0)
+            interval_timestamps.append(session.timestamp)
+            interval_assets.append("CASH")
         if pending is not None and pending[0] == index:
             target = pending[1].target
             old_exposure = 0.0 if actual == "CASH" else 1.0
@@ -270,16 +289,18 @@ def evaluate_development(
                     )
                 )
                 intervals.append(-fee / (equity + fee))
+                interval_timestamps.append(session.timestamp)
+                interval_assets.append("CASH")
                 actual = "CASH"
             previous_prices = prices
             continue
-        decision = decide(
-            tuple(causal_sessions),
-            len(causal_sessions) - 1,
-            actual,
-            horizons,
-            gap,
-            cash_filter,
+        decision = (
+            decide(
+                tuple(causal_sessions), len(causal_sessions) - 1, actual, horizons, gap,
+                cash_filter, risk_adjusted,
+            )
+            if recovery_complete_sessions >= 150
+            else None
         )
         if decision is not None:
             decisions.append(decision)
@@ -289,5 +310,12 @@ def evaluate_development(
     if actual != "CASH" or pending is not None:
         raise RelativeCleanRoomError("terminal cash invariant")
     return RelativeEconomicResult(
-        equity - 1.0, costs, tuple(intervals), tuple(decisions), tuple(fills), True
+        equity - 1.0,
+        costs,
+        tuple(intervals),
+        tuple(decisions),
+        tuple(fills),
+        True,
+        tuple(interval_timestamps),
+        tuple(interval_assets),
     )

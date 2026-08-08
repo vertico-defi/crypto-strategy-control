@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
+  "classification": "DEVELOPMENT_RESULT_NOT_PROMOTABLE",
+  "formal_economic_result": true,
+  "reproducibility": {
+    "command": "PYTHONPATH=src /home/vertico/crypto-direction-lab/.venv/bin/python -m strategy_control.relative_value_v5_formal --source-repository /home/vertico/crypto-direction-lab --output <path>",
+    "contract_byte_sha256": "ece8372a68bd81344a1c4b6200713ec19985bff35cd095a73f1c70039508c0ac",
+    "development_partitions": 36,
+    "row_counts": {"BTCUSDT": 790558, "ETHUSDT": 790558},
+    "sessions": 549,
+    "complete_sessions": 548,
+    "holdout_path_resolution_count": 0
+  },
+  "primary": {
+    "net_return": 0.5365470075080097,
+    "annualized_sharpe": 1.2869794744917284,
+    "maximum_drawdown": 0.22454420596235192,
+    "fold_net_returns": [0.03675803934724731, 0.13726583501153855, 0.36276520884168906, -0.04007144156654163]
+  },
+  "statistics": {
+    "stationary_bootstrap": {"seed": 4689472421920140622, "block_length": 20, "resamples": 2000, "mean": 0.0014476561864520453, "lower_95": -0.0001426245386839141, "upper_95": 0.003281306288295287},
+    "deflated_sharpe": {"N": 56, "prior_observed_count": 28, "current_trial_count": 7, "probability": 0.572847077584233},
+    "PBO": {"chronological_blocks": 8, "training_splits": 70, "common_interval_count": 364, "probability": 0.5285714285714286}
+  },
+  "stresses": {"doubled_cost_net_return": 0.5151405877289565, "additional_delay_net_return": 0.4905361640525312},
+  "baselines": {"raw_60_rotation": {"net_return": 0.5434542444450241, "annualized_sharpe": 1.152549063511378, "maximum_drawdown": 0.23297855704784098}, "equal_weight_buy_and_hold": {"net_return": -0.057988808543106174, "annualized_sharpe": 0.1697321787205155, "maximum_drawdown": 0.4489072408334316}},
+  "trade_counts": {"entries": {"BTCUSDT": 4, "ETHUSDT": 2}, "completed_holds": {"BTCUSDT": 4, "ETHUSDT": 2}},
+  "asset_return_contributions": {"BTCUSDT": 0.28120691958380994, "ETHUSDT": 0.24573993228473456},
+  "regime_gate": {"eligible_regimes": ["up_low", "down_high"], "pass": false},
+  "mandatory_gates": {
+    "aggregate_net_return_gt": true,
+    "annualized_sharpe_gte": true,
+    "maximum_drawdown_lte": false,
+    "fold_count": true,
+    "positive_folds_minimum": true,
+    "doubled_cost_aggregate_net_return_gt": true,
+    "additional_delay_aggregate_net_return_gt": true,
+    "positive_parameter_neighbors_minimum": true,
+    "parameter_neighbor_count": true,
+    "bootstrap_lower_ci_gt": false,
+    "deflated_sharpe_probability_gte": false,
+    "probability_of_backtest_overfitting_lte": false,
+    "baseline_superiority": true,
+    "completed_entries_total_minimum": false,
+    "completed_holds_each_asset_minimum": false,
+    "asset_net_contribution_each_gt": true,
+    "exceptional_profit_gate": true,
+    "regime_gate": false,
+    "no_material_leakage": true
+  },
+  "all_mandatory_gates_pass": false,
+  "gate_first_audit": "NOT_RUN_MANDATORY_GATES_FAILED",
+  "holdout_accessed": false,
+  "capital_permitted": 0
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "observed_before_development_evaluation": true,
+  "unit": "perp-carry-v2b-availability-finalize.timer",
+  "next_elapse_realtime": "Sun 2026-08-30 16:00:10 CEST",
+  "next_elapse_utc": "2026-08-30T14:00:10Z",
+  "active_state": "active",
+  "unit_file_state": "enabled",
+  "action_taken": "READ_ONLY_SYSTEMD_INSPECTION_ONLY; TIMER_NOT_INVOKED_OR_MODIFIED"
+}
