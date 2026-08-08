@@ -76,11 +76,14 @@ def test_interrupted_journal_replays(tmp_path: Path, monkeypatch: pytest.MonkeyP
     monkeypatch.setattr(controller, "STATE", state)
     monkeypatch.setattr(controller, "SCORECARD", scorecard)
     monkeypatch.setattr(controller, "JOURNAL", journal)
+    queued = json.loads((PROGRAM / "REGIMEMOE_WORK_QUEUE.json").read_text())
+    stated = json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
+    scored = json.loads((PROGRAM / "REGIMEMOE_SCORECARD.json").read_text())
     controller.atomic_write(
-        journal, {"status": "PREPARED", "queue": {"x": 1}, "state": {"y": 2}, "scorecard": {"z": 3}}
+        journal, {"status": "PREPARED", "queue": queued, "state": stated, "scorecard": scored}
     )
     controller.recover()
-    assert controller.read(queue) == {"x": 1}
+    assert controller.read(queue) == queued
     assert not journal.exists()
 
 
@@ -184,6 +187,13 @@ def test_typed_availability_fallback_only_allows_temporary_failure(
         controller.route_for(task)  # type: ignore[attr-defined]
 
 
+def test_missing_runtime_model_discovery_fails_closed(monkeypatch: pytest.MonkeyPatch) -> None:
+    controller = controller_module()
+    monkeypatch.delenv("REGIMEMOE_AVAILABLE_MODELS", raising=False)
+    with pytest.raises(RuntimeError, match="substantive failure"):
+        controller.route_for({"role": "implementation_engineer"})  # type: ignore[attr-defined]
+
+
 def test_iso_week_fairness_ignores_historical_counts(monkeypatch: pytest.MonkeyPatch) -> None:
     controller = controller_module()
     queue = queue_fixture()
@@ -214,6 +224,21 @@ def test_usage_pause_requires_retry_and_prevents_selection() -> None:
     paused.pop("retry_after_utc")
     with pytest.raises(ValueError, match="retry_after_utc"):
         controller.validate_state(paused)  # type: ignore[attr-defined]
+
+
+def test_stale_lock_with_live_owner_is_not_removed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    controller = controller_module()
+    lock = tmp_path / "lock"
+    lock.write_text(json.dumps({"pid": 12345}))
+    old = time.time() - 3601
+    os.utime(lock, (old, old))
+    monkeypatch.setattr(controller, "LOCK", lock)
+    monkeypatch.setattr(controller.os, "kill", lambda pid, signal: None)
+    with pytest.raises(RuntimeError, match="still active"):
+        controller.acquire_lock()  # type: ignore[attr-defined]
+    assert lock.exists()
 
 
 def test_schema_documents_cover_current_state_and_queue() -> None:

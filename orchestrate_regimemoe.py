@@ -52,11 +52,11 @@ ALLOWED_AVAILABILITY_ERRORS: set[str] = {"quota", "rate_limit", "temporary_unava
 
 
 def available_models() -> set[str]:
-    """Runtime discovery hook; an unavailable preferred model stops rather than downgrades."""
+    """Read the runtime availability record; absence fails closed for model work."""
     configured = os.environ.get("REGIMEMOE_AVAILABLE_MODELS")
-    return (
-        set(configured.split(",")) if configured else {route["model"] for route in ROLES.values()}
-    )
+    if not configured:
+        return set()
+    return {model.strip() for model in configured.split(",") if model.strip()}
 
 
 def route_for(
@@ -181,6 +181,18 @@ def acquire_lock() -> None:
         age = datetime.now().timestamp() - LOCK.stat().st_mtime
         if age < 3600:
             raise RuntimeError("exclusive lock held") from error
+        try:
+            existing = read(LOCK)
+            existing_pid = existing.get("pid")
+            if isinstance(existing_pid, int):
+                os.kill(existing_pid, 0)
+                raise RuntimeError("stale-looking lock owner is still active") from error
+        except ProcessLookupError:
+            pass
+        except PermissionError as pid_error:
+            raise RuntimeError("cannot establish stale lock owner is inactive") from pid_error
+        except (ValueError, OSError):
+            pass
         LOCK.unlink()
         fd = os.open(LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     with os.fdopen(fd, "w", encoding="utf-8") as file:
@@ -208,6 +220,10 @@ def recover() -> None:
         pending = read(JOURNAL)
         if pending.get("status") != "PREPARED":
             raise RuntimeError("invalid interrupted transaction journal")
+        if not all(isinstance(pending.get(key), dict) for key in ("queue", "state", "scorecard")):
+            raise RuntimeError("interrupted transaction journal is incomplete")
+        validate(cast(dict[str, Any], pending["queue"]))
+        validate_state(cast(dict[str, Any], pending["state"]))
         commit_snapshot(pending["queue"], pending["state"], pending["scorecard"])
 
 
@@ -247,6 +263,8 @@ def select(queue: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def checkpoint(task: dict[str, Any], status: str, blocker: str | None = None) -> dict[str, Any]:
+    route = dict(ROLES[task["role"]])
+    route["availability"] = "NOT_INVOKED"
     return {
         "at_utc": now(),
         "task_id": task["id"],
@@ -254,7 +272,7 @@ def checkpoint(task: dict[str, Any], status: str, blocker: str | None = None) ->
         "expected_artifact": task["expected_artifact"],
         "commands": task["commands"],
         "model_role": task["role"],
-        "model_route": route_for(task),
+        "model_route": route,
         "deterministic_validation": task["validation"],
         "status": status,
         "source_commit_or_blocker": blocker or "NO_MUTATION_DRY_OR_PHASE_0_CHECKPOINT",
@@ -273,6 +291,10 @@ def execute_phase_zero(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
         text=True,
     )
     report = checkpoint(task, "TERMINAL", result.stdout.strip() or "CLEAN_REPOSITORY_STATE")
+    artifact = ROOT / task["expected_artifact"]
+    if not artifact.is_file():
+        raise RuntimeError("Phase 0 adapter cannot terminalize without its required artifact")
+    report["artifact_exists"] = True
     report["validation_result"] = "READ_ONLY_REPOSITORY_STATE_SMOKE"
     return "TERMINAL", report
 
@@ -292,6 +314,8 @@ def cycle(mutate: bool) -> dict[str, Any]:
         task["state"] = "RUNNING"
         commit_snapshot(queue, state, scorecard)
         outcome, report = execute_phase_zero(task)
+        if outcome == "TERMINAL" and not report.get("artifact_exists"):
+            raise RuntimeError("terminal task requires deterministic artifact evidence")
         task["state"] = outcome
         task["last_checkpoint"] = report
         if outcome == "TERMINAL":
