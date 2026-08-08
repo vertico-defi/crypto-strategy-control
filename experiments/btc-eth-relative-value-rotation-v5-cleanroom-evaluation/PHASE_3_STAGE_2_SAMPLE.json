@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
+  "stage": "STAGE_2_BOUNDED_REAL_DATA_SAMPLE",
+  "source_commit": "25712ef",
+  "selected_partition_count": 18,
+  "row_counts": {"BTCUSDT": 394558, "ETHUSDT": 394558},
+  "daily_session_count": 274,
+  "complete_session_count": 273,
+  "decision_count": 153,
+  "reference_decision_count": 153,
+  "production_reference_exact_reconciliation": true,
+  "holdout_path_resolution_count": 0,
+  "market_data_accessed": true,
+  "formal_economic_result": false,
+  "source_repository": "crypto-direction-lab (absolute path omitted)",
+  "sample_months": ["2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03"],
+  "next_stage": "STAGE_3_ONE_COMPLETE_DEVELOPMENT_FOLD"
+}
