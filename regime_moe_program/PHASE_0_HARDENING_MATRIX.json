@@ -2,6 +2,14 @@
   "source_review": "PHASE_0_ARCHITECTURE_REVIEW.md",
   "source_commit": "f3de38c",
   "reviewer_disposition": "REVISION_REQUIRED",
+  "latest_focused_review": {
+    "reviewed_control_commit": "8dfe0f4",
+    "reviewed_lab_commit": "5b46ea1",
+    "model": "gpt-5.6-sol",
+    "reasoning": "high",
+    "verdict": "REVISION_REQUIRED",
+    "cycle_authority_remaining": 0
+  },
   "findings": [
     {
       "id": "P0-001",
@@ -19,9 +27,9 @@
       "requirement": "Strict artifact schemas and expanded recovery, fallback, dependency, and ISO-week fairness tests.",
       "severity": "HIGH",
       "affected_files": ["orchestrate_regimemoe.py", "regime_moe_program/schemas", "regime_moe_program/tests"],
-      "implementation_state": "IMPLEMENTED",
+      "implementation_state": "PARTIAL",
       "deterministic_acceptance_test": "Draft202012 closed queue/state/scorecard schemas plus replay, stale-lock, terminal-artifact, dependency, and ISO-week fairness tests",
-      "correction_status": "CORRECTED_PENDING_FOCUSED_REVIEW",
+      "correction_status": "REVISION_REQUIRED_AFTER_THIRD_CYCLE",
       "source_commit": "f3de38c",
       "reviewer_disposition": "REVISION_REQUIRED"
     },
