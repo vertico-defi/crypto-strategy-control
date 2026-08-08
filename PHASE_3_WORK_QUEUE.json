@@ -28,7 +28,9 @@
       "experiment_id": "btc-eth-long-only-mean-reversion-v3-completion",
       "state": "IMPLEMENTATION_INCONCLUSIVE",
       "priority": 1,
-      "action": "run_successor_completion_preflight"
+      "action": "preserve_terminal_successor_evidence",
+      "terminal": true,
+      "terminal_classification": "SUCCESSOR_SCOPE_NONLOCAL / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT"
     },
     {
       "task_id": "relative-value-v3-completion",
@@ -37,7 +39,9 @@
       "priority": 2,
       "unblock_on": ["NO_GO", "IMPLEMENTATION_INCONCLUSIVE", "NONCANDIDATE_TERMINAL"],
       "unblocked_by": "SUCCESSOR_SCOPE_NONLOCAL",
-      "terminal": true
+      "terminal": true,
+      "terminal_classification": "SUCCESSOR_SCOPE_NONLOCAL / IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT",
+      "action": "preserve_terminal_successor_evidence"
     },
     {
       "task_id": "route-4",
@@ -52,6 +56,22 @@
       "state": "WAITING_FOR_VALIDATED_SLEEVE",
       "priority": 5,
       "action": "deterministic_registry_only"
+    },
+    {
+      "task_id": "mean-reversion-v5-cleanroom",
+      "experiment_id": "btc-eth-long-only-mean-reversion-v5-cleanroom-evaluation",
+      "state": "TERMINAL",
+      "priority": 1,
+      "action": "preserve_not_promotable_audit_inconclusive_result",
+      "terminal_classification": "DEVELOPMENT_RESULT_NOT_PROMOTABLE / AUDIT_PROTOCOL_INCONCLUSIVE / HOLDOUT_NOT_AUTHORIZED"
+    },
+    {
+      "task_id": "relative-value-v5-cleanroom",
+      "experiment_id": "btc-eth-relative-value-rotation-v5-cleanroom-evaluation",
+      "state": "TERMINAL",
+      "priority": 2,
+      "action": "preserve_implementation_inconclusive_result",
+      "terminal_classification": "IMPLEMENTATION_INCONCLUSIVE / NO_ECONOMIC_RESULT"
     }
   ]
 }
