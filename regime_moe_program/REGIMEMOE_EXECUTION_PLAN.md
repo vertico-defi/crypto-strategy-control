@@ -1,0 +1,3 @@
+# RegimeMoE Execution Plan
+
+Phase 0 establishes durable contracts, reproducibility, governance, a bounded queue, and a thesis/career/content foundation. Phase 1 validates approved data and simple baselines; Phase 2 performs fold-isolated expert and router experiments; Phase 3 is a gate-first candidate review only. Monthly milestones through March 2027 are: foundation and data cards (Aug--Sep 2026), baselines and expert interfaces (Oct--Nov), router evaluation protocol and thesis proposal (Dec--Jan), bounded experiments and verified content (Feb), and a review-ready thesis/career package (Mar 2027). No milestone authorizes holdout, capital, live trading, publication, payments, or newsletter activation without separate approval.

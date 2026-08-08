@@ -1,0 +1,36 @@
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+PROGRAM = Path(__file__).resolve().parents[1]
+ROOT = PROGRAM.parent
+ENTRY = ROOT / "orchestrate_regimemoe.py"
+
+
+def invoke(*args: str) -> dict[str, object]:
+    process = subprocess.run(
+        [sys.executable, str(ENTRY), *args], capture_output=True, text=True, check=True
+    )
+    return json.loads(process.stdout)
+
+
+def test_status_validates_queue() -> None:
+    assert "task_counts" in invoke("status")
+
+
+def test_dry_run_selects_ready_while_waiting_external_exists() -> None:
+    result = invoke("dry-run")
+    assert result["checkpoint"]["task_id"] != "funding-finalization"  # type: ignore[index]
+
+
+def test_dry_run_does_not_mutate_queue() -> None:
+    queue = PROGRAM / "REGIMEMOE_WORK_QUEUE.json"
+    before = queue.read_bytes()
+    invoke("dry-run")
+    assert queue.read_bytes() == before
+
+
+def test_website_lock_is_explicit() -> None:
+    state = json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
+    assert state["website_external_lock"]["status"].startswith("EXTERNALLY_LOCKED")

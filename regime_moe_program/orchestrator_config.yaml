@@ -1,0 +1,8 @@
+program: RegimeMoE
+phase: 0
+one_task_per_cycle: true
+weekly_balance: least_completed_workstream_first
+timers_enabled: false
+capital_permitted: 0
+holdout_access: forbidden
+fallback: only_quota_rate_limit_or_temporary_availability

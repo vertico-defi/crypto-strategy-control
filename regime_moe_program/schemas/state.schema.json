@@ -1,0 +1,1 @@
+{"type":"object","required":["program","phase","capital_permitted","holdout_access"]}
