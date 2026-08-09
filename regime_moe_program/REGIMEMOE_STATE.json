@@ -1,9 +1,19 @@
 {
   "capital_permitted": 0,
+  "g0_foundation_pass": {
+    "control_commit": "f6128c9",
+    "lab_commit": "3b7443c",
+    "model": "gpt-5.6-sol",
+    "reasoning": "high",
+    "verdict": "PASS"
+  },
   "gpu_phase_0": false,
   "holdout_access": "FORBIDDEN",
-  "last_cycle_at_utc": "2026-08-08T20:09:06.846074Z",
-  "phase": 0,
+  "last_cycle_at_utc": "2026-08-09T15:51:25.835174Z",
+  "phase": 1,
+  "production_adapters_active": [
+    "data_contract_validation"
+  ],
   "program": "RegimeMoE",
   "schema_version": "1.0",
   "timers_enabled": false,

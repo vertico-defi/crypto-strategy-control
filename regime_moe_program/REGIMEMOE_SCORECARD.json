@@ -23,6 +23,31 @@
       "task_id": "phase0-repository-state-smoke",
       "validation_result": "READ_ONLY_REPOSITORY_STATE_SMOKE",
       "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "artifact_exists": true,
+      "at_utc": "2026-08-09T15:51:25.835157Z",
+      "commands": [
+        "validate published development-only contracts"
+      ],
+      "deterministic_validation": [
+        "development-only scope",
+        "holdout remains unresolved",
+        "no market-data path resolution",
+        "deterministic artifact"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-data-contract-validation.json",
+      "model_role": "deterministic_evidence",
+      "model_route": {
+        "availability": "NOT_INVOKED",
+        "model": "gpt-5.6-luna",
+        "reasoning": "medium"
+      },
+      "source_commit_or_blocker": "artifact_sha256=da1936b4dfda918fc0680309a63b60891bdb32f570266151cc314163ede46012",
+      "status": "TERMINAL",
+      "task_id": "g1-data-contract-validation",
+      "validation_result": "G1_DATA_CONTRACT_VALIDATION_PASS",
+      "workstream": "DATA_AND_EVALUATION"
     }
   ],
   "content_assets_drafted": 0,
