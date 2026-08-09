@@ -8,6 +8,7 @@ opens a holdout, routes orders, or starts a timer.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -19,6 +20,7 @@ from typing import Any, Literal, cast
 from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parent / "regime_moe_program"
+LAB_ROOT = ROOT.parent.parent / "regime-moe-lab"
 QUEUE = ROOT / "REGIMEMOE_WORK_QUEUE.json"
 STATE = ROOT / "REGIMEMOE_STATE.json"
 SCORECARD = ROOT / "REGIMEMOE_SCORECARD.json"
@@ -106,6 +108,10 @@ def validate_state(state: dict[str, Any]) -> None:
         raise ValueError("website external lock must remain enforced")
     if state["usage_paused"] and not isinstance(state.get("retry_after_utc"), str):
         raise ValueError("usage pause requires retry_after_utc")
+    if state["phase"] > 0:
+        gate = state.get("g0_foundation_pass")
+        if not isinstance(gate, dict) or gate.get("verdict") != "PASS":
+            raise ValueError("Phase 1 requires a recorded G0 foundation pass")
 
 
 def validate_scorecard(scorecard: dict[str, Any]) -> None:
@@ -185,13 +191,16 @@ def artifact_path(expected_artifact: str) -> Path:
     if root_relative.is_absolute() or ".." in root_relative.parts:
         raise ValueError("artifact path is outside the permitted Phase 0 roots")
     if root_relative.parts and root_relative.parts[0] == "regime-moe-lab":
-        candidate = ROOT.parent.parent / root_relative
+        candidate = LAB_ROOT.joinpath(*root_relative.parts[1:])
     else:
         candidate = ROOT / root_relative
-    permitted_lab_root = ROOT.parent.parent / "regime-moe-lab"
-    if not candidate.is_relative_to(ROOT) and not candidate.is_relative_to(permitted_lab_root):
+    if not candidate.is_relative_to(ROOT) and not candidate.is_relative_to(LAB_ROOT):
         raise ValueError("artifact path is outside the permitted Phase 0 roots")
     return candidate
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def acquire_lock() -> None:
@@ -320,6 +329,104 @@ def execute_phase_zero(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     return "TERMINAL", report
 
 
+def execute_data_contract_validation(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """Produce a deterministic contract-only G1 artifact without resolving data locations."""
+    source = LAB_ROOT / "contracts" / "DATA_CONTRACT.md"
+    frozen = LAB_ROOT / "contracts" / "FROZEN_DEVELOPMENT_PROTOCOL.yaml"
+    required_data_clauses = (
+        "hash-verified BTC/ETH",
+        "event and availability timestamps",
+        "Phase 0 reads no market values",
+        "resolves no holdout path",
+    )
+    required_protocol_clauses = (
+        "scope: development_only",
+        "holdout_access: FORBIDDEN",
+        "same_bar_execution: FORBIDDEN",
+    )
+    if not source.is_file() or not frozen.is_file():
+        raise RuntimeError("G1 contract sources are absent")
+    if any(clause not in source.read_text(encoding="utf-8") for clause in required_data_clauses):
+        raise RuntimeError("G1 data contract is incomplete")
+    if any(
+        clause not in frozen.read_text(encoding="utf-8") for clause in required_protocol_clauses
+    ):
+        raise RuntimeError("G1 frozen protocol is incomplete")
+    artifact = artifact_path(task["expected_artifact"])
+    artifact.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "artifact_type": "G1_DATA_CONTRACT_VALIDATION",
+        "capital_permitted": 0,
+        "holdout_access": "FORBIDDEN",
+        "inputs": {
+            "data_contract_sha256": sha256(source),
+            "frozen_protocol_sha256": sha256(frozen),
+        },
+        "result": "PASS",
+        "scope": "contract_only_no_market_data_or_holdout_resolution",
+        "schema_version": "1.0",
+    }
+    atomic_write(artifact, payload)
+    report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
+    report["artifact_exists"] = True
+    report["validation_result"] = "G1_DATA_CONTRACT_VALIDATION_PASS"
+    return "TERMINAL", report
+
+
+def execute_task(task: dict[str, Any], state: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    if state["phase"] == 0:
+        return execute_phase_zero(task)
+    if task.get("adapter") == "data_contract_validation":
+        return execute_data_contract_validation(task)
+    return "HUMAN_APPROVAL", checkpoint(task, "HUMAN_APPROVAL", "no production adapter authorized")
+
+
+def production_queue(queue: dict[str, Any]) -> dict[str, Any]:
+    promoted = cast(dict[str, Any], json.loads(json.dumps(queue)))
+    for task in promoted["tasks"]:
+        if task["id"] == "phase0-data-contract-review":
+            task["state"] = "HUMAN_APPROVAL"
+            task["blocker"] = "superseded by recorded G0 foundation pass"
+    promoted["tasks"].append(
+        {
+            "adapter": "data_contract_validation",
+            "commands": ["validate published development-only contracts"],
+            "expected_artifact": "regime-moe-lab/artifacts/g1-data-contract-validation.json",
+            "id": "g1-data-contract-validation",
+            "priority": 10,
+            "role": "deterministic_evidence",
+            "state": "READY",
+            "validation": [
+                "development-only scope",
+                "holdout remains unresolved",
+                "no market-data path resolution",
+                "deterministic artifact",
+            ],
+            "workstream": "DATA_AND_EVALUATION",
+        }
+    )
+    return promoted
+
+
+def record_g0_foundation_pass() -> None:
+    queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
+    validate(queue)
+    validate_state(state)
+    validate_scorecard(scorecard)
+    if state["phase"] != 0:
+        raise RuntimeError("G0 foundation pass is already recorded")
+    state["phase"] = 1
+    state["g0_foundation_pass"] = {
+        "control_commit": "f6128c9",
+        "lab_commit": "3b7443c",
+        "model": "gpt-5.6-sol",
+        "reasoning": "high",
+        "verdict": "PASS",
+    }
+    state["production_adapters_active"] = ["data_contract_validation"]
+    commit_snapshot(production_queue(queue), state, scorecard)
+
+
 def cycle(mutate: bool) -> dict[str, Any]:
     recover()
     queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
@@ -335,7 +442,7 @@ def cycle(mutate: bool) -> dict[str, Any]:
     if mutate:
         task["state"] = "RUNNING"
         commit_snapshot(queue, state, scorecard)
-        outcome, report = execute_phase_zero(task)
+        outcome, report = execute_task(task, state)
         if outcome == "TERMINAL" and not report.get("artifact_exists"):
             raise RuntimeError("terminal task requires deterministic artifact evidence")
         task["state"] = outcome
@@ -361,7 +468,15 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "command",
-        choices=("status", "dry-run", "one-cycle", "multi-cycle", "resume", "weekly-report"),
+        choices=(
+            "status",
+            "dry-run",
+            "one-cycle",
+            "multi-cycle",
+            "resume",
+            "weekly-report",
+            "record-g0-pass",
+        ),
     )
     parser.add_argument("--max-cycles", type=int, default=1)
     args = parser.parse_args()
@@ -396,6 +511,15 @@ def main() -> None:
         state.pop("retry_after_utc", None)
         atomic_write(STATE, state)
         print(json.dumps({"status": "RESUMED"}))
+        return
+    if args.command == "record-g0-pass":
+        acquire_lock()
+        try:
+            recover()
+            record_g0_foundation_pass()
+            print(json.dumps({"status": "G0_FOUNDATION_PASS"}))
+        finally:
+            release_lock()
         return
     acquire_lock()
     try:

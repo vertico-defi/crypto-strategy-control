@@ -396,3 +396,71 @@ def test_mock_multi_workstream_cycles_use_isolated_state(
         "HUMAN_APPROVAL",
     ]
     assert not journal.exists()
+
+
+def test_g0_transition_is_atomic_and_activates_only_contract_adapter(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    controller = controller_module()
+    queue_path, state_path, scorecard_path = (
+        tmp_path / name for name in ("queue.json", "state.json", "scorecard.json")
+    )
+    journal = tmp_path / "journal.json"
+    controller.atomic_write(
+        queue_path, json.loads((PROGRAM / "REGIMEMOE_WORK_QUEUE.json").read_text())
+    )
+    controller.atomic_write(
+        state_path, json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
+    )
+    controller.atomic_write(
+        scorecard_path, json.loads((PROGRAM / "REGIMEMOE_SCORECARD.json").read_text())
+    )
+    monkeypatch.setattr(controller, "QUEUE", queue_path)
+    monkeypatch.setattr(controller, "STATE", state_path)
+    monkeypatch.setattr(controller, "SCORECARD", scorecard_path)
+    monkeypatch.setattr(controller, "JOURNAL", journal)
+
+    controller.record_g0_foundation_pass()  # type: ignore[attr-defined]
+
+    transitioned = controller.read(state_path)  # type: ignore[attr-defined]
+    transitioned_queue = controller.read(queue_path)  # type: ignore[attr-defined]
+    assert transitioned["phase"] == 1
+    assert transitioned["g0_foundation_pass"]["verdict"] == "PASS"
+    assert transitioned["production_adapters_active"] == ["data_contract_validation"]
+    g1_task = next(
+        task for task in transitioned_queue["tasks"] if task["id"] == "g1-data-contract-validation"
+    )
+    assert g1_task["state"] == "READY"
+    assert not journal.exists()
+
+
+def test_contract_adapter_writes_only_deterministic_contract_artifact(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    controller = controller_module()
+    lab = tmp_path / "regime-moe-lab"
+    contracts = lab / "contracts"
+    contracts.mkdir(parents=True)
+    (contracts / "DATA_CONTRACT.md").write_text(
+        "hash-verified BTC/ETH\nevent and availability timestamps\n"
+        "Phase 0 reads no market values\nresolves no holdout path\n"
+    )
+    (contracts / "FROZEN_DEVELOPMENT_PROTOCOL.yaml").write_text(
+        "scope: development_only\nholdout_access: FORBIDDEN\nsame_bar_execution: FORBIDDEN\n"
+    )
+    monkeypatch.setattr(controller, "LAB_ROOT", lab)
+    task = {
+        "id": "g1-data-contract-validation",
+        "workstream": "DATA_AND_EVALUATION",
+        "role": "deterministic_evidence",
+        "commands": ["fixture"],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-data-contract-validation.json",
+        "validation": ["fixture validation"],
+    }
+
+    outcome, report = controller.execute_data_contract_validation(task)  # type: ignore[attr-defined]
+
+    artifact = lab / "artifacts" / "g1-data-contract-validation.json"
+    assert outcome == "TERMINAL"
+    assert report["validation_result"] == "G1_DATA_CONTRACT_VALIDATION_PASS"
+    assert json.loads(artifact.read_text())["holdout_access"] == "FORBIDDEN"

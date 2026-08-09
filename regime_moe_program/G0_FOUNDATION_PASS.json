@@ -1,0 +1,15 @@
+{
+  "control_commit": "f6128c9",
+  "lab_commit": "3b7443c",
+  "model": "gpt-5.6-sol",
+  "reasoning": "high",
+  "review_scope": [
+    "closed nested checkpoint schemas",
+    "negative nested-schema tests",
+    "OOF expert-source lineage",
+    "router-target lineage",
+    "prior Phase 0 safety regressions"
+  ],
+  "schema_version": "1.0",
+  "verdict": "PASS"
+}

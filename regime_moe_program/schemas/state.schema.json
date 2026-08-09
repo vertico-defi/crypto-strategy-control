@@ -17,6 +17,19 @@
     "gpu_phase_0": {"const": false},
     "timers_enabled": {"const": false},
     "last_cycle_at_utc": {"type": "string"},
+    "production_adapters_active": {"type": "array", "items": {"type": "string"}},
+    "g0_foundation_pass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["control_commit", "lab_commit", "model", "reasoning", "verdict"],
+      "properties": {
+        "control_commit": {"type": "string", "minLength": 1},
+        "lab_commit": {"type": "string", "minLength": 1},
+        "model": {"const": "gpt-5.6-sol"},
+        "reasoning": {"const": "high"},
+        "verdict": {"const": "PASS"}
+      }
+    },
     "website_external_lock": {
       "type": "object",
       "additionalProperties": false,
