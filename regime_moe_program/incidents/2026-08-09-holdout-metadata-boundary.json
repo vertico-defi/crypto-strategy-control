@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "incident_id": "REGIMEMOE-HOLDOUT-METADATA-2026-08-09",
+  "recorded_at_utc": "2026-08-09T18:04:12Z",
+  "classification": "PROTOCOL_BOUNDARY_VIOLATION_RECORDED",
+  "holdout_state": {
+    "content": "HOLDOUT_CONTENT_SEALED",
+    "values": "HOLDOUT_VALUES_UNREAD",
+    "metadata": "HOLDOUT_METADATA_EXPOSED",
+    "protocol": "PROTOCOL_BOUNDARY_VIOLATION_RECORDED"
+  },
+  "facts": [
+    "A read-only inspection command printed a mixed partition-record array from a referenced contract artifact.",
+    "That printed array contained holdout metadata and relative paths.",
+    "No holdout market values, Parquet files, Parquet footers, file hashes, directories, returns, or economic result were accessed."
+  ],
+  "prohibited_follow_up": [
+    "Do not reopen or parse the mixed partition artifact.",
+    "Do not access any artifact known to combine development and holdout partition records.",
+    "Do not use the historical holdout without separate human approval."
+  ],
+  "recovery": {
+    "pending_transaction_journal": "ABSENT",
+    "partial_task_claim": "ABSENT",
+    "partial_state_transition": "ABSENT",
+    "partial_commit": "ABSENT",
+    "quarantined_untrusted_drafts": [
+      {
+        "original_filename": "DEVELOPMENT_MANIFEST_CONTRACT.md",
+        "quarantine_destination": "/home/vertico/.local/state/regimemoe/quarantine/20260809T180412Z/DEVELOPMENT_MANIFEST_CONTRACT.md",
+        "reason": "Draft created before the incident; not to be used as evidence or committed.",
+        "timestamp_utc": "2026-08-09T18:04:12Z"
+      },
+      {
+        "original_filename": "DEVELOPMENT_MANIFEST_SCHEMA.json",
+        "quarantine_destination": "/home/vertico/.local/state/regimemoe/quarantine/20260809T180412Z/DEVELOPMENT_MANIFEST_SCHEMA.json",
+        "reason": "Draft created before the incident; not to be used as evidence or committed.",
+        "timestamp_utc": "2026-08-09T18:04:12Z"
+      }
+    ]
+  }
+}

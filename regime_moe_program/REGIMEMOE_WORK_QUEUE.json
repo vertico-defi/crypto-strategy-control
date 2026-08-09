@@ -215,6 +215,25 @@
       "workstream": "DATA_AND_EVALUATION"
     },
     {
+      "blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
+      "commands": [
+        "accept only an exact development-only allowlist directly referenced by the clean-room experiment",
+        "construct the V2 manifest only after all 36 logical identities and immutable development evidence are available"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V2.json",
+      "id": "g1-development-manifest-v2",
+      "priority": 11,
+      "role": "deterministic_evidence",
+      "state": "WAITING_EXTERNAL",
+      "validation": [
+        "do not reopen mixed partition artifacts",
+        "do not scan directories or inspect neighboring files",
+        "zero new holdout metadata or content access",
+        "fail closed unless all 36 development-only identities are evidenced"
+      ],
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
       "adapter": "thesis_methodology_outline",
       "commands": [
         "derive an evidence-only methodology outline from the thesis charter"
