@@ -304,6 +304,53 @@
       "workstream": "DATA_AND_EVALUATION"
     },
     {
+      "blocker": "REGIMEMOE_V4_DEVELOPMENT_TIMESTAMP_BOUNDARY_MISMATCH",
+      "commands": [
+        "generate only the human-authorized 36 logical IDs",
+        "resolve and validate only those explicit paths",
+        "fail closed on the first timestamp boundary mismatch"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V4_VALIDATION_FAILURE.json",
+      "id": "g1-development-manifest-v4",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-09T19:08:00Z",
+        "commands": [
+          "generate only the human-authorized 36 logical IDs",
+          "resolve and validate only those explicit paths",
+          "fail closed on the first timestamp boundary mismatch"
+        ],
+        "deterministic_validation": [
+          "36 logical IDs generated before path resolution",
+          "36 explicit paths resolved without directory scanning",
+          "first 2026 boundary timestamp terminates validation",
+          "zero new holdout metadata and content access"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V4_VALIDATION_FAILURE.json",
+        "model_role": "deterministic_evidence",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-luna",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "REGIMEMOE_V4_DEVELOPMENT_TIMESTAMP_BOUNDARY_MISMATCH",
+        "status": "TERMINAL",
+        "task_id": "g1-development-manifest-v4",
+        "validation_result": "REGIMEMOE_V4_DEVELOPMENT_TIMESTAMP_BOUNDARY_MISMATCH",
+        "workstream": "DATA_AND_EVALUATION"
+      },
+      "priority": 10,
+      "role": "deterministic_evidence",
+      "state": "TERMINAL",
+      "validation": [
+        "no interval alternatives or hash search",
+        "no unlisted file access",
+        "strict pre-2026 event timestamp boundary",
+        "zero new holdout metadata and content access"
+      ],
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
       "adapter": "thesis_methodology_outline",
       "commands": [
         "derive an evidence-only methodology outline from the thesis charter"
