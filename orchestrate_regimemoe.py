@@ -373,11 +373,35 @@ def execute_data_contract_validation(task: dict[str, Any]) -> tuple[str, dict[st
     return "TERMINAL", report
 
 
+def execute_development_manifest_inventory(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """Fail closed when no independently verified development manifest is configured."""
+    artifact = artifact_path(task["expected_artifact"])
+    artifact.parent.mkdir(parents=True, exist_ok=True)
+    manifest = os.environ.get("REGIMEMOE_DEVELOPMENT_MANIFEST")
+    if manifest:
+        raise RuntimeError("external development-manifest resolution is not implemented")
+    payload = {
+        "artifact_type": "G1_DEVELOPMENT_MANIFEST_INVENTORY_BLOCKER",
+        "blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_NOT_CONFIGURED",
+        "capital_permitted": 0,
+        "holdout_access": "FORBIDDEN",
+        "result": "WAITING_EXTERNAL",
+        "schema_version": "1.0",
+    }
+    atomic_write(artifact, payload)
+    report = checkpoint(task, "WAITING_EXTERNAL", str(payload["blocker"]))
+    report["artifact_exists"] = True
+    report["validation_result"] = "NO_EXTERNAL_MANIFEST_RESOLVED"
+    return "WAITING_EXTERNAL", report
+
+
 def execute_task(task: dict[str, Any], state: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     if state["phase"] == 0:
         return execute_phase_zero(task)
     if task.get("adapter") == "data_contract_validation":
         return execute_data_contract_validation(task)
+    if task.get("adapter") == "development_manifest_inventory":
+        return execute_development_manifest_inventory(task)
     return "HUMAN_APPROVAL", checkpoint(task, "HUMAN_APPROVAL", "no production adapter authorized")
 
 
@@ -425,6 +449,39 @@ def record_g0_foundation_pass() -> None:
     }
     state["production_adapters_active"] = ["data_contract_validation"]
     commit_snapshot(production_queue(queue), state, scorecard)
+
+
+def enqueue_g1_manifest_inventory() -> None:
+    queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
+    validate(queue)
+    validate_state(state)
+    validate_scorecard(scorecard)
+    if state["phase"] < 1:
+        raise RuntimeError("G1 manifest inventory requires G0 foundation pass")
+    if any(task["id"] == "g1-development-manifest-inventory" for task in queue["tasks"]):
+        raise RuntimeError("G1 manifest inventory is already queued")
+    queue["tasks"].append(
+        {
+            "adapter": "development_manifest_inventory",
+            "commands": ["inventory only an explicitly configured verified development manifest"],
+            "expected_artifact": "regime-moe-lab/artifacts/g1-development-manifest-inventory.json",
+            "id": "g1-development-manifest-inventory",
+            "priority": 11,
+            "role": "deterministic_evidence",
+            "state": "READY",
+            "validation": [
+                "no manifest path is resolved unless explicitly configured",
+                "holdout remains unresolved",
+                "blocker is recorded when configuration is absent",
+            ],
+            "workstream": "DATA_AND_EVALUATION",
+        }
+    )
+    state["production_adapters_active"] = [
+        "data_contract_validation",
+        "development_manifest_inventory",
+    ]
+    commit_snapshot(queue, state, scorecard)
 
 
 def cycle(mutate: bool) -> dict[str, Any]:
@@ -476,6 +533,7 @@ def main() -> None:
             "resume",
             "weekly-report",
             "record-g0-pass",
+            "enqueue-g1-manifest-inventory",
         ),
     )
     parser.add_argument("--max-cycles", type=int, default=1)
@@ -518,6 +576,15 @@ def main() -> None:
             recover()
             record_g0_foundation_pass()
             print(json.dumps({"status": "G0_FOUNDATION_PASS"}))
+        finally:
+            release_lock()
+        return
+    if args.command == "enqueue-g1-manifest-inventory":
+        acquire_lock()
+        try:
+            recover()
+            enqueue_g1_manifest_inventory()
+            print(json.dumps({"status": "G1_MANIFEST_INVENTORY_QUEUED"}))
         finally:
             release_lock()
         return

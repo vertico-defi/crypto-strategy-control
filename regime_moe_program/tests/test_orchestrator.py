@@ -27,7 +27,10 @@ def test_status_validates_queue() -> None:
 
 def test_dry_run_selects_ready_while_waiting_external_exists() -> None:
     result = invoke("dry-run")
-    assert result["checkpoint"]["task_id"] != "funding-finalization"  # type: ignore[index]
+    if result["checkpoint"] is None:
+        assert result["status"] == "NO_OP"
+    else:
+        assert result["checkpoint"]["task_id"] != "funding-finalization"  # type: ignore[index]
 
 
 def test_dry_run_does_not_mutate_queue() -> None:
@@ -406,12 +409,16 @@ def test_g0_transition_is_atomic_and_activates_only_contract_adapter(
         tmp_path / name for name in ("queue.json", "state.json", "scorecard.json")
     )
     journal = tmp_path / "journal.json"
-    controller.atomic_write(
-        queue_path, json.loads((PROGRAM / "REGIMEMOE_WORK_QUEUE.json").read_text())
-    )
-    controller.atomic_write(
-        state_path, json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
-    )
+    queue = json.loads((PROGRAM / "REGIMEMOE_WORK_QUEUE.json").read_text())
+    queue["tasks"] = [
+        task for task in queue["tasks"] if task["id"] != "g1-data-contract-validation"
+    ]
+    state = json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
+    state["phase"] = 0
+    state.pop("g0_foundation_pass", None)
+    state.pop("production_adapters_active", None)
+    controller.atomic_write(queue_path, queue)
+    controller.atomic_write(state_path, state)
     controller.atomic_write(
         scorecard_path, json.loads((PROGRAM / "REGIMEMOE_SCORECARD.json").read_text())
     )
@@ -463,4 +470,28 @@ def test_contract_adapter_writes_only_deterministic_contract_artifact(
     artifact = lab / "artifacts" / "g1-data-contract-validation.json"
     assert outcome == "TERMINAL"
     assert report["validation_result"] == "G1_DATA_CONTRACT_VALIDATION_PASS"
+    assert json.loads(artifact.read_text())["holdout_access"] == "FORBIDDEN"
+
+
+def test_manifest_inventory_without_configuration_records_blocker(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    controller = controller_module()
+    lab = tmp_path / "regime-moe-lab"
+    monkeypatch.setattr(controller, "LAB_ROOT", lab)
+    monkeypatch.delenv("REGIMEMOE_DEVELOPMENT_MANIFEST", raising=False)
+    task = {
+        "id": "g1-development-manifest-inventory",
+        "workstream": "DATA_AND_EVALUATION",
+        "role": "deterministic_evidence",
+        "commands": ["fixture"],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-development-manifest-inventory.json",
+        "validation": ["fixture validation"],
+    }
+
+    outcome, report = controller.execute_development_manifest_inventory(task)  # type: ignore[attr-defined]
+
+    artifact = lab / "artifacts" / "g1-development-manifest-inventory.json"
+    assert outcome == "WAITING_EXTERNAL"
+    assert report["validation_result"] == "NO_EXTERNAL_MANIFEST_RESOLVED"
     assert json.loads(artifact.read_text())["holdout_access"] == "FORBIDDEN"
