@@ -304,7 +304,7 @@
       "workstream": "DATA_AND_EVALUATION"
     },
     {
-      "blocker": "REGIMEMOE_V5_FOCUSED_REVIEW_INCONCLUSIVE",
+      "blocker": "REGIMEMOE_AUDIT_PROTOCOL_BLOCKED",
       "commands": [
         "validate the human-authorized V5 development manifest through exact explicit paths",
         "obtain one retrievable focused read-only review verdict before G1 release"
@@ -313,32 +313,31 @@
       "id": "g1-development-manifest-v5-boundary-semantics",
       "last_checkpoint": {
         "artifact_exists": true,
-        "at_utc": "2026-08-09T19:30:00Z",
+        "at_utc": "2026-08-09T20:02:56.998578Z",
         "commands": [
           "validate the human-authorized V5 development manifest through exact explicit paths",
           "obtain one retrievable focused read-only review verdict before G1 release"
         ],
         "deterministic_validation": [
-          "36 explicit development paths validate against the frozen canonical allowlist hash",
-          "two and only two end-stamped boundary-closing observations are present",
-          "zero new holdout metadata and content access",
-          "focused review produced no retrievable substantive verdict after one identical retry"
+          "V5 deterministic manifest validation remains unchanged",
+          "structured independent review returned REVIEW_INCONCLUSIVE only for C8 resolver-isolation evidence",
+          "no market data or additional holdout material was accessed"
         ],
         "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FOCUSED_REVIEW.json",
-        "model_role": "independent_audit",
+        "model_role": "independent_auditor",
         "model_route": {
           "model": "gpt-5.6-sol",
           "reasoning": "high"
         },
-        "source_commit_or_blocker": "REGIMEMOE_V5_FOCUSED_REVIEW_INCONCLUSIVE",
-        "status": "WAITING_EXTERNAL",
+        "source_commit_or_blocker": "REGIMEMOE_AUDIT_PROTOCOL_BLOCKED",
+        "status": "HUMAN_APPROVAL",
         "task_id": "g1-development-manifest-v5-boundary-semantics",
-        "validation_result": "REVIEW_INCONCLUSIVE",
+        "validation_result": "REVIEW_INCONCLUSIVE_C8_RESOLVER_ISOLATION_EVIDENCE_MISSING",
         "workstream": "DATA_AND_EVALUATION"
       },
       "priority": 10,
       "role": "deterministic_evidence",
-      "state": "WAITING_EXTERNAL",
+      "state": "HUMAN_APPROVAL",
       "validation": [
         "allowlist hash equality",
         "end-stamped boundary semantics",
@@ -436,6 +435,47 @@
         "deterministic artifact"
       ],
       "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "classify retained focused-review attempts without market-data access",
+        "capture the independent review through the isolated structured audit protocol",
+        "create a human-review packet when the substantive verdict remains inconclusive"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/audit_protocol/REGIMEMOE_V5_HUMAN_REVIEW_PACKET.json",
+      "id": "regimemoe-v5-manifest-audit-protocol-recovery-v1",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-09T20:02:56.998567Z",
+        "commands": [
+          "isolated structured audit capture"
+        ],
+        "deterministic_validation": [
+          "parsed result validates against strict JSON schema",
+          "all raw transport channels retained",
+          "market_data_accessed=false and holdout counters are zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/audit_protocol/REGIMEMOE_V5_HUMAN_REVIEW_PACKET.json",
+        "model_role": "independent_auditor",
+        "model_route": {
+          "model": "gpt-5.6-sol",
+          "reasoning": "high"
+        },
+        "source_commit_or_blocker": "lab_commit=6477058; REGIMEMOE_AUDIT_PROTOCOL_BLOCKED",
+        "status": "TERMINAL",
+        "task_id": "regimemoe-v5-manifest-audit-protocol-recovery-v1",
+        "validation_result": "STRUCTURED_REVIEW_CAPTURE_COMPLETE_REVIEW_INCONCLUSIVE",
+        "workstream": "DATA_AND_EVALUATION"
+      },
+      "priority": 10,
+      "role": "deterministic_evidence",
+      "state": "TERMINAL",
+      "validation": [
+        "raw response, stdout, stderr, invocation metadata, and parsed result are retained",
+        "no market data or additional holdout metadata was accessed",
+        "no V5 manifest file was modified"
+      ],
+      "workstream": "DATA_AND_EVALUATION"
     }
   ],
   "weekly_completed_by_iso_week": {

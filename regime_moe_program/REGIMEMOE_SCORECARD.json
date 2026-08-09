@@ -73,6 +73,29 @@
       "task_id": "thesis-methodology-outline",
       "validation_result": "THESIS_METHODOLOGY_OUTLINE_CREATED",
       "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "artifact_exists": true,
+      "at_utc": "2026-08-09T20:02:56.998567Z",
+      "commands": [
+        "isolated structured audit capture"
+      ],
+      "deterministic_validation": [
+        "parsed result validates against strict JSON schema",
+        "all raw transport channels retained",
+        "market_data_accessed=false and holdout counters are zero"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/audit_protocol/REGIMEMOE_V5_HUMAN_REVIEW_PACKET.json",
+      "model_role": "independent_auditor",
+      "model_route": {
+        "model": "gpt-5.6-sol",
+        "reasoning": "high"
+      },
+      "source_commit_or_blocker": "lab_commit=6477058; REGIMEMOE_AUDIT_PROTOCOL_BLOCKED",
+      "status": "TERMINAL",
+      "task_id": "regimemoe-v5-manifest-audit-protocol-recovery-v1",
+      "validation_result": "STRUCTURED_REVIEW_CAPTURE_COMPLETE_REVIEW_INCONCLUSIVE",
+      "workstream": "DATA_AND_EVALUATION"
     }
   ],
   "content_assets_drafted": 0,
