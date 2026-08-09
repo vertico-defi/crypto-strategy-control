@@ -48,6 +48,31 @@
       "task_id": "g1-data-contract-validation",
       "validation_result": "G1_DATA_CONTRACT_VALIDATION_PASS",
       "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "artifact_exists": true,
+      "at_utc": "2026-08-09T15:58:57.304890Z",
+      "commands": [
+        "derive an evidence-only methodology outline from the thesis charter"
+      ],
+      "deterministic_validation": [
+        "development-only scope",
+        "no performance claim",
+        "no holdout, capital, or advice claim",
+        "deterministic artifact"
+      ],
+      "expected_artifact": "regime-moe-lab/thesis/proposal/METHODOLOGY_OUTLINE.md",
+      "model_role": "content_product",
+      "model_route": {
+        "availability": "NOT_INVOKED",
+        "model": "gpt-5.6-terra",
+        "reasoning": "medium"
+      },
+      "source_commit_or_blocker": "artifact_sha256=430bffcc572287c28641d4028855086756edc10b8c72bf860f0a832aca1082a7",
+      "status": "TERMINAL",
+      "task_id": "thesis-methodology-outline",
+      "validation_result": "THESIS_METHODOLOGY_OUTLINE_CREATED",
+      "workstream": "THESIS_AND_CAREER"
     }
   ],
   "content_assets_drafted": 0,
