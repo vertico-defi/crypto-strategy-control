@@ -495,3 +495,31 @@ def test_manifest_inventory_without_configuration_records_blocker(
     assert outcome == "WAITING_EXTERNAL"
     assert report["validation_result"] == "NO_EXTERNAL_MANIFEST_RESOLVED"
     assert json.loads(artifact.read_text())["holdout_access"] == "FORBIDDEN"
+
+
+def test_thesis_adapter_writes_evidence_only_outline(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    controller = controller_module()
+    lab = tmp_path / "regime-moe-lab"
+    charter = lab / "thesis" / "proposal" / "THESIS_CHARTER.md"
+    charter.parent.mkdir(parents=True)
+    charter.write_text(
+        "causally evaluated\ntransaction-cost-aware\nnegative results\n", encoding="utf-8"
+    )
+    monkeypatch.setattr(controller, "LAB_ROOT", lab)
+    task = {
+        "id": "thesis-methodology-outline",
+        "workstream": "THESIS_AND_CAREER",
+        "role": "content_product",
+        "commands": ["fixture"],
+        "expected_artifact": "regime-moe-lab/thesis/proposal/METHODOLOGY_OUTLINE.md",
+        "validation": ["fixture validation"],
+    }
+
+    outcome, report = controller.execute_thesis_methodology_outline(task)  # type: ignore[attr-defined]
+
+    artifact = lab / "thesis" / "proposal" / "METHODOLOGY_OUTLINE.md"
+    assert outcome == "TERMINAL"
+    assert report["validation_result"] == "THESIS_METHODOLOGY_OUTLINE_CREATED"
+    assert "No performance claim" in artifact.read_text(encoding="utf-8")

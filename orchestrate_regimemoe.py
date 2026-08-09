@@ -127,6 +127,14 @@ def atomic_write(path: Path, value: dict[str, Any]) -> None:
     os.replace(temporary, path)
 
 
+def atomic_text_write(path: Path, value: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as file:
+        file.write(value)
+        temporary = Path(file.name)
+    os.replace(temporary, path)
+
+
 def validate(queue: dict[str, Any]) -> None:
     validate_json_schema(queue, SCHEMAS / "queue.schema.json")
     if not isinstance(queue.get("workstreams"), list) or not isinstance(queue.get("tasks"), list):
@@ -395,6 +403,46 @@ def execute_development_manifest_inventory(task: dict[str, Any]) -> tuple[str, d
     return "WAITING_EXTERNAL", report
 
 
+def execute_thesis_methodology_outline(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """Create a bounded, evidence-only thesis structure from the approved charter."""
+    charter = LAB_ROOT / "thesis" / "proposal" / "THESIS_CHARTER.md"
+    required_clauses = ("causally evaluated", "transaction-cost-aware", "negative results")
+    if not charter.is_file() or any(
+        clause not in charter.read_text(encoding="utf-8") for clause in required_clauses
+    ):
+        raise RuntimeError("thesis charter is incomplete")
+    artifact = artifact_path(task["expected_artifact"])
+    outline = """# Methodology Outline
+
+## Research Question
+
+Can a causally evaluated, transaction-cost-aware regime-aware mixture of fixed
+crypto experts improve robustness over fixed baselines?
+
+## Scope and Safety Boundaries
+
+This work uses development evidence only. Historical holdout access, capital,
+live execution, and personalised investment advice are outside scope.
+
+## Evaluation Design
+
+Chronological folds, train-fold-only preprocessing, causal availability, and
+out-of-fold expert outputs are mandatory. Execution timing and cost scenarios
+are frozen before development results are examined.
+
+## Evidence Reporting
+
+All outcomes, including failed gates and negative results, are recorded with
+their deterministic artifacts. No performance claim is made without eligible
+validated evidence.
+"""
+    atomic_text_write(artifact, outline)
+    report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
+    report["artifact_exists"] = True
+    report["validation_result"] = "THESIS_METHODOLOGY_OUTLINE_CREATED"
+    return "TERMINAL", report
+
+
 def execute_task(task: dict[str, Any], state: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     if state["phase"] == 0:
         return execute_phase_zero(task)
@@ -402,6 +450,8 @@ def execute_task(task: dict[str, Any], state: dict[str, Any]) -> tuple[str, dict
         return execute_data_contract_validation(task)
     if task.get("adapter") == "development_manifest_inventory":
         return execute_development_manifest_inventory(task)
+    if task.get("adapter") == "thesis_methodology_outline":
+        return execute_thesis_methodology_outline(task)
     return "HUMAN_APPROVAL", checkpoint(task, "HUMAN_APPROVAL", "no production adapter authorized")
 
 
@@ -484,6 +534,41 @@ def enqueue_g1_manifest_inventory() -> None:
     commit_snapshot(queue, state, scorecard)
 
 
+def enqueue_thesis_methodology_outline() -> None:
+    queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
+    validate(queue)
+    validate_state(state)
+    validate_scorecard(scorecard)
+    if state["phase"] < 1:
+        raise RuntimeError("thesis support task requires G0 foundation pass")
+    if any(task["id"] == "thesis-methodology-outline" for task in queue["tasks"]):
+        raise RuntimeError("thesis methodology outline is already queued")
+    queue["tasks"].append(
+        {
+            "adapter": "thesis_methodology_outline",
+            "commands": ["derive an evidence-only methodology outline from the thesis charter"],
+            "expected_artifact": "regime-moe-lab/thesis/proposal/METHODOLOGY_OUTLINE.md",
+            "id": "thesis-methodology-outline",
+            "priority": 20,
+            "role": "content_product",
+            "state": "READY",
+            "validation": [
+                "development-only scope",
+                "no performance claim",
+                "no holdout, capital, or advice claim",
+                "deterministic artifact",
+            ],
+            "workstream": "THESIS_AND_CAREER",
+        }
+    )
+    state["production_adapters_active"] = [
+        "data_contract_validation",
+        "development_manifest_inventory",
+        "thesis_methodology_outline",
+    ]
+    commit_snapshot(queue, state, scorecard)
+
+
 def cycle(mutate: bool) -> dict[str, Any]:
     recover()
     queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
@@ -534,6 +619,7 @@ def main() -> None:
             "weekly-report",
             "record-g0-pass",
             "enqueue-g1-manifest-inventory",
+            "enqueue-thesis-methodology-outline",
         ),
     )
     parser.add_argument("--max-cycles", type=int, default=1)
@@ -585,6 +671,15 @@ def main() -> None:
             recover()
             enqueue_g1_manifest_inventory()
             print(json.dumps({"status": "G1_MANIFEST_INVENTORY_QUEUED"}))
+        finally:
+            release_lock()
+        return
+    if args.command == "enqueue-thesis-methodology-outline":
+        acquire_lock()
+        try:
+            recover()
+            enqueue_thesis_methodology_outline()
+            print(json.dumps({"status": "THESIS_METHODOLOGY_OUTLINE_QUEUED"}))
         finally:
             release_lock()
         return
