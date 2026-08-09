@@ -2,6 +2,41 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "model_route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "reasoning"],
+      "properties": {
+        "model": {"type": "string", "minLength": 1},
+        "reasoning": {"type": "string", "minLength": 1},
+        "availability": {"const": "NOT_INVOKED"},
+        "fallback_reason": {"enum": ["quota", "rate_limit", "temporary_unavailable"]}
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id", "workstream", "expected_artifact", "commands", "model_role",
+        "model_route", "deterministic_validation", "status", "source_commit_or_blocker"
+      ],
+      "properties": {
+        "at_utc": {"type": "string"},
+        "task_id": {"type": "string", "minLength": 1},
+        "workstream": {"type": "string", "minLength": 1},
+        "expected_artifact": {"type": "string", "minLength": 1},
+        "commands": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "model_role": {"type": "string", "minLength": 1},
+        "model_route": {"$ref": "#/$defs/model_route"},
+        "deterministic_validation": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "status": {"type": "string", "minLength": 1},
+        "source_commit_or_blocker": {"type": "string", "minLength": 1},
+        "validation_result": {"type": "string"},
+        "artifact_exists": {"type": "boolean"}
+      }
+    }
+  },
   "required": ["schema_version", "workstreams", "tasks"],
   "properties": {
     "schema_version": {"type": "string"},
@@ -33,24 +68,7 @@
           "verified_provenance": {"type": "boolean"},
           "temporary_availability_fallback": {"type": "string"},
           "promotion_possible": {"type": "boolean"},
-          "last_checkpoint": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "at_utc": {"type": "string"},
-              "task_id": {"type": "string"},
-              "workstream": {"type": "string"},
-              "expected_artifact": {"type": "string"},
-              "commands": {"type": "array", "items": {"type": "string"}},
-              "model_role": {"type": "string"},
-              "model_route": {"type": "object"},
-              "deterministic_validation": {"type": "array", "items": {"type": "string"}},
-              "status": {"type": "string"},
-              "source_commit_or_blocker": {"type": "string"},
-              "validation_result": {"type": "string"},
-              "artifact_exists": {"type": "boolean"}
-            }
-          }
+          "last_checkpoint": {"$ref": "#/$defs/checkpoint"}
         }
       }
     }

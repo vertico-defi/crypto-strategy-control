@@ -2,6 +2,41 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "model_route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "reasoning"],
+      "properties": {
+        "model": {"type": "string", "minLength": 1},
+        "reasoning": {"type": "string", "minLength": 1},
+        "availability": {"const": "NOT_INVOKED"},
+        "fallback_reason": {"enum": ["quota", "rate_limit", "temporary_unavailable"]}
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id", "workstream", "expected_artifact", "commands", "model_role",
+        "model_route", "deterministic_validation", "status", "source_commit_or_blocker"
+      ],
+      "properties": {
+        "at_utc": {"type": "string"},
+        "task_id": {"type": "string", "minLength": 1},
+        "workstream": {"type": "string", "minLength": 1},
+        "expected_artifact": {"type": "string", "minLength": 1},
+        "commands": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "model_role": {"type": "string", "minLength": 1},
+        "model_route": {"$ref": "#/$defs/model_route"},
+        "deterministic_validation": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "status": {"type": "string", "minLength": 1},
+        "source_commit_or_blocker": {"type": "string", "minLength": 1},
+        "validation_result": {"type": "string"},
+        "artifact_exists": {"type": "boolean"}
+      }
+    }
+  },
   "required": [
     "schema_version", "STORE_LIVE", "PAYMENTS_LIVE", "NEWSLETTER_LIVE",
     "completed_checkpoints", "content_assets_drafted", "research_claims_verified", "note"
@@ -11,7 +46,7 @@
     "STORE_LIVE": {"const": false},
     "PAYMENTS_LIVE": {"const": false},
     "NEWSLETTER_LIVE": {"const": false},
-    "completed_checkpoints": {"type": "array", "items": {"type": "object"}},
+    "completed_checkpoints": {"type": "array", "items": {"$ref": "#/$defs/checkpoint"}},
     "content_assets_drafted": {"type": "integer", "minimum": 0},
     "research_claims_verified": {"type": "integer", "minimum": 0},
     "note": {"type": "string"}

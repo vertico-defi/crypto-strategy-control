@@ -94,6 +94,21 @@ def controller_module() -> object:
     return controller
 
 
+def checkpoint_fixture(expected_artifact: str = "REGIMEMOE_WORK_QUEUE.json") -> dict[str, object]:
+    return {
+        "at_utc": "2026-08-09T00:00:00Z",
+        "task_id": "data",
+        "workstream": "DATA_AND_EVALUATION",
+        "expected_artifact": expected_artifact,
+        "commands": ["fixture"],
+        "model_role": "deterministic_evidence",
+        "model_route": {"model": "gpt-5.6-luna", "reasoning": "medium"},
+        "deterministic_validation": ["fixture validation"],
+        "status": "TERMINAL",
+        "source_commit_or_blocker": "fixture",
+    }
+
+
 def queue_fixture() -> dict[str, object]:
     return {
         "schema_version": "1.0",
@@ -108,11 +123,7 @@ def queue_fixture() -> dict[str, object]:
                 "commands": ["fixture"],
                 "expected_artifact": "REGIMEMOE_WORK_QUEUE.json",
                 "validation": ["fixture validation"],
-                "last_checkpoint": {
-                    "status": "TERMINAL",
-                    "expected_artifact": "REGIMEMOE_WORK_QUEUE.json",
-                    "deterministic_validation": ["fixture validation"],
-                },
+                "last_checkpoint": checkpoint_fixture(),
             },
             {
                 "id": "router",
@@ -276,6 +287,38 @@ def test_strict_schema_rejects_undeclared_property() -> None:
         controller.validate(queue)  # type: ignore[attr-defined]
 
 
+def test_strict_schema_rejects_undeclared_nested_model_route_field() -> None:
+    controller = controller_module()
+    queue = queue_fixture()
+    queue["tasks"][0]["last_checkpoint"]["model_route"]["injected"] = True  # type: ignore[index]
+    with pytest.raises(ValueError, match="schema validation failed"):
+        controller.validate(queue)  # type: ignore[attr-defined]
+
+
+def test_strict_schema_rejects_malformed_nested_model_route_field() -> None:
+    controller = controller_module()
+    queue = queue_fixture()
+    queue["tasks"][0]["last_checkpoint"]["model_route"]["model"] = 7  # type: ignore[index]
+    with pytest.raises(ValueError, match="schema validation failed"):
+        controller.validate(queue)  # type: ignore[attr-defined]
+
+
+def test_scorecard_rejects_undeclared_nested_checkpoint_field() -> None:
+    controller = controller_module()
+    scorecard = json.loads((PROGRAM / "REGIMEMOE_SCORECARD.json").read_text())
+    scorecard["completed_checkpoints"][0]["model_route"]["injected"] = True
+    with pytest.raises(ValueError, match="schema validation failed"):
+        controller.validate_scorecard(scorecard)  # type: ignore[attr-defined]
+
+
+def test_scorecard_rejects_malformed_nested_checkpoint_field() -> None:
+    controller = controller_module()
+    scorecard = json.loads((PROGRAM / "REGIMEMOE_SCORECARD.json").read_text())
+    scorecard["completed_checkpoints"][0]["model_route"]["reasoning"] = False
+    with pytest.raises(ValueError, match="schema validation failed"):
+        controller.validate_scorecard(scorecard)  # type: ignore[attr-defined]
+
+
 def test_replay_rejects_invalid_scorecard(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     controller = controller_module()
     queue, state, scorecard = (
@@ -298,3 +341,58 @@ def test_replay_rejects_invalid_scorecard(tmp_path: Path, monkeypatch: pytest.Mo
     with pytest.raises(ValueError, match="schema validation failed"):
         controller.recover()  # type: ignore[attr-defined]
     assert journal.exists()
+
+
+def test_mock_multi_workstream_cycles_use_isolated_state(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    controller = controller_module()
+    queue_path, state_path, scorecard_path = (
+        tmp_path / name for name in ("queue.json", "state.json", "scorecard.json")
+    )
+    journal = tmp_path / "journal.json"
+    queue = {
+        "schema_version": "1.0",
+        "workstreams": ["DATA_AND_EVALUATION", "AI_ROUTER"],
+        "tasks": [
+            {
+                "id": "data-review",
+                "workstream": "DATA_AND_EVALUATION",
+                "role": "deterministic_evidence",
+                "state": "READY",
+                "priority": 1,
+                "commands": ["fixture"],
+                "expected_artifact": "data-review.json",
+                "validation": ["fixture validation"],
+            },
+            {
+                "id": "router-review",
+                "workstream": "AI_ROUTER",
+                "role": "implementation_engineer",
+                "state": "READY",
+                "priority": 2,
+                "commands": ["fixture"],
+                "expected_artifact": "router-review.json",
+                "validation": ["fixture validation"],
+            },
+        ],
+    }
+    state = json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
+    scorecard = json.loads((PROGRAM / "REGIMEMOE_SCORECARD.json").read_text())
+    controller.atomic_write(queue_path, queue)
+    controller.atomic_write(state_path, state)
+    controller.atomic_write(scorecard_path, scorecard)
+    monkeypatch.setattr(controller, "QUEUE", queue_path)
+    monkeypatch.setattr(controller, "STATE", state_path)
+    monkeypatch.setattr(controller, "SCORECARD", scorecard_path)
+    monkeypatch.setattr(controller, "JOURNAL", journal)
+
+    first, second = controller.cycle(True), controller.cycle(True)  # type: ignore[attr-defined]
+
+    assert first["checkpoint"]["task_id"] == "data-review"
+    assert second["checkpoint"]["task_id"] == "router-review"
+    assert [task["state"] for task in controller.read(queue_path)["tasks"]] == [  # type: ignore[attr-defined]
+        "HUMAN_APPROVAL",
+        "HUMAN_APPROVAL",
+    ]
+    assert not journal.exists()
