@@ -198,10 +198,10 @@
           "model": "gpt-5.6-luna",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
-        "status": "TERMINAL",
+        "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_NOT_CONFIGURED",
+        "status": "WAITING_EXTERNAL",
         "task_id": "g1-development-manifest-inventory",
-        "validation_result": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
+        "validation_result": "NO_EXTERNAL_MANIFEST_RESOLVED",
         "workstream": "DATA_AND_EVALUATION"
       },
       "priority": 11,
