@@ -304,6 +304,50 @@
       "workstream": "DATA_AND_EVALUATION"
     },
     {
+      "blocker": "REGIMEMOE_V5_FOCUSED_REVIEW_INCONCLUSIVE",
+      "commands": [
+        "validate the human-authorized V5 development manifest through exact explicit paths",
+        "obtain one retrievable focused read-only review verdict before G1 release"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FOCUSED_REVIEW.json",
+      "id": "g1-development-manifest-v5-boundary-semantics",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-09T19:30:00Z",
+        "commands": [
+          "validate the human-authorized V5 development manifest through exact explicit paths",
+          "obtain one retrievable focused read-only review verdict before G1 release"
+        ],
+        "deterministic_validation": [
+          "36 explicit development paths validate against the frozen canonical allowlist hash",
+          "two and only two end-stamped boundary-closing observations are present",
+          "zero new holdout metadata and content access",
+          "focused review produced no retrievable substantive verdict after one identical retry"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FOCUSED_REVIEW.json",
+        "model_role": "independent_audit",
+        "model_route": {
+          "model": "gpt-5.6-sol",
+          "reasoning": "high"
+        },
+        "source_commit_or_blocker": "REGIMEMOE_V5_FOCUSED_REVIEW_INCONCLUSIVE",
+        "status": "WAITING_EXTERNAL",
+        "task_id": "g1-development-manifest-v5-boundary-semantics",
+        "validation_result": "REVIEW_INCONCLUSIVE",
+        "workstream": "DATA_AND_EVALUATION"
+      },
+      "priority": 10,
+      "role": "deterministic_evidence",
+      "state": "WAITING_EXTERNAL",
+      "validation": [
+        "allowlist hash equality",
+        "end-stamped boundary semantics",
+        "zero new holdout exposure",
+        "retrievable independent review verdict required for G1 release"
+      ],
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
       "blocker": "REGIMEMOE_V4_DEVELOPMENT_TIMESTAMP_BOUNDARY_MISMATCH",
       "commands": [
         "generate only the human-authorized 36 logical IDs",
