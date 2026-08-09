@@ -198,10 +198,10 @@
           "model": "gpt-5.6-luna",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_NOT_CONFIGURED",
-        "status": "WAITING_EXTERNAL",
+        "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
+        "status": "TERMINAL",
         "task_id": "g1-development-manifest-inventory",
-        "validation_result": "NO_EXTERNAL_MANIFEST_RESOLVED",
+        "validation_result": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
         "workstream": "DATA_AND_EVALUATION"
       },
       "priority": 11,
@@ -222,14 +222,84 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V2.json",
       "id": "g1-development-manifest-v2",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-09T18:04:12Z",
+        "commands": [
+          "inspect only the permitted clean-room aggregate artifacts",
+          "require development-only per-partition provenance before manifest construction"
+        ],
+        "deterministic_validation": [
+          "aggregate evidence supplies 36 partitions and expected row counts",
+          "the permitted evidence does not enumerate the 36 logical identities",
+          "no mixed artifact reopened, directory scan, or data path resolution"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V2.json",
+        "model_role": "deterministic_evidence",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-luna",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
+        "status": "TERMINAL",
+        "task_id": "g1-development-manifest-v2",
+        "validation_result": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 11,
       "role": "deterministic_evidence",
-      "state": "WAITING_EXTERNAL",
+      "state": "TERMINAL",
       "validation": [
         "do not reopen mixed partition artifacts",
         "do not scan directories or inspect neighboring files",
         "zero new holdout metadata or content access",
         "fail closed unless all 36 development-only identities are evidenced"
+      ],
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
+      "commands": [
+        "reconstruct the logical development allowlist from approved clean-room contract and loader code before any data access",
+        "require one exact development-only canonical allowlist artifact when code and contract do not establish the frozen interval and identities"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V3.json",
+      "id": "g1-development-manifest-v3",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-09T18:22:00Z",
+        "commands": [
+          "inspect permitted clean-room contract, loader, and named stage artifacts",
+          "reconstruct logical IDs before any data access"
+        ],
+        "deterministic_validation": [
+          "loader canonicalization procedure is recorded",
+          "code and contract do not establish the frozen interval or 36 selected item records",
+          "no candidate IDs or paths were generated or resolved",
+          "zero new holdout metadata and content access"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V3.json",
+        "model_role": "deterministic_evidence",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-luna",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
+        "status": "TERMINAL",
+        "task_id": "g1-development-manifest-v3",
+        "validation_result": "REGIMEMOE_DEVELOPMENT_MANIFEST_PROVENANCE_BLOCKED",
+        "workstream": "DATA_AND_EVALUATION"
+      },
+      "priority": 10,
+      "role": "deterministic_evidence",
+      "state": "TERMINAL",
+      "validation": [
+        "logical reconstruction precedes all data path resolution",
+        "canonical allowlist serialization must equal the known allowlist hash",
+        "no mixed manifest inspection, directory scan, guessed interval, or hash search",
+        "zero new holdout metadata and content access"
       ],
       "workstream": "DATA_AND_EVALUATION"
     },
