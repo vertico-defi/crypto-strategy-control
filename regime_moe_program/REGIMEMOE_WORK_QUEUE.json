@@ -477,11 +477,1091 @@
         "no V5 manifest file was modified"
       ],
       "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "adapter": "v5_development_data_contract_validation",
+      "commands": [
+        "development contract validation"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-development-data-contract-validation.json",
+      "id": "g1-development-data-contract-validation",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-09T20:51:57.123222Z",
+        "commands": [
+          "development contract validation"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-development-data-contract-validation.json",
+        "model_role": "deterministic_evidence",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-luna",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=98e85ec1db4d2ed3693120ed7ff239a02dda0ac75b9d1fdbb20fe3893ff65a4c",
+        "status": "TERMINAL",
+        "task_id": "g1-development-data-contract-validation",
+        "validation_result": "G1_DEVELOPMENT_DATA_CONTRACT_VALIDATION_PASS",
+        "workstream": "DATA_AND_EVALUATION"
+      },
+      "priority": 10,
+      "role": "deterministic_evidence",
+      "state": "TERMINAL",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "causal coverage, cadence, availability, gap and quarantine report"
+      ],
+      "dependency_outcomes": {
+        "g1-development-data-contract-validation": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-development-data-contract-validation"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-causal-data-quality-report.json",
+      "id": "g1-causal-data-quality-report",
+      "priority": 11,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "preregister non-return-based decision interval selection criteria"
+      ],
+      "dependency_outcomes": {
+        "g1-causal-data-quality-report": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-causal-data-quality-report"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-decision-interval-selection-protocol.json",
+      "id": "g1-decision-interval-selection-protocol",
+      "priority": 12,
+      "role": "research_director",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "version causal point-in-time feature contract"
+      ],
+      "dependency_outcomes": {
+        "g1-decision-interval-selection-protocol": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-decision-interval-selection-protocol"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-point-in-time-feature-contract.json",
+      "id": "g1-point-in-time-feature-contract",
+      "priority": 13,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "synthetic known-answer causal feature fixtures"
+      ],
+      "dependency_outcomes": {
+        "g1-point-in-time-feature-contract": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-point-in-time-feature-contract"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-feature-known-answer-fixtures.json",
+      "id": "g1-feature-known-answer-fixtures",
+      "priority": 14,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "train-fold-only normalization and leakage tests"
+      ],
+      "dependency_outcomes": {
+        "g1-feature-known-answer-fixtures": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-feature-known-answer-fixtures"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-fold-normalization-and-leakage-tests.json",
+      "id": "g1-fold-normalization-and-leakage-tests",
+      "priority": 15,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "event-driven offline execution kernel only"
+      ],
+      "dependency_outcomes": {
+        "g1-development-data-contract-validation": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-development-data-contract-validation"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-event-driven-execution-kernel.json",
+      "id": "g1-event-driven-execution-kernel",
+      "priority": 16,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "nested chronological walk-forward kernel"
+      ],
+      "dependency_outcomes": {
+        "g1-event-driven-execution-kernel": "TERMINAL",
+        "g1-fold-normalization-and-leakage-tests": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-fold-normalization-and-leakage-tests",
+        "g1-event-driven-execution-kernel"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-nested-walk-forward-kernel.json",
+      "id": "g1-nested-walk-forward-kernel",
+      "priority": 17,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "G1 deterministic integration gate"
+      ],
+      "dependency_outcomes": {
+        "g1-causal-data-quality-report": "TERMINAL",
+        "g1-decision-interval-selection-protocol": "TERMINAL",
+        "g1-event-driven-execution-kernel": "TERMINAL",
+        "g1-fold-normalization-and-leakage-tests": "TERMINAL",
+        "g1-nested-walk-forward-kernel": "TERMINAL",
+        "g1-point-in-time-feature-contract": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-causal-data-quality-report",
+        "g1-decision-interval-selection-protocol",
+        "g1-point-in-time-feature-contract",
+        "g1-fold-normalization-and-leakage-tests",
+        "g1-event-driven-execution-kernel",
+        "g1-nested-walk-forward-kernel"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-integration-gate.json",
+      "id": "g1-integration-gate",
+      "priority": 18,
+      "role": "independent_auditor",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "commands": [
+        "g2 common expert interface"
+      ],
+      "dependency_outcomes": {
+        "g1-integration-gate": "TERMINAL"
+      },
+      "depends_on": [
+        "g1-integration-gate"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-common-expert-interface.json",
+      "id": "g2-common-expert-interface",
+      "priority": 30,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g2 cash expert"
+      ],
+      "dependency_outcomes": {
+        "g2-common-expert-interface": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-common-expert-interface"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-cash-expert.json",
+      "id": "g2-cash-expert",
+      "priority": 31,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g2 trend expert"
+      ],
+      "dependency_outcomes": {
+        "g2-cash-expert": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-cash-expert"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-trend-expert.json",
+      "id": "g2-trend-expert",
+      "priority": 32,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g2 mean reversion expert"
+      ],
+      "dependency_outcomes": {
+        "g2-trend-expert": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-trend-expert"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-mean-reversion-expert.json",
+      "id": "g2-mean-reversion-expert",
+      "priority": 33,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g2 relative value expert"
+      ],
+      "dependency_outcomes": {
+        "g2-mean-reversion-expert": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-mean-reversion-expert"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-relative-value-expert.json",
+      "id": "g2-relative-value-expert",
+      "priority": 34,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g2 expert trace validation"
+      ],
+      "dependency_outcomes": {
+        "g2-relative-value-expert": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-relative-value-expert"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-expert-trace-validation.json",
+      "id": "g2-expert-trace-validation",
+      "priority": 35,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g2 individual expert development results"
+      ],
+      "dependency_outcomes": {
+        "g2-expert-trace-validation": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-expert-trace-validation"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-individual-expert-development-results.json",
+      "id": "g2-individual-expert-development-results",
+      "priority": 36,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g2 static ensemble baselines"
+      ],
+      "dependency_outcomes": {
+        "g2-individual-expert-development-results": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-individual-expert-development-results"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-static-ensemble-baselines.json",
+      "id": "g2-static-ensemble-baselines",
+      "priority": 37,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g2 integration gate"
+      ],
+      "dependency_outcomes": {
+        "g2-static-ensemble-baselines": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-static-ensemble-baselines"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-integration-gate.json",
+      "id": "g2-integration-gate",
+      "priority": 38,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "commands": [
+        "g3 out of fold expert output dataset"
+      ],
+      "dependency_outcomes": {
+        "g2-integration-gate": "TERMINAL"
+      },
+      "depends_on": [
+        "g2-integration-gate"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-out-of-fold-expert-output-dataset.json",
+      "id": "g3-out-of-fold-expert-output-dataset",
+      "priority": 45,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 router target and loss protocol"
+      ],
+      "dependency_outcomes": {
+        "g3-out-of-fold-expert-output-dataset": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-out-of-fold-expert-output-dataset"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-router-target-and-loss-protocol.json",
+      "id": "g3-router-target-and-loss-protocol",
+      "priority": 46,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 logistic router"
+      ],
+      "dependency_outcomes": {
+        "g3-router-target-and-loss-protocol": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-router-target-and-loss-protocol"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-logistic-router.json",
+      "id": "g3-logistic-router",
+      "priority": 47,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 xgboost router"
+      ],
+      "dependency_outcomes": {
+        "g3-logistic-router": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-logistic-router"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-xgboost-router.json",
+      "id": "g3-xgboost-router",
+      "priority": 48,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 lstm router"
+      ],
+      "dependency_outcomes": {
+        "g3-xgboost-router": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-xgboost-router"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-lstm-router.json",
+      "id": "g3-lstm-router",
+      "priority": 49,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 tcn router"
+      ],
+      "dependency_outcomes": {
+        "g3-lstm-router": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-lstm-router"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-tcn-router.json",
+      "id": "g3-tcn-router",
+      "priority": 50,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 optional compact transformer decision"
+      ],
+      "dependency_outcomes": {
+        "g3-tcn-router": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-tcn-router"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-optional-compact-transformer-decision.json",
+      "id": "g3-optional-compact-transformer-decision",
+      "priority": 51,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 calibration and abstention"
+      ],
+      "dependency_outcomes": {
+        "g3-optional-compact-transformer-decision": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-optional-compact-transformer-decision"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-calibration-and-abstention.json",
+      "id": "g3-calibration-and-abstention",
+      "priority": 52,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 specialization and interpretability"
+      ],
+      "dependency_outcomes": {
+        "g3-calibration-and-abstention": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-calibration-and-abstention"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-specialization-and-interpretability.json",
+      "id": "g3-specialization-and-interpretability",
+      "priority": 53,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "g3 integration gate"
+      ],
+      "dependency_outcomes": {
+        "g3-specialization-and-interpretability": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-specialization-and-interpretability"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-integration-gate.json",
+      "id": "g3-integration-gate",
+      "priority": 54,
+      "role": "implementation_engineer",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "nested walk-forward comparisons, ablations, stress, uncertainty, multiplicity, tail-risk, reproducibility, and mandatory candidate gates"
+      ],
+      "dependency_outcomes": {
+        "g3-integration-gate": "TERMINAL"
+      },
+      "depends_on": [
+        "g3-integration-gate"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g4-development-screening.json",
+      "id": "g4-development-screening",
+      "priority": 70,
+      "role": "independent_auditor",
+      "state": "BLOCKED_DEPENDENCY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": false,
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "commands": [
+        "literature matrix template"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-literature-matrix-template.json",
+      "id": "thesis-literature-matrix-template",
+      "priority": 100,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "proposal motivation evidence outline"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-proposal-motivation-evidence-outline.json",
+      "id": "thesis-proposal-motivation-evidence-outline",
+      "priority": 101,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "problem statement outline"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-problem-statement-outline.json",
+      "id": "thesis-problem-statement-outline",
+      "priority": 102,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "research question hypotheses worksheet"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-research-question-hypotheses-worksheet.json",
+      "id": "thesis-research-question-hypotheses-worksheet",
+      "priority": 103,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "regimemoe architecture diagram"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-regimemoe-architecture-diagram.json",
+      "id": "thesis-regimemoe-architecture-diagram",
+      "priority": 104,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "leakage threat model"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-leakage-threat-model.json",
+      "id": "thesis-leakage-threat-model",
+      "priority": 105,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "experiment design table"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-experiment-design-table.json",
+      "id": "thesis-experiment-design-table",
+      "priority": 106,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "data card template"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-data-card-template.json",
+      "id": "thesis-data-card-template",
+      "priority": 107,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "model card template"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-model-card-template.json",
+      "id": "thesis-model-card-template",
+      "priority": 108,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "employer architecture brief"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-employer-architecture-brief.json",
+      "id": "thesis-employer-architecture-brief",
+      "priority": 109,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "conference paper outline"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-conference-paper-outline.json",
+      "id": "thesis-conference-paper-outline",
+      "priority": 110,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "five minute demo script"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-five-minute-demo-script.json",
+      "id": "thesis-five-minute-demo-script",
+      "priority": 111,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "interview explanation notes"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-interview-explanation-notes.json",
+      "id": "thesis-interview-explanation-notes",
+      "priority": 112,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "commands": [
+        "linkedin drafts"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/content/linkedin-drafts.json",
+      "id": "audience-linkedin-drafts",
+      "priority": 130,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "commands": [
+        "youtube script"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/content/youtube-script.json",
+      "id": "audience-youtube-script",
+      "priority": 131,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "commands": [
+        "shorts scripts"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/content/shorts-scripts.json",
+      "id": "audience-shorts-scripts",
+      "priority": 132,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "commands": [
+        "educational article"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/content/educational-article.json",
+      "id": "audience-educational-article",
+      "priority": 133,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "commands": [
+        "research toolkit inventory"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/content/research-toolkit-inventory.json",
+      "id": "audience-research-toolkit-inventory",
+      "priority": 134,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "commands": [
+        "ebook roadmap"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/content/ebook-roadmap.json",
+      "id": "audience-ebook-roadmap",
+      "priority": 135,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "commands": [
+        "newsletter issue draft"
+      ],
+      "dependency_outcomes": {},
+      "depends_on": [],
+      "expected_artifact": "regime-moe-lab/content/newsletter-issue-draft.json",
+      "id": "audience-newsletter-issue-draft",
+      "priority": 136,
+      "role": "content_product",
+      "state": "READY",
+      "validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
     }
   ],
   "weekly_completed_by_iso_week": {
     "2026-W32": {
-      "DATA_AND_EVALUATION": 2,
+      "DATA_AND_EVALUATION": 3,
       "THESIS_AND_CAREER": 1
     }
   },

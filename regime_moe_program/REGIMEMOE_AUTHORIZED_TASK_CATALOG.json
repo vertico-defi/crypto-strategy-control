@@ -1,0 +1,1809 @@
+{
+  "catalog_id": "REGIMEMOE_AUTHORIZED_G1_G4_V1",
+  "immutable_inputs": {
+    "allowlist": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd",
+    "final_review": "7a8b47c6c16f127bdef73b12f096bbb6b13de4ecfffc71000a7c472f4055cd8e",
+    "manifest": "da32d844b8fff32651aab44aae93eb86af967eaf571a6607667f57c4e3b8db5f"
+  },
+  "schema_version": "1.0",
+  "tasks": [
+    {
+      "GPU_permission": false,
+      "adapter": "v5_development_data_contract_validation",
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-development-data-contract-validation.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 0,
+      "maximum_repair_attempts": 1,
+      "objective": "development contract validation",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "deterministic_evidence",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 10,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-development-data-contract-validation",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-development-data-contract-validation"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-causal-data-quality-report.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "causal coverage, cadence, availability, gap and quarantine report",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 11,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-causal-data-quality-report",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-causal-data-quality-report"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-decision-interval-selection-protocol.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "preregister non-return-based decision interval selection criteria",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "research_director",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 12,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-decision-interval-selection-protocol",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-decision-interval-selection-protocol"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-point-in-time-feature-contract.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "version causal point-in-time feature contract",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 13,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-point-in-time-feature-contract",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-point-in-time-feature-contract"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-feature-known-answer-fixtures.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "synthetic known-answer causal feature fixtures",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 14,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-feature-known-answer-fixtures",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-feature-known-answer-fixtures"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-fold-normalization-and-leakage-tests.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "train-fold-only normalization and leakage tests",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 15,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-fold-normalization-and-leakage-tests",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-development-data-contract-validation"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-event-driven-execution-kernel.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "event-driven offline execution kernel only",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 16,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-event-driven-execution-kernel",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-fold-normalization-and-leakage-tests",
+        "g1-event-driven-execution-kernel"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-nested-walk-forward-kernel.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "nested chronological walk-forward kernel",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 17,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-nested-walk-forward-kernel",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-causal-data-quality-report",
+        "g1-decision-interval-selection-protocol",
+        "g1-point-in-time-feature-contract",
+        "g1-fold-normalization-and-leakage-tests",
+        "g1-event-driven-execution-kernel",
+        "g1-nested-walk-forward-kernel"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-integration-gate.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "G1 deterministic integration gate",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "independent_auditor",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 18,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G1",
+      "status": "AUTHORIZED",
+      "task_id": "g1-integration-gate",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g1-integration-gate"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-common-expert-interface.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 common expert interface",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 30,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-common-expert-interface",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-common-expert-interface"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-cash-expert.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 cash expert",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 31,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-cash-expert",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-cash-expert"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-trend-expert.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 trend expert",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 32,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-trend-expert",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-trend-expert"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-mean-reversion-expert.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 mean reversion expert",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 33,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-mean-reversion-expert",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-mean-reversion-expert"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-relative-value-expert.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 relative value expert",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 34,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-relative-value-expert",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-relative-value-expert"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-expert-trace-validation.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 expert trace validation",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 35,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-expert-trace-validation",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-expert-trace-validation"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-individual-expert-development-results.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 individual expert development results",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 36,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-individual-expert-development-results",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-individual-expert-development-results"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-static-ensemble-baselines.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 static ensemble baselines",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 37,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-static-ensemble-baselines",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-static-ensemble-baselines"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g2-integration-gate.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g2 integration gate",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 38,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G2",
+      "status": "AUTHORIZED",
+      "task_id": "g2-integration-gate",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "EXPERTS_AND_BASELINES"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g2-integration-gate"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-out-of-fold-expert-output-dataset.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 out of fold expert output dataset",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 45,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-out-of-fold-expert-output-dataset",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-out-of-fold-expert-output-dataset"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-router-target-and-loss-protocol.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 router target and loss protocol",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 46,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-router-target-and-loss-protocol",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-router-target-and-loss-protocol"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-logistic-router.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 logistic router",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 47,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-logistic-router",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-logistic-router"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-xgboost-router.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 xgboost router",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 48,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-xgboost-router",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-xgboost-router"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-lstm-router.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 lstm router",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 49,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-lstm-router",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-lstm-router"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-tcn-router.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 tcn router",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 50,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-tcn-router",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-tcn-router"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-optional-compact-transformer-decision.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 optional compact transformer decision",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 51,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-optional-compact-transformer-decision",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-optional-compact-transformer-decision"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-calibration-and-abstention.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 calibration and abstention",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 52,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-calibration-and-abstention",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-calibration-and-abstention"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-specialization-and-interpretability.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 specialization and interpretability",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 53,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-specialization-and-interpretability",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-specialization-and-interpretability"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g3-integration-gate.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "g3 integration gate",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "implementation_engineer",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 54,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G3",
+      "status": "AUTHORIZED",
+      "task_id": "g3-integration-gate",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [
+        "g3-integration-gate"
+      ],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g4-development-screening.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "nested walk-forward comparisons, ablations, stress, uncertainty, multiplicity, tail-risk, reproducibility, and mandatory candidate gates",
+      "permitted_data": "immutable V5 development manifest and gitignored development resolver only",
+      "permitted_model_role": "independent_auditor",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 70,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "G4",
+      "status": "AUTHORIZED",
+      "task_id": "g4-development-screening",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "workstream": "AI_ROUTER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-literature-matrix-template.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "literature matrix template",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 100,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-literature-matrix-template",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-proposal-motivation-evidence-outline.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "proposal motivation evidence outline",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 101,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-proposal-motivation-evidence-outline",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-problem-statement-outline.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "problem statement outline",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 102,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-problem-statement-outline",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-research-question-hypotheses-worksheet.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "research question hypotheses worksheet",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 103,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-research-question-hypotheses-worksheet",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-regimemoe-architecture-diagram.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "regimemoe architecture diagram",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 104,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-regimemoe-architecture-diagram",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-leakage-threat-model.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "leakage threat model",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 105,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-leakage-threat-model",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-experiment-design-table.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "experiment design table",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 106,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-experiment-design-table",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-data-card-template.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "data card template",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 107,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-data-card-template",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-model-card-template.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "model card template",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 108,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-model-card-template",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-employer-architecture-brief.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "employer architecture brief",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 109,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-employer-architecture-brief",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-conference-paper-outline.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "conference paper outline",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 110,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-conference-paper-outline",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-five-minute-demo-script.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "five minute demo script",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 111,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-five-minute-demo-script",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/thesis-interview-explanation-notes.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "interview explanation notes",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 112,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "thesis-interview-explanation-notes",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "THESIS_AND_CAREER"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/content/linkedin-drafts.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "linkedin drafts",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 130,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "audience-linkedin-drafts",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/content/youtube-script.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "youtube script",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 131,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "audience-youtube-script",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/content/shorts-scripts.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "shorts scripts",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 132,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "audience-shorts-scripts",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/content/educational-article.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "educational article",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 133,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "audience-educational-article",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/content/research-toolkit-inventory.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "research toolkit inventory",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 134,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "audience-research-toolkit-inventory",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/content/ebook-roadmap.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "ebook roadmap",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 135,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "audience-ebook-roadmap",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    },
+    {
+      "GPU_permission": false,
+      "capital_permission": 0,
+      "dependencies": [],
+      "deterministic_acceptance_artifact": "regime-moe-lab/content/newsletter-issue-draft.json",
+      "estimated_resource_class": "cpu_bounded",
+      "holdout_permission": false,
+      "human_approval_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "mandatory_tests": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "maximum_model_calls": 1,
+      "maximum_repair_attempts": 1,
+      "objective": "newsletter issue draft",
+      "permitted_data": "verified programme artifacts only",
+      "permitted_model_role": "content_product",
+      "permitted_repositories": [
+        "/home/vertico/crypto-strategy-control",
+        "/home/vertico/regime-moe-lab"
+      ],
+      "priority": 136,
+      "prohibited_data": "historical holdout; live credentials; capital; GPU; website repository",
+      "publication_permission": "DRAFT_ONLY",
+      "stage": "SUPPORT",
+      "status": "AUTHORIZED",
+      "task_id": "audience-newsletter-issue-draft",
+      "terminal_failure_states": [
+        "FAILED",
+        "HUMAN_APPROVAL"
+      ],
+      "terminal_success_state": "TERMINAL",
+      "verified_provenance": true,
+      "workstream": "AUDIENCE_AND_MONETIZATION"
+    }
+  ]
+}

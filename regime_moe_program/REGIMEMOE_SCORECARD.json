@@ -145,6 +145,30 @@
       "task_id": "g1-development-manifest-inventory",
       "validation_result": "G1_V5_MANIFEST_CONFIGURED_WITHOUT_DATA_PATH_RESOLUTION",
       "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "artifact_exists": true,
+      "at_utc": "2026-08-09T20:51:57.123222Z",
+      "commands": [
+        "development contract validation"
+      ],
+      "deterministic_validation": [
+        "deterministic artifact",
+        "zero holdout access",
+        "capital remains zero"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-development-data-contract-validation.json",
+      "model_role": "deterministic_evidence",
+      "model_route": {
+        "availability": "NOT_INVOKED",
+        "model": "gpt-5.6-luna",
+        "reasoning": "medium"
+      },
+      "source_commit_or_blocker": "artifact_sha256=98e85ec1db4d2ed3693120ed7ff239a02dda0ac75b9d1fdbb20fe3893ff65a4c",
+      "status": "TERMINAL",
+      "task_id": "g1-development-data-contract-validation",
+      "validation_result": "G1_DEVELOPMENT_DATA_CONTRACT_VALIDATION_PASS",
+      "workstream": "DATA_AND_EVALUATION"
     }
   ],
   "content_assets_drafted": 0,

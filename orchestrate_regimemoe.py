@@ -24,6 +24,7 @@ LAB_ROOT = ROOT.parent.parent / "regime-moe-lab"
 QUEUE = ROOT / "REGIMEMOE_WORK_QUEUE.json"
 STATE = ROOT / "REGIMEMOE_STATE.json"
 SCORECARD = ROOT / "REGIMEMOE_SCORECARD.json"
+CATALOG = ROOT / "REGIMEMOE_AUTHORIZED_TASK_CATALOG.json"
 LOCK = ROOT / ".orchestrator.lock"
 JOURNAL = ROOT / "REGIMEMOE_TRANSACTION.json"
 SCHEMAS = ROOT / "schemas"
@@ -279,6 +280,17 @@ def dependency_outcomes_satisfied(
     )
 
 
+def release_satisfied_dependencies(queue: dict[str, Any]) -> bool:
+    """Release only catalog materialized dependency-blocked tasks."""
+    tasks_by_id = {task["id"]: task for task in queue["tasks"]}
+    changed = False
+    for task in queue["tasks"]:
+        if task["state"] == "BLOCKED_DEPENDENCY" and dependency_outcomes_satisfied(task, tasks_by_id):
+            task["state"] = "READY"
+            changed = True
+    return changed
+
+
 def select(queue: dict[str, Any]) -> dict[str, Any] | None:
     """Choose one independent READY task; waiting work is intentionally ignored."""
     tasks_by_id = {task["id"]: task for task in queue["tasks"]}
@@ -295,7 +307,10 @@ def select(queue: dict[str, Any]) -> dict[str, Any] | None:
         dict[str, Any],
         min(
             candidates,
-            key=lambda task: (recent.get(task["workstream"], 0), task["priority"], task["id"]),
+            key=lambda task: (
+                0 if str(task["id"]).startswith("g1-") else 1,
+                recent.get(task["workstream"], 0), task["priority"], task["id"],
+            ),
         ),
     )
 
@@ -378,6 +393,29 @@ def execute_data_contract_validation(task: dict[str, Any]) -> tuple[str, dict[st
     report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
     report["artifact_exists"] = True
     report["validation_result"] = "G1_DATA_CONTRACT_VALIDATION_PASS"
+    return "TERMINAL", report
+
+
+def execute_v5_development_data_contract_validation(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """Bind G1 to reviewed V5 evidence without reopening data or resolving paths."""
+    manifest = LAB_ROOT / "contracts" / "REGIMEMOE_DEVELOPMENT_MANIFEST_V5.json"
+    validation = LAB_ROOT / "artifacts" / "REGIMEMOE_DEVELOPMENT_MANIFEST_V5_VALIDATION.json"
+    attestation = LAB_ROOT / "artifacts" / "REGIMEMOE_V5_LOCAL_RESOLVER_ISOLATION_ATTESTATION.json"
+    if not all(path.is_file() for path in (manifest, validation, attestation)):
+        raise RuntimeError("immutable V5 evidence is absent")
+    values = [read(path) for path in (manifest, validation, attestation)]
+    if (
+        values[0].get("manifest_canonical_sha256") != "da32d844b8fff32651aab44aae93eb86af967eaf571a6607667f57c4e3b8db5f"
+        or values[0].get("allowlist_hash", {}).get("computed") != "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd"
+        or values[1].get("files_opened") != 36
+        or values[2].get("entry_count") != 36
+    ):
+        raise RuntimeError("V5 development contract evidence mismatch")
+    artifact = artifact_path(task["expected_artifact"])
+    atomic_write(artifact, {"artifact_type": "G1_DEVELOPMENT_DATA_CONTRACT_VALIDATION", "result": "PASS", "manifest_sha256": values[0]["manifest_canonical_sha256"], "allowlist_sha256": values[0]["allowlist_hash"]["computed"], "partitions": 36, "market_data_content_read": False, "holdout_access": "FORBIDDEN"})
+    report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
+    report["artifact_exists"] = True
+    report["validation_result"] = "G1_DEVELOPMENT_DATA_CONTRACT_VALIDATION_PASS"
     return "TERMINAL", report
 
 
@@ -477,11 +515,41 @@ def execute_task(task: dict[str, Any], state: dict[str, Any]) -> tuple[str, dict
         return execute_phase_zero(task)
     if task.get("adapter") == "data_contract_validation":
         return execute_data_contract_validation(task)
+    if task.get("adapter") == "v5_development_data_contract_validation":
+        return execute_v5_development_data_contract_validation(task)
     if task.get("adapter") == "development_manifest_inventory":
         return execute_development_manifest_inventory(task)
     if task.get("adapter") == "thesis_methodology_outline":
         return execute_thesis_methodology_outline(task)
     return "HUMAN_APPROVAL", checkpoint(task, "HUMAN_APPROVAL", "no production adapter authorized")
+
+
+def materialize_authorized_catalog() -> None:
+    """Seed only catalog-defined work while preserving existing terminal evidence."""
+    queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
+    catalog = read(CATALOG)
+    if catalog.get("schema_version") != "1.0" or not isinstance(catalog.get("tasks"), list):
+        raise RuntimeError("authorized task catalog is invalid")
+    existing = {task["id"] for task in queue["tasks"]}
+    for entry in catalog["tasks"]:
+        if not isinstance(entry, dict) or entry.get("task_id") in existing:
+            continue
+        dependencies = entry.get("dependencies", [])
+        if not isinstance(dependencies, list):
+            raise RuntimeError("catalog dependencies must be explicit")
+        independent = not dependencies
+        state_name = "READY" if independent else "BLOCKED_DEPENDENCY"
+        task = {
+            "id": entry["task_id"], "workstream": entry["workstream"], "role": entry["permitted_model_role"],
+            "state": state_name, "priority": entry["priority"], "commands": [entry["objective"]],
+            "expected_artifact": entry["deterministic_acceptance_artifact"], "validation": entry["mandatory_tests"],
+            "depends_on": dependencies, "dependency_outcomes": {dependency: "TERMINAL" for dependency in dependencies},
+            "verified_provenance": entry.get("verified_provenance", False),
+        }
+        if isinstance(entry.get("adapter"), str):
+            task["adapter"] = entry["adapter"]
+        queue["tasks"].append(task)
+    validate(queue); validate_state(state); validate_scorecard(scorecard); commit_snapshot(queue, state, scorecard)
 
 
 def production_queue(queue: dict[str, Any]) -> dict[str, Any]:
@@ -604,6 +672,9 @@ def cycle(mutate: bool) -> dict[str, Any]:
     validate(queue)
     validate_state(state)
     validate_scorecard(scorecard)
+    released = release_satisfied_dependencies(queue)
+    if released and mutate:
+        commit_snapshot(queue, state, scorecard)
     if state["usage_paused"]:
         return {"status": "USAGE_PAUSED", "checkpoint": None}
     task = select(queue)
@@ -649,6 +720,7 @@ def main() -> None:
             "record-g0-pass",
             "enqueue-g1-manifest-inventory",
             "enqueue-thesis-methodology-outline",
+            "materialize-catalog",
         ),
     )
     parser.add_argument("--max-cycles", type=int, default=1)
@@ -691,6 +763,13 @@ def main() -> None:
             recover()
             record_g0_foundation_pass()
             print(json.dumps({"status": "G0_FOUNDATION_PASS"}))
+        finally:
+            release_lock()
+        return
+    if args.command == "materialize-catalog":
+        acquire_lock()
+        try:
+            recover(); materialize_authorized_catalog(); print(json.dumps({"status": "CATALOG_MATERIALIZED"}))
         finally:
             release_lock()
         return
