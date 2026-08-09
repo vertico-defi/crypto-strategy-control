@@ -382,25 +382,54 @@ def execute_data_contract_validation(task: dict[str, Any]) -> tuple[str, dict[st
 
 
 def execute_development_manifest_inventory(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
-    """Fail closed when no independently verified development manifest is configured."""
+    """Configure only the independently reviewed V5 manifest; never resolve data paths."""
     artifact = artifact_path(task["expected_artifact"])
     artifact.parent.mkdir(parents=True, exist_ok=True)
-    manifest = os.environ.get("REGIMEMOE_DEVELOPMENT_MANIFEST")
-    if manifest:
-        raise RuntimeError("external development-manifest resolution is not implemented")
+    manifest_path = LAB_ROOT / "contracts" / "REGIMEMOE_DEVELOPMENT_MANIFEST_V5.json"
+    review_path = LAB_ROOT / "artifacts" / "REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FINAL_REVIEW.json"
+    if not manifest_path.is_file() or not review_path.is_file():
+        payload = {
+            "artifact_type": "G1_DEVELOPMENT_MANIFEST_INVENTORY_BLOCKER",
+            "blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_NOT_CONFIGURED",
+            "capital_permitted": 0,
+            "holdout_access": "FORBIDDEN",
+            "result": "WAITING_EXTERNAL",
+            "schema_version": "1.0",
+        }
+        atomic_write(artifact, payload)
+        report = checkpoint(task, "WAITING_EXTERNAL", str(payload["blocker"]))
+        report["artifact_exists"] = True
+        report["validation_result"] = "NO_EXTERNAL_MANIFEST_RESOLVED"
+        return "WAITING_EXTERNAL", report
+    manifest = read(manifest_path)
+    review = read(review_path)
+    expected_manifest_hash = "da32d844b8fff32651aab44aae93eb86af967eaf571a6607667f57c4e3b8db5f"
+    expected_allowlist_hash = "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd"
+    if (
+        manifest.get("manifest_canonical_sha256") != expected_manifest_hash
+        or manifest.get("allowlist_hash", {}).get("computed") != expected_allowlist_hash
+        or review.get("verdict") != "PASS"
+        or review.get("reviewed_manifest_hash") != expected_manifest_hash
+        or review.get("reviewed_allowlist_hash") != expected_allowlist_hash
+    ):
+        raise RuntimeError("V5 manifest identity or final review does not match the frozen gate")
     payload = {
-        "artifact_type": "G1_DEVELOPMENT_MANIFEST_INVENTORY_BLOCKER",
-        "blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_NOT_CONFIGURED",
+        "artifact_type": "G1_DEVELOPMENT_MANIFEST_INVENTORY",
         "capital_permitted": 0,
         "holdout_access": "FORBIDDEN",
-        "result": "WAITING_EXTERNAL",
+        "manifest": "contracts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5.json",
+        "manifest_canonical_sha256": expected_manifest_hash,
+        "allowlist_sha256": expected_allowlist_hash,
+        "final_review": "artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FINAL_REVIEW.json",
+        "market_data_paths_resolved": 0,
+        "result": "PASS",
         "schema_version": "1.0",
     }
     atomic_write(artifact, payload)
-    report = checkpoint(task, "WAITING_EXTERNAL", str(payload["blocker"]))
+    report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
     report["artifact_exists"] = True
-    report["validation_result"] = "NO_EXTERNAL_MANIFEST_RESOLVED"
-    return "WAITING_EXTERNAL", report
+    report["validation_result"] = "G1_V5_MANIFEST_CONFIGURED_WITHOUT_DATA_PATH_RESOLUTION"
+    return "TERMINAL", report
 
 
 def execute_thesis_methodology_outline(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:

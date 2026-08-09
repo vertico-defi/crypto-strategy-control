@@ -96,6 +96,55 @@
       "task_id": "regimemoe-v5-manifest-audit-protocol-recovery-v1",
       "validation_result": "STRUCTURED_REVIEW_CAPTURE_COMPLETE_REVIEW_INCONCLUSIVE",
       "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "artifact_exists": true,
+      "at_utc": "2026-08-09T20:36:06.292902Z",
+      "commands": [
+        "compose final V5 verdict from prior C1-C7/C9 PASS and C8-only PASS"
+      ],
+      "deterministic_validation": [
+        "V5 manifest identity unchanged",
+        "allowlist identity unchanged",
+        "C1-C9 all PASS",
+        "zero additional market or holdout access"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FINAL_REVIEW.json",
+      "model_role": "independent_auditor",
+      "model_route": {
+        "model": "gpt-5.6-sol",
+        "reasoning": "high"
+      },
+      "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FINAL_PASS",
+      "status": "TERMINAL",
+      "task_id": "g1-development-manifest-v5-boundary-semantics",
+      "validation_result": "MANIFEST_PASS",
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "artifact_exists": true,
+      "at_utc": "2026-08-09T20:36:29.306272Z",
+      "commands": [
+        "inventory only an explicitly configured verified development manifest"
+      ],
+      "deterministic_validation": [
+        "V5 immutable manifest and final review hash equality",
+        "no market-data path resolution",
+        "holdout remains unresolved",
+        "deterministic artifact"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-development-manifest-inventory.json",
+      "model_role": "deterministic_evidence",
+      "model_route": {
+        "availability": "NOT_INVOKED",
+        "model": "gpt-5.6-luna",
+        "reasoning": "medium"
+      },
+      "source_commit_or_blocker": "artifact_sha256=a3e4e0fa25431c0320ba2f265266d66b4019d904da9c0d0244b8366aade83800",
+      "status": "TERMINAL",
+      "task_id": "g1-development-manifest-inventory",
+      "validation_result": "G1_V5_MANIFEST_CONFIGURED_WITHOUT_DATA_PATH_RESOLUTION",
+      "workstream": "DATA_AND_EVALUATION"
     }
   ],
   "content_assets_drafted": 0,

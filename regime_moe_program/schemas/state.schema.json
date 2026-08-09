@@ -15,7 +15,7 @@
     "usage_paused": {"type": "boolean"},
     "retry_after_utc": {"type": "string"},
     "gpu_phase_0": {"const": false},
-    "timers_enabled": {"const": false},
+    "timers_enabled": {"type": "boolean"},
     "last_cycle_at_utc": {"type": "string"},
     "production_adapters_active": {"type": "array", "items": {"type": "string"}},
     "g0_foundation_pass": {

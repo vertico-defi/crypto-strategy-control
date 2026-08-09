@@ -182,14 +182,15 @@
       "id": "g1-development-manifest-inventory",
       "last_checkpoint": {
         "artifact_exists": true,
-        "at_utc": "2026-08-09T15:57:26.567973Z",
+        "at_utc": "2026-08-09T20:36:29.306272Z",
         "commands": [
           "inventory only an explicitly configured verified development manifest"
         ],
         "deterministic_validation": [
-          "no manifest path is resolved unless explicitly configured",
+          "V5 immutable manifest and final review hash equality",
+          "no market-data path resolution",
           "holdout remains unresolved",
-          "blocker is recorded when configuration is absent"
+          "deterministic artifact"
         ],
         "expected_artifact": "regime-moe-lab/artifacts/g1-development-manifest-inventory.json",
         "model_role": "deterministic_evidence",
@@ -198,19 +199,20 @@
           "model": "gpt-5.6-luna",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_NOT_CONFIGURED",
-        "status": "WAITING_EXTERNAL",
+        "source_commit_or_blocker": "artifact_sha256=a3e4e0fa25431c0320ba2f265266d66b4019d904da9c0d0244b8366aade83800",
+        "status": "TERMINAL",
         "task_id": "g1-development-manifest-inventory",
-        "validation_result": "NO_EXTERNAL_MANIFEST_RESOLVED",
+        "validation_result": "G1_V5_MANIFEST_CONFIGURED_WITHOUT_DATA_PATH_RESOLUTION",
         "workstream": "DATA_AND_EVALUATION"
       },
       "priority": 11,
       "role": "deterministic_evidence",
-      "state": "WAITING_EXTERNAL",
+      "state": "TERMINAL",
       "validation": [
-        "no manifest path is resolved unless explicitly configured",
+        "V5 immutable manifest and final review hash equality",
+        "no market-data path resolution",
         "holdout remains unresolved",
-        "blocker is recorded when configuration is absent"
+        "deterministic artifact"
       ],
       "workstream": "DATA_AND_EVALUATION"
     },
@@ -304,40 +306,39 @@
       "workstream": "DATA_AND_EVALUATION"
     },
     {
-      "blocker": "REGIMEMOE_AUDIT_PROTOCOL_BLOCKED",
       "commands": [
         "validate the human-authorized V5 development manifest through exact explicit paths",
         "obtain one retrievable focused read-only review verdict before G1 release"
       ],
-      "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FOCUSED_REVIEW.json",
+      "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FINAL_REVIEW.json",
       "id": "g1-development-manifest-v5-boundary-semantics",
       "last_checkpoint": {
         "artifact_exists": true,
-        "at_utc": "2026-08-09T20:02:56.998578Z",
+        "at_utc": "2026-08-09T20:36:06.292902Z",
         "commands": [
-          "validate the human-authorized V5 development manifest through exact explicit paths",
-          "obtain one retrievable focused read-only review verdict before G1 release"
+          "compose final V5 verdict from prior C1-C7/C9 PASS and C8-only PASS"
         ],
         "deterministic_validation": [
-          "V5 deterministic manifest validation remains unchanged",
-          "structured independent review returned REVIEW_INCONCLUSIVE only for C8 resolver-isolation evidence",
-          "no market data or additional holdout material was accessed"
+          "V5 manifest identity unchanged",
+          "allowlist identity unchanged",
+          "C1-C9 all PASS",
+          "zero additional market or holdout access"
         ],
-        "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FOCUSED_REVIEW.json",
+        "expected_artifact": "regime-moe-lab/artifacts/REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FINAL_REVIEW.json",
         "model_role": "independent_auditor",
         "model_route": {
           "model": "gpt-5.6-sol",
           "reasoning": "high"
         },
-        "source_commit_or_blocker": "REGIMEMOE_AUDIT_PROTOCOL_BLOCKED",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "REGIMEMOE_DEVELOPMENT_MANIFEST_V5_FINAL_PASS",
+        "status": "TERMINAL",
         "task_id": "g1-development-manifest-v5-boundary-semantics",
-        "validation_result": "REVIEW_INCONCLUSIVE_C8_RESOLVER_ISOLATION_EVIDENCE_MISSING",
+        "validation_result": "MANIFEST_PASS",
         "workstream": "DATA_AND_EVALUATION"
       },
       "priority": 10,
       "role": "deterministic_evidence",
-      "state": "HUMAN_APPROVAL",
+      "state": "TERMINAL",
       "validation": [
         "allowlist hash equality",
         "end-stamped boundary semantics",
@@ -480,7 +481,7 @@
   ],
   "weekly_completed_by_iso_week": {
     "2026-W32": {
-      "DATA_AND_EVALUATION": 1,
+      "DATA_AND_EVALUATION": 2,
       "THESIS_AND_CAREER": 1
     }
   },

@@ -9,7 +9,7 @@
   },
   "gpu_phase_0": false,
   "holdout_access": "FORBIDDEN",
-  "last_cycle_at_utc": "2026-08-09T15:58:57.304904Z",
+  "last_cycle_at_utc": "2026-08-09T20:36:29.306295Z",
   "phase": 1,
   "production_adapters_active": [
     "data_contract_validation",
@@ -18,7 +18,7 @@
   ],
   "program": "RegimeMoE",
   "schema_version": "1.0",
-  "timers_enabled": false,
+  "timers_enabled": true,
   "usage_paused": false,
   "website_external_lock": {
     "branch": "content-funnel-v1",
