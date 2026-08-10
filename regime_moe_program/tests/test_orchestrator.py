@@ -40,9 +40,35 @@ def test_dry_run_does_not_mutate_queue() -> None:
     assert queue.read_bytes() == before
 
 
-def test_website_lock_is_explicit() -> None:
+def test_website_availability_is_limited_to_sanitized_evidence() -> None:
     state = json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
-    assert state["website_external_lock"]["status"].startswith("EXTERNALLY_LOCKED")
+    website_state = state["website_external_lock"]
+    assert website_state["status"] == "WEBSITE_AVAILABLE_FOR_SANITIZED_PUBLICATION_TASKS"
+    assert website_state["authorized_scope"] == "SANITIZED_EVIDENCE_UPDATES_ONLY"
+    assert website_state["verified_commit"] == "111991ef48a0680379576dd441183fe4ab4192f1"
+    assert website_state["safety_flags"] == {
+        "store_live": False,
+        "payments_live": False,
+        "newsletter_live": False,
+    }
+    assert {
+        "live payments",
+        "newsletter activation",
+        "unsupported research claims",
+        "product publication",
+        "social publication",
+        "public RegimeMoE repository creation",
+    } <= set(website_state["prohibited_actions"])
+
+
+def test_website_availability_rejects_missing_prohibition() -> None:
+    sys.path.insert(0, str(ROOT))
+    import orchestrate_regimemoe as controller
+
+    state = json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
+    state["website_external_lock"]["prohibited_actions"].remove("product publication")
+    with pytest.raises(ValueError, match="required prohibitions"):
+        controller.validate_state(state)
 
 
 def test_auditor_requires_promotion_eligibility() -> None:

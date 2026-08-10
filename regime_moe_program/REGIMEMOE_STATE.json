@@ -22,8 +22,32 @@
   "timers_enabled": true,
   "usage_paused": false,
   "website_external_lock": {
-    "branch": "content-funnel-v1",
+    "authorized_scope": "SANITIZED_EVIDENCE_UPDATES_ONLY",
+    "branch": "main",
+    "pages_deployment": {
+      "run_id": 31388095930,
+      "status": "SUCCESS"
+    },
+    "prohibited_actions": [
+      "live payments",
+      "newsletter activation",
+      "unsupported research claims",
+      "product publication",
+      "social publication",
+      "public RegimeMoE repository creation"
+    ],
     "repository": "/home/vertico/crypto-research-portfolio",
-    "status": "EXTERNALLY_LOCKED_UNTIL_MERGED_AND_EXPLICITLY_CLEARED"
+    "safety_flags": {
+      "newsletter_live": false,
+      "payments_live": false,
+      "store_live": false
+    },
+    "status": "WEBSITE_AVAILABLE_FOR_SANITIZED_PUBLICATION_TASKS",
+    "validation_workflow": {
+      "run_id": 31388095922,
+      "status": "SUCCESS"
+    },
+    "verified_at_utc": "2026-08-10T12:54:30Z",
+    "verified_commit": "111991ef48a0680379576dd441183fe4ab4192f1"
   }
 }

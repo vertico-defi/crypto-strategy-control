@@ -105,11 +105,43 @@ def validate_state(state: dict[str, Any]) -> None:
         raise ValueError("invalid program state")
     if state["capital_permitted"] != 0 or state["holdout_access"] != "FORBIDDEN":
         raise ValueError("capital or holdout safety boundary violated")
-    lock = state.get("website_external_lock")
-    if not isinstance(lock, dict) or not str(lock.get("status", "")).startswith(
-        "EXTERNALLY_LOCKED"
-    ):
-        raise ValueError("website external lock must remain enforced")
+    website_state = state.get("website_external_lock")
+    if not isinstance(website_state, dict):
+        raise ValueError("website publication state must be structured")
+    website_status = website_state.get("status")
+    if website_status not in {
+        "EXTERNALLY_LOCKED_UNTIL_MERGED_AND_EXPLICITLY_CLEARED",
+        "WEBSITE_AVAILABLE_FOR_SANITIZED_PUBLICATION_TASKS",
+    }:
+        raise ValueError("website publication state is not authorized")
+    if website_status == "WEBSITE_AVAILABLE_FOR_SANITIZED_PUBLICATION_TASKS":
+        required_verification = {
+            "verified_commit",
+            "validation_workflow",
+            "pages_deployment",
+            "safety_flags",
+            "authorized_scope",
+            "prohibited_actions",
+        }
+        if not required_verification <= website_state.keys():
+            raise ValueError("website availability requires complete verification evidence")
+        if website_state["authorized_scope"] != "SANITIZED_EVIDENCE_UPDATES_ONLY":
+            raise ValueError("website availability scope is broader than authorized")
+        if any(website_state["safety_flags"].get(flag) is not False for flag in (
+            "store_live", "payments_live", "newsletter_live"
+        )):
+            raise ValueError("website availability requires disabled live services")
+        prohibited_actions = set(website_state["prohibited_actions"])
+        required_prohibitions = {
+            "live payments",
+            "newsletter activation",
+            "unsupported research claims",
+            "product publication",
+            "social publication",
+            "public RegimeMoE repository creation",
+        }
+        if not required_prohibitions <= prohibited_actions:
+            raise ValueError("website availability lacks required prohibitions")
     if state["usage_paused"] and not isinstance(state.get("retry_after_utc"), str):
         raise ValueError("usage pause requires retry_after_utc")
     if state["phase"] > 0:
@@ -256,7 +288,7 @@ def run_codex_task(task: dict[str, Any], mapping: dict[str, Any]) -> tuple[str, 
         "boundaries": {
             "capital": 0,
             "holdout": "FORBIDDEN",
-            "website": "EXTERNALLY_LOCKED",
+            "website": "NO_WEBSITE_MUTATION",
             "gpu": False,
             "publication": "DRAFT_ONLY",
         },

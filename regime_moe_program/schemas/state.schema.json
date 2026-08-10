@@ -50,7 +50,48 @@
       "properties": {
         "repository": {"type": "string"},
         "branch": {"type": "string"},
-        "status": {"type": "string", "pattern": "^EXTERNALLY_LOCKED"}
+        "status": {
+          "enum": [
+            "EXTERNALLY_LOCKED_UNTIL_MERGED_AND_EXPLICITLY_CLEARED",
+            "WEBSITE_AVAILABLE_FOR_SANITIZED_PUBLICATION_TASKS"
+          ]
+        },
+        "verified_at_utc": {"type": "string"},
+        "verified_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "validation_workflow": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "run_id"],
+          "properties": {
+            "status": {"const": "SUCCESS"},
+            "run_id": {"type": "integer", "minimum": 1}
+          }
+        },
+        "pages_deployment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "run_id"],
+          "properties": {
+            "status": {"const": "SUCCESS"},
+            "run_id": {"type": "integer", "minimum": 1}
+          }
+        },
+        "safety_flags": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["store_live", "payments_live", "newsletter_live"],
+          "properties": {
+            "store_live": {"const": false},
+            "payments_live": {"const": false},
+            "newsletter_live": {"const": false}
+          }
+        },
+        "authorized_scope": {"const": "SANITIZED_EVIDENCE_UPDATES_ONLY"},
+        "prohibited_actions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        }
       }
     }
   }
