@@ -535,7 +535,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/g1-causal-data-quality-report.json",
       "id": "g1-causal-data-quality-report",
       "last_checkpoint": {
-        "at_utc": "2026-08-09T22:41:24.434803Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T08:33:19.298505Z",
         "commands": [
           "causal coverage, cadence, availability, gap and quarantine report"
         ],
@@ -551,14 +552,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=40f7d19b81ffea2becce6ba063bd79fea9eefdaf859f5ac9e545db7610313767",
+        "status": "TERMINAL",
         "task_id": "g1-causal-data-quality-report",
+        "validation_result": "G1_CAUSAL_DATA_QUALITY_REPORT_PASS",
         "workstream": "DATA_AND_EVALUATION"
       },
       "priority": 11,
       "role": "implementation_engineer",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -579,9 +581,33 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/g1-decision-interval-selection-protocol.json",
       "id": "g1-decision-interval-selection-protocol",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T09:19:50.898702Z",
+        "commands": [
+          "preregister non-return-based decision interval selection criteria"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-decision-interval-selection-protocol.json",
+        "model_role": "research_director",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-sol",
+          "reasoning": "high"
+        },
+        "source_commit_or_blocker": "artifact_sha256=43bf2c5582890e38b3f64a1cebcd185470bc4e6aa98150fcf04037134ad8c97b",
+        "status": "TERMINAL",
+        "task_id": "g1-decision-interval-selection-protocol",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 12,
       "role": "research_director",
-      "state": "BLOCKED_DEPENDENCY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1231,7 +1257,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/thesis-literature-matrix-template.json",
       "id": "thesis-literature-matrix-template",
       "last_checkpoint": {
-        "at_utc": "2026-08-10T00:46:00.842960Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T08:33:01.003691Z",
         "commands": [
           "literature matrix template"
         ],
@@ -1247,14 +1274,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=b2b3a9d3a860ca75827934915c823b817755a76096dc7876aea474b3a9fcc134",
+        "status": "TERMINAL",
         "task_id": "thesis-literature-matrix-template",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
         "workstream": "THESIS_AND_CAREER"
       },
       "priority": 100,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",

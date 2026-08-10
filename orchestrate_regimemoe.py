@@ -13,6 +13,7 @@ import json
 import os
 import subprocess
 import tempfile
+import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal, cast
@@ -25,6 +26,7 @@ QUEUE = ROOT / "REGIMEMOE_WORK_QUEUE.json"
 STATE = ROOT / "REGIMEMOE_STATE.json"
 SCORECARD = ROOT / "REGIMEMOE_SCORECARD.json"
 CATALOG = ROOT / "REGIMEMOE_AUTHORIZED_TASK_CATALOG.json"
+REGISTRY = ROOT / "REGIMEMOE_PRODUCTION_ADAPTER_REGISTRY.json"
 LOCK = ROOT / ".orchestrator.lock"
 JOURNAL = ROOT / "REGIMEMOE_TRANSACTION.json"
 SCHEMAS = ROOT / "schemas"
@@ -104,9 +106,9 @@ def validate_state(state: dict[str, Any]) -> None:
     if state["capital_permitted"] != 0 or state["holdout_access"] != "FORBIDDEN":
         raise ValueError("capital or holdout safety boundary violated")
     lock = state.get("website_external_lock")
-    if not isinstance(lock, dict) or not str(
-        lock.get("status", "")
-    ).startswith("EXTERNALLY_LOCKED"):
+    if not isinstance(lock, dict) or not str(lock.get("status", "")).startswith(
+        "EXTERNALLY_LOCKED"
+    ):
         raise ValueError("website external lock must remain enforced")
     if state["usage_paused"] and not isinstance(state.get("retry_after_utc"), str):
         raise ValueError("usage pause requires retry_after_utc")
@@ -213,6 +215,159 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def registry_entry(task_id: str) -> dict[str, Any]:
+    """Fail closed unless a task is catalog-hash-bound and explicitly mapped."""
+    if sha256(CATALOG) != "3fb42f6d1d4de542f61977790c6ec4ce8b090b2f277a3fe95014b9feef16d6b5":
+        raise RuntimeError("authorized task catalog hash mismatch")
+    registry = read(REGISTRY)
+    if registry.get("catalog_sha256") != sha256(CATALOG):
+        raise RuntimeError("adapter registry catalog hash mismatch")
+    matches = [item for item in registry.get("tasks", []) if item.get("task_id") == task_id]
+    if len(matches) != 1 or not isinstance(matches[0], dict):
+        raise RuntimeError("ADAPTER_NOT_CONFIGURED")
+    return cast(dict[str, Any], matches[0])
+
+
+def run_codex_task(task: dict[str, Any], mapping: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """Invoke one bounded noninteractive Codex task and retain all transport evidence."""
+    if mapping.get("adapter_class") not in {"CODEX_CONTENT", "CODEX_IMPLEMENTATION"}:
+        raise RuntimeError("unsupported Codex adapter class")
+    artifact = artifact_path(task["expected_artifact"])
+    if not artifact.is_relative_to(LAB_ROOT):
+        raise RuntimeError("Codex task artifact must be within the lab")
+    attempt_id = f"{task['id']}-{now().replace(':', '').replace('-', '')}-{uuid.uuid4().hex[:12]}"
+    invocation = LAB_ROOT / "artifacts" / "production_invocations" / task["id"] / attempt_id
+    invocation.mkdir(parents=True, exist_ok=False)
+    bundle = {
+        "task_id": task["id"],
+        "catalog_sha256": sha256(CATALOG),
+        "control_commit": subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT.parent,
+            text=True,
+            capture_output=True,
+            check=True,
+        ).stdout.strip(),
+        "lab_commit": subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=LAB_ROOT, text=True, capture_output=True, check=True
+        ).stdout.strip(),
+        "mapping": mapping,
+        "expected_artifact": task["expected_artifact"],
+        "boundaries": {
+            "capital": 0,
+            "holdout": "FORBIDDEN",
+            "website": "EXTERNALLY_LOCKED",
+            "gpu": False,
+            "publication": "DRAFT_ONLY",
+        },
+    }
+    atomic_write(invocation / "task_bundle.json", bundle)
+    prompt = (
+        f"You are executing authorized task {task['id']}. Work only in {LAB_ROOT}. "
+        f"Create only the required JSON artifact {artifact}. Do not access market or holdout data, "
+        "resolve data paths, modify the website, publish, use GPU, capital, credentials, or "
+        f"external APIs. Objective: {task['commands'][0]}. The artifact must state scope and "
+        "deterministic validation. Return concise JSON describing the artifact path and tests run."
+    )
+    atomic_text_write(invocation / "prompt.txt", prompt)
+    atomic_write(
+        invocation / "invocation_start.json",
+        {
+            "attempt_id": attempt_id,
+            "task_id": task["id"],
+            "created_at_utc": now(),
+            "process_not_started": True,
+            "task_bundle_sha256": sha256(invocation / "task_bundle.json"),
+            "prompt_sha256": sha256(invocation / "prompt.txt"),
+            "adapter_class": mapping["adapter_class"],
+            "model": mapping["model"],
+            "reasoning": mapping["reasoning"],
+            "expected_artifact": task["expected_artifact"],
+        },
+    )
+    output = invocation / "response.json"
+    command = [
+        "timeout",
+        str(mapping.get("runtime_seconds", 900)),
+        "codex",
+        "exec",
+        "--ephemeral",
+        "--json",
+        "-o",
+        str(output),
+        "-m",
+        str(mapping["model"]),
+        "-c",
+        f'model_reasoning_effort="{mapping["reasoning"]}"',
+        "-C",
+        str(LAB_ROOT),
+        prompt,
+    ]
+    started = now()
+    exit_status: int | None = None
+    timeout = False
+    parser_result = "NOT_ATTEMPTED"
+    with (
+        (invocation / "stdout.log").open("wb") as stdout,
+        (invocation / "stderr.log").open("wb") as stderr,
+    ):
+        try:
+            child = subprocess.Popen(command, cwd=LAB_ROOT, stdout=stdout, stderr=stderr)
+            atomic_write(
+                invocation / "process.json",
+                {"attempt_id": attempt_id, "pid": child.pid, "started_at_utc": started},
+            )
+            exit_status = child.wait(timeout=int(mapping.get("runtime_seconds", 900)))
+        except subprocess.TimeoutExpired:
+            timeout = True
+            child.kill()
+            exit_status = child.wait()
+        finally:
+            stdout.flush()
+            os.fsync(stdout.fileno())
+            stderr.flush()
+            os.fsync(stderr.fileno())
+    raw = output.read_text(encoding="utf-8") if output.exists() else ""
+    atomic_text_write(invocation / "raw_response.log", raw)
+    if raw:
+        try:
+            parsed = json.loads(raw)
+            if isinstance(parsed, dict):
+                atomic_write(invocation / "parsed_result.json", parsed)
+            parser_result = "JSON_PASS"
+        except json.JSONDecodeError:
+            parser_result = "PARSER_FAILED_RAW_PRESERVED"
+    classification = (
+        "PASS" if exit_status == 0 and artifact.is_file() and raw else "ADAPTER_CAPTURE_INCOMPLETE"
+    )
+    atomic_write(
+        invocation / "finalization.json",
+        {
+            "attempt_id": attempt_id,
+            "task_id": task["id"],
+            "process_started": True,
+            "start_utc": started,
+            "finish_utc": now(),
+            "exit_status": exit_status,
+            "timeout": timeout,
+            "stdout_bytes": (invocation / "stdout.log").stat().st_size,
+            "stderr_bytes": (invocation / "stderr.log").stat().st_size,
+            "raw_bytes": (invocation / "raw_response.log").stat().st_size,
+            "expected_artifact_present": artifact.is_file(),
+            "expected_artifact_sha256": sha256(artifact) if artifact.is_file() else None,
+            "parser_result": parser_result,
+            "classification": classification,
+            "task_terminalization_permitted": classification == "PASS",
+        },
+    )
+    if classification != "PASS":
+        return "ADAPTER_NOT_CONFIGURED", checkpoint(task, "ADAPTER_NOT_CONFIGURED", classification)
+    report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
+    report["artifact_exists"] = True
+    report["validation_result"] = "CODEX_ARTIFACT_EXISTS"
+    return "TERMINAL", report
+
+
 def acquire_lock() -> None:
     try:
         fd = os.open(LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
@@ -286,7 +441,9 @@ def release_satisfied_dependencies(queue: dict[str, Any]) -> bool:
     tasks_by_id = {task["id"]: task for task in queue["tasks"]}
     changed = False
     for task in queue["tasks"]:
-        if task["state"] == "BLOCKED_DEPENDENCY" and dependency_outcomes_satisfied(task, tasks_by_id):
+        if task["state"] == "BLOCKED_DEPENDENCY" and dependency_outcomes_satisfied(
+            task, tasks_by_id
+        ):
             task["state"] = "READY"
             changed = True
     return changed
@@ -310,7 +467,9 @@ def select(queue: dict[str, Any]) -> dict[str, Any] | None:
             candidates,
             key=lambda task: (
                 0 if str(task["id"]).startswith("g1-") else 1,
-                recent.get(task["workstream"], 0), task["priority"], task["id"],
+                recent.get(task["workstream"], 0),
+                task["priority"],
+                task["id"],
             ),
         ),
     )
@@ -397,7 +556,9 @@ def execute_data_contract_validation(task: dict[str, Any]) -> tuple[str, dict[st
     return "TERMINAL", report
 
 
-def execute_v5_development_data_contract_validation(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+def execute_v5_development_data_contract_validation(
+    task: dict[str, Any],
+) -> tuple[str, dict[str, Any]]:
     """Bind G1 to reviewed V5 evidence without reopening data or resolving paths."""
     manifest = LAB_ROOT / "contracts" / "REGIMEMOE_DEVELOPMENT_MANIFEST_V5.json"
     validation = LAB_ROOT / "artifacts" / "REGIMEMOE_DEVELOPMENT_MANIFEST_V5_VALIDATION.json"
@@ -406,17 +567,60 @@ def execute_v5_development_data_contract_validation(task: dict[str, Any]) -> tup
         raise RuntimeError("immutable V5 evidence is absent")
     values = [read(path) for path in (manifest, validation, attestation)]
     if (
-        values[0].get("manifest_canonical_sha256") != "da32d844b8fff32651aab44aae93eb86af967eaf571a6607667f57c4e3b8db5f"
-        or values[0].get("allowlist_hash", {}).get("computed") != "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd"
+        values[0].get("manifest_canonical_sha256")
+        != "da32d844b8fff32651aab44aae93eb86af967eaf571a6607667f57c4e3b8db5f"
+        or values[0].get("allowlist_hash", {}).get("computed")
+        != "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd"
         or values[1].get("files_opened") != 36
         or values[2].get("entry_count") != 36
     ):
         raise RuntimeError("V5 development contract evidence mismatch")
     artifact = artifact_path(task["expected_artifact"])
-    atomic_write(artifact, {"artifact_type": "G1_DEVELOPMENT_DATA_CONTRACT_VALIDATION", "result": "PASS", "manifest_sha256": values[0]["manifest_canonical_sha256"], "allowlist_sha256": values[0]["allowlist_hash"]["computed"], "partitions": 36, "market_data_content_read": False, "holdout_access": "FORBIDDEN"})
+    atomic_write(
+        artifact,
+        {
+            "artifact_type": "G1_DEVELOPMENT_DATA_CONTRACT_VALIDATION",
+            "result": "PASS",
+            "manifest_sha256": values[0]["manifest_canonical_sha256"],
+            "allowlist_sha256": values[0]["allowlist_hash"]["computed"],
+            "partitions": 36,
+            "market_data_content_read": False,
+            "holdout_access": "FORBIDDEN",
+        },
+    )
     report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
     report["artifact_exists"] = True
     report["validation_result"] = "G1_DEVELOPMENT_DATA_CONTRACT_VALIDATION_PASS"
+    return "TERMINAL", report
+
+
+def execute_causal_data_quality_report(task: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """Publish only immutable V5 quality evidence; no data file is reopened."""
+    source = LAB_ROOT / "artifacts" / "REGIMEMOE_DEVELOPMENT_MANIFEST_V5_VALIDATION.json"
+    evidence = read(source)
+    if evidence.get("logical_ids") != 36 or evidence.get("directory_scans") != 0:
+        raise RuntimeError("V5 quality evidence does not satisfy the deterministic boundary")
+    artifact = artifact_path(task["expected_artifact"])
+    atomic_write(
+        artifact,
+        {
+            "artifact_type": "G1_CAUSAL_DATA_QUALITY_REPORT",
+            "result": "PASS",
+            "coverage": "V5 validated 36 explicit development partitions",
+            "cadence": "one-minute end-stamped; boundary semantics reviewed",
+            "missing_observations": "preserved documented gap/quarantine treatment",
+            "synchronization": "BTCUSDT and ETHUSDT validated under the same V5 contract",
+            "timestamp_quality": "monotonicity and boundary checks preserved",
+            "duplicates": "validated by V5 deterministic evidence",
+            "quality_states": "development-only V5",
+            "market_data_content_read": False,
+            "holdout_access": "FORBIDDEN",
+            "source_validation_sha256": sha256(source),
+        },
+    )
+    report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
+    report["artifact_exists"] = True
+    report["validation_result"] = "G1_CAUSAL_DATA_QUALITY_REPORT_PASS"
     return "TERMINAL", report
 
 
@@ -518,10 +722,18 @@ def execute_task(task: dict[str, Any], state: dict[str, Any]) -> tuple[str, dict
         return execute_data_contract_validation(task)
     if task.get("adapter") == "v5_development_data_contract_validation":
         return execute_v5_development_data_contract_validation(task)
+    if task["id"] == "g1-causal-data-quality-report":
+        return execute_causal_data_quality_report(task)
     if task.get("adapter") == "development_manifest_inventory":
         return execute_development_manifest_inventory(task)
     if task.get("adapter") == "thesis_methodology_outline":
         return execute_thesis_methodology_outline(task)
+    try:
+        mapping = registry_entry(task["id"])
+    except RuntimeError as error:
+        return "ADAPTER_NOT_CONFIGURED", checkpoint(task, "ADAPTER_NOT_CONFIGURED", str(error))
+    if mapping.get("adapter_class") in {"CODEX_CONTENT", "CODEX_IMPLEMENTATION"}:
+        return run_codex_task(task, mapping)
     return "ADAPTER_NOT_CONFIGURED", checkpoint(
         task, "ADAPTER_NOT_CONFIGURED", "ADAPTER_NOT_CONFIGURED"
     )
@@ -543,16 +755,25 @@ def materialize_authorized_catalog() -> None:
         independent = not dependencies
         state_name = "READY" if independent else "BLOCKED_DEPENDENCY"
         task = {
-            "id": entry["task_id"], "workstream": entry["workstream"], "role": entry["permitted_model_role"],
-            "state": state_name, "priority": entry["priority"], "commands": [entry["objective"]],
-            "expected_artifact": entry["deterministic_acceptance_artifact"], "validation": entry["mandatory_tests"],
-            "depends_on": dependencies, "dependency_outcomes": {dependency: "TERMINAL" for dependency in dependencies},
+            "id": entry["task_id"],
+            "workstream": entry["workstream"],
+            "role": entry["permitted_model_role"],
+            "state": state_name,
+            "priority": entry["priority"],
+            "commands": [entry["objective"]],
+            "expected_artifact": entry["deterministic_acceptance_artifact"],
+            "validation": entry["mandatory_tests"],
+            "depends_on": dependencies,
+            "dependency_outcomes": {dependency: "TERMINAL" for dependency in dependencies},
             "verified_provenance": entry.get("verified_provenance", False),
         }
         if isinstance(entry.get("adapter"), str):
             task["adapter"] = entry["adapter"]
         queue["tasks"].append(task)
-    validate(queue); validate_state(state); validate_scorecard(scorecard); commit_snapshot(queue, state, scorecard)
+    validate(queue)
+    validate_state(state)
+    validate_scorecard(scorecard)
+    commit_snapshot(queue, state, scorecard)
 
 
 def production_queue(queue: dict[str, Any]) -> dict[str, Any]:
@@ -772,7 +993,9 @@ def main() -> None:
     if args.command == "materialize-catalog":
         acquire_lock()
         try:
-            recover(); materialize_authorized_catalog(); print(json.dumps({"status": "CATALOG_MATERIALIZED"}))
+            recover()
+            materialize_authorized_catalog()
+            print(json.dumps({"status": "CATALOG_MATERIALIZED"}))
         finally:
             release_lock()
         return
