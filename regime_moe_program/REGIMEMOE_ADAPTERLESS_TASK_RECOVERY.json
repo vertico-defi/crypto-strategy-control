@@ -1,0 +1,120 @@
+{
+  "implementation_budget_consumed": 0,
+  "model_budget_consumed": 0,
+  "preserved_genuine_human_approval": [
+    {
+      "blocker": "superseded by recorded G0 foundation pass",
+      "task_id": "phase0-data-contract-review"
+    },
+    {
+      "blocker": "no execution adapter authorized",
+      "task_id": "phase0-expert-interface"
+    },
+    {
+      "blocker": "no execution adapter authorized",
+      "task_id": "phase0-router-leakage"
+    },
+    {
+      "blocker": "no execution adapter authorized",
+      "task_id": "phase0-thesis-proposal"
+    },
+    {
+      "blocker": "website externally locked",
+      "task_id": "phase0-content-calendar"
+    }
+  ],
+  "recovered": [
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "g1-causal-data-quality-report"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "g1-event-driven-execution-kernel"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "thesis-literature-matrix-template"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "thesis-proposal-motivation-evidence-outline"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "thesis-problem-statement-outline"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "thesis-research-question-hypotheses-worksheet"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "thesis-regimemoe-architecture-diagram"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "thesis-leakage-threat-model"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "thesis-experiment-design-table"
+    },
+    {
+      "blocker": "no production adapter authorized",
+      "budget_effect": "NONE",
+      "dependencies_satisfied": true,
+      "model_invocation_count": 0,
+      "new_state": "READY",
+      "previous_state": "HUMAN_APPROVAL",
+      "task_id": "thesis-data-card-template"
+    }
+  ],
+  "schema_version": "1.0",
+  "scientific_budget_consumed": 0
+}

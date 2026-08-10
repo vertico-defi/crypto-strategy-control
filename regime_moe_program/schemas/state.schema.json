@@ -16,6 +16,19 @@
     "retry_after_utc": {"type": "string"},
     "gpu_phase_0": {"const": false},
     "timers_enabled": {"type": "boolean"},
+    "automation_state": {"enum": ["ACTIVE", "PAUSED_FOR_ADAPTER_HARDENING", "AUTOMATION_STATE_DRIFT"]},
+    "automation_pause": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["paused_by", "reason", "at_utc", "service_unit", "timer_unit"],
+      "properties": {
+        "paused_by": {"type": "string"},
+        "reason": {"type": "string"},
+        "at_utc": {"type": "string"},
+        "service_unit": {"type": "string"},
+        "timer_unit": {"type": "string"}
+      }
+    },
     "last_cycle_at_utc": {"type": "string"},
     "production_adapters_active": {"type": "array", "items": {"type": "string"}},
     "g0_foundation_pass": {

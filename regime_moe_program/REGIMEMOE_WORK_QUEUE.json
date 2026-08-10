@@ -534,9 +534,31 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/g1-causal-data-quality-report.json",
       "id": "g1-causal-data-quality-report",
+      "last_checkpoint": {
+        "at_utc": "2026-08-09T22:41:24.434803Z",
+        "commands": [
+          "causal coverage, cadence, availability, gap and quarantine report"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-causal-data-quality-report.json",
+        "model_role": "implementation_engineer",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "g1-causal-data-quality-report",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 11,
       "role": "implementation_engineer",
-      "state": "BLOCKED_DEPENDENCY",
+      "state": "READY",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -649,9 +671,31 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/g1-event-driven-execution-kernel.json",
       "id": "g1-event-driven-execution-kernel",
+      "last_checkpoint": {
+        "at_utc": "2026-08-09T22:41:24.450919Z",
+        "commands": [
+          "event-driven offline execution kernel only"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-event-driven-execution-kernel.json",
+        "model_role": "implementation_engineer",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "g1-event-driven-execution-kernel",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 16,
       "role": "implementation_engineer",
-      "state": "BLOCKED_DEPENDENCY",
+      "state": "READY",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1186,6 +1230,28 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-literature-matrix-template.json",
       "id": "thesis-literature-matrix-template",
+      "last_checkpoint": {
+        "at_utc": "2026-08-10T00:46:00.842960Z",
+        "commands": [
+          "literature matrix template"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-literature-matrix-template.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "thesis-literature-matrix-template",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 100,
       "role": "content_product",
       "state": "READY",
@@ -1205,6 +1271,28 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-proposal-motivation-evidence-outline.json",
       "id": "thesis-proposal-motivation-evidence-outline",
+      "last_checkpoint": {
+        "at_utc": "2026-08-10T00:46:00.859167Z",
+        "commands": [
+          "proposal motivation evidence outline"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-proposal-motivation-evidence-outline.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "thesis-proposal-motivation-evidence-outline",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 101,
       "role": "content_product",
       "state": "READY",
@@ -1224,6 +1312,28 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-problem-statement-outline.json",
       "id": "thesis-problem-statement-outline",
+      "last_checkpoint": {
+        "at_utc": "2026-08-10T02:50:00.832159Z",
+        "commands": [
+          "problem statement outline"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-problem-statement-outline.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "thesis-problem-statement-outline",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 102,
       "role": "content_product",
       "state": "READY",
@@ -1243,6 +1353,28 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-research-question-hypotheses-worksheet.json",
       "id": "thesis-research-question-hypotheses-worksheet",
+      "last_checkpoint": {
+        "at_utc": "2026-08-10T02:50:00.849263Z",
+        "commands": [
+          "research question hypotheses worksheet"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-research-question-hypotheses-worksheet.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "thesis-research-question-hypotheses-worksheet",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 103,
       "role": "content_product",
       "state": "READY",
@@ -1262,6 +1394,28 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-regimemoe-architecture-diagram.json",
       "id": "thesis-regimemoe-architecture-diagram",
+      "last_checkpoint": {
+        "at_utc": "2026-08-10T04:54:24.454616Z",
+        "commands": [
+          "regimemoe architecture diagram"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-regimemoe-architecture-diagram.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "thesis-regimemoe-architecture-diagram",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 104,
       "role": "content_product",
       "state": "READY",
@@ -1281,6 +1435,28 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-leakage-threat-model.json",
       "id": "thesis-leakage-threat-model",
+      "last_checkpoint": {
+        "at_utc": "2026-08-10T04:54:24.472540Z",
+        "commands": [
+          "leakage threat model"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-leakage-threat-model.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "thesis-leakage-threat-model",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 105,
       "role": "content_product",
       "state": "READY",
@@ -1300,6 +1476,28 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-experiment-design-table.json",
       "id": "thesis-experiment-design-table",
+      "last_checkpoint": {
+        "at_utc": "2026-08-10T06:58:00.844890Z",
+        "commands": [
+          "experiment design table"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-experiment-design-table.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "thesis-experiment-design-table",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 106,
       "role": "content_product",
       "state": "READY",
@@ -1319,6 +1517,28 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-data-card-template.json",
       "id": "thesis-data-card-template",
+      "last_checkpoint": {
+        "at_utc": "2026-08-10T06:58:00.862698Z",
+        "commands": [
+          "data card template"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-data-card-template.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "no production adapter authorized",
+        "status": "HUMAN_APPROVAL",
+        "task_id": "thesis-data-card-template",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 107,
       "role": "content_product",
       "state": "READY",

@@ -1,4 +1,12 @@
 {
+  "automation_pause": {
+    "at_utc": "2026-08-10T08:14:15.139929Z",
+    "paused_by": "human operator",
+    "reason": "production adapter hardening",
+    "service_unit": "regimemoe-orchestrator.service",
+    "timer_unit": "regimemoe-orchestrator.timer"
+  },
+  "automation_state": "PAUSED_FOR_ADAPTER_HARDENING",
   "capital_permitted": 0,
   "g0_foundation_pass": {
     "control_commit": "f6128c9",
@@ -9,7 +17,7 @@
   },
   "gpu_phase_0": false,
   "holdout_access": "FORBIDDEN",
-  "last_cycle_at_utc": "2026-08-09T20:51:57.123245Z",
+  "last_cycle_at_utc": "2026-08-10T06:58:00.862705Z",
   "phase": 1,
   "production_adapters_active": [
     "data_contract_validation",
@@ -18,7 +26,7 @@
   ],
   "program": "RegimeMoE",
   "schema_version": "1.0",
-  "timers_enabled": true,
+  "timers_enabled": false,
   "usage_paused": false,
   "website_external_lock": {
     "branch": "content-funnel-v1",
