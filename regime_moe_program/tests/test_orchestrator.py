@@ -395,8 +395,8 @@ def test_mock_multi_workstream_cycles_use_isolated_state(
     assert first["checkpoint"]["task_id"] == "data-review"
     assert second["checkpoint"]["task_id"] == "router-review"
     assert [task["state"] for task in controller.read(queue_path)["tasks"]] == [  # type: ignore[attr-defined]
-        "HUMAN_APPROVAL",
-        "HUMAN_APPROVAL",
+            "ADAPTER_NOT_CONFIGURED",
+            "ADAPTER_NOT_CONFIGURED",
     ]
     assert not journal.exists()
 
