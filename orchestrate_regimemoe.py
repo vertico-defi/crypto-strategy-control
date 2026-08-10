@@ -38,6 +38,7 @@ STATES = {
     "TERMINAL",
     "FAILED",
     "PAUSED_FOR_USAGE",
+    "ADAPTER_NOT_CONFIGURED",
 }
 TERMINAL_DEPENDENCY_OUTCOMES = {"TERMINAL"}
 ROLES = {
@@ -521,7 +522,9 @@ def execute_task(task: dict[str, Any], state: dict[str, Any]) -> tuple[str, dict
         return execute_development_manifest_inventory(task)
     if task.get("adapter") == "thesis_methodology_outline":
         return execute_thesis_methodology_outline(task)
-    return "HUMAN_APPROVAL", checkpoint(task, "HUMAN_APPROVAL", "no production adapter authorized")
+    return "ADAPTER_NOT_CONFIGURED", checkpoint(
+        task, "ADAPTER_NOT_CONFIGURED", "ADAPTER_NOT_CONFIGURED"
+    )
 
 
 def materialize_authorized_catalog() -> None:

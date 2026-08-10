@@ -1,0 +1,712 @@
+{
+  "catalog_sha256": "3fb42f6d1d4de542f61977790c6ec4ce8b090b2f277a3fe95014b9feef16d6b5",
+  "classes": {
+    "CODEX_CONTENT": "gpt-5.6-terra medium draft-only lab content",
+    "CODEX_IMPLEMENTATION": "gpt-5.6-terra medium bounded engineering",
+    "DETERMINISTIC_LOCAL": "no model; deterministic evidence only",
+    "FOCUSED_REVIEW": "gpt-5.6-sol high hardened audit protocol only"
+  },
+  "registry_id": "REGIMEMOE_PRODUCTION_ADAPTER_REGISTRY_V1",
+  "schema_version": "1.0",
+  "tasks": [
+    {
+      "adapter_class": "DETERMINISTIC_LOCAL",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-development-data-contract-validation.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": null,
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": null,
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-development-data-contract-validation",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "DETERMINISTIC_LOCAL",
+      "dependencies": [
+        "g1-development-data-contract-validation"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-causal-data-quality-report.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": null,
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": null,
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-causal-data-quality-report",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g1-causal-data-quality-report"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-decision-interval-selection-protocol.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-decision-interval-selection-protocol",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g1-decision-interval-selection-protocol"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-point-in-time-feature-contract.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-point-in-time-feature-contract",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g1-point-in-time-feature-contract"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-feature-known-answer-fixtures.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-feature-known-answer-fixtures",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g1-feature-known-answer-fixtures"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-fold-normalization-and-leakage-tests.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-fold-normalization-and-leakage-tests",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g1-development-data-contract-validation"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-event-driven-execution-kernel.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-event-driven-execution-kernel",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g1-fold-normalization-and-leakage-tests",
+        "g1-event-driven-execution-kernel"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-nested-walk-forward-kernel.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-nested-walk-forward-kernel",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "FOCUSED_REVIEW",
+      "dependencies": [
+        "g1-causal-data-quality-report",
+        "g1-decision-interval-selection-protocol",
+        "g1-point-in-time-feature-contract",
+        "g1-fold-normalization-and-leakage-tests",
+        "g1-event-driven-execution-kernel",
+        "g1-nested-walk-forward-kernel"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-integration-gate.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-sol",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "high",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g1-integration-gate",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g1-integration-gate"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-common-expert-interface.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-common-expert-interface",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g2-common-expert-interface"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-cash-expert.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-cash-expert",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g2-cash-expert"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-trend-expert.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-trend-expert",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g2-trend-expert"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-mean-reversion-expert.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-mean-reversion-expert",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g2-mean-reversion-expert"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-relative-value-expert.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-relative-value-expert",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g2-relative-value-expert"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-expert-trace-validation.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-expert-trace-validation",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g2-expert-trace-validation"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-individual-expert-development-results.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-individual-expert-development-results",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g2-individual-expert-development-results"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-static-ensemble-baselines.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-static-ensemble-baselines",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "FOCUSED_REVIEW",
+      "dependencies": [
+        "g2-static-ensemble-baselines"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g2-integration-gate.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-sol",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "high",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g2-integration-gate",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g2-integration-gate"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-out-of-fold-expert-output-dataset.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-out-of-fold-expert-output-dataset",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g3-out-of-fold-expert-output-dataset"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-router-target-and-loss-protocol.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-router-target-and-loss-protocol",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g3-router-target-and-loss-protocol"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-logistic-router.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-logistic-router",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g3-logistic-router"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-xgboost-router.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-xgboost-router",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g3-xgboost-router"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-lstm-router.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-lstm-router",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g3-lstm-router"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-tcn-router.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-tcn-router",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g3-tcn-router"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-optional-compact-transformer-decision.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-optional-compact-transformer-decision",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g3-optional-compact-transformer-decision"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-calibration-and-abstention.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-calibration-and-abstention",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_IMPLEMENTATION",
+      "dependencies": [
+        "g3-calibration-and-abstention"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-specialization-and-interpretability.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-specialization-and-interpretability",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "FOCUSED_REVIEW",
+      "dependencies": [
+        "g3-specialization-and-interpretability"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g3-integration-gate.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-sol",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "high",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g3-integration-gate",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "FOCUSED_REVIEW",
+      "dependencies": [
+        "g3-integration-gate"
+      ],
+      "expected_artifact": "regime-moe-lab/artifacts/g4-development-screening.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-sol",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "high",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "g4-development-screening",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-literature-matrix-template.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-literature-matrix-template",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-proposal-motivation-evidence-outline.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-proposal-motivation-evidence-outline",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-problem-statement-outline.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-problem-statement-outline",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-research-question-hypotheses-worksheet.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-research-question-hypotheses-worksheet",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-regimemoe-architecture-diagram.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-regimemoe-architecture-diagram",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-leakage-threat-model.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-leakage-threat-model",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-experiment-design-table.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-experiment-design-table",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-data-card-template.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-data-card-template",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-model-card-template.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-model-card-template",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-employer-architecture-brief.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-employer-architecture-brief",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-conference-paper-outline.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-conference-paper-outline",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-five-minute-demo-script.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-five-minute-demo-script",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/artifacts/thesis-interview-explanation-notes.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "thesis-interview-explanation-notes",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/content/linkedin-drafts.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "audience-linkedin-drafts",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/content/youtube-script.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "audience-youtube-script",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/content/shorts-scripts.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "audience-shorts-scripts",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/content/educational-article.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "audience-educational-article",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/content/research-toolkit-inventory.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "audience-research-toolkit-inventory",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/content/ebook-roadmap.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "audience-ebook-roadmap",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    },
+    {
+      "adapter_class": "CODEX_CONTENT",
+      "dependencies": [],
+      "expected_artifact": "regime-moe-lab/content/newsletter-issue-draft.json",
+      "human_boundary": "holdout, GPU, publication, live capital, or material redesign",
+      "model": "gpt-5.6-terra",
+      "permitted_write_scope": "/home/vertico/regime-moe-lab",
+      "reasoning": "medium",
+      "repair_limit": 1,
+      "runtime_seconds": 900,
+      "task_id": "audience-newsletter-issue-draft",
+      "working_directory": "/home/vertico/regime-moe-lab"
+    }
+  ]
+}
