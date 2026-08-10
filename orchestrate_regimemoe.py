@@ -293,6 +293,7 @@ def run_codex_task(task: dict[str, Any], mapping: dict[str, Any]) -> tuple[str, 
         "exec",
         "--ephemeral",
         "--json",
+        "--skip-git-repo-check",
         "-o",
         str(output),
         "-m",
@@ -930,6 +931,75 @@ def retry_after_reached(state: dict[str, Any]) -> bool:
     return datetime.fromisoformat(retry_after.replace("Z", "+00:00")) <= datetime.now(UTC)
 
 
+def systemd_smoke() -> None:
+    """Non-mutating infrastructure smoke; never selects or changes a queue task."""
+    smoke_id = f"systemd-smoke-{now().replace(':', '').replace('-', '')}-{uuid.uuid4().hex[:8]}"
+    directory = Path("/home/vertico/.local/state/regimemoe/systemd-smoke") / smoke_id
+    directory.mkdir(parents=True, exist_ok=False)
+    prompt = (
+        'Return only JSON: {"schema_version":"1.0","smoke_id":"'
+        + smoke_id
+        + '","model":"gpt-5.6-terra","reasoning":"medium","invocation_mode":"noninteractive",'
+        '"verdict":"PASS","files_modified":false,"queue_modified":false,'
+        '"market_data_accessed":false,"holdout_accessed":false,"capital_used":false}. '
+        "Do not modify any file."
+    )
+    atomic_text_write(directory / "prompt.txt", prompt)
+    output = directory / "response.json"
+    start = now()
+    with (
+        (directory / "stdout.log").open("wb") as stdout,
+        (directory / "stderr.log").open("wb") as stderr,
+    ):
+        child = subprocess.Popen(
+            [
+                "timeout",
+                "120",
+                "codex",
+                "exec",
+                "--ephemeral",
+                "--json",
+                "--skip-git-repo-check",
+                "-o",
+                str(output),
+                "-m",
+                "gpt-5.6-terra",
+                "-c",
+                'model_reasoning_effort="medium"',
+                "-C",
+                "/tmp",
+                prompt,
+            ],
+            stdout=stdout,
+            stderr=stderr,
+        )
+        exit_status = child.wait(timeout=130)
+        stdout.flush()
+        os.fsync(stdout.fileno())
+        stderr.flush()
+        os.fsync(stderr.fileno())
+    raw = output.read_text(encoding="utf-8") if output.exists() else ""
+    atomic_text_write(directory / "raw_response.log", raw)
+    parsed = json.loads(raw)
+    if parsed.get("verdict") != "PASS" or parsed.get("files_modified") is not False:
+        raise RuntimeError("systemd smoke response failed validation")
+    atomic_write(directory / "parsed_result.json", parsed)
+    atomic_write(
+        directory / "finalization.json",
+        {
+            "smoke_id": smoke_id,
+            "start_utc": start,
+            "finish_utc": now(),
+            "exit_status": exit_status,
+            "raw_sha256": sha256(directory / "raw_response.log"),
+            "stdout_sha256": sha256(directory / "stdout.log"),
+            "stderr_sha256": sha256(directory / "stderr.log"),
+            "classification": "PASS",
+        },
+    )
+    print(json.dumps({"status": "PASS", "smoke_id": smoke_id, "directory": str(directory)}))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -945,6 +1015,7 @@ def main() -> None:
             "enqueue-g1-manifest-inventory",
             "enqueue-thesis-methodology-outline",
             "materialize-catalog",
+            "systemd-smoke",
         ),
     )
     parser.add_argument("--max-cycles", type=int, default=1)
@@ -965,6 +1036,9 @@ def main() -> None:
                 indent=2,
             )
         )
+        return
+    if args.command == "systemd-smoke":
+        systemd_smoke()
         return
     if args.command == "weekly-report":
         scorecard = read(SCORECARD)
