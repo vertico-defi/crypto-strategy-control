@@ -877,7 +877,7 @@
       "id": "g1-integration-gate",
       "last_checkpoint": {
         "artifact_exists": true,
-        "at_utc": "2026-08-12T13:37:15.602298Z",
+        "at_utc": "2026-08-12T13:39:41.018104Z",
         "commands": [
           "G1 deterministic integration gate"
         ],

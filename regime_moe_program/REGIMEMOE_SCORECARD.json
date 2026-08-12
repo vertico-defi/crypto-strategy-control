@@ -844,7 +844,7 @@
     },
     {
       "artifact_exists": true,
-      "at_utc": "2026-08-12T13:35:43.212096Z",
+      "at_utc": "2026-08-12T13:38:45.716911Z",
       "commands": [
         "G1 deterministic integration gate"
       ],
