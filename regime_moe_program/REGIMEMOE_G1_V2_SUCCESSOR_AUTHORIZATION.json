@@ -1,0 +1,36 @@
+{
+  "authorization_id": "G1-v2-frozen-protocol-conformance",
+  "schema_version": "1.0",
+  "predecessor": {
+    "task_id": "g1-integration-gate",
+    "state": "FAILED",
+    "result": "FOCUSED_REVIEW_FAIL",
+    "artifact": "regime-moe-lab/artifacts/g1-integration-gate.json",
+    "artifact_sha256": "441e5622ec973d03489b17a196fbbf8a996004de1a277a4fbb02ad1d02615392",
+    "findings": ["G1-INT-001", "G1-INT-002", "G1-INT-003", "G1-INT-004"]
+  },
+  "purpose": "methodological frozen-protocol correction without economic optimisation",
+  "v1_preservation": "all v1 contracts, artifacts, invocation evidence, hashes, findings, and terminal classifications remain immutable historical evidence",
+  "immutable_inputs": {
+    "frozen_development_protocol_sha256": "3b58e957c92474631fa2c0ca7db1e842262e52e3d6c9a8269f700d2fafb01856",
+    "v5_manifest_file_sha256": "c919c017fd6cd8241a8713162225bd77bc38e0904310d0b5ec82e5e7181ca797",
+    "v5_manifest_identity": "da32d844b8fff32651aab44aae93eb86af967eaf571a6607667f57c4e3b8db5f",
+    "holdout_access": "FORBIDDEN",
+    "capital_permission": 0,
+    "gpu_permission": false,
+    "website_mutation": false,
+    "publication_permission": false,
+    "timers_enabled": false
+  },
+  "scope": {
+    "permitted_modules": ["regime_moe/g1_v2_conformance.py", "regime_moe/contracts.py", "tests/test_g1_v2_conformance.py"],
+    "permitted_artifacts": ["g1-v2-decision-interval-protocol.json", "g1-v2-point-in-time-feature-fixtures.json", "g1-v2-execution-conformance.json", "g1-v2-nested-walk-forward-conformance.json", "g1-v2-cross-artifact-conformance.json", "g1-v2-reproducibility-report.json", "g1-v2-integration-gate.json"],
+    "prohibited": ["market data paths or Parquet files", "development sample", "strategy returns", "expert or router development", "G2 release", "holdout", "capital", "GPU", "website", "publication", "timer enablement"]
+  },
+  "budget": {"implementation_cycles": 1, "localized_mechanical_repairs": 1, "focused_sol_high_reviews": 1, "temporary_service_failure_identical_retries": 1},
+  "acceptance": ["all deterministic synthetic tests pass", "cross-artifact validator passes", "two canonical runs match", "one focused Sol/high review returns PASS", "no scope expansion"],
+  "hard_stop": "material methodological incompatibility, economic scope expansion, failed review after one localized repair, or any safety-boundary violation requires HUMAN_APPROVAL",
+  "success_state": "G1_V2_PROTOCOL_CONFORMANCE_PASS",
+  "next_state": "READY_FOR_SUPERVISED_DEVELOPMENT_SAMPLE_AUTHORIZATION",
+  "g2_policy": "all future G2/G3 results must originate exclusively from accepted v2; this authorization does not release G2"
+}

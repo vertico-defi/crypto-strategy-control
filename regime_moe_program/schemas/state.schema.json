@@ -16,7 +16,9 @@
     "retry_after_utc": {"type": "string"},
     "gpu_phase_0": {"const": false},
     "timers_enabled": {"type": "boolean"},
-    "automation_state": {"enum": ["ACTIVE", "PAUSED_FOR_ADAPTER_HARDENING", "AUTOMATION_STATE_DRIFT"]},
+    "automation_state": {"enum": ["ACTIVE", "PAUSED_FOR_ADAPTER_HARDENING", "AUTOMATION_STATE_DRIFT", "SUPERVISED_MANUAL_RESEARCH"]},
+    "current_milestone": {"type": "string", "minLength": 1},
+    "g1_v2": {"type": "object", "additionalProperties": false, "required": ["authorization_id", "result", "next_state", "review_verdict"], "properties": {"authorization_id": {"const": "G1-v2-frozen-protocol-conformance"}, "result": {"const": "G1_V2_PROTOCOL_CONFORMANCE_PASS"}, "next_state": {"const": "READY_FOR_SUPERVISED_DEVELOPMENT_SAMPLE_AUTHORIZATION"}, "review_verdict": {"const": "PASS"}}},
     "automation_pause": {
       "type": "object",
       "additionalProperties": false,

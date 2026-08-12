@@ -1,0 +1,9 @@
+{
+  "catalog_id": "REGIMEMOE_G1_V2_FROZEN_PROTOCOL_CONFORMANCE_V1",
+  "schema_version": "1.0",
+  "predecessor_catalog": "REGIMEMOE_AUTHORIZED_G1_G4_V1",
+  "authorization": "REGIMEMOE_G1_V2_SUCCESSOR_AUTHORIZATION.json",
+  "tasks": [
+    {"task_id": "g1-v2-frozen-protocol-conformance", "stage": "G1", "status": "AUTHORIZED", "role": "implementation_engineer", "adapter": "supervised_g1_v2_conformance", "priority": 19, "dependencies": [], "terminal_success_state": "TERMINAL", "deterministic_acceptance_artifact": "regime-moe-lab/artifacts/g1-v2-integration-gate.json", "maximum_model_calls": 1, "maximum_repair_attempts": 1, "holdout_permission": false, "capital_permission": 0, "GPU_permission": false, "publication_permission": "NONE", "objective": "synthetic frozen-protocol conformance only"}
+  ]
+}

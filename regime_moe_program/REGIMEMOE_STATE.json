@@ -1,6 +1,13 @@
 {
-  "automation_state": "PAUSED_FOR_ADAPTER_HARDENING",
+  "automation_state": "SUPERVISED_MANUAL_RESEARCH",
   "capital_permitted": 0,
+  "current_milestone": "READY_FOR_SUPERVISED_DEVELOPMENT_SAMPLE_AUTHORIZATION",
+  "g1_v2": {
+    "authorization_id": "G1-v2-frozen-protocol-conformance",
+    "result": "G1_V2_PROTOCOL_CONFORMANCE_PASS",
+    "next_state": "READY_FOR_SUPERVISED_DEVELOPMENT_SAMPLE_AUTHORIZATION",
+    "review_verdict": "PASS"
+  },
   "g0_foundation_pass": {
     "control_commit": "f6128c9",
     "lab_commit": "3b7443c",

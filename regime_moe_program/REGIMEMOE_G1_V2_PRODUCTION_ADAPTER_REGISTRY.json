@@ -1,0 +1,6 @@
+{
+  "registry_id": "REGIMEMOE_G1_V2_SUPERVISED_ADAPTERS_V1",
+  "schema_version": "1.0",
+  "authorization": "REGIMEMOE_G1_V2_SUCCESSOR_AUTHORIZATION.json",
+  "adapters": [{"task_id": "g1-v2-frozen-protocol-conformance", "adapter_class": "SUPERVISED_DETERMINISTIC_CONFORMANCE", "model": "gpt-5.6-sol", "reasoning": "high", "review_limit": 1, "repair_limit": 1, "market_data_access": false, "holdout_access": false, "capital_permission": 0, "gpu_permission": false, "timer_permission": false, "publication_permission": false}]
+}

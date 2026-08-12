@@ -2,6 +2,31 @@
   "schema_version": "1.0",
   "tasks": [
     {
+      "adapter": "supervised_g1_v2_conformance",
+      "commands": ["synthetic frozen-protocol conformance only"],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-v2-integration-gate.json",
+      "id": "g1-v2-frozen-protocol-conformance",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-12T14:39:21.793865Z",
+        "commands": ["synthetic frozen-protocol conformance only"],
+        "deterministic_validation": ["cross-artifact conformance PASS", "two-run reproducibility PASS", "zero market-data and holdout access", "focused Sol/high review PASS"],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-v2-integration-gate.json",
+        "model_role": "research_director",
+        "model_route": {"model": "gpt-5.6-sol", "reasoning": "high"},
+        "source_commit_or_blocker": "G1_V2_PROTOCOL_CONFORMANCE_PASS",
+        "status": "TERMINAL",
+        "task_id": "g1-v2-frozen-protocol-conformance",
+        "validation_result": "G1_V2_PROTOCOL_CONFORMANCE_PASS",
+        "workstream": "DATA_AND_EVALUATION"
+      },
+      "priority": 19,
+      "role": "research_director",
+      "state": "TERMINAL",
+      "validation": ["cross-artifact validator", "two-run reproducibility", "focused review PASS", "no market data", "no G2 release"],
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
       "adapter": "repository_state_smoke",
       "commands": [
         "git status --short --branch"
