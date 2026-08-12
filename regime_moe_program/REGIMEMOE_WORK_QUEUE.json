@@ -2,6 +2,17 @@
   "schema_version": "1.0",
   "tasks": [
     {
+      "commands": ["V5 resolver preflight and frozen interval-evidence definition check"],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-v2-development-integration-insufficiency.json",
+      "id": "g1-v2-development-only-integration-sample",
+      "last_checkpoint": {"artifact_exists": true, "at_utc": "2026-08-12T15:20:00Z", "commands": ["V5 resolver preflight and frozen interval-evidence definition check"], "deterministic_validation": ["exact resolver validated without data open", "frozen protocol lacks calculation and tie-break definitions", "zero data and holdout access"], "expected_artifact": "regime-moe-lab/artifacts/g1-v2-development-integration-insufficiency.json", "model_role": "deterministic_evidence", "model_route": {"availability": "NOT_INVOKED", "model": "gpt-5.6-luna", "reasoning": "medium"}, "source_commit_or_blocker": "G1_V2_INTERVAL_SELECTION_EVIDENCE_INSUFFICIENT", "status": "HUMAN_APPROVAL", "task_id": "g1-v2-development-only-integration-sample", "validation_result": "G1_V2_INTERVAL_SELECTION_EVIDENCE_INSUFFICIENT", "workstream": "DATA_AND_EVALUATION"},
+      "priority": 21,
+      "role": "deterministic_evidence",
+      "state": "HUMAN_APPROVAL",
+      "validation": ["exact frozen interval evidence", "zero data before selection protocol is executable", "zero holdout access"],
+      "workstream": "DATA_AND_EVALUATION"
+    },
+    {
       "commands": ["provision locked local environment and run synthetic G1 v2 validation"],
       "dependency_outcomes": {"g1-v2-frozen-protocol-conformance": "TERMINAL"},
       "depends_on": ["g1-v2-frozen-protocol-conformance"],

@@ -1,0 +1,12 @@
+{
+  "authorization_id": "G1-v2-development-only-integration-sample",
+  "schema_version": "1.0",
+  "purpose": "methodology and integration checkpoint, not an economic experiment",
+  "predecessors": {"successor_authorization": "REGIMEMOE_G1_V2_SUCCESSOR_AUTHORIZATION.json", "protocol_conformance": "G1_V2_PROTOCOL_CONFORMANCE_PASS", "reproducible_environment": "G1_V2_REPRODUCIBLE_ENVIRONMENT_PASS", "control_commit": "1b76b98faded4261f871c2242a5ff6be70c235ec", "lab_commit": "610d4fdf1a2cf857d6dfd09e34a31693d5239704"},
+  "immutable_inputs": {"v5_manifest_canonical_sha256": "da32d844b8fff32651aab44aae93eb86af967eaf571a6607667f57c4e3b8db5f", "development_allowlist_sha256": "40bb5cf5b7bd3a8ac30e2a3b1d022462fe45888790b1ba58a7068a1982cdc6bd", "candidates": ["15m", "1h", "4h"], "selection_evidence": ["availability_coverage", "gap_rate", "serial_dependence", "operational_latency"], "holdout": "FORBIDDEN", "economic_results": "FORBIDDEN", "capital_permission": 0, "gpu_permission": false, "timer_permission": false, "website_mutation": false},
+  "budget": {"integration_cycles": 1, "localized_mechanical_repairs": 1, "focused_sol_high_reviews": 1, "service_failure_retries_without_verdict": 1, "integration_wall_seconds": 1800},
+  "acceptance": ["exact resolver and manifest preflight", "non-economic frozen interval evidence", "real-data causal feature/fold/execution probes", "independent reference equality", "two-run canonical reproducibility", "focused review PASS"],
+  "hard_stop": "any resolver/manifest mismatch, insufficient frozen evidence, methodological divergence, economic calculation, holdout access, or material review finding requires HUMAN_APPROVAL",
+  "success": "READY_FOR_SUPERVISED_G2_RELEASE_DECISION",
+  "g2_policy": "this authorization does not release G2"
+}

@@ -1,7 +1,7 @@
 {
   "automation_state": "SUPERVISED_MANUAL_RESEARCH",
   "capital_permitted": 0,
-  "current_milestone": "READY_FOR_SUPERVISED_DEVELOPMENT_SAMPLE_AUTHORIZATION",
+  "current_milestone": "G1_V2_INTERVAL_SELECTION_EVIDENCE_INSUFFICIENT",
   "g1_v2": {
     "authorization_id": "G1-v2-frozen-protocol-conformance",
     "result": "G1_V2_PROTOCOL_CONFORMANCE_PASS",
@@ -12,6 +12,11 @@
     "result": "G1_V2_REPRODUCIBLE_ENVIRONMENT_PASS",
     "full_validation": "G1_V2_FULL_VALIDATION_PASS",
     "report": "regime-moe-lab/artifacts/g1-v2-reproducible-environment-report.json"
+  },
+  "g1_v2_development_integration": {
+    "authorization_id": "G1-v2-development-only-integration-sample",
+    "result": "G1_V2_INTERVAL_SELECTION_EVIDENCE_INSUFFICIENT",
+    "artifact": "regime-moe-lab/artifacts/g1-v2-development-integration-insufficiency.json"
   },
   "g0_foundation_pass": {
     "control_commit": "f6128c9",
