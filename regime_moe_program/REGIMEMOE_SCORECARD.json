@@ -865,6 +865,20 @@
       "task_id": "g1-integration-gate",
       "validation_result": "CODEX_ARTIFACT_EXISTS",
       "workstream": "DATA_AND_EVALUATION"
+    },
+    {
+      "artifact_exists": true,
+      "at_utc": "2026-08-12T15:05:00Z",
+      "commands": ["provision locked local environment and run synthetic G1 v2 validation"],
+      "deterministic_validation": ["47 lab tests pass", "ruff and strict mypy pass", "JSON Schema and compilation pass", "two-run reproducibility pass", "zero market-data and holdout access"],
+      "expected_artifact": "regime-moe-lab/artifacts/g1-v2-reproducible-environment-report.json",
+      "model_role": "deterministic_evidence",
+      "model_route": {"availability": "NOT_INVOKED", "model": "gpt-5.6-luna", "reasoning": "medium"},
+      "source_commit_or_blocker": "G1_V2_FULL_VALIDATION_PASS",
+      "status": "TERMINAL",
+      "task_id": "g1-v2-reproducible-environment-validation",
+      "validation_result": "G1_V2_REPRODUCIBLE_ENVIRONMENT_PASS",
+      "workstream": "DATA_AND_EVALUATION"
     }
   ],
   "content_assets_drafted": 0,

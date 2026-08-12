@@ -8,6 +8,11 @@
     "next_state": "READY_FOR_SUPERVISED_DEVELOPMENT_SAMPLE_AUTHORIZATION",
     "review_verdict": "PASS"
   },
+  "g1_v2_environment": {
+    "result": "G1_V2_REPRODUCIBLE_ENVIRONMENT_PASS",
+    "full_validation": "G1_V2_FULL_VALIDATION_PASS",
+    "report": "regime-moe-lab/artifacts/g1-v2-reproducible-environment-report.json"
+  },
   "g0_foundation_pass": {
     "control_commit": "f6128c9",
     "lab_commit": "3b7443c",

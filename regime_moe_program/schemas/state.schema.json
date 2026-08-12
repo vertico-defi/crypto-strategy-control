@@ -19,6 +19,7 @@
     "automation_state": {"enum": ["ACTIVE", "PAUSED_FOR_ADAPTER_HARDENING", "AUTOMATION_STATE_DRIFT", "SUPERVISED_MANUAL_RESEARCH"]},
     "current_milestone": {"type": "string", "minLength": 1},
     "g1_v2": {"type": "object", "additionalProperties": false, "required": ["authorization_id", "result", "next_state", "review_verdict"], "properties": {"authorization_id": {"const": "G1-v2-frozen-protocol-conformance"}, "result": {"const": "G1_V2_PROTOCOL_CONFORMANCE_PASS"}, "next_state": {"const": "READY_FOR_SUPERVISED_DEVELOPMENT_SAMPLE_AUTHORIZATION"}, "review_verdict": {"const": "PASS"}}},
+    "g1_v2_environment": {"type": "object", "additionalProperties": false, "required": ["result", "full_validation", "report"], "properties": {"result": {"const": "G1_V2_REPRODUCIBLE_ENVIRONMENT_PASS"}, "full_validation": {"const": "G1_V2_FULL_VALIDATION_PASS"}, "report": {"const": "regime-moe-lab/artifacts/g1-v2-reproducible-environment-report.json"}}},
     "automation_pause": {
       "type": "object",
       "additionalProperties": false,
