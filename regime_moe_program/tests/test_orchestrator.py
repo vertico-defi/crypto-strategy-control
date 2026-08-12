@@ -116,6 +116,56 @@ def test_interrupted_journal_replays(tmp_path: Path, monkeypatch: pytest.MonkeyP
     assert not journal.exists()
 
 
+def test_orphaned_running_invocation_is_finalized_and_retried(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    controller = controller_module()
+    queue_path, state_path, scorecard_path = (
+        tmp_path / name for name in ("queue.json", "state.json", "scorecard.json")
+    )
+    journal = tmp_path / "journal.json"
+    queue = json.loads((PROGRAM / "REGIMEMOE_WORK_QUEUE.json").read_text())
+    state = json.loads((PROGRAM / "REGIMEMOE_STATE.json").read_text())
+    scorecard = json.loads((PROGRAM / "REGIMEMOE_SCORECARD.json").read_text())
+    task = next(item for item in queue["tasks"] if item["id"] == "g1-integration-gate")
+    task["state"] = "RUNNING"
+    controller.atomic_write(queue_path, queue)  # type: ignore[attr-defined]
+    controller.atomic_write(state_path, state)  # type: ignore[attr-defined]
+    controller.atomic_write(scorecard_path, scorecard)  # type: ignore[attr-defined]
+    invocation = tmp_path / "lab" / "artifacts" / "production_invocations" / task["id"] / "attempt"
+    invocation.mkdir(parents=True)
+    for name in ("stdout.log", "stderr.log"):
+        (invocation / name).write_text("")
+    controller.atomic_write(  # type: ignore[attr-defined]
+        invocation / "process.json",
+        {
+            "attempt_id": "attempt",
+            "pid": 99999,
+            "process_start_ticks": "1",
+            "started_at_utc": "2026-08-12T00:00:00Z",
+        },
+    )
+    monkeypatch.setattr(controller, "QUEUE", queue_path)
+    monkeypatch.setattr(controller, "STATE", state_path)
+    monkeypatch.setattr(controller, "SCORECARD", scorecard_path)
+    monkeypatch.setattr(controller, "JOURNAL", journal)
+    monkeypatch.setattr(controller, "LAB_ROOT", tmp_path / "lab")
+    monkeypatch.setattr(controller, "validate", lambda value: None)
+    monkeypatch.setattr(controller, "validate_state", lambda value: None)
+    monkeypatch.setattr(controller, "validate_scorecard", lambda value: None)
+    monkeypatch.setattr(controller, "process_start_ticks", lambda pid: None)
+    assert controller.recover_orphaned_running_tasks()  # type: ignore[attr-defined]
+    recovered = controller.read(queue_path)  # type: ignore[attr-defined]
+    recovered_task = next(
+        item for item in recovered["tasks"] if item["id"] == "g1-integration-gate"
+    )
+    assert recovered_task["state"] == "READY"
+    assert recovered_task["last_checkpoint"]["status"] == "CAPTURE_INTERRUPTED_RETRY_AUTHORIZED"
+    assert json.loads((invocation / "finalization.json").read_text())["classification"] == (
+        "CAPTURE_INTERRUPTED_ORPHANED_PROCESS"
+    )
+
+
 def controller_module() -> object:
     sys.path.insert(0, str(ROOT))
     import orchestrate_regimemoe as controller
@@ -186,6 +236,78 @@ def test_failed_dependency_never_releases_ready_task() -> None:
     queue["tasks"][0]["state"] = "FAILED"  # type: ignore[index]
     controller.validate(queue)  # type: ignore[attr-defined]
     assert controller.select(queue) is None  # type: ignore[attr-defined]
+
+
+def test_recovered_g1_prerequisites_release_integration_gate() -> None:
+    controller = controller_module()
+    prerequisite_ids = [
+        "quality",
+        "decision",
+        "features",
+        "normalization",
+        "execution",
+        "walk_forward",
+    ]
+    queue = {
+        "schema_version": "1.0",
+        "workstreams": ["DATA_AND_EVALUATION"],
+        "tasks": [
+            {
+                "id": task_id,
+                "workstream": "DATA_AND_EVALUATION",
+                "role": "deterministic_evidence",
+                "state": "TERMINAL",
+                "priority": index,
+                "commands": ["fixture"],
+                "expected_artifact": "REGIMEMOE_WORK_QUEUE.json",
+                "validation": ["fixture validation"],
+                "last_checkpoint": checkpoint_fixture(),
+            }
+            for index, task_id in enumerate(prerequisite_ids)
+        ]
+        + [
+            {
+                "id": "g1-integration-gate",
+                "workstream": "DATA_AND_EVALUATION",
+                "role": "independent_auditor",
+                "state": "BLOCKED_DEPENDENCY",
+                "priority": 99,
+                "commands": ["fixture"],
+                "expected_artifact": "integration.json",
+                "validation": ["fixture validation"],
+                "depends_on": prerequisite_ids,
+                "dependency_outcomes": {task_id: "TERMINAL" for task_id in prerequisite_ids},
+            }
+        ],
+        "weekly_completed_by_iso_week": {},
+    }
+    assert controller.release_satisfied_dependencies(queue)  # type: ignore[attr-defined]
+    assert controller.select(queue)["id"] == "g1-integration-gate"  # type: ignore[attr-defined,index]
+
+
+def test_focused_review_fail_is_not_a_terminal_success(tmp_path: Path) -> None:
+    controller = controller_module()
+    artifact = tmp_path / "review.json"
+    artifact.write_text(
+        json.dumps(
+            {
+                "review_type": "FOCUSED_INDEPENDENT_REVIEW",
+                "verdict": "FAIL",
+                "scope": {
+                    "market_data_content_read": False,
+                    "holdout_access_count": 0,
+                    "data_path_resolution_count": 0,
+                    "profitability_calculated": False,
+                    "external_api_access": False,
+                    "gpu_used": False,
+                    "capital_used": False,
+                    "website_modified": False,
+                    "publication_performed": False,
+                },
+            }
+        )
+    )
+    assert controller.focused_review_outcome(artifact) == "FAIL"  # type: ignore[attr-defined]
 
 
 def test_terminal_requires_matching_artifact_evidence() -> None:
@@ -421,8 +543,8 @@ def test_mock_multi_workstream_cycles_use_isolated_state(
     assert first["checkpoint"]["task_id"] == "data-review"
     assert second["checkpoint"]["task_id"] == "router-review"
     assert [task["state"] for task in controller.read(queue_path)["tasks"]] == [  # type: ignore[attr-defined]
-            "ADAPTER_NOT_CONFIGURED",
-            "ADAPTER_NOT_CONFIGURED",
+        "ADAPTER_NOT_CONFIGURED",
+        "ADAPTER_NOT_CONFIGURED",
     ]
     assert not journal.exists()
 

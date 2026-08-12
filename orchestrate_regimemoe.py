@@ -20,6 +20,8 @@ from typing import Any, Literal, cast
 
 from jsonschema import Draft202012Validator
 
+from regime_moe_program.g1_recovery_validation import RECOVERABLE, validate_recoverable_artifact
+
 ROOT = Path(__file__).resolve().parent / "regime_moe_program"
 LAB_ROOT = ROOT.parent.parent / "regime-moe-lab"
 QUEUE = ROOT / "REGIMEMOE_WORK_QUEUE.json"
@@ -127,9 +129,10 @@ def validate_state(state: dict[str, Any]) -> None:
             raise ValueError("website availability requires complete verification evidence")
         if website_state["authorized_scope"] != "SANITIZED_EVIDENCE_UPDATES_ONLY":
             raise ValueError("website availability scope is broader than authorized")
-        if any(website_state["safety_flags"].get(flag) is not False for flag in (
-            "store_live", "payments_live", "newsletter_live"
-        )):
+        if any(
+            website_state["safety_flags"].get(flag) is not False
+            for flag in ("store_live", "payments_live", "newsletter_live")
+        ):
             raise ValueError("website availability requires disabled live services")
         prohibited_actions = set(website_state["prohibited_actions"])
         required_prohibitions = {
@@ -247,6 +250,42 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def process_start_ticks(pid: int) -> str | None:
+    """Read Linux process start ticks to reject a reused PID."""
+    try:
+        fields = Path(f"/proc/{pid}/stat").read_text(encoding="utf-8").split()
+    except OSError:
+        return None
+    return fields[21] if len(fields) > 21 else None
+
+
+def focused_review_outcome(artifact: Path) -> str:
+    """Accept a focused gate only on a complete, explicitly PASSing safe verdict."""
+    verdict = read(artifact)
+    scope = verdict.get("scope")
+    if not isinstance(scope, dict) or verdict.get("review_type") != "FOCUSED_INDEPENDENT_REVIEW":
+        raise ValueError("focused review artifact is structurally invalid")
+    if any(
+        scope.get(field) not in (False, 0)
+        for field in (
+            "market_data_content_read",
+            "holdout_access_count",
+            "data_path_resolution_count",
+            "profitability_calculated",
+            "external_api_access",
+            "gpu_used",
+            "capital_used",
+            "website_modified",
+            "publication_performed",
+        )
+    ):
+        raise ValueError("focused review safety boundary failed")
+    result = verdict.get("verdict")
+    if result not in {"PASS", "FAIL"}:
+        raise ValueError("focused review verdict is invalid")
+    return cast(str, result)
+
+
 def registry_entry(task_id: str) -> dict[str, Any]:
     """Fail closed unless a task is catalog-hash-bound and explicitly mapped."""
     if sha256(CATALOG) != "3fb42f6d1d4de542f61977790c6ec4ce8b090b2f277a3fe95014b9feef16d6b5":
@@ -262,7 +301,11 @@ def registry_entry(task_id: str) -> dict[str, Any]:
 
 def run_codex_task(task: dict[str, Any], mapping: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     """Invoke one bounded noninteractive Codex task and retain all transport evidence."""
-    if mapping.get("adapter_class") not in {"CODEX_CONTENT", "CODEX_IMPLEMENTATION"}:
+    if mapping.get("adapter_class") not in {
+        "CODEX_CONTENT",
+        "CODEX_IMPLEMENTATION",
+        "FOCUSED_REVIEW",
+    }:
         raise RuntimeError("unsupported Codex adapter class")
     artifact = artifact_path(task["expected_artifact"])
     if not artifact.is_relative_to(LAB_ROOT):
@@ -301,6 +344,13 @@ def run_codex_task(task: dict[str, Any], mapping: dict[str, Any]) -> tuple[str, 
         f"external APIs. Objective: {task['commands'][0]}. The artifact must state scope and "
         "deterministic validation. Return concise JSON describing the artifact path and tests run."
     )
+    if mapping.get("adapter_class") == "FOCUSED_REVIEW":
+        prompt += """
+Perform the focused independent review only. Verify all declared G1 prerequisites.
+Record a JSON verdict covering contract, data quality, decision interval, features,
+fixtures, fold-local normalization, leakage, execution, walk-forward, reproducibility,
+and zero holdout access. Do not calculate profitability or access data.
+"""
     atomic_text_write(invocation / "prompt.txt", prompt)
     atomic_write(
         invocation / "invocation_start.json",
@@ -348,7 +398,12 @@ def run_codex_task(task: dict[str, Any], mapping: dict[str, Any]) -> tuple[str, 
             child = subprocess.Popen(command, cwd=LAB_ROOT, stdout=stdout, stderr=stderr)
             atomic_write(
                 invocation / "process.json",
-                {"attempt_id": attempt_id, "pid": child.pid, "started_at_utc": started},
+                {
+                    "attempt_id": attempt_id,
+                    "pid": child.pid,
+                    "process_start_ticks": process_start_ticks(child.pid),
+                    "started_at_utc": started,
+                },
             )
             exit_status = child.wait(timeout=int(mapping.get("runtime_seconds", 900)))
         except subprocess.TimeoutExpired:
@@ -373,6 +428,12 @@ def run_codex_task(task: dict[str, Any], mapping: dict[str, Any]) -> tuple[str, 
     classification = (
         "PASS" if exit_status == 0 and artifact.is_file() and raw else "ADAPTER_CAPTURE_INCOMPLETE"
     )
+    recovery_validation: dict[str, Any] | None = None
+    if classification == "PASS" and task["id"] in RECOVERABLE:
+        try:
+            recovery_validation = validate_recoverable_artifact(task["id"])
+        except (KeyError, TypeError, ValueError, OSError, json.JSONDecodeError) as error:
+            classification = f"SUBSTANTIVE_VALIDATION_FAILED:{error}"
     atomic_write(
         invocation / "finalization.json",
         {
@@ -390,14 +451,29 @@ def run_codex_task(task: dict[str, Any], mapping: dict[str, Any]) -> tuple[str, 
             "expected_artifact_sha256": sha256(artifact) if artifact.is_file() else None,
             "parser_result": parser_result,
             "classification": classification,
+            "recovery_validation": recovery_validation,
             "task_terminalization_permitted": classification == "PASS",
         },
     )
     if classification != "PASS":
         return "ADAPTER_NOT_CONFIGURED", checkpoint(task, "ADAPTER_NOT_CONFIGURED", classification)
+    if mapping.get("adapter_class") == "FOCUSED_REVIEW":
+        try:
+            verdict = focused_review_outcome(artifact)
+        except (OSError, ValueError, json.JSONDecodeError) as error:
+            return "FAILED", checkpoint(task, "FAILED", f"FOCUSED_REVIEW_INVALID:{error}")
+        if verdict != "PASS":
+            report = checkpoint(task, "FAILED", f"artifact_sha256={sha256(artifact)}")
+            report["artifact_exists"] = True
+            report["validation_result"] = "FOCUSED_REVIEW_FAIL"
+            return "FAILED", report
     report = checkpoint(task, "TERMINAL", f"artifact_sha256={sha256(artifact)}")
     report["artifact_exists"] = True
-    report["validation_result"] = "CODEX_ARTIFACT_EXISTS"
+    report["validation_result"] = (
+        "G1_SUBSTANTIVE_RECOVERY_VALIDATION_PASS"
+        if recovery_validation is not None
+        else "CODEX_ARTIFACT_EXISTS"
+    )
     return "TERMINAL", report
 
 
@@ -453,6 +529,64 @@ def recover() -> None:
         validate_state(cast(dict[str, Any], pending["state"]))
         validate_scorecard(cast(dict[str, Any], pending["scorecard"]))
         commit_snapshot(pending["queue"], pending["state"], pending["scorecard"])
+
+
+def recover_orphaned_running_tasks() -> bool:
+    """Fail closed and retry only a captured invocation whose process is demonstrably gone."""
+    queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
+    changed = False
+    for task in queue["tasks"]:
+        if task["state"] != "RUNNING":
+            continue
+        root = LAB_ROOT / "artifacts" / "production_invocations" / task["id"]
+        attempts = sorted(root.glob("*/process.json"), key=lambda path: path.stat().st_mtime)
+        if not attempts:
+            raise RuntimeError("RUNNING task has no invocation process evidence")
+        process_path = attempts[-1]
+        process = read(process_path)
+        pid = process.get("pid")
+        if not isinstance(pid, int):
+            raise RuntimeError("invocation process evidence lacks a PID")
+        recorded_start = process.get("process_start_ticks")
+        current_start = process_start_ticks(pid)
+        if recorded_start is not None and current_start == recorded_start:
+            raise RuntimeError("RUNNING task invocation is still active")
+        invocation = process_path.parent
+        finalization = invocation / "finalization.json"
+        if not finalization.exists():
+            atomic_write(
+                finalization,
+                {
+                    "attempt_id": process["attempt_id"],
+                    "task_id": task["id"],
+                    "process_started": True,
+                    "start_utc": process["started_at_utc"],
+                    "finish_utc": now(),
+                    "exit_status": None,
+                    "timeout": False,
+                    "stdout_bytes": (invocation / "stdout.log").stat().st_size,
+                    "stderr_bytes": (invocation / "stderr.log").stat().st_size,
+                    "raw_bytes": 0,
+                    "expected_artifact_present": artifact_path(task["expected_artifact"]).is_file(),
+                    "expected_artifact_sha256": None,
+                    "parser_result": "NOT_ATTEMPTED",
+                    "classification": "CAPTURE_INTERRUPTED_ORPHANED_PROCESS",
+                    "task_terminalization_permitted": False,
+                },
+            )
+        task["state"] = "READY"
+        task["last_checkpoint"] = checkpoint(
+            task,
+            "CAPTURE_INTERRUPTED_RETRY_AUTHORIZED",
+            f"orphaned_attempt={process['attempt_id']}",
+        )
+        changed = True
+    if changed:
+        validate(queue)
+        validate_state(state)
+        validate_scorecard(scorecard)
+        commit_snapshot(queue, state, scorecard)
+    return changed
 
 
 def iso_week() -> str:
@@ -765,7 +899,7 @@ def execute_task(task: dict[str, Any], state: dict[str, Any]) -> tuple[str, dict
         mapping = registry_entry(task["id"])
     except RuntimeError as error:
         return "ADAPTER_NOT_CONFIGURED", checkpoint(task, "ADAPTER_NOT_CONFIGURED", str(error))
-    if mapping.get("adapter_class") in {"CODEX_CONTENT", "CODEX_IMPLEMENTATION"}:
+    if mapping.get("adapter_class") in {"CODEX_CONTENT", "CODEX_IMPLEMENTATION", "FOCUSED_REVIEW"}:
         return run_codex_task(task, mapping)
     return "ADAPTER_NOT_CONFIGURED", checkpoint(
         task, "ADAPTER_NOT_CONFIGURED", "ADAPTER_NOT_CONFIGURED"
@@ -925,6 +1059,8 @@ def enqueue_thesis_methodology_outline() -> None:
 
 def cycle(mutate: bool) -> dict[str, Any]:
     recover()
+    if mutate:
+        recover_orphaned_running_tasks()
     queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
     validate(queue)
     validate_state(state)
@@ -954,6 +1090,57 @@ def cycle(mutate: bool) -> dict[str, Any]:
         state["last_cycle_at_utc"] = now()
         commit_snapshot(queue, state, scorecard)
     return {"status": report["status"], "checkpoint": report}
+
+
+def recover_existing_g1_artifacts() -> dict[str, Any]:
+    """Replace artifact-existence-only G1 checkpoints with independent validation evidence."""
+    queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
+    recovered: list[dict[str, Any]] = []
+    for task in queue["tasks"]:
+        if task["id"] not in RECOVERABLE:
+            continue
+        result = validate_recoverable_artifact(task["id"])
+        report = checkpoint(task, "TERMINAL", f"artifact_sha256={result['sha256']}")
+        report["artifact_exists"] = True
+        report["validation_result"] = "G1_SUBSTANTIVE_RECOVERY_VALIDATION_PASS"
+        task["state"] = "TERMINAL"
+        task["last_checkpoint"] = report
+        recovered.append(result)
+    integration = next(task for task in queue["tasks"] if task["id"] == "g1-integration-gate")
+    if integration["state"] == "ADAPTER_NOT_CONFIGURED":
+        integration["state"] = "BLOCKED_DEPENDENCY"
+        integration.pop("last_checkpoint", None)
+    release_satisfied_dependencies(queue)
+    validate(queue)
+    validate_state(state)
+    validate_scorecard(scorecard)
+    commit_snapshot(queue, state, scorecard)
+    next_task = select(queue)
+    return {
+        "status": "G1_RECOVERED",
+        "recovered": recovered,
+        "next_task": next_task["id"] if next_task else None,
+    }
+
+
+def reconcile_g1_integration_gate() -> dict[str, Any]:
+    """Apply the recorded focused review verdict without rerunning or altering its evidence."""
+    queue, state, scorecard = read(QUEUE), read(STATE), read(SCORECARD)
+    task = next(item for item in queue["tasks"] if item["id"] == "g1-integration-gate")
+    artifact = artifact_path(task["expected_artifact"])
+    verdict = focused_review_outcome(artifact)
+    outcome = "TERMINAL" if verdict == "PASS" else "FAILED"
+    report = checkpoint(task, outcome, f"artifact_sha256={sha256(artifact)}")
+    report["artifact_exists"] = True
+    report["validation_result"] = f"FOCUSED_REVIEW_{verdict}"
+    task["state"] = outcome
+    task["last_checkpoint"] = report
+    release_satisfied_dependencies(queue)
+    validate(queue)
+    validate_state(state)
+    validate_scorecard(scorecard)
+    commit_snapshot(queue, state, scorecard)
+    return {"status": outcome, "verdict": verdict, "next_task": select(queue)}
 
 
 def retry_after_reached(state: dict[str, Any]) -> bool:
@@ -1048,6 +1235,9 @@ def main() -> None:
             "enqueue-thesis-methodology-outline",
             "materialize-catalog",
             "systemd-smoke",
+            "recover-existing-g1",
+            "recover-orphaned-running",
+            "reconcile-g1-integration",
         ),
     )
     parser.add_argument("--max-cycles", type=int, default=1)
@@ -1071,6 +1261,27 @@ def main() -> None:
         return
     if args.command == "systemd-smoke":
         systemd_smoke()
+        return
+    if args.command == "recover-existing-g1":
+        acquire_lock()
+        try:
+            print(json.dumps(recover_existing_g1_artifacts(), indent=2))
+        finally:
+            release_lock()
+        return
+    if args.command == "recover-orphaned-running":
+        acquire_lock()
+        try:
+            print(json.dumps({"recovered": recover_orphaned_running_tasks()}))
+        finally:
+            release_lock()
+        return
+    if args.command == "reconcile-g1-integration":
+        acquire_lock()
+        try:
+            print(json.dumps(reconcile_g1_integration_gate(), indent=2))
+        finally:
+            release_lock()
         return
     if args.command == "weekly-report":
         scorecard = read(SCORECARD)

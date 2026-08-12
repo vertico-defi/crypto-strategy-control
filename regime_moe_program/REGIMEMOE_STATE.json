@@ -1,5 +1,5 @@
 {
-  "automation_state": "ACTIVE",
+  "automation_state": "PAUSED_FOR_ADAPTER_HARDENING",
   "capital_permitted": 0,
   "g0_foundation_pass": {
     "control_commit": "f6128c9",
@@ -10,7 +10,7 @@
   },
   "gpu_phase_0": false,
   "holdout_access": "FORBIDDEN",
-  "last_cycle_at_utc": "2026-08-10T06:58:00.862705Z",
+  "last_cycle_at_utc": "2026-08-12T13:35:43.212129Z",
   "phase": 1,
   "production_adapters_active": [
     "data_contract_validation",
@@ -19,7 +19,7 @@
   ],
   "program": "RegimeMoE",
   "schema_version": "1.0",
-  "timers_enabled": true,
+  "timers_enabled": false,
   "usage_paused": false,
   "website_external_lock": {
     "authorized_scope": "SANITIZED_EVIDENCE_UPDATES_ONLY",

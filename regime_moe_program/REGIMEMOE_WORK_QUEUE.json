@@ -583,7 +583,7 @@
       "id": "g1-decision-interval-selection-protocol",
       "last_checkpoint": {
         "artifact_exists": true,
-        "at_utc": "2026-08-10T09:19:50.898702Z",
+        "at_utc": "2026-08-12T13:29:21.191917Z",
         "commands": [
           "preregister non-return-based decision interval selection criteria"
         ],
@@ -602,7 +602,7 @@
         "source_commit_or_blocker": "artifact_sha256=43bf2c5582890e38b3f64a1cebcd185470bc4e6aa98150fcf04037134ad8c97b",
         "status": "TERMINAL",
         "task_id": "g1-decision-interval-selection-protocol",
-        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "validation_result": "G1_SUBSTANTIVE_RECOVERY_VALIDATION_PASS",
         "workstream": "DATA_AND_EVALUATION"
       },
       "priority": 12,
@@ -628,9 +628,33 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/g1-point-in-time-feature-contract.json",
       "id": "g1-point-in-time-feature-contract",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-12T13:29:21.192082Z",
+        "commands": [
+          "version causal point-in-time feature contract"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-point-in-time-feature-contract.json",
+        "model_role": "implementation_engineer",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=b492857de8cc8ead33c19bc23ea439ee6796e85b61b6b3cb88f4752fd0adcbe9",
+        "status": "TERMINAL",
+        "task_id": "g1-point-in-time-feature-contract",
+        "validation_result": "G1_SUBSTANTIVE_RECOVERY_VALIDATION_PASS",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 13,
       "role": "implementation_engineer",
-      "state": "BLOCKED_DEPENDENCY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -651,9 +675,33 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/g1-feature-known-answer-fixtures.json",
       "id": "g1-feature-known-answer-fixtures",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-12T13:29:21.192237Z",
+        "commands": [
+          "synthetic known-answer causal feature fixtures"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-feature-known-answer-fixtures.json",
+        "model_role": "implementation_engineer",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=4135535b3b4396a35aaf1997230eed8258d0b5ddf69802e6fbd2c92b96fb2c65",
+        "status": "TERMINAL",
+        "task_id": "g1-feature-known-answer-fixtures",
+        "validation_result": "G1_SUBSTANTIVE_RECOVERY_VALIDATION_PASS",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 14,
       "role": "implementation_engineer",
-      "state": "BLOCKED_DEPENDENCY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -674,9 +722,33 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/g1-fold-normalization-and-leakage-tests.json",
       "id": "g1-fold-normalization-and-leakage-tests",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-12T13:29:21.192350Z",
+        "commands": [
+          "train-fold-only normalization and leakage tests"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-fold-normalization-and-leakage-tests.json",
+        "model_role": "implementation_engineer",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=aaed4840e9ca43dad61b48b453458112b4e8462752cce3670244d2f87fb0c2bd",
+        "status": "TERMINAL",
+        "task_id": "g1-fold-normalization-and-leakage-tests",
+        "validation_result": "G1_SUBSTANTIVE_RECOVERY_VALIDATION_PASS",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 15,
       "role": "implementation_engineer",
-      "state": "BLOCKED_DEPENDENCY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -698,7 +770,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/g1-event-driven-execution-kernel.json",
       "id": "g1-event-driven-execution-kernel",
       "last_checkpoint": {
-        "at_utc": "2026-08-09T22:41:24.450919Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-12T13:29:21.192512Z",
         "commands": [
           "event-driven offline execution kernel only"
         ],
@@ -714,14 +787,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=dce6b7495f24158628e60008a58ec9784f01878937fcbd020df18312c1d94445",
+        "status": "TERMINAL",
         "task_id": "g1-event-driven-execution-kernel",
+        "validation_result": "G1_SUBSTANTIVE_RECOVERY_VALIDATION_PASS",
         "workstream": "DATA_AND_EVALUATION"
       },
       "priority": 16,
       "role": "implementation_engineer",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -744,9 +818,33 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/g1-nested-walk-forward-kernel.json",
       "id": "g1-nested-walk-forward-kernel",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-12T13:29:21.192689Z",
+        "commands": [
+          "nested chronological walk-forward kernel"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-nested-walk-forward-kernel.json",
+        "model_role": "implementation_engineer",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=066ef5e73bd3df6d950e6f2085b458b523259e6da5e3faf8e6d5f99c94e12e22",
+        "status": "TERMINAL",
+        "task_id": "g1-nested-walk-forward-kernel",
+        "validation_result": "G1_SUBSTANTIVE_RECOVERY_VALIDATION_PASS",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 17,
       "role": "implementation_engineer",
-      "state": "BLOCKED_DEPENDENCY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -777,9 +875,33 @@
       ],
       "expected_artifact": "regime-moe-lab/artifacts/g1-integration-gate.json",
       "id": "g1-integration-gate",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-12T13:37:15.602298Z",
+        "commands": [
+          "G1 deterministic integration gate"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/g1-integration-gate.json",
+        "model_role": "independent_auditor",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-sol",
+          "reasoning": "high_or_xhigh_when_promotion_possible"
+        },
+        "source_commit_or_blocker": "artifact_sha256=441e5622ec973d03489b17a196fbbf8a996004de1a277a4fbb02ad1d02615392",
+        "status": "FAILED",
+        "task_id": "g1-integration-gate",
+        "validation_result": "FOCUSED_REVIEW_FAIL",
+        "workstream": "DATA_AND_EVALUATION"
+      },
       "priority": 18,
       "role": "independent_auditor",
-      "state": "BLOCKED_DEPENDENCY",
+      "state": "FAILED",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1300,7 +1422,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/thesis-proposal-motivation-evidence-outline.json",
       "id": "thesis-proposal-motivation-evidence-outline",
       "last_checkpoint": {
-        "at_utc": "2026-08-10T00:46:00.859167Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T18:15:00.848968Z",
         "commands": [
           "proposal motivation evidence outline"
         ],
@@ -1316,14 +1439,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=4665cc06304fe0596d74a1825b91a1a45870a68c232fa21175e2f950d296886c",
+        "status": "TERMINAL",
         "task_id": "thesis-proposal-motivation-evidence-outline",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
         "workstream": "THESIS_AND_CAREER"
       },
       "priority": 101,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1341,7 +1465,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/thesis-problem-statement-outline.json",
       "id": "thesis-problem-statement-outline",
       "last_checkpoint": {
-        "at_utc": "2026-08-10T02:50:00.832159Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T20:17:10.291966Z",
         "commands": [
           "problem statement outline"
         ],
@@ -1357,14 +1482,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=989467d8421069ee29f1be2c6870da5ae9c25b990704e15507f920e261346bb2",
+        "status": "TERMINAL",
         "task_id": "thesis-problem-statement-outline",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
         "workstream": "THESIS_AND_CAREER"
       },
       "priority": 102,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1382,7 +1508,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/thesis-research-question-hypotheses-worksheet.json",
       "id": "thesis-research-question-hypotheses-worksheet",
       "last_checkpoint": {
-        "at_utc": "2026-08-10T02:50:00.849263Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T22:22:24.998357Z",
         "commands": [
           "research question hypotheses worksheet"
         ],
@@ -1398,14 +1525,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=cb42026bbe480ba9ae6fbe975fcacc52e3377b9ec636fefcc6ba27966d5faeb6",
+        "status": "TERMINAL",
         "task_id": "thesis-research-question-hypotheses-worksheet",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
         "workstream": "THESIS_AND_CAREER"
       },
       "priority": 103,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1423,7 +1551,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/thesis-regimemoe-architecture-diagram.json",
       "id": "thesis-regimemoe-architecture-diagram",
       "last_checkpoint": {
-        "at_utc": "2026-08-10T04:54:24.454616Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T00:28:25.231657Z",
         "commands": [
           "regimemoe architecture diagram"
         ],
@@ -1439,14 +1568,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=daccf30346a918d44e69d08a9a446001f6fd8c79d6bbf5f028f536fc23fee662",
+        "status": "TERMINAL",
         "task_id": "thesis-regimemoe-architecture-diagram",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
         "workstream": "THESIS_AND_CAREER"
       },
       "priority": 104,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1464,7 +1594,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/thesis-leakage-threat-model.json",
       "id": "thesis-leakage-threat-model",
       "last_checkpoint": {
-        "at_utc": "2026-08-10T04:54:24.472540Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T02:32:56.989900Z",
         "commands": [
           "leakage threat model"
         ],
@@ -1480,14 +1611,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=63a8f032cf52857448380264ea146cf3397f1442ca9ed752caa073f54068663c",
+        "status": "TERMINAL",
         "task_id": "thesis-leakage-threat-model",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
         "workstream": "THESIS_AND_CAREER"
       },
       "priority": 105,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1505,7 +1637,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/thesis-experiment-design-table.json",
       "id": "thesis-experiment-design-table",
       "last_checkpoint": {
-        "at_utc": "2026-08-10T06:58:00.844890Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T04:38:38.705343Z",
         "commands": [
           "experiment design table"
         ],
@@ -1521,14 +1654,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=71f8796f26896d61a6d8d2f1371cea344aecdce37faac69a86da684981c71e19",
+        "status": "TERMINAL",
         "task_id": "thesis-experiment-design-table",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
         "workstream": "THESIS_AND_CAREER"
       },
       "priority": 106,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1546,7 +1680,8 @@
       "expected_artifact": "regime-moe-lab/artifacts/thesis-data-card-template.json",
       "id": "thesis-data-card-template",
       "last_checkpoint": {
-        "at_utc": "2026-08-10T06:58:00.862698Z",
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T06:42:56.665416Z",
         "commands": [
           "data card template"
         ],
@@ -1562,14 +1697,15 @@
           "model": "gpt-5.6-terra",
           "reasoning": "medium"
         },
-        "source_commit_or_blocker": "no production adapter authorized",
-        "status": "HUMAN_APPROVAL",
+        "source_commit_or_blocker": "artifact_sha256=ffd9ccb15854677ad0e5986d523186a3d1884711fcf60d81c9adb41f8c3afaf1",
+        "status": "TERMINAL",
         "task_id": "thesis-data-card-template",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
         "workstream": "THESIS_AND_CAREER"
       },
       "priority": 107,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1586,9 +1722,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-model-card-template.json",
       "id": "thesis-model-card-template",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T08:48:58.013567Z",
+        "commands": [
+          "model card template"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-model-card-template.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=7446b7bfd83fef799050ba5b461ecc1f460fe4c066889c5ed6296328e6f6c244",
+        "status": "TERMINAL",
+        "task_id": "thesis-model-card-template",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 108,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1605,9 +1765,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-employer-architecture-brief.json",
       "id": "thesis-employer-architecture-brief",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T08:50:26.989154Z",
+        "commands": [
+          "employer architecture brief"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-employer-architecture-brief.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=fdb3e728aa7ed96a09dc3925009ccb84e2390b87c6d35adf1b6cb45d2595b1cf",
+        "status": "TERMINAL",
+        "task_id": "thesis-employer-architecture-brief",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 109,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1624,9 +1808,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-conference-paper-outline.json",
       "id": "thesis-conference-paper-outline",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T10:52:09.980195Z",
+        "commands": [
+          "conference paper outline"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-conference-paper-outline.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=39769266b4f5ebd0b73b45c70c814548bc0596e6cf6e9dde6d7cd28f4b170934",
+        "status": "TERMINAL",
+        "task_id": "thesis-conference-paper-outline",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 110,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1643,9 +1851,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-five-minute-demo-script.json",
       "id": "thesis-five-minute-demo-script",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T10:53:15.750146Z",
+        "commands": [
+          "five minute demo script"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-five-minute-demo-script.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=dfa3c0fedb6500ce953b10d53d0fe82dcd4cda4e93c67ac1ffd8be3640574b79",
+        "status": "TERMINAL",
+        "task_id": "thesis-five-minute-demo-script",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 111,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1662,9 +1894,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/artifacts/thesis-interview-explanation-notes.json",
       "id": "thesis-interview-explanation-notes",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T12:57:26.037773Z",
+        "commands": [
+          "interview explanation notes"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/artifacts/thesis-interview-explanation-notes.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=c4ed8bb30d834dd131bc669cdd7e50cff82c08dafbc679ac0b49c42bd6499f80",
+        "status": "TERMINAL",
+        "task_id": "thesis-interview-explanation-notes",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "THESIS_AND_CAREER"
+      },
       "priority": 112,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1681,9 +1937,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/content/linkedin-drafts.json",
       "id": "audience-linkedin-drafts",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T18:16:03.799852Z",
+        "commands": [
+          "linkedin drafts"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/content/linkedin-drafts.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=d76859500365f9ccfe81f64bbb7b12942e09ea9524f9aef0d58495879b4212ce",
+        "status": "TERMINAL",
+        "task_id": "audience-linkedin-drafts",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "AUDIENCE_AND_MONETIZATION"
+      },
       "priority": 130,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1700,9 +1980,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/content/youtube-script.json",
       "id": "audience-youtube-script",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T20:17:53.570562Z",
+        "commands": [
+          "youtube script"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/content/youtube-script.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=a00ac3f492bfa3f9cc41d96856c853bb112bab4611b3d5327f501ea80158d85c",
+        "status": "TERMINAL",
+        "task_id": "audience-youtube-script",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "AUDIENCE_AND_MONETIZATION"
+      },
       "priority": 131,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1719,9 +2023,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/content/shorts-scripts.json",
       "id": "audience-shorts-scripts",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-10T22:23:20.003864Z",
+        "commands": [
+          "shorts scripts"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/content/shorts-scripts.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=6232c2f36d6cfd261a27a0f5ce49478ba5e72533c5b5d64009035a8d92cbd5a7",
+        "status": "TERMINAL",
+        "task_id": "audience-shorts-scripts",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "AUDIENCE_AND_MONETIZATION"
+      },
       "priority": 132,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1738,9 +2066,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/content/educational-article.json",
       "id": "audience-educational-article",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T00:29:02.257830Z",
+        "commands": [
+          "educational article"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/content/educational-article.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=68dc9a2cb1fc0842fc9ed4206fd67e68f8264b8042096fd45f4290cf9cdcec49",
+        "status": "TERMINAL",
+        "task_id": "audience-educational-article",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "AUDIENCE_AND_MONETIZATION"
+      },
       "priority": 133,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1757,9 +2109,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/content/research-toolkit-inventory.json",
       "id": "audience-research-toolkit-inventory",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T02:34:11.374526Z",
+        "commands": [
+          "research toolkit inventory"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/content/research-toolkit-inventory.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=ec251772c82446c63ea0543ad3c53568dc3041e88da01f1e46481b92c3b6ee92",
+        "status": "TERMINAL",
+        "task_id": "audience-research-toolkit-inventory",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "AUDIENCE_AND_MONETIZATION"
+      },
       "priority": 134,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1776,9 +2152,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/content/ebook-roadmap.json",
       "id": "audience-ebook-roadmap",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T04:39:32.660112Z",
+        "commands": [
+          "ebook roadmap"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/content/ebook-roadmap.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=f6928aa4bdf8a8c1528f59b483d44c1ae4402e0a655bed77944bccb880da3157",
+        "status": "TERMINAL",
+        "task_id": "audience-ebook-roadmap",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "AUDIENCE_AND_MONETIZATION"
+      },
       "priority": 135,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1795,9 +2195,33 @@
       "depends_on": [],
       "expected_artifact": "regime-moe-lab/content/newsletter-issue-draft.json",
       "id": "audience-newsletter-issue-draft",
+      "last_checkpoint": {
+        "artifact_exists": true,
+        "at_utc": "2026-08-11T06:44:04.792740Z",
+        "commands": [
+          "newsletter issue draft"
+        ],
+        "deterministic_validation": [
+          "deterministic artifact",
+          "zero holdout access",
+          "capital remains zero"
+        ],
+        "expected_artifact": "regime-moe-lab/content/newsletter-issue-draft.json",
+        "model_role": "content_product",
+        "model_route": {
+          "availability": "NOT_INVOKED",
+          "model": "gpt-5.6-terra",
+          "reasoning": "medium"
+        },
+        "source_commit_or_blocker": "artifact_sha256=0f0a2a53fbba87371f0bf04b2cb76aafa79fc460731cff0bfc1f318e52531b04",
+        "status": "TERMINAL",
+        "task_id": "audience-newsletter-issue-draft",
+        "validation_result": "CODEX_ARTIFACT_EXISTS",
+        "workstream": "AUDIENCE_AND_MONETIZATION"
+      },
       "priority": 136,
       "role": "content_product",
-      "state": "READY",
+      "state": "TERMINAL",
       "validation": [
         "deterministic artifact",
         "zero holdout access",
@@ -1811,6 +2235,11 @@
     "2026-W32": {
       "DATA_AND_EVALUATION": 3,
       "THESIS_AND_CAREER": 1
+    },
+    "2026-W33": {
+      "AUDIENCE_AND_MONETIZATION": 7,
+      "DATA_AND_EVALUATION": 6,
+      "THESIS_AND_CAREER": 12
     }
   },
   "weekly_completed_by_workstream": {

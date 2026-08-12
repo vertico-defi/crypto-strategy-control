@@ -1,0 +1,57 @@
+{
+  "artifact_type": "REGIMEMOE_AUTONOMY_NO_OP_DIAGNOSIS",
+  "at_utc": "2026-08-12T13:30:00Z",
+  "scope": "read_only_diagnosis_before_recovery",
+  "safety": {
+    "capital_permitted": 0,
+    "holdout_access": "FORBIDDEN",
+    "gpu_phase_0": false,
+    "website_mutated": false
+  },
+  "observed_cycles": {
+    "first_no_op_after_productive_cycle": "2026-08-11T12:57:26.037806Z",
+    "consecutive_no_op_cycles": 11,
+    "last_observed_no_op": "2026-08-12T11:30:00Z"
+  },
+  "root_cause": {
+    "queue_state": "No READY task remained after support/thesis tasks were terminalized.",
+    "g1_integration_gate": "Dependencies were marked TERMINAL, but its registry adapter class FOCUSED_REVIEW was not dispatched by execute_task and the task became ADAPTER_NOT_CONFIGURED.",
+    "terminalization_defect": "run_codex_task returned TERMINAL when an expected artifact existed, parsed output existed, and the process exited zero; it did not independently validate the artifact against the G1 contract or catalog success requirements.",
+    "checkpoint_defect": "The controller never commits the lab worktree. It atomically updated only control queue/state/scorecard, leaving artifacts and invocation evidence untracked in the local-only lab."
+  },
+  "g1_artifacts_requiring_independent_recovery_validation": [
+    "g1-decision-interval-selection-protocol",
+    "g1-point-in-time-feature-contract",
+    "g1-feature-known-answer-fixtures",
+    "g1-fold-normalization-and-leakage-tests",
+    "g1-event-driven-execution-kernel",
+    "g1-nested-walk-forward-kernel"
+  ],
+  "recovery_requirements": [
+    "Preserve every existing artifact and invocation bundle.",
+    "Recompute contract-specific synthetic validations before accepting an existing G1 artifact.",
+    "Require a registered FOCUSED_REVIEW dispatch path for g1-integration-gate.",
+    "Add a regression test where recovered G1 prerequisites release g1-integration-gate rather than reaching NO_OP.",
+    "Commit validated lab evidence locally and only then atomically reconcile the control checkpoint."
+  ],
+  "g1_integration_gate": {
+    "artifact": "regime-moe-lab/artifacts/g1-integration-gate.json",
+    "artifact_sha256": "441e5622ec973d03489b17a196fbbf8a996004de1a277a4fbb02ad1d02615392",
+    "model": "gpt-5.6-sol",
+    "reasoning": "high",
+    "verdict": "FAIL",
+    "classification": "VALID_TERMINAL_NO_GO",
+    "blocking_findings": [
+      "G1-INT-001 decision-interval protocol conflicts with frozen allowed candidates and evidence",
+      "G1-INT-002 known-answer fixtures do not instantiate required point-in-time lineage",
+      "G1-INT-003 execution kernel does not enforce frozen next-bar-open execution semantics",
+      "G1-INT-004 walk-forward fixtures omit mandatory purge and embargo"
+    ],
+    "g2_release": "FORBIDDEN"
+  },
+  "interrupted_invocations": {
+    "classification": "CAPTURE_INTERRUPTED_ORPHANED_PROCESS",
+    "preservation": "Original invocation directories and finalization records retained locally.",
+    "controller_repair": "Orphaned RUNNING tasks now require a dead or PID-reused child before safe retry."
+  }
+}
