@@ -22,6 +22,7 @@
     "g1_v2_environment": {"type": "object", "additionalProperties": false, "required": ["result", "full_validation", "report"], "properties": {"result": {"const": "G1_V2_REPRODUCIBLE_ENVIRONMENT_PASS"}, "full_validation": {"const": "G1_V2_FULL_VALIDATION_PASS"}, "report": {"const": "regime-moe-lab/artifacts/g1-v2-reproducible-environment-report.json"}}},
     "g1_v2_development_integration": {"type": "object", "additionalProperties": false, "required": ["authorization_id", "result", "artifact"], "properties": {"authorization_id": {"const": "G1-v2-development-only-integration-sample"}, "result": {"const": "G1_V2_INTERVAL_SELECTION_EVIDENCE_INSUFFICIENT"}, "artifact": {"const": "regime-moe-lab/artifacts/g1-v2-development-integration-insufficiency.json"}}},
     "g1_v2_1": {"type":"object","additionalProperties":false,"required":["amendment_id","result","artifact"],"properties":{"amendment_id":{"const":"G1-v2.1-interval-selection-evidence-protocol"},"result":{"const":"G1_V2_1_INCREMENTAL_COMPLETION_EXHAUSTED"},"artifact":{"const":"regime-moe-lab/artifacts/g1-v21-incremental-completion-exhausted.json"}}},
+    "g1_v2_2":{"type":"object","additionalProperties":false,"required":["authorization_id","result","artifact"],"properties":{"authorization_id":{"const":"G1-v2.2-fixed-one-hour-decision-protocol"},"result":{"const":"G1_V2_2_FIXED_ONE_HOUR_PROTOCOL_FAILED"},"artifact":{"const":"regime-moe-lab/artifacts/g1-v22-fixed-one-hour-protocol-validation.json"}}},
     "automation_pause": {
       "type": "object",
       "additionalProperties": false,
